@@ -1,12 +1,23 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Çıkış Yapılıyor...</title>
     <script src="{{ url_for('static', filename='js/socket.io.min.js') }}"></script>
     <style>
-        body { background: #0a0a0a; color: #fff; font-family: monospace; display: flex; align-items: center; justify-content: center; height: 100vh; }
+        body {
+            background: #0a0a0a;
+            color: #fff;
+            font-family: monospace;
+            font-size: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
     </style>
 </head>
+
 <body>
     <div id="status">Kapatılıyor ve temizleniyor...</div>
     <script>
@@ -21,7 +32,7 @@
                 }
                 const socket = io();
                 socket.disconnect();
-            } catch(e) {}
+            } catch (e) { }
         }
 
         // Tüm client-side depolamayı temizle
@@ -29,8 +40,8 @@
         localStorage.clear();
 
         // Tüm JavaScript tanımlı çerezleri temizle
-        document.cookie.split(";").forEach(function(c) { 
-            document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); 
+        document.cookie.split(";").forEach(function (c) {
+            document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
         });
 
         setTimeout(() => {
@@ -38,4 +49,5 @@
         }, 800);
     </script>
 </body>
+
 </html>

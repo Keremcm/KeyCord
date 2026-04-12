@@ -1,4 +1,4 @@
-﻿{% extends "base_app.html" %}
+{% extends "base_app.html" %}
 
 {% block title %}{{ _('Profilim - KeyCord') }}{% endblock %}
 
@@ -6,147 +6,780 @@
 {% include '_chat_list.html' %}
 {% endblock %}
 
+{% block app_mobile_menu %}
+<a href="{{ url_for('auth.home') }}" class="mobile-menu-btn hand-font" style="text-decoration: none; display: flex; align-items: center; gap: 6px;">
+    ← {{ _('Ana Sayfa') }}
+</a>
+{% endblock %}
+
 {% block app_content %}
-<div style="display: flex; flex-direction: column; height: 100%; padding: 2rem; position: relative; overflow-y: auto;">
+<style>
+    *,
+    *::before,
+    *::after {
+        box-sizing: border-box;
+    }
 
-    <!-- Header Title -->
-    <div style="text-align: center; margin-bottom: 2rem;">
-        <h1
-            style="font-family: 'Reenie Beanie', cursive; font-size: 3.5rem; transform: rotate(-1deg); margin: 0; color: var(--chalk); letter-spacing: 2px;">
-            {{ _('Profil Ayarları') }}
-        </h1>
-        <p style="font-family: 'Caveat', cursive; color: var(--muted-chalk); font-size: 1.2rem;">
-            {{ _('Kendini ifade et.') }}
-        </p>
-    </div>
+    /* ── SCROLL CONTAINER ── */
+    .profile-page {
+        height: 100%;
+        overflow-y: auto;
+        padding: 0;
+    }
 
-    <!-- Main Content Grid -->
-    <div style="display: grid; grid-template-columns: 1fr 1.5fr; gap: 2rem; max-width: 1000px; margin: 0 auto; width: 100%;"
-        class="grid-container">
+    /* ── HEADER BAND ── */
+    .profile-header {
+        position: relative;
+        padding: 3rem 2.5rem 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        background: rgba(255, 255, 255, 0.01);
+    }
 
-        <!-- Left: Profile Preview Card -->
-        <div class="scribble-border"
-            style="padding: 2rem; text-align: center; height: fit-content; transform: rotate(1deg);">
-            <div style="margin-bottom: 1.5rem; position: relative; display: inline-block;">
-                <!-- Profile Image with Sketch Frame -->
-                <div style="position: relative; display: inline-block;">
-                    <img id="profile-preview"
-                        src="{{ url_for('auth.serve_profile_picture', username=current_user.username) }}"
-                        style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 3px dashed var(--chalk); padding: 5px;">
+    .profile-header-inner {
+        max-width: 860px;
+        margin: 0 auto;
+        display: flex;
+        align-items: flex-end;
+        gap: 1.8rem;
+        padding-bottom: 1.8rem;
+    }
 
-                    <label for="profile_pic_input"
-                        style="position: absolute; bottom: 5px; right: 5px; background: var(--paper-black); border: 2px dashed var(--chalk); border-radius: 50%; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s;"
-                        onmouseover="this.style.transform='scale(1.1) rotate(5deg)'"
-                        onmouseout="this.style.transform='scale(1) rotate(0)'">
-                        <i class="icon icon-plus" style="font-size: 1rem; color: var(--chalk);"></i>
-                    </label>
-                    <input type="file" id="profile_pic_input" accept="image/*" style="display: none;">
-                </div>
+    /* avatar */
+    .avatar-wrap {
+        position: relative;
+        flex-shrink: 0;
+    }
+
+    .avatar-wrap img {
+        width: 120px;
+        height: 120px;
+        border-radius: 20%;
+        object-fit: cover;
+        border: 3px solid rgba(255, 255, 255, 0.18);
+        display: block;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    }
+
+    .avatar-edit-btn {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: rgba(20, 20, 20, 0.95);
+        border: 1.5px solid rgba(255, 255, 255, 0.18);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: border-color 0.15s, transform 0.15s;
+    }
+
+    .avatar-edit-btn:hover {
+        border-color: rgba(255, 255, 255, 0.45);
+        transform: scale(1.1);
+    }
+
+    .avatar-edit-btn svg {
+        width: 12px;
+        height: 12px;
+        stroke: rgba(255, 255, 255, 0.6);
+        fill: none;
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+    }
+
+    /* header meta */
+    .profile-meta {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .profile-meta-name {
+        font-size: 2.8rem;
+        font-weight: 800;
+        color: var(--chalk);
+        margin: 0 0 0.4rem;
+        letter-spacing: -0.02em;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .profile-meta-email {
+        font-size: 1.5rem;
+        color: var(--muted-chalk);
+        margin: 0 0 0.6rem;
+    }
+
+    .profile-meta-about {
+        font-size: 1.3rem;
+        color: rgba(255, 255, 255, 0.55);
+        font-style: italic;
+        margin: 0;
+        max-width: 580px;
+        line-height: 1.5;
+    }
+
+    /* privacy badge */
+    .privacy-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        font-size: 0.72rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.6);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        border-radius: 99px;
+        padding: 0.25rem 0.75rem;
+        background: rgba(255, 255, 255, 0.05);
+        flex-shrink: 0;
+        align-self: flex-start;
+        margin-top: 0.3rem;
+    }
+
+    .privacy-badge-dot {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: #ffffff;
+        box-shadow: 0 0 4px #ffffff;
+    }
+
+    /* tabs */
+    .profile-tabs {
+        max-width: 860px;
+        margin: 0 auto;
+        display: flex;
+        gap: 1.9rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+        margin-top: 0.5rem;
+    }
+
+    .profile-tab {
+        padding: 0.75rem 1.2rem;
+        font-size: 1.7rem;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        color: var(--muted-chalk);
+        cursor: pointer;
+        border-bottom: 2px solid transparent;
+        transition: color 0.15s, border-color 0.15s;
+        text-transform: uppercase;
+        user-select: none;
+    }
+
+    .profile-tab:hover {
+        color: var(--chalk);
+    }
+
+    .profile-tab.active {
+        color: var(--chalk);
+        border-bottom-color: var(--chalk);
+    }
+
+    /* ── BODY ── */
+    .profile-body {
+        max-width: 860px;
+        margin: 0 auto;
+        padding: 2.5rem 2.5rem 4rem;
+    }
+
+    /* tab panels */
+    .tab-panel {
+        display: none;
+    }
+
+    .tab-panel.active {
+        display: block;
+    }
+
+    /* ── SECTION BLOCKS ── */
+    .prof-section {
+        margin-bottom: 2rem;
+        border: 1px solid rgba(255, 255, 255, 0.07);
+        border-radius: 14px;
+        overflow: hidden;
+    }
+
+    .prof-section-head {
+        padding: 1rem 1.4rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        background: rgba(255, 255, 255, 0.02);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .prof-section-title {
+        font-size: 1.8rem;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--muted-chalk);
+        margin: 0;
+    }
+
+    .prof-section-body {
+        padding: 1.4rem;
+    }
+
+    /* ── FORM FIELDS ── */
+    .field-item {
+        display: flex;
+        flex-direction: column;
+        gap: 0.45rem;
+        margin-bottom: 1.2rem;
+    }
+
+    .field-item:last-child {
+        margin-bottom: 0;
+    }
+
+    .field-item label {
+        font-size: 1.5rem;
+        font-weight: 600;
+        letter-spacing: 0.07em;
+        text-transform: uppercase;
+        color: var(--muted-chalk);
+    }
+
+    .field-item input,
+    .field-item textarea {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        font-size: 1rem;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.09);
+        border-radius: 9px;
+        color: var(--chalk);
+        outline: none;
+        transition: border-color 0.2s, background 0.2s;
+        font-family: inherit;
+    }
+
+    .field-item input:focus,
+    .field-item textarea:focus {
+        border-color: rgba(255, 255, 255, 0.8);
+        background: rgba(255, 255, 255, 0.06);
+    }
+
+    .field-item input::placeholder,
+    .field-item textarea::placeholder {
+        color: rgba(255, 255, 255, 0.18);
+    }
+
+    .field-item textarea {
+        resize: vertical;
+        min-height: 80px;
+    }
+
+    /* field hint */
+    .field-hint {
+        font-size: 0.75rem;
+        color: rgba(255, 255, 255, 0.25);
+        line-height: 1.4;
+    }
+
+    /* field row */
+    .field-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+    }
+
+    /* ── BUTTONS ── */
+    .prof-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        padding: 0.65rem 1.3rem;
+        border-radius: 9px;
+        font-size: 0.88rem;
+        font-weight: 600;
+        cursor: pointer;
+        border: none;
+        transition: opacity 0.15s, background 0.15s;
+        letter-spacing: 0.01em;
+        font-family: inherit;
+    }
+
+    .prof-btn svg {
+        width: 14px;
+        height: 14px;
+        stroke: currentColor;
+        fill: none;
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+    }
+
+    .prof-btn-primary {
+        background: var(--chalk);
+        color: var(--paper-black, #0d0d0d);
+    }
+
+    .prof-btn-primary:hover {
+        opacity: 0.85;
+    }
+
+    .prof-btn-primary:disabled {
+        opacity: 0.45;
+        cursor: not-allowed;
+    }
+
+    .prof-btn-ghost {
+        background: rgba(255, 255, 255, 0.05);
+        color: var(--chalk);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .prof-btn-ghost:hover {
+        background: rgba(255, 255, 255, 0.09);
+    }
+
+    .prof-btn-danger {
+        background: rgba(220, 53, 69, 0.08);
+        color: #ff6b6b;
+        border: 1px solid rgba(220, 53, 69, 0.2);
+    }
+
+    .prof-btn-danger:hover {
+        background: rgba(220, 53, 69, 0.15);
+    }
+
+    /* ── FLASH MESSAGES ── */
+    .flash-list {
+        margin-bottom: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .flash-item {
+        padding: 0.7rem 1rem;
+        border-radius: 9px;
+        font-size: 0.88rem;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        background: rgba(255, 255, 255, 0.04);
+        color: var(--chalk);
+    }
+
+    .flash-item.success {
+        border-color: rgba(255, 255, 255, 0.8);
+        background: rgba(255, 255, 255, 0.6);
+        color: rgba(255, 255, 255, 0.8);
+    }
+
+    .flash-item.error {
+        border-color: rgba(255, 80, 80, 0.2);
+        background: rgba(255, 80, 80, 0.06);
+        color: rgba(255, 100, 100, 0.8);
+    }
+
+    /* ── PRIVACY INFO ROW ── */
+    .privacy-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.8rem;
+        padding: 1rem;
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.03);
+        margin-bottom: 1.2rem;
+    }
+
+    .privacy-row-icon {
+        width: 32px;
+        height: 32px;
+        border-radius: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        background: rgba(255, 255, 255, 0.06);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+    .privacy-row-icon svg {
+        width: 14px;
+        height: 14px;
+        stroke: rgba(255, 255, 255, 0.6);
+        fill: none;
+        stroke-width: 1.8;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+    }
+
+    .privacy-row-text {
+        font-size: 1.2rem;
+        color: rgba(255, 255, 255, 0.35);
+        line-height: 1.5;
+    }
+
+    .privacy-row-text strong {
+        display: block;
+        color: rgba(255, 255, 255, 0.55);
+        font-size: 0.78rem;
+        margin-bottom: 0.15rem;
+        font-weight: 600;
+    }
+
+    /* ── DANGER ZONE ── */
+    .danger-zone {
+        border-color: rgba(220, 53, 69, 0.18);
+    }
+
+    .danger-zone .prof-section-head {
+        border-bottom-color: rgba(220, 53, 69, 0.1);
+        background: rgba(220, 53, 69, 0.03);
+    }
+
+    .danger-zone .prof-section-title {
+        color: rgba(255, 100, 100, 0.6);
+    }
+
+    .danger-desc {
+        font-size: 1.85rem;
+        color: var(--muted-chalk);
+        line-height: 1.6;
+        margin-bottom: 1.2rem;
+    }
+
+    /* ── DELETE MODAL ── */
+    .modal-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.82);
+        backdrop-filter: blur(8px);
+        z-index: 9999;
+        align-items: center;
+        justify-content: center;
+        padding: 1.5rem;
+    }
+
+    .modal-overlay.open {
+        display: flex;
+    }
+
+    .modal-box {
+        background: rgba(12, 12, 12, 0.98);
+        border: 1px solid rgba(220, 53, 69, 0.25);
+        border-radius: 16px;
+        padding: 2rem;
+        max-width: 420px;
+        width: 100%;
+        animation: popIn 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    @keyframes popIn {
+        from {
+            transform: scale(0.92);
+            opacity: 0;
+        }
+
+        to {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+
+    .modal-title {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: #ff6b6b;
+        margin: 0 0 0.5rem;
+    }
+
+    .modal-desc {
+        font-size: 0.88rem;
+        color: var(--muted-chalk);
+        line-height: 1.6;
+        margin-bottom: 1.5rem;
+    }
+
+    .modal-actions {
+        display: flex;
+        gap: 0.6rem;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media(max-width: 640px) {
+        .profile-header {
+            padding: 1.5rem 1.2rem 0;
+        }
+
+        .profile-page {
+            padding-top: 60px; /* Safe area for mobile menu */
+        }
+
+        .profile-header-inner {
+            flex-wrap: wrap;
+            gap: 1rem;
+            padding-bottom: 1.2rem;
+        }
+
+        .profile-tabs {
+            overflow-x: auto;
+        }
+
+        .profile-body {
+            padding: 1.5rem 1.2rem 3rem;
+        }
+
+        .field-row {
+            grid-template-columns: 1fr;
+        }
+
+        .privacy-badge {
+            display: none;
+        }
+    }
+</style>
+
+
+<div class="profile-page">
+
+    <!-- ── HEADER ── -->
+    <div class="profile-header">
+        <div class="profile-header-inner">
+            <!-- Avatar -->
+            <div class="avatar-wrap">
+                <img id="profile-preview"
+                    src="{{ url_for('auth.serve_profile_picture', username=current_user.username) }}"
+                    data-onerror-src="{{ (current_user.username if current_user else 'User')|avatar_url }}"
+                    onerror="this.src = this.dataset.onerrorSrc;" alt="{{ current_user.username }}">
+                <label for="profile_pic_input" class="avatar-edit-btn" title="{{ _('Fotoğrafı değiştir') }}">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                    </svg>
+                </label>
+                <input type="file" id="profile_pic_input" accept="image/*" style="display:none;">
             </div>
 
-            <h2 style="font-family: 'Caveat', cursive; font-size: 2rem; margin-bottom: 0.5rem;">{{ current_user.username
-                }}</h2>
-            <p style="color: var(--muted-chalk); font-family: 'Caveat', cursive; font-size: 1rem;">{{ current_user.email
-                }}</p>
-
-            {% if current_user.about %}
-            <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px dashed rgba(255,255,255,0.1);">
-                <p style="font-style: italic; color: var(--chalk);">"{{ current_user.about }}"</p>
+            <!-- Meta -->
+            <div class="profile-meta">
+                <h1 class="profile-meta-name">{{ current_user.username }}</h1>
+                <p class="profile-meta-email">{{ current_user.email }}</p>
+                {% if current_user.about %}
+                <p class="profile-meta-about">"{{ current_user.about }}"</p>
+                {% endif %}
             </div>
-            {% endif %}
-
         </div>
 
-        <!-- Right: Edit Form -->
-        <div class="sketch-box" style="padding: 2rem; transform: rotate(-0.5deg);">
+        <!-- Tabs -->
+        <div class="profile-tabs">
+            <div class="profile-tab active" data-tab="settings">{{ _('Ayarlar') }}</div>
+            <div class="profile-tab" data-tab="privacy">{{ _('Gizlilik') }}</div>
+            <div class="profile-tab" data-tab="danger">{{ _('Hesap') }}</div>
+        </div>
+    </div>
+
+    <!-- ── BODY ── -->
+    <div class="profile-body">
+
+        <!-- Flash messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <div class="flash-list">
+            {% for category, message in messages %}
+            <div class="flash-item {{ category }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% endwith %}
+
+        <!-- ══ TAB: SETTINGS ══ -->
+        <div class="tab-panel active" id="tab-settings">
             <form id="profile-form" method="POST" enctype="multipart/form-data">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
 
-                <!-- Flash Messages -->
-                {% with messages = get_flashed_messages(with_categories=true) %}
-                {% if messages %}
-                <div style="margin-bottom: 1.5rem;">
-                    {% for category, message in messages %}
-                    <div
-                        style="padding: 10px; border: 1px dashed var(--chalk); border-radius: 8px; margin-bottom: 5px; font-family: 'Caveat', cursive; font-size: 1.2rem;">
-                        {{ message }}
+                <!-- Profil bilgileri -->
+                <div class="prof-section">
+                    <div class="prof-section-head">
+                        <span class="prof-section-title">{{ _('Profil Bilgileri') }}</span>
                     </div>
-                    {% endfor %}
-                </div>
-                {% endif %}
-                {% endwith %}
+                    <div class="prof-section-body">
 
-                <div style="margin-bottom: 1.5rem;">
-                    <label style="display: block; font-family: 'Caveat'; margin-bottom: 5px;">{{ _('Kullanıcı Adı')
-                        }}</label>
-                    <input type="text" name="username" value="{{ current_user.username }}" required
-                        style="width: 100%; padding: 10px; background: transparent; border: 2px solid rgba(255,255,255,0.15); border-radius: 12px; color: var(--chalk); font-family: 'Caveat'; font-size: 1.2rem;">
+
+                        <div class="field-item">
+                            <label for="username">{{ _('Kullanıcı Adı') }}</label>
+                            <input type="text" id="username" value="{{ current_user.username }}" readonly
+                                style="background: rgba(255,255,255,0.02); color: rgba(255,255,255,0.4); cursor: not-allowed; border-color: rgba(255,255,255,0.05);">
+                            <span class="field-hint">{{ _('Güvenlik nedeniyle kullanıcı adları değiştirilemez.')
+                                }}</span>
+                        </div>
+
+                        <div class="field-item">
+                            <label for="about">{{ _('Hakkında') }}</label>
+                            <textarea id="about" name="about"
+                                placeholder="{{ _('Kendinizi kısaca tanıtın...') }}">{{ current_user.about or '' }}</textarea>
+                            <span class="field-hint">{{ _('Maksimum 200 karakter. Arkadaşlarınız görebilir.') }}</span>
+                        </div>
+                    </div>
                 </div>
 
-                <div style="margin-bottom: 1.5rem;">
-                    <label style="display: block; font-family: 'Caveat'; margin-bottom: 5px;">{{ _('Hakkında') }}</label>
-                    <textarea name="about" rows="3"
-                        style="width: 100%; padding: 12px; background: transparent; border: 2px solid rgba(255,255,255,0.15); border-radius: 12px; color: var(--chalk); font-family: 'Caveat', cursive; font-size: 1.2rem; resize: vertical;">{{ current_user.about or '' }}</textarea>
+                <div style="display:flex; justify-content:flex-end;">
+                    <button type="submit" class="prof-btn prof-btn-primary" id="save-btn">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" />
+                            <polyline points="17 21 17 13 7 13 7 21" />
+                            <polyline points="7 3 7 8 15 8" />
+                        </svg>
+                        {{ _('Değişiklikleri Kaydet') }}
+                    </button>
                 </div>
-
-                <button type="submit" id="save-btn" class="btn"
-                    style="width: 100%; border-style: dashed; padding: 12px; font-size: 1.2rem;">{{ _('Değişiklikleri
-                    Kaydet') }}</button>
             </form>
+        </div>
 
-            <!-- Danger Zone -->
-            <div style="margin-top: 3rem; padding-top: 2rem; border-top: 2px dashed rgba(220, 53, 69, 0.3);">
-                <h3 style="font-family: 'Caveat'; color: var(--brand-red); margin-bottom: 1rem;">{{ _('Tehlikeli Bölge')
-                    }}</h3>
-                <p style="color: var(--muted-chalk); font-size: 0.9rem; margin-bottom: 1.5rem;">
-                    {{ _('Hesabınızı sildiğinizde tüm arkadaşlıklarınız, mesajlarınız ve profil bilgileriniz kalıcı
-                    olarak silinecektir. Bu işlem geri alınamaz.') }}
-                </p>
+        <!-- ══ TAB: PRIVACY ══ -->
+        <div class="tab-panel" id="tab-privacy">
+            <div class="prof-section">
+                <div class="prof-section-head">
+                    <span class="prof-section-title">{{ _('Şifreleme Durumu') }}</span>
+                </div>
+                <div class="prof-section-body">
+                    <div class="privacy-row">
+                        <div class="privacy-row-icon">
+                            <svg viewBox="0 0 24 24">
+                                <rect x="3" y="11" width="18" height="11" rx="2" />
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                            </svg>
+                        </div>
+                        <div class="privacy-row-text">
+                            <strong>{{ _('Uçtan Uca Şifreleme') }}</strong>
+                            {{ _('Mesajlarınız yalnızca alıcının cihazında çözülebilir. Sunucu hiçbir zaman düz metin
+                            görmez.') }}
+                        </div>
+                    </div>
 
-                <button onclick="document.getElementById('delete-modal').style.display='flex'" class="btn"
-                    style="width: 100%; border-color: var(--brand-red); color: var(--brand-red); border-style: dashed;">
-                    {{ _('Hesabımı Kapat') }}
-                </button>
+                    <div class="privacy-row">
+                        <div class="privacy-row-icon">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                            </svg>
+                        </div>
+                        <div class="privacy-row-text">
+                            <strong>{{ _('İstemci Tarafı Anahtar') }}</strong>
+                            {{ _('Özel anahtarınız cihazınızda şifreli saklanır ve yalnızca parolanızla açılır. Sunucuya
+                            hiç iletilmez.') }}
+                        </div>
+                    </div>
+
+                    <div class="privacy-row">
+                        <div class="privacy-row-icon">
+                            <svg viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="10" />
+                                <line x1="2" y1="12" x2="22" y2="12" />
+                                <path
+                                    d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                            </svg>
+                        </div>
+                        <div class="privacy-row-text">
+                            <strong>{{ _('Tor Desteği') }}</strong>
+                            {{ _('Tor Browser ile .onion adresimiz üzerinden bağlanarak IP adresinizi tamamen
+                            gizleyebilirsiniz.') }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="prof-section">
+                <div class="prof-section-head">
+                    <span class="prof-section-title">{{ _('Açık Anahtarınız') }}</span>
+                </div>
+                <div class="prof-section-body">
+                    <p class="field-hint" style="margin-bottom:0.8rem;">{{ _('Bu anahtarı paylaşabilirsiniz. Başkaları
+                        size şifreli mesaj göndermek için kullanır.') }}</p>
+                    <div class="field-item" style="margin-bottom:0;">
+                        <input type="text"
+                            value="{{ current_user.public_key[:48] ~ '...' if current_user.public_key else _('Anahtar bulunamadı') }}"
+                            readonly
+                            style="font-family:monospace; font-size:0.78rem; color:rgba(255,255,255,0.4); cursor:default;">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ══ TAB: DANGER ══ -->
+        <div class="tab-panel" id="tab-danger">
+            <div class="prof-section danger-zone">
+                <div class="prof-section-head">
+                    <span class="prof-section-title">{{ _('Tehlikeli Bölge') }}</span>
+                </div>
+                <div class="prof-section-body">
+                    <p class="danger-desc">
+                        {{ _('Hesabınızı sildiğinizde tüm arkadaşlıklarınız, mesajlarınız ve profil bilgileriniz kalıcı
+                        olarak silinir. Şifreleme anahtarlarınız dahil hiçbir veri kurtarılamaz. Bu işlem geri
+                        alınamaz.') }}
+                    </p>
+                    <button class="prof-btn prof-btn-danger"
+                        onclick="document.getElementById('delete-modal').classList.add('open')">
+                        <svg viewBox="0 0 24 24">
+                            <polyline points="3 6 5 6 21 6" />
+                            <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+                            <path d="M10 11v6" />
+                            <path d="M14 11v6" />
+                            <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
+                        </svg>
+                        {{ _('Hesabımı Kapat') }}
+                    </button>
+                </div>
             </div>
         </div>
 
     </div>
 </div>
 
-<!-- Delete Account Modal -->
-<div id="delete-modal"
-    style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 9999; align-items: center; justify-content: center; backdrop-filter: blur(8px); padding: 20px;">
-    <div class="sketch-box"
-        style="max-width: 450px; width: 100%; padding: 2rem; background: #0a0b0c; border-color: var(--brand-red);">
-        <h2 style="font-family: 'Reenie Beanie'; font-size: 2.5rem; color: var(--brand-red); margin-top: 0;">{{ _('Emin
-            misiniz?') }}</h2>
-        <p style="font-family: 'Caveat'; font-size: 1.3rem; margin-bottom: 2rem;">
-            {{ _('Hesabınızı silmek için şifrenizi girmeniz gerekmektedir.') }}
-        </p>
+<!-- ── DELETE MODAL ── -->
+<div class="modal-overlay" id="delete-modal">
+    <div class="modal-box">
+        <div class="modal-title">{{ _('Hesabı Sil') }}</div>
+        <p class="modal-desc">{{ _('Bu işlem geri alınamaz. Devam etmek için şifrenizi girin.') }}</p>
 
         <form action="{{ url_for('auth.delete_account') }}" method="POST">
             <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
-            <div style="margin-bottom: 1.5rem;">
-                <input type="password" name="password" required placeholder="{{ _('Şifreniz') }}"
-                    style="width: 100%; padding: 12px; background: transparent; border: 2px solid rgba(255,255,255,0.15); border-radius: 12px; color: var(--chalk); font-family: 'Caveat'; font-size: 1.2rem;">
+            <div class="field-item" style="margin-bottom:1.2rem;">
+                <label>{{ _('Şifre') }}</label>
+                <input type="password" name="password" required placeholder="{{ _('Hesap şifreniz') }}"
+                    autocomplete="current-password" />
             </div>
-
-            <div style="display: flex; gap: 10px;">
-                <button type="button" onclick="document.getElementById('delete-modal').style.display='none'" class="btn"
-                    style="flex: 1; border-style: dashed;">
-                    {{ _('İptal') }}
-                </button>
-                <button type="submit" class="btn"
-                    style="flex: 1; background: var(--brand-red); border-color: var(--brand-red); border-style: solid; color: white;">
-                    {{ _('EVET, SİL') }}
-                </button>
+            <div class="modal-actions">
+                <button type="button" class="prof-btn prof-btn-ghost"
+                    onclick="document.getElementById('delete-modal').classList.remove('open')" style="flex:1;">{{
+                    _('Vazgeç') }}</button>
+                <button type="submit" class="prof-btn prof-btn-danger" style="flex:1;">{{ _('Evet, sil') }}</button>
             </div>
         </form>
     </div>
 </div>
 
+{% endblock %}
+
 {% block scripts %}
 <script>
+    /* ── Tab switching ── */
+    document.querySelectorAll('.profile-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            const target = tab.dataset.tab;
+            document.querySelectorAll('.profile-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+            tab.classList.add('active');
+            document.getElementById('tab-' + target).classList.add('active');
+        });
+    });
+
+    /* ── Close modal on overlay click ── */
+    document.getElementById('delete-modal').addEventListener('click', function (e) {
+        if (e.target === this) this.classList.remove('open');
+    });
+
+    /* ── Profile picture: strip metadata + preview ── */
     const fileInput = document.getElementById('profile_pic_input');
     const preview = document.getElementById('profile-preview');
     const form = document.getElementById('profile-form');
@@ -158,84 +791,55 @@
             const file = e.target.files[0];
             if (!file) return;
 
-            // Önizleme ve İşleme
             const reader = new FileReader();
-            reader.onload = function (event) {
+            reader.onload = function (ev) {
                 const img = new Image();
                 img.onload = function () {
-                    // Metadata Stripping & Resizing (Canvas)
                     const canvas = document.createElement('canvas');
-                    const maxSize = 400; // KeyCord profil resmi standardı
-                    let width = img.width;
-                    let height = img.height;
-
-                    if (width > height) {
-                        if (width > maxSize) {
-                            height *= maxSize / width;
-                            width = maxSize;
-                        }
-                    } else {
-                        if (height > maxSize) {
-                            width *= maxSize / height;
-                            height = maxSize;
-                        }
-                    }
-
-                    canvas.width = width;
-                    canvas.height = height;
-                    const ctx = canvas.getContext('2d');
-
-                    // Canvas'a çizmek metaverileri (EXIF vb.) otomatik olarak temizler
-                    ctx.drawImage(img, 0, 0, width, height);
-
-                    // Blob olarak dışa aktar (Sıkıştırma: 0.8)
-                    canvas.toBlob(function (blob) {
+                    const maxSize = 400;
+                    let w = img.width, h = img.height;
+                    if (w > h) { if (w > maxSize) { h *= maxSize / w; w = maxSize; } }
+                    else { if (h > maxSize) { w *= maxSize / h; h = maxSize; } }
+                    canvas.width = w; canvas.height = h;
+                    canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+                    canvas.toBlob(blob => {
                         processedBlob = blob;
-                        // Önizlemeyi güncelle
                         preview.src = URL.createObjectURL(blob);
-                    }, 'image/jpeg', 0.8);
+                    }, 'image/jpeg', 0.82);
                 };
-                img.src = event.target.result;
+                img.src = ev.target.result;
             };
             reader.readAsDataURL(file);
         });
     }
 
+    /* ── Form submit ── */
     if (form) {
         form.addEventListener('submit', async function (e) {
-            if (processedBlob) {
-                e.preventDefault();
-                saveBtn.disabled = true;
-                saveBtn.textContent = "{{ _('Güncelleniyor...') }}";
+            if (!processedBlob) return; /* normal POST devam eder */
+            e.preventDefault();
+            saveBtn.disabled = true;
+            saveBtn.textContent = '{{ _("Güncelleniyor...") }}';
 
-                const formData = new FormData(form);
-                // İşlenmiş (temizlenmiş) dosyayı ekle
-                formData.set('profile_pic', processedBlob, 'profile_pic.jpg');
+            const fd = new FormData(form);
+            fd.set('profile_pic', processedBlob, 'profile_pic.jpg');
 
-                try {
-                    const response = await fetch(window.location.href, {
-                        method: 'POST',
-                        body: formData
-                    });
-
-                    if (response.ok) {
-                        // Sayfayı yenile veya başarılı mesajı göster
-                        window.location.reload();
-                    } else {
-                        const result = await response.json().catch(() => ({}));
-                        alert(result.error || "{{ _('Profil güncellenirken bir hata oluştu.') }}");
-                        saveBtn.disabled = false;
-                        saveBtn.textContent = "{{ _('Değişiklikleri Kaydet') }}";
-                    }
-                } catch (err) {
-                    console.error("Upload error:", err);
-                    alert("{{ _('Bağlantı hatası oluştu.') }}");
+            try {
+                const res = await fetch(window.location.href, { method: 'POST', body: fd });
+                if (res.ok) { window.location.reload(); }
+                else {
+                    const j = await res.json().catch(() => ({}));
+                    alert(j.error || '{{ _("Profil güncellenirken hata oluştu.") }}');
                     saveBtn.disabled = false;
-                    saveBtn.textContent = "{{ _('Değişiklikleri Kaydet') }}";
+                    saveBtn.textContent = '{{ _("Değişiklikleri Kaydet") }}';
                 }
+            } catch (err) {
+                console.error(err);
+                alert('{{ _("Bağlantı hatası.") }}');
+                saveBtn.disabled = false;
+                saveBtn.textContent = '{{ _("Değişiklikleri Kaydet") }}';
             }
         });
     }
 </script>
-{% endblock %}
 {% endblock %}

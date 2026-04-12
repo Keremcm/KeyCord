@@ -159,21 +159,25 @@ def handle_send_message(data):
     # Göndericiye hemen ilet (UX için)
     emit("receive_message", payload_sender, room=f"user_{sender_id}")
 
+    # Background task için verileri yakala
+    sender_username = sender.username
+    receiver_id = receiver.id
+
     # Alıcıya ve bildirimlere rastgele gecikme ekle (Anonimlik için)
     def delayed_forward():
         delay = random.uniform(1, 4)  # 1-4 saniye rastgele gecikme
         socketio.sleep(delay)
         
         # Alıcıya mesajı ilet
-        socketio.emit("receive_message", payload_receiver, room=f"user_{receiver.id}")
+        socketio.emit("receive_message", payload_receiver, room=f"user_{receiver_id}")
         
         # Bildirim gönder
         socketio.emit('new_notification', {
             'type': 'message',
-            'from_user_username': sender.username,
-            'from_user_id': sender.id,
+            'from_user_username': sender_username,
+            'from_user_id': sender_id,
             'url': redirect_url
-        }, room=f'user_{receiver.id}')
+        }, room=f'user_{receiver_id}')
 
     socketio.start_background_task(delayed_forward)
 
@@ -247,6 +251,9 @@ def handle_send_group_message(data):
     if not msg:
         return emit("error", {"message": "Mesaj kaydedilemedi."})
     
+    # Kök sorun çözümü: msg.id değerini henüz session canlıyken alıyoruz
+    msg_id = msg.id
+    
     # Payload hazırla
     sender_user = User.query.get(sender_id)
     payload = {
@@ -267,40 +274,38 @@ def handle_send_group_message(data):
     # Bildirimleri ve Diğer Üyelere Mesajı Gecikmeli Gönder
     try:
         member_ids = get_group_members(group_id)
+        # Background task için gerçek app nesnesini yakala
+        from flask import current_app
+        flask_app = current_app._get_current_object()
         
-        def delayed_group_forward():
-            delay = random.uniform(1, 4)
-            socketio.sleep(delay)
-            
-            # Diğer üyelere mesajı ilet (Gönderici odasında değilse ona gitmez, ama biz göndericiye zaten emit ettik)
-            # SocketIO odasından göndericiyi hariç tutmak için:
-            # Buradaki oda group_{group_id} tüm üyeleri içerir.
-            # Biz sadece "receive_group_message"ı odaya basıyoruz. 
-            # Gönderici zaten "receive_group_message"ı aldığı için (emit yukarda), 
-            # odaya basıldığında tekrar alabilir (client tarafında ignore edilmeli veya burada hariç tutulmalı).
-            # KeyCord istemcisi genellikle msg_id veya timestamp ile duplicate kontrolü yapar.
-            
-            socketio.emit("receive_group_message", payload, room=f"group_{group_id}")
-            
-            for member_id in member_ids:
-                if member_id != sender_id:
-                    # Bildirimi kaydet
-                    save_group_notification(group_id, sender_id, member_id, msg.id)
-                    
-                    # Socket ile anlık bildirim
-                    socketio.emit('new_notification', {
-                        'type': 'group_message',
-                        'from_user_username': sender_user.username,
-                        'group_name': group.name,
-                        'group_id': group_id,
-                        'url': url_for('auth.group_chat', group_id=group_id, _external=True)
-                    }, room=f'user_{member_id}')
+        # Kök sorun çözümü: Nesne yerine veriyi (string) yakala
+        sender_username = sender_user.username
+        group_name = group.name
         
-        socketio.start_background_task(delayed_group_forward)
+        group_url = url_for('auth.group_chat', group_id=group_id, _external=True)
+
+        def delayed_group_forward(app, group_url):
+            with app.app_context():
+                delay = random.uniform(1, 4)
+                socketio.sleep(delay)
+                
+                for member_id in member_ids:
+                    if member_id != sender_id:
+                        socketio.emit("receive_group_message", payload, room=f"user_{member_id}")
+                        save_group_notification(group_id, sender_id, member_id, msg_id)
+                        
+                        socketio.emit('new_notification', {
+                            'type': 'group_message',
+                            'from_user_username': sender_username,
+                            'group_name': group_name,
+                            'group_id': group_id,
+                            'url': group_url  # Önceden oluşturulmuş URL
+                        }, room=f'user_{member_id}')
+
+        socketio.start_background_task(delayed_group_forward, flask_app)
         db.session.commit()
         
     except Exception as e:
         print(f"Grup bildirim hatası: {e}")
 
-# Helper functions moved to utils.py
 
