@@ -4,11 +4,8 @@ __pycache__/
 *.pyo
 *.pyd
 .Python
-app/static/downloads/
 env/
 venv/
-pip-log.txt
-pip-delete-this-directory.txt
 .venv
 bin/
 lib/
@@ -33,11 +30,22 @@ app/logs/
 .DS_Store
 Thumbs.db
 
-# Large Binaries / Build Artifacts
-app/static/downloads/*.exe
-app/static/downloads/*.apk
-applications/windows-amd/dist/
-applications/windows-amd/build/
+# Large Binaries / Build Artifacts (Force Exclusion)
+app/static/downloads/**
+applications/**/dist/
+applications/**/build/
+applications/**/dist/**
+applications/**/build/**
 *.exe
 *.pkg
+*.apk
+*.pkg
+*.msi
 *.dmg
+*.zip
+*.tar.gz
+*.7z
+dist/
+build/
+bin/
+obj/
