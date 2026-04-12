@@ -332,9 +332,9 @@
         <input type="password" id="recovery_password" placeholder="{{ _('Hesap Şifreniz') }}"
             style="width: 100%; background: transparent; border: 2px dashed rgba(255,255,255,0.2); border-radius: 12px; color: var(--chalk); padding: 12px; font-family: 'Caveat'; font-size: 1.2rem; margin-bottom: 1.5rem;">
         <div style="display: flex; gap: 10px;">
-            <button class="btn" onclick="KEYCORD_RECOVERY.perform()" style="flex: 1; border-style: solid;">{{
+            <button id="recovery-confirm-btn" class="btn" style="flex: 1; border-style: solid;">{{
                 _('Kurtar') }}</button>
-            <button class="btn" onclick="KEYCORD_RECOVERY.hide()"
+            <button id="recovery-close-btn" class="btn"
                 style="flex: 1; border-style: dashed; opacity: 0.6;">{{ _('Kapat') }}</button>
         </div>
     </div>
@@ -349,7 +349,7 @@
 
     <header class="mobile-header">
         {% block app_mobile_menu %}
-        <button class="mobile-menu-btn hand-font" onclick="toggleSidebar()">
+        <button id="mobile-menu-btn" class="mobile-menu-btn hand-font">
             ☰ {{ _('Menü') }}
         </button>
         {% endblock %}
@@ -359,9 +359,9 @@
     </header>
 
     <aside class="sidebar">
-        <button class="sidebar-close-btn" onclick="toggleSidebar()">×</button>
+        <button id="sidebar-close-btn" class="sidebar-close-btn">×</button>
         <!-- Profile -->
-        <div class="profile-box" onclick='window.location.href="{{ url_for("auth.profile") }}"'>
+        <a class="profile-box" href="{{ url_for('auth.profile') }}" style="text-decoration: none;">
             <img src="{{ url_for('auth.serve_profile_picture', username=current_user.username) }}" class="profile-pic"
                 alt="Profile" data-onerror-src="{{ (current_user.username if current_user else 'User')|avatar_url }}"
                 onerror="this.src = this.dataset.onerrorSrc;">
@@ -369,7 +369,7 @@
                 <h3>{{ current_user.username if current_user else _('Misafir') }}</h3>
                 <span>{{ _('Çevrimiçi') }}</span>
             </div>
-        </div>
+        </a>
 
         <!-- Dynamic Content -->
         <div class="sidebar-scroll">
@@ -394,7 +394,7 @@
         </div>
     </aside>
 
-    <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+    <div id="sidebar-overlay" class="sidebar-overlay"></div>
 
     <main class="main-panel">
         {% block app_content %}
@@ -419,6 +419,11 @@
         }
     }
 
+    // Event Listeners for Sidebar
+    document.getElementById('mobile-menu-btn')?.addEventListener('click', toggleSidebar);
+    document.getElementById('sidebar-close-btn')?.addEventListener('click', toggleSidebar);
+    document.getElementById('sidebar-overlay')?.addEventListener('click', toggleSidebar);
+
     // KEYCORD RECOVERY MODULE
     const KEYCORD_RECOVERY = {
         metadata: {
@@ -436,7 +441,7 @@
         },
         perform: async function () {
             const pwd = document.getElementById('recovery_password').value;
-            const btn = document.activeElement;
+            const btn = document.getElementById('recovery-confirm-btn');
             if (!pwd) return;
 
             btn.disabled = true;
@@ -469,8 +474,12 @@
         }
     };
 
+    // Event Listeners for Recovery
+    document.getElementById('recovery-confirm-btn')?.addEventListener('click', () => KEYCORD_RECOVERY.perform());
+    document.getElementById('recovery-close-btn')?.addEventListener('click', () => KEYCORD_RECOVERY.hide());
+
     // Global listener for Enter key in recovery modal
-    document.getElementById('recovery_password').addEventListener('keydown', (e) => {
+    document.getElementById('recovery_password')?.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') KEYCORD_RECOVERY.perform();
     });
 </script>

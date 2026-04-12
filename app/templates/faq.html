@@ -444,7 +444,7 @@
 {% endblock %}
 
 {% block scripts %}
-<script>
+<script nonce="{{ csp_nonce }}">
     const toggles = document.querySelectorAll('.faq-toggle');
     const items = document.querySelectorAll('.faq-item');
 

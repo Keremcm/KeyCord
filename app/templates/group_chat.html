@@ -255,7 +255,7 @@
 {{ super() }}
 <script src="{{ url_for('static', filename='js/socket.io.min.js') }}"></script>
 <script src="{{ url_for('static', filename='js/crypto.js') }}"></script>
-<script>
+<script nonce="{{ csp_nonce }}">
     const socket = io();
     const token = "{{ token }}";
     const groupId = "{{ group.id }}";

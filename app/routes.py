@@ -92,9 +92,10 @@ from .security import (
     load_banned_ips, save_banned_ip
 )
 import time
-import logging
+import json
 import random
-import string
+import logging
+from logging.handlers import RotatingFileHandler
 import marshmallow as ma
 import mimetypes
 import subprocess
@@ -136,7 +137,7 @@ logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s | %(levelname)s | %(message)s",
     handlers=[
-        logging.FileHandler(LOG_FILE, encoding="utf-8"),
+        RotatingFileHandler(LOG_FILE, maxBytes=10*1024*1024, backupCount=5, encoding="utf-8"),
         logging.StreamHandler()
     ]
 )

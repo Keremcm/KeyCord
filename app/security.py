@@ -12,6 +12,7 @@ import jwt
 import datetime
 from collections import defaultdict
 import logging
+from logging.handlers import RotatingFileHandler
 
 # Rate limiting için basit bir in-memory store
 rate_limit_store = defaultdict(list)
@@ -61,7 +62,8 @@ def setup_security_logging():
     security_logger.setLevel(logging.INFO)
     
     if not security_logger.handlers:
-        handler = logging.FileHandler('security.log')
+        # 10MB boyuta ulaşınca rotasyon yap, en fazla 5 yedek tut
+        handler = RotatingFileHandler('security.log', maxBytes=10*1024*1024, backupCount=5)
         formatter = logging.Formatter(
             '%(asctime)s - %(levelname)s - %(message)s'
         )
