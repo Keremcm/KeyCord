@@ -498,12 +498,11 @@
 
       <div class="tor-note">
         <div class="tor-dot"></div>
-        <div class="tor-note-text">{{ _('Daha yüksek gizlilik için Tor Browser ile .onion adresimizi
-          kullanabilirsiniz.') }}</div>
+        <div class="tor-note-text">{{ _('Daha yüksek gizlilik için Tor Browser ile .onion adresimizi kullanabilirsiniz.') }}</div>
       </div>
 
       <form method="POST" id="loginForm" novalidate>
-        <input type="hidden" name="csrf_token" value="{{ csrf_token }}" />
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() if csrf_token is callable else csrf_token }}" />
 
         <div class="field-group">
           <div class="field-item">
@@ -543,9 +542,14 @@
   </div>
 
 </div>
+
+<!-- RSA Public Key Store (Safe Injection) -->
+<script id="rsa-pub-key" type="text/plain">{{ server_public_key|default('') }}</script>
+
 {% endblock %}
 
 {% block scripts %}
+<script src="{{ url_for('static', filename='js/forge.min.js') }}"></script>
 <script src="{{ url_for('static', filename='js/crypto.js') }}"></script>
 <script>
   const form = document.getElementById('loginForm');
@@ -562,22 +566,32 @@
       const data = Object.fromEntries(formData.entries());
       data.remember = form.querySelector('[name="remember"]').checked;
 
-      // 2. Client-Side Encryption
+      // ── Client-Side Encryption Setup ──
+      const rawPublicKey = document.getElementById('rsa-pub-key').textContent.trim();
       const BYPASS_ENCRYPTION = false;
 
-      if (!BYPASS_ENCRYPTION && window.publicKeyPem && window.forge) {
+      if (!BYPASS_ENCRYPTION && rawPublicKey && typeof forge !== 'undefined') {
         try {
-            console.log("Client-side encryption enabled. Encrypting password...");
-            const pubKey = forge.pki.publicKeyFromPem(window.publicKeyPem);
-            const encryptedBytes = pubKey.encrypt(data.password, 'RSA-OAEP');
+            console.log("Client-side encryption starting...");
+            // Ensure UTF-8 for password
+            const passwordUtf8 = forge.util.encodeUtf8(data.password);
+            const pubKey = forge.pki.publicKeyFromPem(rawPublicKey);
+            
+            // Encrypt with RSA-OAEP (Standard)
+            const encryptedBytes = pubKey.encrypt(passwordUtf8, 'RSA-OAEP', {
+                md: forge.md.sha256.create(),
+                mgf1: {
+                    md: forge.md.sha256.create()
+                }
+            });
+            
             data.password = forge.util.encode64(encryptedBytes);
+            console.log("Encryption success.");
         } catch (encErr) {
-            console.error("Encryption failed, falling back or aborting:", encErr);
+            console.error("Encryption failed:", encErr);
+            // Fallback strategy or error message
         }
-      } else {
-        console.log("Client-side encryption bypassed or unavailable. Using plain text.");
       }
-
 
       try {
         const res = await fetch("{{ url_for('auth.login_page') }}", {
@@ -590,18 +604,25 @@
         });
 
         const result = await res.json();
-        if (!res.ok) throw new Error(result.error || '{{ _("Giriş başarısız.") }}');
+        
+        if (!res.ok) {
+           throw new Error(result.error || '{{ _("Giriş başarısız.") }}');
+        }
 
+        // Store public key for session if provided
         if (result.public_key) {
           sessionStorage.setItem('keycord_public_key', result.public_key);
         }
 
+        // Handle Private Key Decryption
         if (result.encrypted_private_key && result.salt) {
           btn.textContent = '{{ _("Anahtarlar çözülüyor...") }}';
           try {
+            // Use same password for key decryption
+            const originalPassword = form.querySelector('#password').value;
             const privateKey = await KEYCORD_CRYPTO.decryptPrivateKey(
               result.encrypted_private_key,
-              data.password,
+              originalPassword,
               result.salt
             );
             sessionStorage.setItem('keycord_private_key', privateKey);
@@ -614,7 +635,7 @@
         window.location.href = "{{ url_for('auth.dashboard') }}";
 
       } catch (err) {
-        console.error(err);
+        console.error("Login catch:", err);
         alert(err.message);
         btn.disabled = false;
         btn.textContent = '{{ _("Giriş Yap") }}';
