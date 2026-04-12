@@ -2,8 +2,7 @@
 
 {% block title %}KeyCord — {{ _('Gizli Kanal, Gerçek Güvenlik') }}{% endblock %}
 
-{% block meta_description %}KeyCord; Tor ağı ve uçtan uca şifreleme ile çalışan, log tutmayan, kimlik gerektirmeyen
-gizlilik odaklı bir mesajlaşma platformudur.{% endblock %}
+{% block meta_description %}KeyCord; Tor ağı ve uçtan uca şifreleme ile çalışan, log tutmayan, kimlik gerektirmeyen gizlilik odaklı bir mesajlaşma platformudur.{% endblock %}
 
 {% block extra_css %}
 <style nonce="{{ csp_nonce }}">
@@ -240,10 +239,130 @@ gizlilik odaklı bir mesajlaşma platformudur.{% endblock %}
         transform: rotate(-45deg) translateY(-1px);
     }
 
+    /* ── TEHDİT İSTATİSTİKLERİ PANELİ (MONOCHROME) ── */
+    .threat-stats {
+        max-width: 900px;
+        margin: 0 auto 3rem auto;
+        position: relative;
+    }
+
+    .threat-panel {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 20px;
+        padding: 2rem 2.5rem;
+        backdrop-filter: blur(10px);
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 3rem;
+        align-items: center;
+        transition: border-color 0.3s;
+    }
+
+    .threat-panel:hover {
+        border-color: rgba(255, 255, 255, 0.12);
+    }
+
+    .threat-info {
+        display: flex;
+        flex-direction: column;
+        gap: 1.2rem;
+    }
+
+    .threat-header {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+    }
+
+    .threat-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #ffffff;
+        box-shadow: 0 0 8px rgba(255, 255, 255, 0.7);
+        animation: pulse-dot 2s infinite;
+    }
+
+    @keyframes pulse-dot {
+        0%, 100% { opacity: 1; transform: scale(1); }
+        50% { opacity: 0.4; transform: scale(1.3); }
+    }
+
+    .threat-label {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.75rem;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--muted-chalk);
+    }
+
+    .threat-count {
+        display: flex;
+        align-items: baseline;
+        gap: 0.3rem;
+    }
+
+    .threat-number {
+        font-family: 'Syne', sans-serif;
+        font-size: 4rem;
+        font-weight: 800;
+        color: var(--chalk);
+        line-height: 1;
+        letter-spacing: -0.03em;
+    }
+
+    .threat-unit {
+        font-size: 1.1rem;
+        color: var(--muted-chalk);
+        font-family: 'JetBrains Mono', monospace;
+    }
+
+    .threat-sub {
+        font-size: 0.9rem;
+        color: rgba(255, 255, 255, 0.4);
+        font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* Mini bar grafiği – monochrome, artan sıralı */
+    .threat-chart {
+        display: flex;
+        align-items: flex-end;
+        gap: 4px;
+        height: 80px;
+        min-width: 200px;
+    }
+
+    .threat-bar {
+        flex: 1;
+        border-radius: 4px 4px 0 0;
+        background: rgba(255, 255, 255, 0.8);
+        transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        animation: grow-bar 0.8s ease-out forwards;
+        transform-origin: bottom;
+        transform: scaleY(0);
+    }
+
+    @keyframes grow-bar {
+        to { transform: scaleY(1); }
+    }
+
+    /* Artan sıralı yükseklikler ve opaklık – rastgele değil, trend hissi */
+    .threat-bar:nth-child(1)  { height: 12%; opacity: 0.15; animation-delay: 0.05s; }
+    .threat-bar:nth-child(2)  { height: 18%; opacity: 0.22; animation-delay: 0.10s; }
+    .threat-bar:nth-child(3)  { height: 25%; opacity: 0.30; animation-delay: 0.15s; }
+    .threat-bar:nth-child(4)  { height: 32%; opacity: 0.38; animation-delay: 0.20s; }
+    .threat-bar:nth-child(5)  { height: 40%; opacity: 0.45; animation-delay: 0.25s; }
+    .threat-bar:nth-child(6)  { height: 48%; opacity: 0.52; animation-delay: 0.30s; }
+    .threat-bar:nth-child(7)  { height: 56%; opacity: 0.60; animation-delay: 0.35s; }
+    .threat-bar:nth-child(8)  { height: 65%; opacity: 0.68; animation-delay: 0.40s; }
+    .threat-bar:nth-child(9)  { height: 75%; opacity: 0.78; animation-delay: 0.45s; }
+    .threat-bar:nth-child(10) { height: 88%; opacity: 0.90; animation-delay: 0.50s; }
+
     /* ── PROOF SECTION (GÜÇLÜ İDDİA) ── */
     .proof-header {
         text-align: center;
-        margin-bottom: 4rem;
+        margin-bottom: 3rem;
     }
 
     .proof-title {
@@ -260,7 +379,7 @@ gizlilik odaklı bir mesajlaşma platformudur.{% endblock %}
         font-size: 1.1rem;
         color: rgba(255, 255, 255, 0.6);
         max-width: 600px;
-        margin: 0 auto;
+        margin: 0 auto 1.5rem auto;
         line-height: 1.6;
     }
 
@@ -546,12 +665,10 @@ gizlilik odaklı bir mesajlaşma platformudur.{% endblock %}
         flex-shrink: 0;
     }
 
-    /* Basit ikonlar (font-icon yoksa emoji kullanılabilir) */
     .icon-android::before {
         content: "🤖";
         font-size: 2.5rem;
     }
-
     .icon-windows::before {
         content: "🪟";
         font-size: 2.5rem;
@@ -578,18 +695,33 @@ gizlilik odaklı bir mesajlaşma platformudur.{% endblock %}
         border-top: 1px solid rgba(255, 255, 255, 0.05);
     }
 
-    /* ── RESPONSIVE İYİLEŞTİRMELER ── */
+    /* ── RESPONSIVE ── */
     @media(max-width: 900px) {
-
-
         .step-card {
             grid-template-columns: 1fr;
             text-align: center;
             padding: 2rem;
         }
-
         .step-icon {
             margin: 0 auto;
+        }
+        .threat-panel {
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            text-align: center;
+            padding: 1.5rem;
+        }
+        .threat-header {
+            justify-content: center;
+        }
+        .threat-count {
+            justify-content: center;
+        }
+        .threat-chart {
+            justify-content: center;
+        }
+        .threat-number {
+            font-size: 3rem;
         }
     }
 
@@ -597,28 +729,22 @@ gizlilik odaklı bir mesajlaşma platformudur.{% endblock %}
         .topbar {
             padding: 0.9rem 1.2rem;
         }
-
         .section {
             padding: 3rem 1.5rem;
         }
-
         .proof-grid {
             grid-template-columns: 1fr;
             gap: 2rem;
         }
-
         .hero-title {
             font-size: clamp(2.8rem, 10vw, 5rem);
         }
-
         .hero-desc {
             font-size: 1.3rem;
         }
-
         .step-title {
             font-size: 2rem;
         }
-
         .step-desc {
             font-size: 1.2rem;
         }
@@ -628,7 +754,6 @@ gizlilik odaklı bir mesajlaşma platformudur.{% endblock %}
         .hero-title {
             font-size: 2.4rem;
         }
-
         .trust-item {
             font-size: 0.8rem;
         }
@@ -653,8 +778,7 @@ gizlilik odaklı bir mesajlaşma platformudur.{% endblock %}
     </p>
 
     <div class="hero-cta">
-        <a href="{{ url_for('auth.register') }}" class="btn-primary" style="padding: 1rem 3rem; font-size: 1.2rem;">{{
-            _("KeyCord\'a Katıl") }}</a>
+        <a href="{{ url_for('auth.register') }}" class="btn-primary" style="padding: 1rem 3rem; font-size: 1.2rem;">{{ _("KeyCord\'a Katıl") }}</a>
     </div>
 
     <div class="trustbar">
@@ -665,76 +789,84 @@ gizlilik odaklı bir mesajlaşma platformudur.{% endblock %}
     </div>
 </section>
 
-<!-- PROOF SECTION (SÖZE DEĞİL İSPATA GÜVENİN) -->
+<!-- PROOF SECTION -->
 <section class="section">
     <div class="proof-header">
         <h2 class="proof-title">{{ _('GÜVEN DEĞİL, İSPAT.') }}</h2>
-        <p class="proof-desc">{{ _('Gizliliğinizi koruduğumuzu sadece iddia etmiyoruz. Bunu bağımsız güvenlik testleri
-            ve tamamen açık kaynak kodumuzla kanıtlıyoruz.') }}</p>
+        <p class="proof-desc">{{ _('Gizliliğinizi koruduğumuzu sadece iddia etmiyoruz. Bunu bağımsız güvenlik testleri ve tamamen açık kaynak kodumuzla kanıtlıyoruz.') }}</p>
+    </div>
+
+    <!-- TEHDİT İSTATİSTİKLERİ (monochrome, artan grafik) -->
+    <div class="threat-stats">
+        <div class="threat-panel">
+            <div class="threat-info">
+                <div class="threat-header">
+                    <span class="threat-dot"></span>
+                    <span class="threat-label">{{ _('Gerçek Zamanlı Tehdit Engelleme') }}</span>
+                </div>
+                <div class="threat-count">
+                    <span class="threat-number">{{ banned_count }}</span>
+                    <span class="threat-unit">{{ _('IP') }}</span>
+                </div>
+                <p class="threat-sub">{{ _('Şu ana kadar kalıcı olarak engellenen kötü amaçlı IP adresi') }}</p>
+            </div>
+            <div class="threat-chart">
+                <div class="threat-bar"></div>
+                <div class="threat-bar"></div>
+                <div class="threat-bar"></div>
+                <div class="threat-bar"></div>
+                <div class="threat-bar"></div>
+                <div class="threat-bar"></div>
+                <div class="threat-bar"></div>
+                <div class="threat-bar"></div>
+                <div class="threat-bar"></div>
+                <div class="threat-bar"></div>
+            </div>
+        </div>
     </div>
 
     <div class="proof-grid">
         <!-- Mozilla -->
-        <a href="https://developer.mozilla.org/en-US/observatory/analyze?host=keycord.org" target="_blank"
-            rel="noopener noreferrer" class="proof-card">
-            <div class="proof-icon-box" style="color: rgba(255, 255, 255, 0.7);">
-                <svg viewBox="0 0 24 24" stroke="currentColor">
-                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-                </svg>
+        <a href="https://developer.mozilla.org/en-US/observatory/analyze?host=keycord.org" target="_blank" rel="noopener noreferrer" class="proof-card">
+            <div class="proof-icon-box" style="color: rgba(255,255,255,0.7);">
+                <svg viewBox="0 0 24 24" stroke="currentColor"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
             </div>
-            <div class="proof-score" style="color: rgba(255, 255, 255, 0.85);">120<span
-                    class="proof-score-sub">/100</span></div>
+            <div class="proof-score" style="color: rgba(255,255,255,0.85);">120<span class="proof-score-sub">/100</span></div>
             <h3 class="proof-name">Mozilla Observatory</h3>
-            <p class="proof-detail">{{ _('En sıkı web güvenlik standartlarını aşarak alınan mükemmel puan. Kusursuz
-                yapılandırma.') }}</p>
+            <p class="proof-detail">{{ _('En sıkı web güvenlik standartlarını aşarak alınan mükemmel puan. Kusursuz yapılandırma.') }}</p>
             <div class="proof-link">{{ _('Raporu İncele') }} &rarr;</div>
         </a>
 
         <!-- SecurityHeaders -->
-        <a href="https://securityheaders.com/?q=keycord.org&followRedirects=on" target="_blank"
-            rel="noopener noreferrer" class="proof-card">
-            <div class="proof-icon-box" style="color: rgba(255, 255, 255, 0.7);">
-                <svg viewBox="0 0 24 24" stroke="currentColor">
-                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
-                </svg>
+        <a href="https://securityheaders.com/?q=keycord.org&followRedirects=on" target="_blank" rel="noopener noreferrer" class="proof-card">
+            <div class="proof-icon-box" style="color: rgba(255,255,255,0.7);">
+                <svg viewBox="0 0 24 24" stroke="currentColor"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
             </div>
-            <div class="proof-score" style="color: rgba(255, 255, 255, 0.85);">A+<span class="proof-score-sub">
-                    Sınıfı</span></div>
+            <div class="proof-score" style="color: rgba(255,255,255,0.85);">A+<span class="proof-score-sub"> Sınıfı</span></div>
             <h3 class="proof-name">Security Headers</h3>
-            <p class="proof-detail">{{ _('Tüm HTTP güvenlik başlıklarında tam koruma. Veri sızıntısına karşı maksimum
-                direnç.') }}</p>
+            <p class="proof-detail">{{ _('Tüm HTTP güvenlik başlıklarında tam koruma. Veri sızıntısına karşı maksimum direnç.') }}</p>
             <div class="proof-link">{{ _('Raporu İncele') }} &rarr;</div>
         </a>
 
         <!-- GitHub -->
         <a href="https://github.com/Keremcm/KeyCord" target="_blank" rel="noopener noreferrer" class="proof-card">
-            <div class="proof-icon-box" style="color: rgba(255, 255, 255, 0.7);">
-                <svg viewBox="0 0 24 24" stroke="currentColor">
-                    <path
-                        d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
-                    </path>
-                </svg>
+            <div class="proof-icon-box" style="color: rgba(255,255,255,0.7);">
+                <svg viewBox="0 0 24 24" stroke="currentColor"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
             </div>
-            <div class="proof-score" style="color: rgba(255, 255, 255, 0.85);">%100<span class="proof-score-sub">
-                    Açık</span></div>
+            <div class="proof-score" style="color: rgba(255,255,255,0.85);">%100<span class="proof-score-sub"> Açık</span></div>
             <h3 class="proof-name">GitHub Repository</h3>
-            <p class="proof-detail">{{ _('Uygulamamızın her satırı denetlenebilir. Kapalı kapılar ardında sır yok,
-                sadece kod var.') }}</p>
+            <p class="proof-detail">{{ _('Uygulamamızın her satırı denetlenebilir. Kapalı kapılar ardında sır yok, sadece kod var.') }}</p>
             <div class="proof-link">{{ _('Kodları İncele') }} &rarr;</div>
         </a>
     </div>
 </section>
 
-
 <!-- TOR ACCESS -->
 <div class="tor-section">
     <div class="tor-inner">
         <span class="label-tag">{{ _('Tor Erişimi') }}</span>
-        <h2 class="section-h" style="margin: 0 auto 0.8rem; text-align: center; max-width: 100%;">{{ _('Tor Browser ile
-            bağlanın') }}</h2>
-        <p class="section-sub" style="margin: 0 auto 1.8rem; text-align: center; max-width: 100%;">{{ _('Ağ düzeyinde
-            gizlilik için .onion adresimizi kullanın.') }}</p>
+        <h2 class="section-h" style="margin: 0 auto 0.8rem; text-align: center; max-width: 100%;">{{ _('Tor Browser ile bağlanın') }}</h2>
+        <p class="section-sub" style="margin: 0 auto 1.8rem; text-align: center; max-width: 100%;">{{ _('Ağ düzeyinde gizlilik için .onion adresimizi kullanın.') }}</p>
 
         <div class="onion-chip" id="tor-copy-box" title="{{ _('Kopyalamak için tıkla') }}">
             46iblsrblve4hnsl6567lwgehwh5mrony3hbfcgkenaxqphzczlb3mid.onion
@@ -745,7 +877,6 @@ gizlilik odaklı bir mesajlaşma platformudur.{% endblock %}
         </div>
     </div>
 </div>
-
 
 <script nonce="{{ csp_nonce }}" type="application/ld+json">
 {
@@ -787,14 +918,10 @@ gizlilik odaklı bir mesajlaşma platformudur.{% endblock %}
         });
     }
 
-    // Interactive 3D Cards Observer
     const cardObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('active');
-            } else {
-                // Opsiyonel: Ekrandan çıkınca geri kapansın istenirse
-                // entry.target.classList.remove('active');
             }
         });
     }, {
