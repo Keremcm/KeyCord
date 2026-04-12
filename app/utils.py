@@ -6,7 +6,7 @@ import base64
 import json
 import os
 import secrets
-from .models import RememberToken, User, ChatMessage, Group
+from .models import RememberToken, User, ChatMessage, Group, Notification
 from . import db
 
 # LEGACY ENCRYPTION REMOVED - E2EE IMPLEMENTED

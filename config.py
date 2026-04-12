@@ -52,7 +52,7 @@ class Config:
     MAX_CONTENT_LENGTH = 5 * 1024 * 1024  # 5 MB
     
     # Güvenlik ayarları
-    SESSION_COOKIE_SECURE = True  # HTTPS zorunlu değil (Localhost/HTTP için)
+    SESSION_COOKIE_SECURE = False  # HTTPS zorunlu değil (Localhost/HTTP için)
     SESSION_COOKIE_HTTPONLY = True
     SESSION_COOKIE_SAMESITE = 'Lax'
     SESSION_COOKIE_MAX_AGE = 3600  # 1 saat

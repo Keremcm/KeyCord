@@ -893,8 +893,7 @@ def profile():
         return redirect(url_for('auth.login_page'))
     user = User.query.get(user_id)
     if request.method == 'POST':
-        user.username = request.form.get('username')
-        # Hakkında
+        # Hakkında (Username değiştirilemez hale getirildi)
         user.about = request.form.get('about', '')
 
         # Profil Fotoğrafı Yükleme

@@ -21,12 +21,17 @@
     }
 
     .container {
+        padding: 0 !important;
         padding-top: 0 !important;
         max-width: none !important;
         margin: 0 !important;
-        padding: 0 !important;
         height: 100% !important;
+        width: 100% !important;
         min-height: 100% !important;
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        overflow: hidden !important;
     }
 
     .main-layout {
@@ -167,9 +172,35 @@
 
     @media (max-width: 768px) {
         .mobile-header {
-            display: flex;
-            z-index: 2001;
-            /* Keep above sidebar */
+            display: flex !important;
+            z-index: 999999 !important;
+            pointer-events: all !important;
+            background: rgba(5, 6, 7, 0.95);
+            /* Ensure visibility */
+            backdrop-filter: blur(10px);
+        }
+
+        .mobile-menu-btn {
+            position: relative !important;
+            z-index: 1000000 !important;
+            pointer-events: all !important;
+        }
+
+        .sidebar-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1999;
+            display: none;
+        }
+
+        .sidebar.open+.sidebar-overlay {
+            display: block;
+        }
+
+        .profile-page {
+            padding-top: 60px;
+            /* Safe area for mobile menu */
         }
 
         .main-panel {
@@ -317,9 +348,11 @@
 <div class="main-layout">
 
     <header class="mobile-header">
+        {% block app_mobile_menu %}
         <button class="mobile-menu-btn hand-font" onclick="toggleSidebar()">
             ☰ {{ _('Menü') }}
         </button>
+        {% endblock %}
         <div class="mobile-header-actions">
             {% block app_header_actions %}{% endblock %}
         </div>
@@ -328,7 +361,7 @@
     <aside class="sidebar">
         <button class="sidebar-close-btn" onclick="toggleSidebar()">×</button>
         <!-- Profile -->
-        <div class="profile-box" onclick="window.location.href='{{ url_for('auth.profile') }}'">
+        <div class="profile-box" onclick='window.location.href="{{ url_for("auth.profile") }}"'>
             <img src="{{ url_for('auth.serve_profile_picture', username=current_user.username) }}" class="profile-pic"
                 alt="Profile" data-onerror-src="{{ (current_user.username if current_user else 'User')|avatar_url }}"
                 onerror="this.src = this.dataset.onerrorSrc;">
@@ -354,7 +387,8 @@
                 style="color: var(--chalk); font-size: 1rem; margin-right: auto; display: flex; align-items: center; gap: 8px;">
                 <i class="icon icon-home" style="font-size: 1.2rem;"></i> {{ _('Ana Sayfa') }}
             </a>
-            <a href="{{ url_for('auth.logout') }}" class="nav-link" style="color: var(--brand-red); font-size: 1rem; font-weight: 600;">
+            <a href="{{ url_for('auth.logout') }}" class="nav-link"
+                style="color: var(--brand-red); font-size: 1rem; font-weight: 600;">
                 ← {{ _('Çıkış Yap') }}
             </a>
         </div>
@@ -377,9 +411,12 @@
 <script>
     function toggleSidebar() {
         const sidebar = document.querySelector('.sidebar');
+        const overlay = document.querySelector('.sidebar-overlay');
         if (!sidebar) return;
         sidebar.classList.toggle('open');
-        console.log('Sidebar toggled:', sidebar.classList.contains('open'));
+        if (overlay) {
+            overlay.style.display = sidebar.classList.contains('open') ? 'block' : 'none';
+        }
     }
 
     // KEYCORD RECOVERY MODULE

@@ -9,43 +9,190 @@
 {% block extra_css %}
 {{ super() }}
 <style>
-    /* Chat Interface Specifics - Monochrome */
+    *,
+    *::before,
+    *::after {
+        box-sizing: border-box;
+    }
+
+    /* ══════════════════════════════════════
+       CHAT CONTAINER — tam yükseklik flex
+    ══════════════════════════════════════ */
     .chat-container {
         display: flex;
         flex-direction: column;
         height: 100%;
         max-height: 100%;
-        padding-bottom: 0;
-        flex: 1;
+        overflow: hidden;
     }
 
-    /* Chat Header */
+    /* ══════════════════════════════════════
+       HEADER
+    ══════════════════════════════════════ */
     .chat-header {
-        padding: 1rem 1.5rem;
-        border-bottom: 3px dashed var(--chalk);
-        background: transparent;
         display: flex;
         align-items: center;
         gap: 1rem;
+        padding: 0.9rem 1.4rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+        background: rgba(255, 255, 255, 0.01);
         flex-shrink: 0;
-        transform: rotate(0.5deg);
+        min-height: 64px;
     }
 
-    /* Messages Area */
+    .chat-header-avatar {
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid rgba(255, 255, 255, 0.2);
+        flex-shrink: 0;
+    }
+
+    .chat-header-info {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .chat-header-name {
+        font-size: 1.8rem;
+        font-weight: 800;
+        color: var(--chalk);
+        margin: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .chat-header-status {
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        margin-top: 2px;
+    }
+
+    .status-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #7fff7f;
+        box-shadow: 0 0 4px rgba(127, 255, 127, 0.6);
+        flex-shrink: 0;
+    }
+
+    .status-text {
+        font-size: 1.1rem;
+        color: var(--muted-chalk);
+        letter-spacing: 0.02em;
+    }
+
+    /* e2e badge in header */
+    .e2e-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        font-size: 0.68rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: rgba(127, 255, 127, 0.55);
+        border: 1px solid rgba(127, 255, 127, 0.15);
+        border-radius: 99px;
+        padding: 0.2rem 0.65rem;
+        background: rgba(127, 255, 127, 0.04);
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
+
+    .e2e-badge svg {
+        width: 10px;
+        height: 10px;
+        stroke: rgba(127, 255, 127, 0.55);
+        fill: none;
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+    }
+
+    .header-action-btn {
+        width: 34px;
+        height: 34px;
+        border-radius: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        background: rgba(255, 255, 255, 0.03);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        transition: background 0.15s, border-color 0.15s;
+        flex-shrink: 0;
+        cursor: pointer;
+    }
+
+    .header-action-btn:hover {
+        background: rgba(255, 255, 255, 0.07);
+        border-color: rgba(255, 255, 255, 0.15);
+    }
+
+    .header-action-btn i {
+        font-size: 1rem;
+        background-color: var(--chalk);
+    }
+
+    /* ══════════════════════════════════════
+       MESSAGES AREA
+    ══════════════════════════════════════ */
     .messages-area {
         flex: 1;
         overflow-y: auto;
-        padding: 1.5rem;
+        padding: 1.5rem 1.4rem;
         display: flex;
         flex-direction: column;
-        gap: 1rem;
+        gap: 0.5rem;
+        scroll-behavior: smooth;
     }
 
-    /* Message Bubbles */
+    /* Scrollbar */
+    .messages-area::-webkit-scrollbar {
+        width: 4px;
+    }
+
+    .messages-area::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    .messages-area::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 2px;
+    }
+
+    /* ── date separator ── */
+    .date-sep {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin: 0.75rem 0;
+    }
+
+    .date-sep-line {
+        flex: 1;
+        height: 1px;
+        background: rgba(255, 255, 255, 0.06);
+    }
+
+    .date-sep-text {
+        font-size: 0.7rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.22);
+        white-space: nowrap;
+    }
+
+    /* ── message group ── */
     .message-group {
         display: flex;
         flex-direction: column;
-        max-width: 70%;
+        max-width: 68%;
+        gap: 2px;
     }
 
     .message-group.me {
@@ -58,76 +205,283 @@
         align-items: flex-start;
     }
 
-    .bubble {
-        padding: 12px 18px;
-        border-radius: 18px;
+    /* sender label */
+    .sender-info {
         font-size: 1.1rem;
-        position: relative;
+        color: var(--muted-chalk);
+        padding: 0 1rem;
+        letter-spacing: 0.02em;
+        margin-bottom: 3px;
+    }
+
+    /* bubble */
+    .bubble {
+        padding: 1rem 1.4rem;
+        border-radius: 18px;
+        font-size: 1.4rem;
+        line-height: 1.5;
         word-wrap: break-word;
-        font-family: 'Caveat', cursive;
+        position: relative;
+        max-width: 100%;
     }
 
     .bubble.me {
-        background: rgba(255, 255, 255, 0.1);
-        border: 2px solid var(--chalk);
+        background: rgba(255, 255, 255, 0.09);
+        border: 1px solid rgba(255, 255, 255, 0.14);
         color: var(--chalk);
         border-bottom-right-radius: 4px;
     }
 
     .bubble.other {
-        background: transparent;
-        border: 2px dashed rgba(255, 255, 255, 0.3);
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.07);
         color: var(--chalk);
         border-bottom-left-radius: 4px;
     }
 
-    .sender-info {
+    /* decrypting state */
+    .bubble[data-encrypted="true"] {
+        color: rgba(255, 255, 255, 0.3);
         font-size: 0.85rem;
-        color: var(--muted-chalk);
-        margin-bottom: 4px;
-        padding: 0 4px;
-        font-family: 'Caveat', cursive;
+        font-style: italic;
     }
 
-    /* Input Area */
+    /* timestamp */
+    .bubble-time {
+        font-size: 0.95rem;
+        color: rgba(255, 255, 255, 0.25);
+        margin-top: 5px;
+        padding: 0 0.6rem;
+    }
+
+    /* ══════════════════════════════════════
+       INPUT AREA
+    ══════════════════════════════════════ */
     .chat-input-area {
-        padding: 1.5rem;
-        background: transparent;
-        border-top: 3px dashed var(--chalk);
         flex-shrink: 0;
-        transform: rotate(-0.5deg);
+        padding: 1rem 1.4rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.07);
+        background: rgba(255, 255, 255, 0.01);
     }
 
-    .input-form {
+    .input-wrap {
         display: flex;
-        gap: 10px;
+        align-items: center;
+        gap: 0.6rem;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        padding: 0.3rem 0.3rem 0.3rem 1rem;
+        transition: border-color 0.2s;
     }
 
-    /* Mobile Adjustments */
-    @media (max-width: 768px) {
-        .chat-container {
-            height: 100%;
-            position: relative;
-        }
+    .input-wrap:focus-within {
+        border-color: rgba(255, 255, 255, 0.22);
+    }
 
-        /* Detail View Specifics */
+    #message_input {
+        flex: 1;
+        background: transparent;
+        border: none;
+        outline: none;
+        color: var(--chalk);
+        font-size: 1.3rem;
+        padding: 0.8rem 0;
+        font-family: inherit;
+        line-height: 1.4;
+    }
+
+    #message_input::placeholder {
+        color: rgba(255, 255, 255, 0.22);
+    }
+
+    .send-btn {
+        width: 36px;
+        height: 36px;
+        border-radius: 9px;
+        background: var(--chalk);
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        transition: opacity 0.15s;
+    }
+
+    .send-btn:hover {
+        opacity: 0.82;
+    }
+
+    .send-btn svg {
+        width: 16px;
+        height: 16px;
+        stroke: var(--paper-black, #0d0d0d);
+        fill: none;
+        stroke-width: 2.2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        transform: translateX(1px);
+    }
+
+    /* encryption notice under input */
+    .input-notice {
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        margin-top: 0.55rem;
+        padding: 0 0.2rem;
+        font-size: 0.72rem;
+        color: rgba(255, 255, 255, 0.2);
+        letter-spacing: 0.02em;
+    }
+
+    .input-notice svg {
+        width: 11px;
+        height: 11px;
+        stroke: rgba(127, 255, 127, 0.35);
+        fill: none;
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        flex-shrink: 0;
+    }
+
+    /* ══════════════════════════════════════
+       EMPTY / INBOX STATE
+    ══════════════════════════════════════ */
+    .inbox-view {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        text-align: center;
+        padding: 2rem;
+        gap: 0;
+    }
+
+    .inbox-icon {
+        width: 56px;
+        height: 56px;
+        border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        background: rgba(255, 255, 255, 0.03);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1.2rem;
+    }
+
+    .inbox-icon svg {
+        width: 24px;
+        height: 24px;
+        stroke: rgba(255, 255, 255, 0.3);
+        fill: none;
+        stroke-width: 1.6;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+    }
+
+    .inbox-title {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: var(--chalk);
+        margin-bottom: 0.4rem;
+    }
+
+    .inbox-sub {
+        font-size: 0.88rem;
+        color: var(--muted-chalk);
+        line-height: 1.6;
+        max-width: 280px;
+        margin-bottom: 1.5rem;
+    }
+
+    .inbox-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        padding: 0.6rem 1.2rem;
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 9px;
+        color: var(--chalk);
+        font-size: 0.88rem;
+        font-weight: 600;
+        text-decoration: none;
+        transition: background 0.15s;
+    }
+
+    .inbox-btn:hover {
+        background: rgba(255, 255, 255, 0.1);
+    }
+
+    .inbox-btn svg {
+        width: 14px;
+        height: 14px;
+        stroke: currentColor;
+        fill: none;
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+    }
+
+    /* security note in empty state */
+    .inbox-security {
+        margin-top: 2.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        max-width: 300px;
+        width: 100%;
+    }
+
+    .inbox-sec-row {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        padding: 0.65rem 0.9rem;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 9px;
+        background: rgba(255, 255, 255, 0.02);
+    }
+
+    .inbox-sec-row svg {
+        width: 13px;
+        height: 13px;
+        stroke: rgba(127, 255, 127, 0.45);
+        fill: none;
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        flex-shrink: 0;
+    }
+
+    .inbox-sec-text {
+        font-size: 0.78rem;
+        color: rgba(255, 255, 255, 0.28);
+    }
+
+    /* mobile chat list */
+    .chat-list-wrapper {
+        display: none;
+    }
+
+    /* ══════════════════════════════════════
+       RESPONSIVE
+    ══════════════════════════════════════ */
+    @media(max-width: 768px) {
         .chat-header.mobile-sticky {
             position: sticky;
             top: 0;
-            background: rgba(5, 6, 7, 0.8);
-            backdrop-filter: blur(10px);
             z-index: 10;
-            padding: 0.8rem 1rem;
-            transform: none;
-            border-bottom-width: 2px;
+            background: rgba(5, 6, 7, 0.92);
+            backdrop-filter: blur(12px);
         }
 
-        /* Global Padding for fixed header */
         .messages-area {
-            padding: 1rem;
-            padding-bottom: 120px;
-            /* Space for fixed input area */
-            flex: 1;
+            padding-bottom: 100px;
         }
 
         .chat-input-area.mobile-fixed {
@@ -135,48 +489,30 @@
             bottom: 0;
             left: 0;
             right: 0;
-            padding: 0.8rem 1rem;
             background: rgba(5, 6, 7, 0.95);
-            backdrop-filter: blur(10px);
-            z-index: 100;
-            border-top: 2px dashed var(--chalk);
-            transform: none;
+            backdrop-filter: blur(12px);
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 0.8rem 1rem;
             padding-bottom: calc(0.8rem + env(safe-area-inset-bottom));
+            z-index: 100;
         }
 
         .message-group {
-            max-width: 85%;
+            max-width: 82%;
         }
 
-        .bubble {
-            font-size: 1rem;
-            padding: 10px 14px;
-        }
-
-        /* Inbox View Specifics */
-        .inbox-view {
-            padding: 1rem;
-            height: 100%;
-            overflow-y: auto;
-            flex: 1;
-        }
-    }
-
-    @media (min-width: 769px) {
-        .inbox-view {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100%;
-            color: var(--muted-chalk);
-            text-align: center;
-            padding: 2rem;
+        .e2e-badge {
+            display: none;
         }
 
         .chat-list-wrapper {
+            display: block;
+        }
+    }
+
+    @media(min-width: 769px) {
+        .chat-list-wrapper {
             display: none;
-            /* Already in sidebar on desktop */
         }
     }
 </style>
@@ -185,27 +521,28 @@
 {% block app_content %}
 <div class="chat-container">
     {% if selected_friend %}
-    <!-- Chat Header -->
-    <div class="chat-header mobile-sticky">
-        <img src="{{ url_for('auth.serve_profile_picture', username=selected_friend.username) }}" class="profile-pic"
-            style="width: 44px; height: 44px; border: 2px dashed var(--chalk); padding: 2px;"
-            onerror="this.src='{{ selected_friend.username|avatar_url }}';">
 
-        <div style="flex: 1;">
-            <h3 style="margin: 0; font-size: 1.4rem; font-family: 'Reenie Beanie'; letter-spacing: 1px;">{{
-                selected_friend.username }}</h3>
-            <span style="font-size: 0.9rem; color: var(--muted-chalk); font-family: 'Caveat';">{{ _('Çevrimiçi')
-                }}</span>
+    <!-- ── HEADER ── -->
+    <div class="chat-header mobile-sticky">
+        <img src="{{ url_for('auth.serve_profile_picture', username=selected_friend.username) }}"
+            class="chat-header-avatar" onerror="this.src='{{ selected_friend.username|avatar_url }}';"
+            alt="{{ selected_friend.username }}">
+
+        <div class="chat-header-info">
+            <h3 class="chat-header-name">{{ selected_friend.username }}</h3>
+            <div class="chat-header-status">
+                <span class="status-dot"></span>
+                <span class="status-text">{{ _('Çevrimiçi') }}</span>
+            </div>
         </div>
 
-        <a href="{{ url_for('auth.view_profile', username=selected_friend.username) }}" class="action-btn"
-            title="{{ _('Profili Gör') }}"
-            style="border-style: dashed; display: flex; align-items: center; justify-content: center; padding: 5px;">
-            <i class="icon icon-user" style="background-color: var(--chalk); font-size: 1.2rem;"></i>
+        <a href="{{ url_for('auth.view_profile', username=selected_friend.username) }}" class="header-action-btn"
+            title="{{ _('Profili Gör') }}">
+            <i class="icon icon-user"></i>
         </a>
     </div>
 
-    <!-- Messages -->
+    <!-- ── MESSAGES ── -->
     <div class="messages-area" id="messages">
         {% for m in conversation %}
         <div class="message-group {% if m.sender == user.username %}me{% else %}other{% endif %}">
@@ -216,41 +553,90 @@
                 data-content="{{ m.content }}"
                 data-key="{{ m.encrypted_aes_key_sender if m.sender == user.username else m.encrypted_aes_key }}"
                 data-iv="{{ m.iv }}">
-                <span class="lock-icon">🔒</span> {{ _('Mesaj çözülüyor...') }}
+                {{ _('Mesaj çözülüyor...') }}
             </div>
         </div>
         {% endfor %}
     </div>
 
-    <!-- Input -->
+    <!-- ── INPUT ── -->
     <div class="chat-input-area mobile-fixed">
-        <div class="input-form">
-            <input type="text" id="message_input" placeholder="{{ _('Mesaj yaz...') }}" autocomplete="off"
-                style="flex:1; background: transparent; border: 2px solid rgba(255,255,255,0.20); border-radius: 12px; color: var(--chalk); padding: 10px; font-family: 'Caveat'; font-size: 1.2rem;">
-            <button type="button" class="btn" id="send_button"
-                style="padding: 10px 20px; border-style: dashed;">➤</button>
+        <div class="input-wrap">
+            <input type="text" id="message_input" placeholder="{{ _('Şifreli mesaj yaz...') }}" autocomplete="off" />
+            <button type="button" class="send-btn" id="send_button" aria-label="{{ _('Gönder') }}">
+                <svg viewBox="0 0 24 24">
+                    <line x1="22" y1="2" x2="11" y2="13" />
+                    <polygon points="22 2 15 22 11 13 2 9 22 2" />
+                </svg>
+            </button>
+        </div>
+        <div class="input-notice">
+            <svg viewBox="0 0 24 24">
+                <rect x="3" y="11" width="18" height="11" rx="2" />
+                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+            </svg>
+            {{ _('Mesajlar cihazınızda şifrelenir. Sunucu içeriği göremez.') }}
         </div>
     </div>
 
     {% else %}
-    <!-- No Chat Selected State (Inbox / Friend List on Mobile) -->
+
+    <!-- ── EMPTY STATE ── -->
     <div class="inbox-view">
         <div class="chat-list-wrapper">
             {% include '_chat_list.html' %}
         </div>
-        <div class="desktop-placeholder" style="display: none;">
-            <div class="sketch-box" style="padding: 1rem 2rem; transform: rotate(1deg);">
-                <h2 style="margin-bottom: 1rem; font-family: 'Reenie Beanie'; font-size: 2.5rem;">{{ _('Sohbet Başlat')
-                    }}</h2>
-                <p style="font-family: 'Caveat'; font-size: 1.3rem;">{{ _('Soldaki listeden bir arkadaşını seç.') }}</p>
-                <br>
-                <a href="{{ url_for('auth.add_friend_page') }}" class="btn">{{ _('Arkadaş Ekle') }}</a>
+
+        <div class="desktop-placeholder" style="display:none;">
+            <div class="inbox-icon">
+                <svg viewBox="0 0 24 24">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                </svg>
+            </div>
+            <div class="inbox-title">{{ _('Bir sohbet seçin') }}</div>
+            <p class="inbox-sub">{{ _('Soldaki listeden bir arkadaşını seç ya da yeni biri ekle.') }}</p>
+            <a href="{{ url_for('auth.add_friend_page') }}" class="inbox-btn">
+                <svg viewBox="0 0 24 24">
+                    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                    <circle cx="9" cy="7" r="4" />
+                    <line x1="19" y1="8" x2="19" y2="14" />
+                    <line x1="22" y1="11" x2="16" y2="11" />
+                </svg>
+                {{ _('Arkadaş Ekle') }}
+            </a>
+
+            <div class="inbox-security">
+                <div class="inbox-sec-row">
+                    <svg viewBox="0 0 24 24">
+                        <rect x="3" y="11" width="18" height="11" rx="2" />
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                    </svg>
+                    <span class="inbox-sec-text">{{ _('Tüm mesajlar uçtan uca şifreli') }}</span>
+                </div>
+                <div class="inbox-sec-row">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                    </svg>
+                    <span class="inbox-sec-text">{{ _('Sunucu mesaj içeriğini göremez') }}</span>
+                </div>
+                <div class="inbox-sec-row">
+                    <svg viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="10" />
+                        <line x1="2" y1="12" x2="22" y2="12" />
+                        <path
+                            d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                    </svg>
+                    <span class="inbox-sec-text">{{ _('Tor ile ağ düzeyinde gizlilik') }}</span>
+                </div>
             </div>
         </div>
     </div>
+
     <script>
         if (window.innerWidth > 768) {
-            document.querySelector('.desktop-placeholder').style.display = 'block';
+            document.querySelector('.desktop-placeholder').style.display = 'flex';
+            document.querySelector('.desktop-placeholder').style.flexDirection = 'column';
+            document.querySelector('.desktop-placeholder').style.alignItems = 'center';
         }
     </script>
     {% endif %}
@@ -263,7 +649,6 @@
 <script src="{{ url_for('static', filename='js/crypto.js') }}"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        // Socket.IO
         const socket = io();
         const token = "{{ token }}";
         const currentUser = "{{ user.username }}";
@@ -272,7 +657,7 @@
         const messagesDiv = document.getElementById("messages");
         const messageInput = document.getElementById("message_input");
 
-        // Decrypt helper (Global)
+        /* ── Decrypt helper ── */
         window.decryptBubble = async function (element) {
             const content = element.getAttribute('data-content');
             const key = element.getAttribute('data-key');
@@ -287,89 +672,69 @@
                 const privateKey = sessionStorage.getItem('keycord_private_key');
                 const native = KEYCORD_CRYPTO.getBridge();
                 if (!privateKey && !native) {
-                    element.innerHTML = `<span style="cursor:pointer; text-decoration:underline;" onclick="KEYCORD_RECOVERY.show()">${'{{ _("🔒 Anahtar yok (Kurtar)") }}'}</span>`;
+                    element.innerHTML = `<span style="cursor:pointer;text-decoration:underline;font-size:0.82rem;" onclick="KEYCORD_RECOVERY.show()">${'{{ _("Anahtar yok — kurtar") }}'}</span>`;
                     return;
                 }
-
                 const decrypted = await KEYCORD_CRYPTO.decryptMessage(content, key, iv, privateKey);
                 element.textContent = decrypted;
                 element.removeAttribute('data-encrypted');
             } catch (err) {
                 console.error("Decrypt fail:", err);
-                element.textContent = "{{ _('🔒 Şifre çözülemedi') }}";
+                element.textContent = "{{ _('Şifre çözülemedi') }}";
             }
         };
 
-        // Decrypt all existing messages
+        /* Decrypt existing messages */
         document.querySelectorAll('.bubble[data-encrypted="true"]').forEach(decryptBubble);
 
-        // Scroll to bottom helper
+        /* ── Scroll ── */
         function scrollToBottom() {
-            if (messagesDiv) {
-                messagesDiv.scrollTop = messagesDiv.scrollHeight;
-            }
+            if (messagesDiv) messagesDiv.scrollTop = messagesDiv.scrollHeight;
         }
 
-        // Connect
-        socket.on('connect', function () {
-            if (token) {
-                socket.emit('join', { token: token });
-            }
-        });
+        /* ── Socket ── */
+        socket.on('connect', () => { if (token) socket.emit('join', { token }); });
+        socket.on('error', data => console.error('Socket error:', data));
 
-        // Error handling
-        socket.on('error', function (data) {
-            console.error('Socket error:', data);
-        });
-
-        // Receive Message
         socket.on('receive_message', function (data) {
-            if ((data.from === currentUser && data.to === selectedFriend) || (data.from === selectedFriend && data.to === currentUser)) {
-                const group = document.createElement("div");
-                group.className = `message-group ${data.from === currentUser ? 'me' : 'other'}`;
+            if (!((data.from === currentUser && data.to === selectedFriend) ||
+                (data.from === selectedFriend && data.to === currentUser))) return;
 
-                const senderInfo = document.createElement('div');
-                senderInfo.className = 'sender-info';
-                if (data.from !== currentUser) {
-                    senderInfo.appendChild(document.createTextNode(data.from));
-                }
+            const group = document.createElement('div');
+            group.className = `message-group ${data.from === currentUser ? 'me' : 'other'}`;
 
-                const bubble = document.createElement('div');
-                bubble.className = `bubble ${data.from === currentUser ? 'me' : 'other'}`;
+            const senderInfo = document.createElement('div');
+            senderInfo.className = 'sender-info';
+            if (data.from !== currentUser) senderInfo.textContent = data.from;
 
-                if (data.encrypted_aes_key) {
-                    const lockIcon = document.createElement('span');
-                    lockIcon.className = 'lock-icon';
-                    lockIcon.textContent = '🔒';
-                    bubble.appendChild(lockIcon);
-                    bubble.appendChild(document.createTextNode(" {{ _('Mesaj çözülüyor...') }}"));
-                } else {
-                    bubble.textContent = data.content;
-                }
+            const bubble = document.createElement('div');
+            bubble.className = `bubble ${data.from === currentUser ? 'me' : 'other'}`;
 
-                group.appendChild(senderInfo);
-                group.appendChild(bubble);
-
-                messagesDiv.appendChild(group);
-                scrollToBottom();
-
-                if (data.encrypted_aes_key) {
-                    const bubble = group.querySelector('.bubble');
-                    bubble.setAttribute('data-content', data.content);
-                    bubble.setAttribute('data-key', data.encrypted_aes_key);
-                    bubble.setAttribute('data-iv', data.iv);
-                    decryptBubble(bubble);
-                }
+            if (data.encrypted_aes_key) {
+                bubble.setAttribute('data-encrypted', 'true');
+                bubble.setAttribute('data-content', data.content);
+                bubble.setAttribute('data-key', data.encrypted_aes_key);
+                bubble.setAttribute('data-iv', data.iv);
+                bubble.textContent = '{{ _("Mesaj çözülüyor...") }}';
+            } else {
+                bubble.textContent = data.content;
             }
+
+            group.appendChild(senderInfo);
+            group.appendChild(bubble);
+            messagesDiv.appendChild(group);
+            scrollToBottom();
+
+            if (data.encrypted_aes_key) decryptBubble(bubble);
         });
 
-        // Send Message Function
+        /* ── Send ── */
         async function sendMessage() {
-            const content = messageInput.value;
-            if (!content.trim() || !selectedFriend) return;
+            const content = messageInput.value.trim();
+            if (!content || !selectedFriend) return;
 
             try {
-                let payload = { token: token, to: selectedFriend };
+                let payload = { token, to: selectedFriend };
 
                 if (selectedFriendPublicKey && selectedFriendPublicKey !== 'None') {
                     const myPublicKey = sessionStorage.getItem('keycord_public_key');
@@ -382,32 +747,26 @@
                     payload.content = content;
                 }
 
-                socket.emit("send_message", payload);
-                messageInput.value = "";
+                socket.emit('send_message', payload);
+                messageInput.value = '';
                 messageInput.focus();
             } catch (err) {
-                console.error("Encryption error:", err);
+                console.error('Encryption error:', err);
             }
         }
 
-        const sendButton = document.getElementById("send_button");
-        if (sendButton) {
-            sendButton.addEventListener('click', sendMessage);
-        }
+        const sendButton = document.getElementById('send_button');
+        if (sendButton) sendButton.addEventListener('click', sendMessage);
 
         if (messageInput) {
             messageInput.addEventListener('keydown', function (e) {
-                if (e.key === "Enter" && !e.shiftKey) {
-                    e.preventDefault();
-                    sendMessage();
-                }
+                if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
             });
         }
 
         scrollToBottom();
 
-        // Listen for recovery event
-        window.addEventListener('keycord_recovered', function () {
+        window.addEventListener('keycord_recovered', () => {
             document.querySelectorAll('.bubble[data-encrypted="true"]').forEach(decryptBubble);
         });
     });
