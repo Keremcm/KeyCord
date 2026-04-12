@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KeyCord / Bilgi</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+
+<body class="loading">
+
+    <!-- === ÇEKİRDEK KANVAS KATMANLARI === -->
+    <canvas id="canvas-bg"></canvas>
+    <canvas id="canvas-main"></canvas>
+    <canvas id="canvas-ui"></canvas>
+
+    <!-- === YÜKLEME EKRANI === -->
+    <div id="loader">
+        <div class="loader-text scrambler">BAĞLANTI_KURULUYOR...</div>
+        <div class="loader-bar">
+            <div class="bar-fill"></div>
+        </div>
+    </div>
+
+    <!-- === SANAL KAYDIRMA KONTEYNERİ === -->
+    <div id="scroll-container">
+
+        <!-- YÜZER MENÜ (HUD) -->
+        <nav class="fixed-nav">
+            <div class="nav-links-container">
+                <a href="#hero" class="nav-logo scrambler">KEYCORD_OS</a>
+                <div class="nav-separator">//</div>
+                <div class="nav-links">
+                    <a href="whitepaper.html" class="nav-item">TEKNİK</a>
+                    <a href="#connect" class="nav-item">TERMİNAL</a>
+                    <a href="https://keycord.org" class="nav-item" style="
+                        background: #27c93f;
+                        color: #000;
+                        padding: 8px 20px;
+                        border-radius: 2px;
+                        font-weight: bold;
+                        transition: all 0.3s;
+                        box-shadow: 0 0 10px rgba(39, 201, 63, 0.3);
+                    " onmouseover="this.style.boxShadow='0 0 20px rgba(39, 201, 63, 0.6)'"
+                        onmouseout="this.style.boxShadow='0 0 10px rgba(39, 201, 63, 0.3)'">
+                        ▶ Keycord'a Katıl
+                    </a>
+                </div>
+            </div>
+        </nav>
+
+        <div class="whitepaper-container">
+            <!-- GRID LAYOUT -->
+            <div class="wp-grid">
+
+                <!-- SIDEBAR: TABLE OF CONTENTS -->
+                <aside class="wp-sidebar">
+                    <span class="toc-title">İÇİNDEKİLER</span>
+                    <ul class="toc-list">
+                        <li class="toc-item"><a href="#hero" class="toc-link">> ANA SAYFA</a></li>
+                        <li class="toc-item"><a href="#manifesto" class="toc-link">> MANİFESTO</a></li>
+                        <li class="toc-item"><a href="#architecture" class="toc-link">> MİMARİ</a></li>
+                        <li class="toc-item"><a href="#faq" class="toc-link">> S.S.S</a></li>
+                        <li class="toc-item"><a href="#connect" class="toc-link">> TERMİNAL</a></li>
+                    </ul>
+
+                    <div style="margin-top: 3rem; opacity: 0.6;">
+                        <span class="toc-title" style="font-size: 1rem;">DURUM</span>
+                        <div style="color: #27c93f; font-family: 'Courier New';">● ONLINE</div>
+                        <div style="color: #666; font-family: 'Courier New'; font-size: 0.8rem;">Ver. 2.0.0</div>
+                    </div>
+                </aside>
+
+                <!-- MAIN CONTENT -->
+                <div class="wp-content">
+
+                    <!-- === 01. HERO === -->
+                    <section class="viewport-section" id="hero">
+                        <div class="center-content">
+                            <h1 class="mega-title scrambler">KEYCORD</h1>
+                            <p class="subtitle">GÖRÜNMEZLIK_PROTOKOLÜ_V2</p>
+                            <div class="scroll-hint">
+                                <span>DERİNLERE İN</span>
+                                <div class="line-drop"></div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- === 02. MANİFESTO === -->
+                    <section class="viewport-section" id="manifesto">
+                        <div class="content-block" style="max-width: 900px;">
+                            <h2 class="section-header scrambler">BİZ_KİMİZ?</h2>
+                            <div class="manifesto-text">
+                                <span class="manifesto-line fade-up">BİZ ŞİRKET DEĞİLİZ.</span>
+                                <span class="manifesto-line fade-up">BİZ BİR <span
+                                        class="manifesto-highlight">PROTOKOLÜZ.</span></span>
+                                <br>
+                                <p class="fade-up"
+                                    style="font-size: 1.3rem; line-height: 1.8; color: #ccc; margin-top: 2rem;">
+                                    Dijital çağda mahremiyet bir ayrıcalık değil, temel bir insan hakkıdır.
+                                    Verileriniz satılık değildir. Sesiniz bir meta değildir.
+                                    KeyCord, sizi gözetleyen gözlerden korumak için saf matematik üzerine inşa edildi.
+                                    <br><br>
+                                    <strong style="color: var(--accent);">Güvenmek zorunda değilsiniz.</strong><br>
+                                    <strong style="color: var(--accent);">Doğrulayabilirsiniz.</strong>
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- === 03. MİMARİ === -->
+                    <section class="viewport-section" id="architecture" style="padding: 6rem 2rem;">
+                        <div class="center-content" style="max-width: 1100px; width: 100%;">
+                            <h2 class="section-header scrambler">SİSTEM_MİMARİSİ</h2>
+                            <p class="body-text" style="text-align: center; margin-bottom: 3rem;">
+                                Verileriniz sunucularımızda asla şifresiz durmaz. Asla. İşte süreci:
+                            </p>
+
+                            <!-- Grid Layout for Architecture Steps -->
+                            <div
+                                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem;">
+
+                                <div class="arch-card jitter-border fade-up">
+                                    <div class="arch-number">01</div>
+                                    <h3 class="arch-title">İSTEMCİ TARAFLI ANAHTARLAMA</h3>
+                                    <p class="arch-desc">
+                                        Tarayıcınızda RSA-2048 anahtar çifti oluşturulur.
+                                        Özel anahtarınız (Private Key) cihazınızdan ASLA çıkmaz.
+                                    </p>
+                                </div>
+
+                                <div class="arch-card jitter-border fade-up">
+                                    <div class="arch-number">02</div>
+                                    <h3 class="arch-title">HİBRİT ŞİFRELEME</h3>
+                                    <p class="arch-desc">
+                                        Mesajlar önce AES-256 ile simetrik şifrelenir, ardından anahtar
+                                        alıcının Açık Anahtarı (Public Key) ile mühürlenir.
+                                    </p>
+                                </div>
+
+                                <div class="arch-card jitter-border fade-up">
+                                    <div class="arch-number">03</div>
+                                    <h3 class="arch-title">GİZLİ YÖNLENDİRME (TOR)</h3>
+                                    <p class="arch-desc">
+                                        Şifreli paketler, KeyCord Hidden Service (.onion) üzerinden geçer.
+                                        IP adresiniz fiziksel olarak izlenemez.
+                                    </p>
+                                </div>
+
+                                <div class="arch-card jitter-border fade-up">
+                                    <div class="arch-number">04</div>
+                                    <h3 class="arch-title">KÖR TESLİMAT</h3>
+                                    <p class="arch-desc">
+                                        Sunucu sadece şifreli veri yığınını ("Blob") görür.
+                                        Kimden kime gittiğini veya içeriğini bilemez.
+                                    </p>
+                                </div>
+
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- === 04. S.S.S === -->
+                    <section class="viewport-section" id="faq">
+                        <div class="content-block left-align" style="max-width: 900px;">
+                            <h2 class="section-header scrambler">TERMİNAL_LOGLARI</h2>
+
+                            <div class="faq-console jitter-box">
+                                <div class="faq-line">
+                                    <span class="faq-q"><span class="faq-prompt">user@host:~$</span> ./keycord
+                                        --kayıt-tutuyor-mu</span>
+                                    <span class="faq-a">>> FALSE. Sunucularımız sadece geçici veri aktarımı yapar. HDD
+                                        yok, sadece
+                                        RAM.</span>
+                                </div>
+
+                                <div class="faq-line">
+                                    <span class="faq-q"><span class="faq-prompt">user@host:~$</span> ./keycord
+                                        --devlet-isteginde-verir-mi</span>
+                                    <span class="faq-a">>> NULL. Veremeyiz çünkü elimizde veri yok. "Zero Knowledge"
+                                        mimarisi
+                                        budur.</span>
+                                </div>
+
+                                <div class="faq-line">
+                                    <span class="faq-q"><span class="faq-prompt">user@host:~$</span> ./keycord
+                                        --kaynak-kod</span>
+                                    <span class="faq-a">>> OPEN_SOURCE. Github üzerinden denetleyebilirsiniz. Arka kapı
+                                        yok.</span>
+                                </div>
+
+                                <div class="faq-line">
+                                    <span class="faq-q"><span class="faq-prompt">user@host:~$</span> ./keycord
+                                        --ucret</span>
+                                    <span class="faq-a">>> FREE. Özgürlük parayla satılmaz. Bağışlarla yaşarız.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- === 05. TERMİNAL === -->
+                    <section class="viewport-section" id="connect">
+                        <div class="center-content">
+                            <h2 class="section-header scrambler">SİSTEME_GİRİŞ</h2>
+                            <div class="onion-terminal jitter-box">
+                                <div class="terminal-header">
+                                    <span class="dot red"></span><span class="dot yellow"></span><span
+                                        class="dot green"></span>
+                                    <span class="title">TOR_ACCESS_POINT</span>
+                                </div>
+                                <div class="terminal-body" id="copy-trigger">
+                                    <span class="prompt">root@keycord:~#</span> <span class="cmd">connect</span> <span
+                                        class="arg"
+                                        id="onion-text">http://rkkxwlpdgpdia7u5ztlsaxq3yzy4o22ck4e6iuawed2d442c3a7cunyd.onion</span>
+                                    <div class="copy-feedback">Panoya_Kopyalandı</div>
+                                    <div class="cursor-blink">_</div>
+                                </div>
+                                <p style="margin-top: 1rem; color: #666; font-size: 0.9rem;">
+                                    * Bu adrese erişmek için Tor Browser gereklidir.
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+                </div> <!-- End wp-content -->
+            </div> <!-- End wp-grid -->
+        </div> <!-- End whitepaper-container -->
+
+        <footer style="text-align:center; padding: 2rem; color: #444; font-size: 0.8rem; font-family: 'Courier New';">
+            KEYCORD PROJECT 2025 // COPYLEFT // NO RIGHTS RESERVED
+        </footer>
+
+        <section class="footer-spacer" style="height: 100px;"></section>
+    </div>
+
+    <!-- SPOTLIGHT -->
+    <div id="cursor-spotlight"></div>
+
+    <script src="script.js"></script>
+    <script>
+        // TOC Active State Logic
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    document.querySelectorAll('.toc-link').forEach(link => link.classList.remove('active'));
+                    const activeLink = document.querySelector(`.toc-link[href="#${entry.target.id}"]`);
+                    if (activeLink) activeLink.classList.add('active');
+                }
+            });
+        }, { threshold: 0.5 });
+
+        document.querySelectorAll('.viewport-section').forEach(section => observer.observe(section));
+    </script>
+</body>
+
+</html>

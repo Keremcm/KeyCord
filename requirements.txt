@@ -1,0 +1,17 @@
+
+Flask
+Flask-Mail
+Flask-Login
+Flask-SQLAlchemy
+Flask-SocketIO
+python-dotenv
+pyjwt
+cryptography
+marshmallow
+requests
+Werkzeug
+pycryptodome
+itsdangerous
+Flask-Migrate
+Flask-Babel
+sqlcipher3-binary

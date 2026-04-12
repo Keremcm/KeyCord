@@ -1,0 +1,279 @@
+﻿{% extends "base_app.html" %}
+
+{% block title %}{{ community.name }}{% endblock %}
+
+{% block extra_css %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/icons.css') }}">
+<style>
+    .message-bubble {
+        max-width: 80%;
+        margin-bottom: 1rem;
+        padding: 1rem;
+        position: relative;
+        border-radius: 12px;
+        font-family: 'Caveat';
+        font-size: 1.2rem;
+    }
+
+    .message-bubble.mine {
+        margin-left: auto;
+        background: rgba(255, 255, 255, 0.1);
+        border-bottom-right-radius: 2px;
+    }
+
+    .message-bubble.other {
+        margin-right: auto;
+        background: rgba(255, 255, 255, 0.02);
+        border-bottom-left-radius: 2px;
+    }
+
+    @media (max-width: 768px) {
+        .comm-header {
+            padding: 1rem !important;
+            gap: 1rem !important;
+        }
+
+        .comm-header img {
+            width: 50px !important;
+            height: 50px !important;
+        }
+
+        .comm-header h1 {
+            font-size: 1.8rem !important;
+        }
+
+        .messages-area-wrapper {
+            padding: 1rem !important;
+        }
+
+        .message-bubble {
+            max-width: 95% !important;
+            padding: 0.8rem !important;
+        }
+
+        .input-area-wrapper {
+            padding: 1rem !important;
+        }
+
+        #messageInput {
+            font-size: 1.1rem !important;
+            padding: 0.8rem !important;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block sidebar_content %}
+<h3
+    style="padding: 0 1rem; margin-top: 1rem; font-family: 'Reenie Beanie'; font-size: 2rem; color: var(--chalk); transform: rotate(-1deg);">
+    {{ community.name }}</h3>
+<div style="padding: 0 1rem; margin-bottom: 2rem; font-size: 0.9rem; color: var(--muted-chalk);">
+    {{ community.members|length }} {{ _('üye') }}
+</div>
+
+<a href="{{ url_for('auth.community_view', community_id=community.id) }}" class="list-item active">
+    <i class="icon icon-lg icon-comments" style="background-color: var(--chalk);"></i>
+    <span>{{ _('Sohbet') }}</span>
+</a>
+
+{% if is_owner %}
+<a href="{{ url_for('auth.community_settings', community_id=community.id) }}" class="list-item">
+    <i class="icon icon-lg icon-search" style="background-color: var(--chalk);"></i>
+    <span>{{ _('Ayarlar') }}</span>
+</a>
+{% endif %}
+
+{% if user.id in community.members and not is_owner %}
+<a href="{{ url_for('auth.leave_community', community_id=community.id) }}" class="list-item"
+    onclick="return confirm('{{ _('Ayrılmak istediğine emin misin?') }}');">
+    <i class="icon icon-lg icon-times" style="background-color: var(--brand-red);"></i>
+    <span style="color: var(--brand-red);">{{ _('Ayrıl') }}</span>
+</a>
+{% endif %}
+
+<div style="border-top: 2px dashed rgba(255,255,255,0.1); margin: 1rem 0;"></div>
+<a href="{{ url_for('auth.communities') }}" class="list-item">
+    <i class="icon icon-lg icon-arrow-left" style="background-color: var(--chalk);"></i>
+    <span>{{ _('Topluluklar') }}</span>
+</a>
+{% endblock %}
+
+{% block app_content %}
+<div style="width: 100%; height: 100%; display: flex; flex-direction: column;">
+
+    <!-- Community Header -->
+    <div class="comm-header"
+        style="padding: 1.5rem; border-bottom: 2px dashed rgba(255,255,255,0.1); display: flex; align-items: center; gap: 1.5rem; background: rgba(0,0,0,0.2);">
+        <img src="{{ url_for('static', filename=community.avatar) if community.avatar and not community.avatar.startswith('http') else community.avatar or (community.name|replace(' ', '+')|avatar_url) }}"
+            style="width: 60px; height: 60px; border-radius: 50%; border: 2px solid var(--chalk); transform: rotate(-2deg);"
+            onerror="this.src='{{ community.name|avatar_url }}'">
+        <div>
+            <h1
+                style="font-family: 'Reenie Beanie'; font-size: 2.5rem; line-height: 0.8; margin: 0; color: var(--chalk);">
+                {{ community.name }}</h1>
+            <p style="font-family: 'Caveat'; font-size: 1.1rem; color: var(--muted-chalk); margin: 0;">{{
+                community.description or "" }}</p>
+        </div>
+    </div>
+
+    <!-- Messages Area -->
+    <div class="messages-area-wrapper"
+        style="flex: 1; overflow-y: auto; padding: 2rem; display: flex; flex-direction: column;" id="messagesArea">
+        {% if messages %}
+        {% for msg in messages %}
+        {% set sender = users_dict[msg.user_id] %}
+        <div class="message-bubble scribble-border {{ 'mine' if msg.user_id == user.id else 'other' }}"
+            style="transform: rotate('{{ [-1, 0, 1]|random }}deg');" {% if msg.encrypted_keys_json %}
+            data-encrypted="true" data-keys="{{ msg.encrypted_keys_json }}" data-iv="{{ msg.iv }}"
+            data-content="{{ msg.content }}" {% endif %}>
+
+            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+                {% if msg.user_id != user.id %}
+                <img src="{{ url_for('auth.serve_profile_picture', username=sender.username) }}"
+                    style="width: 24px; height: 24px; border-radius: 50%; border: 1px solid var(--muted-chalk);">
+                <span style="font-size: 0.9rem; font-weight: bold; color: var(--chalk);">{{ sender.username }}</span>
+                {% endif %}
+            </div>
+
+            <div style="color: var(--chalk); white-space: pre-wrap;" class="bubble-content">
+                {% if msg.encrypted_keys_json %}
+                {{ _('🔒 Şifre çözülüyor...') }}
+                {% else %}
+                {{ msg.content }}
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <div style="text-align: center; color: var(--muted-chalk); margin-top: 2rem;">
+            <i class="icon icon-2x icon-comments" style="background-color: var(--muted-chalk); opacity: 0.5;"></i>
+            <p style="font-family: 'Caveat'; font-size: 1.5rem;">{{ _('Sohbeti başlat!') }}</p>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Message Input / Join Action -->
+    {% if user.id not in community.members %}
+    <div
+        style="padding: 2rem; border-top: 2px dashed rgba(255,255,255,0.1); background: rgba(0,0,0,0.2); text-align: center;">
+        <p style="font-family: 'Caveat'; font-size: 1.4rem; color: var(--muted-chalk); margin-bottom: 1rem;">
+            {{ _('Bu topluluğa katılarak sohbete dahil ol!') }}
+        </p>
+        <a href="{{ url_for('auth.join_community', community_id=community.id) }}" class="btn"
+            style="font-size: 1.2rem; padding: 0.8rem 2rem;">
+            <i class="icon icon-plus" style="background-color: currentColor;"></i> {{ _('Topluluğa Katıl') }}
+        </a>
+    </div>
+    {% else %}
+    {% set can_send = is_admin or not community.only_admin_chat %}
+    {% if can_send %}
+    <div class="input-area-wrapper"
+        style="padding: 1.5rem; border-top: 2px dashed rgba(255,255,255,0.1); background: rgba(0,0,0,0.2);">
+        <form method="POST" id="communityForm" style="display: flex; gap: 1rem;">
+            <input type="text" id="messageInput" name="message" placeholder="{{ _('Bir şeyler yaz...') }}" required
+                style="flex: 1; background: transparent; border: 2px dashed rgba(255,255,255,0.2); border-radius: 12px; padding: 1rem; color: var(--chalk); font-family: 'Caveat'; font-size: 1.3rem; outline: none;">
+            <!-- Hidden inputs for E2EE -->
+            <input type="hidden" name="encrypted_keys_json" id="encryptedKeysInput">
+            <input type="hidden" name="iv" id="ivInput">
+
+            <button type="button" id="sendBtn" class="btn" style="transform: rotate(1deg);"
+                onclick="submitCommunityMessage()">
+                <i class="icon icon-arrow-right" style="background-color: currentColor;"></i>
+            </button>
+        </form>
+    </div>
+    {% else %}
+    <div
+        style="padding: 1.5rem; text-align: center; color: var(--muted-chalk); border-top: 2px dashed rgba(255,255,255,0.1);">
+        <i class="icon icon-lock" style="background-color: var(--muted-chalk);"></i>
+        <span style="font-family: 'Caveat'; font-size: 1.2rem;">{{ _('Sadece yöneticiler mesaj gönderebilir.') }}</span>
+    </div>
+    {% endif %}
+    {% endif %}
+
+</div>
+
+<script src="{{ url_for('static', filename='js/socket.io.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/crypto.js') }}"></script>
+<script>
+    // Auto scroll to bottom
+    const messagesArea = document.getElementById('messagesArea');
+    if (messagesArea) messagesArea.scrollTop = messagesArea.scrollHeight;
+
+    const communityId = "{{ community.id }}";
+    const currentUserId = "{{ user.id }}";
+
+    // Decryption Logic
+    window.addEventListener('load', async function () {
+        const bubbles = document.querySelectorAll('.message-bubble[data-encrypted="true"]');
+        const myPrivateKey = sessionStorage.getItem('keycord_private_key') || sessionStorage.getItem('private_key');
+
+        if (!myPrivateKey) return;
+
+        for (const bubble of bubbles) {
+            try {
+                const content = bubble.getAttribute('data-content');
+                const keysJson = bubble.getAttribute('data-keys');
+                const iv = bubble.getAttribute('data-iv');
+                const contentDiv = bubble.querySelector('.bubble-content');
+
+                try {
+                    const decrypted = await KEYCORD_CRYPTO.decryptGroupMessage(
+                        content, keysJson, iv, currentUserId, myPrivateKey
+                    );
+                    contentDiv.innerText = decrypted;
+                } catch (e) {
+                    console.error("Msg Decrypt Error", e);
+                    contentDiv.innerText = "{{ _('🔒 Şifre çözülemedi') }}";
+                }
+            } catch (e) {
+                console.error("Bubble Error", e);
+            }
+        }
+    });
+
+    // Sending Logic
+    window.submitCommunityMessage = async function () {
+        const form = document.getElementById('communityForm');
+        const input = document.getElementById('messageInput');
+        const btn = document.getElementById('sendBtn');
+        const keysInput = document.getElementById('encryptedKeysInput');
+        const ivInput = document.getElementById('ivInput');
+        const content = input.value;
+
+        if (!content.trim()) return;
+
+        // UI Feedback
+        input.disabled = true;
+        btn.disabled = true;
+        btn.style.opacity = '0.5';
+
+        try {
+            // 1. Fetch Keys
+            const res = await fetch(`/api/community/${communityId}/keys`);
+            if (!res.ok) throw new Error("{{ _('Anahtarlar alınamadı') }}");
+            const keysMap = await res.json();
+
+            // 2. Encrypt
+            const result = await KEYCORD_CRYPTO.encryptGroupMessage(content, keysMap);
+
+            // 3. Set Hidden fields and modify message input to encrypted blob
+            keysInput.value = result.encrypted_keys_json;
+            ivInput.value = result.iv;
+            input.value = result.content; // Submit encrypted content
+
+            // 4. Submit form natively
+            form.submit();
+
+        } catch (err) {
+            console.error("Encryption Error:", err);
+            alert("{{ _('Mesaj şifrelenemedi: ') }}" + err.message);
+            input.disabled = false;
+            btn.disabled = false;
+            btn.style.opacity = '1';
+            input.value = content; // Restore content if failed
+        }
+    };
+</script>
+{% endblock %}

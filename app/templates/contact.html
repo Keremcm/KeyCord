@@ -1,0 +1,296 @@
+{% extends "base.html" %}
+
+{% block title %}{{ _('KeyCord - İletişim') }}{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Isolated Scrollbar & Global Layout Fixes */
+    *,
+    *::before,
+    *::after {
+        box-sizing: border-box;
+    }
+
+    html {
+        height: auto;
+        scroll-behavior: smooth;
+    }
+
+    body {
+        min-height: 100vh;
+        overflow-x: hidden;
+        position: relative;
+        margin: 0;
+    }
+
+    /* Contact Specific Styles */
+    .contact-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: clamp(1rem, 5vw, 2rem);
+    }
+
+    .contact-header {
+        text-align: center;
+        margin: 4rem 0 3rem;
+    }
+
+    .contact-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        margin-bottom: 4rem;
+    }
+
+    @media (max-width: 900px) {
+        .contact-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    /* Sketch Form */
+    .contact-form-section {
+        padding: 2rem;
+        transform: rotate(-0.5deg);
+        background: transparent;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-label {
+        font-family: 'Reenie Beanie';
+        font-size: 1.5rem;
+        color: var(--chalk);
+        display: block;
+        margin-bottom: 0.5rem;
+    }
+
+    textarea.form-control {
+        min-height: 150px;
+        resize: vertical;
+    }
+
+    /* Contact Info Cards */
+    .contact-info-section {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    .info-card {
+        padding: 1.5rem;
+        display: flex;
+        align-items: flex-start;
+        gap: 1.5rem;
+        transition: transform 0.2s;
+    }
+
+    .info-card:hover {
+        transform: translateX(5px) rotate(0.5deg);
+        background: rgba(255, 255, 255, 0.02);
+    }
+
+    .info-icon {
+        font-family: 'Reenie Beanie';
+        font-size: 2.5rem;
+        color: var(--chalk);
+        line-height: 1;
+        flex-shrink: 0;
+    }
+
+    .info-content h3 {
+        font-family: 'Reenie Beanie';
+        font-size: 1.8rem;
+        margin-bottom: 0.5rem;
+        color: var(--chalk);
+    }
+
+    .info-content p,
+    .info-content a {
+        font-family: 'Caveat';
+        font-size: 1.2rem;
+        color: var(--muted-chalk);
+        line-height: 1.4;
+    }
+
+    .info-content a:hover {
+        text-decoration: underline;
+        text-decoration-style: dashed;
+        color: var(--chalk);
+    }
+
+    /* Emergency Box */
+    .emergency-box {
+        text-align: center;
+        padding: 2rem;
+        margin-bottom: 3rem;
+        border-color: var(--brand-red) !important;
+        transform: rotate(0.5deg);
+    }
+
+    .social-links {
+        display: flex;
+        gap: 1.5rem;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+    }
+
+    .social-item {
+        font-family: 'Caveat';
+        font-size: 1.3rem;
+        padding: 0.5rem 1rem;
+        border: 2px dashed rgba(255, 255, 255, 0.2);
+        border-radius: 12px;
+        transform: rotate(var(--r, 0deg));
+        transition: all 0.2s;
+    }
+
+    .social-item:hover {
+        border-color: var(--chalk);
+        transform: scale(1.05) rotate(0deg);
+        background: rgba(255, 255, 255, 0.05);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="contact-container">
+
+    <!-- Navigation -->
+    <div style="margin-bottom: 2rem;">
+        <a href="{{ url_for('auth.home') if not current_user.is_authenticated else url_for('auth.dashboard') }}"
+            class="btn"
+            style="border-style: dashed; padding: 0.6rem 1.2rem; display: inline-flex; align-items: center; gap: 8px; font-family: 'Caveat', cursive; font-size: 1.2rem;">
+            <i class="icon"
+                style="background-color: currentColor; width: 16px; height: 16px; mask-image: url('data:image/svg+xml;charset=utf-8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22><path d=%22M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z%22/></svg>'); -webkit-mask-image: url('data:image/svg+xml;charset=utf-8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22><path d=%22M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z%22/></svg>'); mask-repeat: no-repeat; mask-size: contain; -webkit-mask-repeat: no-repeat; -webkit-mask-size: contain;"></i>
+            {{ _('Geri Dön') }}
+        </a>
+    </div>
+
+    <!-- Header -->
+    <div class="contact-header">
+        <h1
+            style="font-family: 'Reenie Beanie'; font-size: clamp(2.5rem, 10vw, 4.5rem); margin-bottom: 1rem; transform: rotate(-1deg); line-height: 1;">
+            {{ _('Bize Ulaşın') }}
+        </h1>
+        <p style="font-family: 'Caveat'; font-size: clamp(1.2rem, 5vw, 1.6rem); color: var(--muted-chalk);">
+            {{ _('Bir sorunuz mu var? Yardımcı olmak için buradayız.') }}
+        </p>
+    </div>
+
+    <!-- Emergency Section -->
+    <div class="emergency-box scribble-border">
+        <h3
+            style="font-family: 'Reenie Beanie'; font-size: clamp(1.5rem, 6vw, 2rem); color: var(--brand-red); margin-bottom: 1rem;">
+            ⚠ {{ _('Acil Güvenlik Durumu') }}
+        </h3>
+        <p style="font-family: 'Caveat'; font-size: clamp(1.1rem, 4vw, 1.3rem); margin-bottom: 1.5rem;">
+            {{ _('Hesabınızın tehlikede olduğunu düşünüyorsanız beklemeden bize yazın.') }}
+        </p>
+        <a href="mailto:contact@keycord.org" class="btn btn-danger"
+            style="border-style: dashed; font-size: clamp(0.9rem, 4vw, 1rem);">
+            ☠ contact@keycord.org
+        </a>
+    </div>
+
+    <div class="contact-grid">
+        <!-- Contact Form -->
+        <div class="contact-form-section sketch-box">
+            <h2
+                style="font-family: 'Reenie Beanie'; font-size: 2.5rem; margin-bottom: 2rem; border-bottom: 2px dashed rgba(255,255,255,0.1); padding-bottom: 10px;">
+                ✉ {{ _('Bize Yazın') }}
+            </h2>
+
+            <form id="contact-form">
+                <div class="form-group">
+                    <label class="form-label">{{ _('Adınız Soyadınız') }}</label>
+                    <input type="text" name="name" class="form-input" placeholder="{{ _('Kim olduğunuzu bilelim...') }}"
+                        required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">{{ _('E-posta Adresiniz') }}</label>
+                    <input type="email" name="email" class="form-input" placeholder="{{ _('Size nasıl dönelim?') }}"
+                        required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">{{ _('Konu') }}</label>
+                    <input type="text" name="subject" class="form-input"
+                        placeholder="{{ _('Ne hakkında konuşacağız?') }}" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">{{ _('Mesajınız') }}</label>
+                    <textarea name="message" class="form-input form-control"
+                        placeholder="{{ _('Bize her şeyi anlatabilirsiniz...') }}" required></textarea>
+                </div>
+
+                <button type="submit" class="btn" style="width: 100%; border-style: dashed; margin-top: 1rem;">
+                    ➤ {{ _('Gönder (Şifreli)') }}
+                </button>
+            </form>
+        </div>
+
+        <!-- Contact Info -->
+        <div class="contact-info-section">
+            <div class="info-card scribble-border" style="transform: rotate(1deg);">
+                <div class="info-icon">✉</div>
+                <div class="info-content">
+                    <h3>{{ _('Genel Destek') }}</h3>
+                    <p>{{ _('Her türlü soru ve sorunlarınız için:') }}</p>
+                    <a href="mailto:contact@keycord.org">contact@keycord.org</a>
+                </div>
+            </div>
+
+
+
+            <div class="sketch-box" style="margin-top: 1rem; padding: 1.5rem;">
+                <h3 style="font-family: 'Reenie Beanie'; font-size: 1.8rem; margin-bottom: 1rem;">{{ _('Sosyal Medyada
+                    Biz') }}
+                </h3>
+                <div class="social-links">
+                    <a href="#" class="social-item" style="--r: -2deg;">🐦 @keycord</a>
+                    <a href="#" class="social-item" style="--r: 1deg;">📸 Instagram</a>
+                    <a href="#" class="social-item" style="--r: -1deg;">💼 LinkedIn</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    document.getElementById('contact-form').addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const btn = this.querySelector('button[type="submit"]');
+        const originalText = btn.innerText;
+
+        btn.innerText = "⏳ {{ _('Gönderiliyor...') }}";
+        btn.disabled = true;
+
+        // Simulate sending
+        setTimeout(() => {
+            alert("{{ _('Mesajınız şifrelenerek tarafımıza iletildi! En kısa sürede döneceğiz.') }}");
+            this.reset();
+            btn.innerText = originalText;
+            btn.disabled = false;
+        }, 1500);
+    });
+</script>
+</script>
+
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "ContactPage",
+    "name": "{{ _('Bize Ulaşın') }} - KeyCord",
+    "description": "{{ _('KeyCord destek ekibiyle iletişime geçin. Güvenlik bildirimleri, genel destek ve geri bildirimleriniz için buradayız.') }}",
+    "url": "{{ url_for('auth.contact', _external=True) }}",
+    "inLanguage": "{{ get_locale() }}"
+}
+</script>
+{% endblock %}

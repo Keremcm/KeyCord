@@ -1,0 +1,157 @@
+import os
+import secrets
+from dotenv import load_dotenv
+
+# .env dosyasını yükle
+load_dotenv()
+
+class Config:
+    # Temel Flask ayarları
+    
+    # Key Rotation Sistemi
+    _env_keys = os.environ.get('SECRET_KEYS') or os.environ.get('SECRET_KEY')
+    if _env_keys:
+        # Eğer virgülle ayrılmışsa liste yap, değilse tek elemanlı liste
+        SECRET_KEYS = [k.strip() for k in _env_keys.split(',')]
+    else:
+        # Fallback (Production'da .env'de bu mutlaka tanımlanmalı!)
+        SECRET_KEYS = ['change-me-in-production-for-security']
+    
+    # Flask standart uyumluluğu için ilk anahtarı set et
+    SECRET_KEY = SECRET_KEYS[0] if SECRET_KEYS else None
+    
+    DATABASE_KEY = os.environ.get('DATABASE_KEY')
+    LOG_ENCRYPTION_KEY = os.environ.get('LOG_ENCRYPTION_KEY')
+    
+    # Ana dizini al ve instance klasörünün tam yolunu belirle
+    _basedir = os.path.abspath(os.path.dirname(__file__))
+    _instance_path = os.path.join(_basedir, 'instance')
+    
+    # Instance klasörü yoksa otomatik oluştur (Önemli: SQLite klasör oluşturamaz)
+    if not os.path.exists(_instance_path):
+        os.makedirs(_instance_path)
+        
+    _db_path = os.path.join(_instance_path, 'users.db')
+    SQLALCHEMY_DATABASE_URI = f'sqlite:///{_db_path}'
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    
+    # SQLCipher kaldırıldı (Standart SQLite)
+    # Thread-safety için check_same_thread=False kullanımı
+    SQLALCHEMY_ENGINE_OPTIONS = {
+        "connect_args": {
+            "check_same_thread": False
+        }
+    }
+    
+    # Statik dosya cache süresi (1 Yıl) - Performans için kritik
+    SEND_FILE_MAX_AGE_DEFAULT = 31536000
+    
+    # Dosya yükleme ayarları
+    UPLOAD_FOLDER = 'app/static/profile_pics'
+    ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'webp'}
+    MAX_CONTENT_LENGTH = 5 * 1024 * 1024  # 5 MB
+    
+    # Güvenlik ayarları
+    SESSION_COOKIE_SECURE = False  # HTTPS zorunlu değil (Localhost/HTTP için)
+    SESSION_COOKIE_HTTPONLY = True
+    SESSION_COOKIE_SAMESITE = 'Lax'
+    SESSION_COOKIE_MAX_AGE = 3600  # 1 saat
+    
+    # CSRF koruması
+    WTF_CSRF_ENABLED = True
+    WTF_CSRF_TIME_LIMIT = 3600
+    
+    # Rate limiting
+    RATELIMIT_ENABLED = True
+    RATELIMIT_STORAGE_URL = "memory://"
+    
+    # Güvenlik header'ları (HSTS aktif, CSP sıkılaştırıldı - Tor Ready)
+    SECURITY_HEADERS = {
+        'X-Content-Type-Options': 'nosniff',
+        'X-Frame-Options': 'DENY',
+        'X-XSS-Protection': '1; mode=block',
+        'Strict-Transport-Security': 'max-age=31536000; includeSubDomains',
+        'Content-Security-Policy': "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' ws://127.0.0.1:* wss://127.0.0.1:*; font-src 'self';",
+        'Referrer-Policy': 'strict-origin-when-cross-origin',
+        'Permissions-Policy': 'geolocation=(), microphone=(), camera=()'
+    }
+    
+    # Şifre politikası
+    PASSWORD_MIN_LENGTH = 8
+    PASSWORD_REQUIREMENTS = {
+        'uppercase': True,
+        'lowercase': True,
+        'numbers': True,
+        'special_chars': False
+    }
+    
+    # Session güvenliği
+    SESSION_TIMEOUT = 3600  # 1 saat
+    SESSION_REFRESH_EACH_REQUEST = True
+    
+    # Token ayarları
+    TOKEN_EXPIRY = 3600  # 1 saat
+    REMEMBER_TOKEN_EXPIRY = 30 * 24 * 3600  # 30 gün
+    
+    # Rate limiting ayarları
+    MAX_REQUESTS_PER_MINUTE = 200
+    MAX_LOGIN_ATTEMPTS = 5
+    LOGIN_LOCKOUT_TIME = 300  # 5 dakika
+    
+    # Dosya güvenliği
+    MAX_FILE_SIZE = 5 * 1024 * 1024  # 5MB
+    ALLOWED_FILE_TYPES = {'png', 'jpg', 'jpeg', 'gif', 'webp'}
+    
+    # Logging
+    LOG_LEVEL = 'INFO'
+    SECURITY_LOG_FILE = 'security.log'
+    
+    # API güvenliği
+    API_RATE_LIMIT = 50  # API istekleri için dakikada maksimum
+    API_TOKEN_EXPIRY = 3600  # API token süresi
+    
+    # Socket.IO güvenliği
+    SOCKET_RATE_LIMIT = 100  # Socket bağlantıları için dakikada maksimum
+    
+    # Mesaj güvenliği
+    MAX_MESSAGE_LENGTH = 1000
+    MESSAGE_ENCRYPTION_ENABLED = True
+    
+    # Grup güvenliği
+    MAX_GROUP_MEMBERS = 50
+    MAX_GROUP_NAME_LENGTH = 50
+    
+    # Profil güvenliği
+    MAX_USERNAME_LENGTH = 20
+    MAX_ABOUT_LENGTH = 500
+    MAX_GAMES_LENGTH = 200
+    
+    # Flask-Mail ayarları
+    MAIL_SERVER = os.environ.get('MAIL_SERVER', '127.0.0.1')
+    MAIL_PORT = int(os.environ.get('MAIL_PORT', 25))
+    MAIL_USE_TLS = os.environ.get('MAIL_USE_TLS', 'False').lower() == 'true'
+    MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
+    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
+    MAIL_DEFAULT_SENDER = os.environ.get('MAIL_DEFAULT_SENDER', 'info@keycord.org')
+    
+    # E-posta Hesapları
+    MAIL_SENDERS = {
+        'info': 'info@keycord.org',
+        'contact': 'contact@keycord.org',
+        'support': 'support@keycord.org',
+        'no-reply': 'no-reply@keycord.org',
+        'admin': 'admin@keycord.org'
+    }
+    
+    # E-posta Gönderim Yöntemi ('smtp' veya 'terminal_command')
+    # Linux üzerinde yerel Postfix kullanıyorsanız ve environment variable kullanmıyorsanız:
+    MAIL_METHOD = 'terminal_command'
+    
+    # Honeypot ayarları
+    HONEYPOT_LIMIT = 1000
+    HONEYPOT_WINDOW = 600  # 10 dakika
+
+    # Dil Ayarları
+    LANGUAGES = ['tr', 'en', 'de']
+    BABEL_DEFAULT_LOCALE = 'tr'
+    BABEL_DEFAULT_TIMEZONE = 'Europe/Istanbul'

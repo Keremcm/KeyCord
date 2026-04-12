@@ -1,0 +1,241 @@
+﻿{% extends "base_app.html" %}
+
+{% block title %}{{ _('Profilim - KeyCord') }}{% endblock %}
+
+{% block sidebar_content %}
+{% include '_chat_list.html' %}
+{% endblock %}
+
+{% block app_content %}
+<div style="display: flex; flex-direction: column; height: 100%; padding: 2rem; position: relative; overflow-y: auto;">
+
+    <!-- Header Title -->
+    <div style="text-align: center; margin-bottom: 2rem;">
+        <h1
+            style="font-family: 'Reenie Beanie', cursive; font-size: 3.5rem; transform: rotate(-1deg); margin: 0; color: var(--chalk); letter-spacing: 2px;">
+            {{ _('Profil Ayarları') }}
+        </h1>
+        <p style="font-family: 'Caveat', cursive; color: var(--muted-chalk); font-size: 1.2rem;">
+            {{ _('Kendini ifade et.') }}
+        </p>
+    </div>
+
+    <!-- Main Content Grid -->
+    <div style="display: grid; grid-template-columns: 1fr 1.5fr; gap: 2rem; max-width: 1000px; margin: 0 auto; width: 100%;"
+        class="grid-container">
+
+        <!-- Left: Profile Preview Card -->
+        <div class="scribble-border"
+            style="padding: 2rem; text-align: center; height: fit-content; transform: rotate(1deg);">
+            <div style="margin-bottom: 1.5rem; position: relative; display: inline-block;">
+                <!-- Profile Image with Sketch Frame -->
+                <div style="position: relative; display: inline-block;">
+                    <img id="profile-preview"
+                        src="{{ url_for('auth.serve_profile_picture', username=current_user.username) }}"
+                        style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 3px dashed var(--chalk); padding: 5px;">
+
+                    <label for="profile_pic_input"
+                        style="position: absolute; bottom: 5px; right: 5px; background: var(--paper-black); border: 2px dashed var(--chalk); border-radius: 50%; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s;"
+                        onmouseover="this.style.transform='scale(1.1) rotate(5deg)'"
+                        onmouseout="this.style.transform='scale(1) rotate(0)'">
+                        <i class="icon icon-plus" style="font-size: 1rem; color: var(--chalk);"></i>
+                    </label>
+                    <input type="file" id="profile_pic_input" accept="image/*" style="display: none;">
+                </div>
+            </div>
+
+            <h2 style="font-family: 'Caveat', cursive; font-size: 2rem; margin-bottom: 0.5rem;">{{ current_user.username
+                }}</h2>
+            <p style="color: var(--muted-chalk); font-family: 'Caveat', cursive; font-size: 1rem;">{{ current_user.email
+                }}</p>
+
+            {% if current_user.about %}
+            <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px dashed rgba(255,255,255,0.1);">
+                <p style="font-style: italic; color: var(--chalk);">"{{ current_user.about }}"</p>
+            </div>
+            {% endif %}
+
+        </div>
+
+        <!-- Right: Edit Form -->
+        <div class="sketch-box" style="padding: 2rem; transform: rotate(-0.5deg);">
+            <form id="profile-form" method="POST" enctype="multipart/form-data">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+
+                <!-- Flash Messages -->
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                <div style="margin-bottom: 1.5rem;">
+                    {% for category, message in messages %}
+                    <div
+                        style="padding: 10px; border: 1px dashed var(--chalk); border-radius: 8px; margin-bottom: 5px; font-family: 'Caveat', cursive; font-size: 1.2rem;">
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                {% endwith %}
+
+                <div style="margin-bottom: 1.5rem;">
+                    <label style="display: block; font-family: 'Caveat'; margin-bottom: 5px;">{{ _('Kullanıcı Adı')
+                        }}</label>
+                    <input type="text" name="username" value="{{ current_user.username }}" required
+                        style="width: 100%; padding: 10px; background: transparent; border: 2px solid rgba(255,255,255,0.15); border-radius: 12px; color: var(--chalk); font-family: 'Caveat'; font-size: 1.2rem;">
+                </div>
+
+                <div style="margin-bottom: 1.5rem;">
+                    <label style="display: block; font-family: 'Caveat'; margin-bottom: 5px;">{{ _('Hakkında') }}</label>
+                    <textarea name="about" rows="3"
+                        style="width: 100%; padding: 12px; background: transparent; border: 2px solid rgba(255,255,255,0.15); border-radius: 12px; color: var(--chalk); font-family: 'Caveat', cursive; font-size: 1.2rem; resize: vertical;">{{ current_user.about or '' }}</textarea>
+                </div>
+
+                <button type="submit" id="save-btn" class="btn"
+                    style="width: 100%; border-style: dashed; padding: 12px; font-size: 1.2rem;">{{ _('Değişiklikleri
+                    Kaydet') }}</button>
+            </form>
+
+            <!-- Danger Zone -->
+            <div style="margin-top: 3rem; padding-top: 2rem; border-top: 2px dashed rgba(220, 53, 69, 0.3);">
+                <h3 style="font-family: 'Caveat'; color: var(--brand-red); margin-bottom: 1rem;">{{ _('Tehlikeli Bölge')
+                    }}</h3>
+                <p style="color: var(--muted-chalk); font-size: 0.9rem; margin-bottom: 1.5rem;">
+                    {{ _('Hesabınızı sildiğinizde tüm arkadaşlıklarınız, mesajlarınız ve profil bilgileriniz kalıcı
+                    olarak silinecektir. Bu işlem geri alınamaz.') }}
+                </p>
+
+                <button onclick="document.getElementById('delete-modal').style.display='flex'" class="btn"
+                    style="width: 100%; border-color: var(--brand-red); color: var(--brand-red); border-style: dashed;">
+                    {{ _('Hesabımı Kapat') }}
+                </button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Delete Account Modal -->
+<div id="delete-modal"
+    style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 9999; align-items: center; justify-content: center; backdrop-filter: blur(8px); padding: 20px;">
+    <div class="sketch-box"
+        style="max-width: 450px; width: 100%; padding: 2rem; background: #0a0b0c; border-color: var(--brand-red);">
+        <h2 style="font-family: 'Reenie Beanie'; font-size: 2.5rem; color: var(--brand-red); margin-top: 0;">{{ _('Emin
+            misiniz?') }}</h2>
+        <p style="font-family: 'Caveat'; font-size: 1.3rem; margin-bottom: 2rem;">
+            {{ _('Hesabınızı silmek için şifrenizi girmeniz gerekmektedir.') }}
+        </p>
+
+        <form action="{{ url_for('auth.delete_account') }}" method="POST">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+            <div style="margin-bottom: 1.5rem;">
+                <input type="password" name="password" required placeholder="{{ _('Şifreniz') }}"
+                    style="width: 100%; padding: 12px; background: transparent; border: 2px solid rgba(255,255,255,0.15); border-radius: 12px; color: var(--chalk); font-family: 'Caveat'; font-size: 1.2rem;">
+            </div>
+
+            <div style="display: flex; gap: 10px;">
+                <button type="button" onclick="document.getElementById('delete-modal').style.display='none'" class="btn"
+                    style="flex: 1; border-style: dashed;">
+                    {{ _('İptal') }}
+                </button>
+                <button type="submit" class="btn"
+                    style="flex: 1; background: var(--brand-red); border-color: var(--brand-red); border-style: solid; color: white;">
+                    {{ _('EVET, SİL') }}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% block scripts %}
+<script>
+    const fileInput = document.getElementById('profile_pic_input');
+    const preview = document.getElementById('profile-preview');
+    const form = document.getElementById('profile-form');
+    const saveBtn = document.getElementById('save-btn');
+    let processedBlob = null;
+
+    if (fileInput) {
+        fileInput.addEventListener('change', function (e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            // Önizleme ve İşleme
+            const reader = new FileReader();
+            reader.onload = function (event) {
+                const img = new Image();
+                img.onload = function () {
+                    // Metadata Stripping & Resizing (Canvas)
+                    const canvas = document.createElement('canvas');
+                    const maxSize = 400; // KeyCord profil resmi standardı
+                    let width = img.width;
+                    let height = img.height;
+
+                    if (width > height) {
+                        if (width > maxSize) {
+                            height *= maxSize / width;
+                            width = maxSize;
+                        }
+                    } else {
+                        if (height > maxSize) {
+                            width *= maxSize / height;
+                            height = maxSize;
+                        }
+                    }
+
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+
+                    // Canvas'a çizmek metaverileri (EXIF vb.) otomatik olarak temizler
+                    ctx.drawImage(img, 0, 0, width, height);
+
+                    // Blob olarak dışa aktar (Sıkıştırma: 0.8)
+                    canvas.toBlob(function (blob) {
+                        processedBlob = blob;
+                        // Önizlemeyi güncelle
+                        preview.src = URL.createObjectURL(blob);
+                    }, 'image/jpeg', 0.8);
+                };
+                img.src = event.target.result;
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+
+    if (form) {
+        form.addEventListener('submit', async function (e) {
+            if (processedBlob) {
+                e.preventDefault();
+                saveBtn.disabled = true;
+                saveBtn.textContent = "{{ _('Güncelleniyor...') }}";
+
+                const formData = new FormData(form);
+                // İşlenmiş (temizlenmiş) dosyayı ekle
+                formData.set('profile_pic', processedBlob, 'profile_pic.jpg');
+
+                try {
+                    const response = await fetch(window.location.href, {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    if (response.ok) {
+                        // Sayfayı yenile veya başarılı mesajı göster
+                        window.location.reload();
+                    } else {
+                        const result = await response.json().catch(() => ({}));
+                        alert(result.error || "{{ _('Profil güncellenirken bir hata oluştu.') }}");
+                        saveBtn.disabled = false;
+                        saveBtn.textContent = "{{ _('Değişiklikleri Kaydet') }}";
+                    }
+                } catch (err) {
+                    console.error("Upload error:", err);
+                    alert("{{ _('Bağlantı hatası oluştu.') }}");
+                    saveBtn.disabled = false;
+                    saveBtn.textContent = "{{ _('Değişiklikleri Kaydet') }}";
+                }
+            }
+        });
+    }
+</script>
+{% endblock %}
+{% endblock %}

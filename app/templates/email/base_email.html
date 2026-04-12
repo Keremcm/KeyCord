@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #050607;
+            color: #f7f7f5;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .email-wrapper {
+            width: 100%;
+            background-color: #050607;
+            padding: 20px 0;
+        }
+
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #050607;
+            border: 2px dashed rgba(255, 255, 255, 0.15);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .email-header {
+            padding: 30px;
+            text-align: center;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+        }
+
+        .logo-text {
+            font-size: 28px;
+            font-weight: bold;
+            color: #f7f7f5;
+            text-decoration: none;
+            letter-spacing: -1px;
+        }
+
+        .email-body {
+            padding: 40px;
+            line-height: 1.6;
+            font-size: 16px;
+        }
+
+        .email-footer {
+            padding: 30px;
+            text-align: center;
+            font-size: 12px;
+            color: #d7d7d6;
+            border-top: 1px dashed rgba(255, 255, 255, 0.1);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: transparent;
+            color: #f7f7f5;
+            text-decoration: none;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            font-weight: bold;
+            margin-top: 20px;
+            transition: all 0.2s ease;
+        }
+
+        .unsubscribe-link {
+            color: #d7d7d6;
+            text-decoration: underline;
+        }
+
+        /* Mobile adjustments */
+        @media only screen and (max-width: 600px) {
+            .email-body {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="email-wrapper">
+        <div class="email-container">
+            <div class="email-header">
+                <a href="https://keycord.org" class="logo-text">KeyCord</a>
+            </div>
+            <div class="email-body">
+                {% block body %}{% endblock %}
+            </div>
+            <div class="email-footer">
+                <p>KeyCord © 2026 - {{ _('Gizlilik Odaklı Mesajlaşma') }}</p>
+                <p>
+                    {{ _('Bu e-postayı, Keycord.org üzerinde oluşturduğunuz abonelik kapsamında alıyorsunuz.') }}<br>
+                    <a href="https://keycord.org/unsubscribe" class="unsubscribe-link">{{ _('Abonelikten Ayrıl') }}</a>
+                </p>
+                <p>Keycord Ekibi<br><a href="https://keycord.org"
+                        style="color: #d7d7d6; text-decoration: none;">keycord.org</a></p>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

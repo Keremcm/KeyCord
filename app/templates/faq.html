@@ -1,0 +1,666 @@
+{% extends "base.html" %}
+
+{% block title %}KeyCord SSS | {{ _('Anonim Sohbet, Güvenli Mesajlaşma ve Tor') }}{% endblock %}
+
+{% block meta_description %}
+{{ _('Anonim sohbet ve güvenli mesajlaşma platformu KeyCord hakkında sık sorulan sorular. Gizlilik, Tor ağı ve uçtan uca
+şifreleme (E2EE) detayları.') }}
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    :root {
+        --snap-speed: 0.6s;
+    }
+
+    body,
+    html {
+        margin: 0;
+        padding: 0;
+    }
+
+    /* Cinematic snap only for desktop/large screens */
+    @media (min-width: 1024px) {
+
+        body,
+        html {
+            overflow: hidden;
+            height: 100vh;
+        }
+    }
+
+    /* Mobile: Cinematic Snap */
+    @media (max-width: 1023px) {
+
+        body,
+        html {
+            overflow: hidden;
+            /* Prevent body scroll, let container handle it */
+            height: 100vh;
+            /* width: 100vw; */
+        }
+
+        .faq-snap-container {
+            height: 100vh !important;
+            width: 100% !important;
+            overflow-y: auto !important;
+            scroll-snap-type: y mandatory !important;
+            padding-top: 0;
+            background: #000;
+            /* Ensure dark background */
+        }
+
+        .faq-section {
+            height: 100vh !important;
+            min-height: 100vh !important;
+            padding: 2rem 1.5rem;
+            scroll-snap-align: start !important;
+            scroll-snap-stop: always;
+
+            /* Enable Flex centering */
+            display: flex !important;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            /* Re-enable animation visibility logic */
+            opacity: 1 !important;
+            /* Base opacity, content handles transition */
+            visibility: visible !important;
+            border-bottom: none !important;
+        }
+
+        /* Let the JS handle .active state for these to animate */
+        .faq-content,
+        .faq-intro h1,
+        .faq-intro p {
+            opacity: 0 !important;
+            /* Start hidden */
+            transform: translateY(30px) !important;
+            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1) !important;
+        }
+
+        /* Animation Active State for Mobile */
+        .faq-section.active .faq-content,
+        .faq-section.active .faq-intro h1,
+        .faq-section.active .faq-intro p {
+            opacity: 1 !important;
+            transform: translateY(0) !important;
+        }
+
+        /* Hide desktop nav but keep layout clean */
+        .faq-nav {
+            display: none !important;
+        }
+
+        /* Ensure scroll hint is visible and positioned for mobile */
+        .scroll-hint {
+            display: block !important;
+            bottom: 12vh;
+            font-size: 1.2rem;
+            width: 100%;
+            text-align: center;
+            left: 0;
+            animation: bounce 2s infinite;
+        }
+
+        /* Typography Adjustments for Mobile Viewport Fit */
+        .faq-intro h1 {
+            font-size: 2.2rem;
+        }
+
+        .faq-intro p {
+            font-size: 1.1rem;
+        }
+
+        .faq-question-text {
+            font-size: 1.6rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .faq-answer-text {
+            font-size: 1rem;
+            padding: 1.2rem;
+            max-height: 50vh;
+            /* Prevent overflow if text is long */
+            overflow-y: auto;
+            /* Scroll text if needed */
+        }
+
+        .faq-number {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .back-btn-fixed {
+            top: 1rem;
+            left: 1rem;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(5px);
+            padding: 5px 15px;
+            border-radius: 20px;
+            border: 1px dashed rgba(255, 255, 255, 0.2);
+            font-size: 1rem;
+        }
+    }
+
+    .faq-snap-container {
+        height: 100vh;
+        width: 100vw;
+        overflow-y: auto;
+        scroll-snap-type: y mandatory;
+        scroll-behavior: smooth;
+        scrollbar-width: none;
+        /* Firefox */
+    }
+
+    .faq-snap-container::-webkit-scrollbar {
+        display: none;
+        /* Chrome/Safari */
+    }
+
+    .faq-section {
+        height: 100vh;
+        width: 100%;
+        scroll-snap-align: start;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 2rem;
+        box-sizing: border-box;
+        text-align: center;
+        position: relative;
+        background: radial-gradient(circle at center, rgba(255, 255, 255, 0.03) 0%, transparent 70%);
+    }
+
+    /* Intro Slide */
+    .faq-intro h1 {
+        font-family: 'Reenie Beanie', cursive;
+        font-size: clamp(4rem, 15vw, 8rem);
+        margin: 0;
+        transform: rotate(-2deg);
+        color: var(--chalk);
+        opacity: 0;
+    }
+
+    .faq-intro p {
+        font-family: 'Caveat', cursive;
+        font-size: clamp(1.5rem, 5vw, 2.5rem);
+        color: var(--muted-chalk);
+        margin-top: 1rem;
+        opacity: 0;
+    }
+
+    /* Question Slide */
+    .faq-content {
+        max-width: 800px;
+        opacity: 0;
+        transform: translateY(50px);
+        transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    .faq-number {
+        font-family: 'Reenie Beanie';
+        font-size: 3rem;
+        color: var(--brand-white);
+        margin-bottom: 1rem;
+        display: block;
+    }
+
+    .faq-question-text {
+        font-family: 'Caveat', cursive;
+        font-size: clamp(2rem, 8vw, 3.5rem);
+        color: var(--chalk);
+        margin-bottom: 2rem;
+        line-height: 1.1;
+    }
+
+    .faq-answer-text {
+        font-family: 'Caveat', cursive;
+        font-size: clamp(1.4rem, 4vw, 2rem);
+        color: var(--muted-chalk);
+        line-height: 1.5;
+        background: rgba(0, 0, 0, 0.2);
+        padding: 2rem;
+        border-radius: 20px;
+        border: 2px dashed rgba(255, 255, 255, 0.1);
+    }
+
+    /* Active Animation States */
+    .faq-section.active .faq-content,
+    .faq-section.active .faq-intro h1,
+    .faq-section.active .faq-intro p {
+        opacity: 1;
+        transform: translateY(0) rotate(-1deg);
+    }
+
+    /* Controls & Navigation */
+    .faq-nav {
+        position: fixed;
+        right: 2rem;
+        top: 50%;
+        transform: translateY(-50%);
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        z-index: 100;
+    }
+
+    .nav-dot {
+        width: 12px;
+        height: 12px;
+        border: 2px solid var(--muted-chalk);
+        border-radius: 50%;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+
+    .nav-dot.active {
+        background: var(--brand-white);
+        border-color: var(--brand-white);
+        transform: scale(1.5);
+    }
+
+    .scroll-hint {
+        position: absolute;
+        bottom: 8vh;
+        font-family: 'Caveat', cursive;
+        color: var(--muted-chalk);
+        animation: bounce 2s infinite;
+        cursor: pointer;
+    }
+
+    @keyframes bounce {
+
+        0%,
+        20%,
+        50%,
+        80%,
+        100% {
+            transform: translateY(0);
+        }
+
+        40% {
+            transform: translateY(-10px);
+        }
+
+        60% {
+            transform: translateY(-5px);
+        }
+    }
+
+    .back-btn-fixed {
+        position: fixed;
+        left: 2rem;
+        top: 2rem;
+        z-index: 100;
+        color: var(--muted-chalk);
+        font-family: 'Caveat', cursive;
+        font-size: 1.5rem;
+        text-decoration: none;
+        transition: color 0.3s;
+    }
+
+    .back-btn-fixed:hover {
+        color: var(--chalk);
+    }
+
+    /* Hide global footer for cinematic experience */
+    .main-footer {
+        display: none;
+    }
+</style>
+{% endblock %}
+
+{% block footer %}{% endblock %}
+
+{% block content %}
+<a href="{{ url_for('auth.welcome') }}" class="back-btn-fixed">← {{ _('Geri Dön') }}</a>
+
+<div class="faq-nav" id="faqNav">
+    <!-- Dots added by JS -->
+</div>
+
+<div class="faq-snap-container" id="snapContainer">
+    <!-- Slide 0: Intro -->
+    <section class="faq-section faq-intro active" id="intro">
+        <h1>{{ _('Sıkça Sorulan Sorular – KeyCord Anonim Sohbet Platformu') }}</h1>
+        <p>{{ _('KeyCord Dünyasına Hoş Geldiniz') }}</p>
+        <div class="scroll-hint" onclick="scrollToNext()">{{ _('Aşağı Kaydırın') }} ▿</div>
+    </section>
+
+    <!-- Slide 1 -->
+    <section class="faq-section" id="q1">
+        <div class="faq-content">
+            <span class="faq-number">01</span>
+            <h2 class="faq-question-text">{{ _('KeyCord tam olarak nedir?') }}</h2>
+            <div class="faq-answer-text">
+                <p>{{ _('KeyCord, gizlilik ve anonimlik odaklı bir mesajlaşma platformudur. Geleneksel uygulamaların
+                    aksine, verilerinizi merkezi bir sunucuda açık halde tutmaz. Tor ağı entegrasyonu ve uçtan uca
+                    şifreleme (E2EE) ile verileriniz sadece sizin kontrolünüzdedir.') }}</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 2 -->
+    <section class="faq-section" id="q2">
+        <div class="faq-content">
+            <span class="faq-number">02</span>
+            <h2 class="faq-question-text">{{ _('KeyCord ücretli mi?') }}</h2>
+            <div class="faq-answer-text">
+                <p>{{ _('Hayır, KeyCord temel özellikleri ile tamamen ücretsizdir. Projenin amacı, herkesin güvenli ve
+                    sansürlenemez bir iletişim kanalına sahip olmasını sağlamaktır.') }}</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 3 -->
+    <section class="faq-section" id="q3">
+        <div class="faq-content">
+            <span class="faq-number">03</span>
+            <h2 class="faq-question-text">{{ _('Telefon numaramı vermem gerekiyor mu?') }}</h2>
+            <div class="faq-answer-text">
+                <p>{{ _('Kesinlikle hayır. KeyCord "Zero-Knowledge" (Sıfır Bilgi) prensibiyle çalışır. Kayıt sırasında
+                    telefon numarası, gerçek isim veya rehber erişimi gibi kişisel veriler asla istenmez.') }}</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 4 -->
+    <section class="faq-section" id="q4">
+        <div class="faq-content">
+            <span class="faq-number">04</span>
+            <h2 class="faq-question-text">{{ _('Mesajlarımı kimse okuyabilir mi?') }}</h2>
+            <div class="faq-answer-text">
+                <p>{{ _('Mesajlarınız cihazınızdan çıkmadan önce AES-256 ve RSA algoritmaları ile şifrelenir. Şifre
+                    çözme anahtarları sadece sizin cihazınızda saklanır. Bu nedenle ne biz, ne de bir başkası
+                    mesajlarınızın içeriğine erişemez.') }}</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 5 -->
+    <section class="faq-section" id="q5">
+        <div class="faq-content">
+            <span class="faq-number">05</span>
+            <h2 class="faq-question-text">{{ _('Tor ağı neden kullanılıyor?') }}</h2>
+            <div class="faq-answer-text">
+                <p>{{ _('Tor ağı trafiğinizi anonimleştirir. IP adresinizin ve konumunuzun takip edilmesini engeller. Bu
+                    da KeyCord\'u sansürün yoğun olduğu bölgelerde bile güvenli bir liman haline getirir.') }}</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 6 -->
+    <section class="faq-section" id="q6">
+        <div class="faq-content">
+            <span class="faq-number">06</span>
+            <h2 class="faq-question-text">{{ _('Şifremi unutursam ne olur?') }}</h2>
+            <div class="faq-answer-text">
+                <p>{{ _('Şifreniz, anahtarlarınızı çözmek için kullanılan tek araçtır. "Sıfır Bilgi" yapımız gereği
+                    şifrenizi biz bilmiyoruz ve sistemimizde saklamıyoruz. Şifrenizi kaybederseniz, hesabınıza
+                    erişiminizi kalıcı olarak kaybedersiniz.') }}</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 7 -->
+    <section class="faq-section" id="q7">
+        <div class="faq-content">
+            <span class="faq-number">07</span>
+            <h2 class="faq-question-text">{{ _('Verilerim nerede saklanıyor?') }}</h2>
+            <div class="faq-answer-text">
+                <p>{{ _('Şifreli mesajlarınız sunucularımızda saklanır. Ancak bu mesajları açacak anahtarlar sadece
+                    sizin cihazınızın tarayıcı hafızasında bulunur ve asla sunucuya gönderilmez.') }}</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 8 -->
+    <section class="faq-section" id="q8">
+        <div class="faq-content">
+            <span class="faq-number">08</span>
+            <h2 class="faq-question-text">{{ _('Hesabımı silebilir miyim?') }}</h2>
+            <div class="faq-answer-text">
+                <p>{{ _('Evet, profil ayarlarınızdan hesabınızı ve tüm ilişkili verileri kalıcı olarak silebilirsiniz.
+                    Silme işlemi anında gerçekleşir ve geri döndürülemez.') }}</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 9 -->
+    <section class="faq-section" id="q9">
+        <div class="faq-content">
+            <span class="faq-number">09</span>
+            <h2 class="faq-question-text">{{ _('KeyCord açık kaynaklı mı?') }}</h2>
+            <div class="faq-answer-text">
+                <p>{{ _('Evet, KeyCord topluluk odaklı bir projedir ve güvenliğin denetlenebilir olması gerektiğine
+                    inanıyoruz. Kodlarımıza GitHub üzerinden ulaşabilirsiniz.') }}</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 10 -->
+    <section class="faq-section" id="q10">
+        <div class="faq-content">
+            <span class="faq-number">10</span>
+            <h2 class="faq-question-text">{{ _('Grup sohbetleri de uçtan uca şifreli mi?') }}</h2>
+            <div class="faq-answer-text">
+                <p>{{ _('Kesinlikle. Grup sohbetlerinde her katılımcı için özel anahtar değişimi yapılır ve mesajlar
+                    gruptaki herkes için ayrı ayrı şifrelenir.') }}</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 11 -->
+    <section class="faq-section" id="q11">
+        <div class="faq-content">
+            <span class="faq-number">11</span>
+            <h2 class="faq-question-text">{{ _('Dosya gönderimi yapılabiliyor mu?') }}</h2>
+            <div class="faq-answer-text">
+                <p>{{ _('Şu an için profil resmi ve temel görsel paylaşımları desteklenmektedir. Büyük boyutlu dosya
+                    gönderimi özelliği geliştirme aşamasındadır.') }}</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 12 -->
+    <section class="faq-section" id="q12">
+        <div class="faq-content">
+            <span class="faq-number">12</span>
+            <h2 class="faq-question-text">{{ _('Hangi cihazlarda çalışır?') }}</h2>
+            <div class="faq-answer-text">
+                <p>{{ _('KeyCord web tabanlıdır. Modern tüm tarayıcılarda (Chrome, Firefox, Tor Browser vb.) ve mobil
+                    tarayıcılarda sorunsuz çalışmaktadır.') }}</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 13 -->
+    <section class="faq-section" id="q13">
+        <div class="faq-content">
+            <span class="faq-number">13</span>
+            <h2 class="faq-question-text">{{ _('IP adresim sunucuda görünüyor mu?') }}</h2>
+            <div class="faq-answer-text">
+                <p>{{ _('Tor ağını kullandığınızda sunucumuz sadece Tor düğümünün IP adresini görür, gerçek IP adresiniz
+                    ve konumunuz gizli kalır.') }}</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 14 -->
+    <section class="faq-section" id="q14">
+        <div class="faq-content">
+            <span class="faq-number">14</span>
+            <h2 class="faq-question-text">{{ _('Uygulamada reklam var mı?') }}</h2>
+            <div class="faq-answer-text">
+                <p>{{ _('Hayır, KeyCord reklam içermez ve verilerinizi üçüncü taraflara satmaz. Mahremiyetiniz bizim en
+                    öncelikli değerimizdir.') }}</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 15 -->
+    <section class="faq-section" id="q15">
+        <div class="faq-content">
+            <span class="faq-number">15</span>
+            <h2 class="faq-question-text">{{ _('KeyCord\'u diğerlerinden farklı kılan nedir?') }}</h2>
+            <div class="faq-answer-text">
+                <p>{{ _('KeyCord hiçbir gerçek dünya kimliğiyle eşleştirme yapmaz, Tor zorunluluğu sunar ve şifreleme
+                    anahtarlarını asla sunucuya dokundurmaz.') }}</p>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- SEO Schema Markup -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "KeyCord tam olarak nedir?",
+      "acceptedAnswer": { "@type": "Answer", "text": "KeyCord, gizlilik ve anonimlik odaklı, uçtan uca şifreli ve Tor ağı entegrasyonlu bir mesajlaşma platformudur." }
+    },
+    {
+      "@type": "Question",
+      "name": "KeyCord ücretli mi?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Hayır, KeyCord temel özellikleri ile tamamen ücretsizdir." }
+    },
+    {
+      "@type": "Question",
+      "name": "Telefon numarası gerekiyor mu?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Hayır. KeyCord kayıt sırasında telefon numarası veya herhangi bir kişisel veri talep etmez." }
+    },
+    {
+      "@type": "Question",
+      "name": "Mesajlarımı kimse okuyabilir mi?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Hayır. Mesajlar cihazınızda şifrelenir ve anahtarlar sadece sizde bulunur." }
+    },
+    {
+      "@type": "Question",
+      "name": "Tor ağı neden kullanılıyor?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Trafiği anonimleştirir ve IP adresinizi gizleyerek sansürü engeller." }
+    },
+    {
+      "@type": "Question",
+      "name": "Şifremi unutursam ne olur?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Şifreniz bizde saklanmaz. Unutursanız hesabınıza erişimi kalıcı olarak kaybedersiniz." }
+    },
+    {
+      "@type": "Question",
+      "name": "Verilerim nerede saklanıyor?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Şifreli mesajlar sunucuda, anahtarlar cihazınızdadır." }
+    },
+    {
+      "@type": "Question",
+      "name": "Hesabımı silebilir miyim?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Evet, tüm verilerinizle birlikte hesabınızı kalıcı olarak silebilirsiniz." }
+    },
+    {
+      "@type": "Question",
+      "name": "KeyCord açık kaynaklı mı?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Evet, tüm kodlar GitHub üzerinde incelemeye açıktır." }
+    },
+    {
+      "@type": "Question",
+      "name": "Grup sohbetleri güvenli mi?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Evet, grup sohbetleri de uçtan uca şifreleme ile korunur." }
+    },
+    {
+      "@type": "Question",
+      "name": "Dosya gönderimi var mı?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Görsel paylaşımı desteklenir, büyük dosyalar yakında eklenecektir." }
+    },
+    {
+      "@type": "Question",
+      "name": "Hangi cihazlarda çalışır?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Tüm modern masaüstü ve mobil tarayıcılarda çalışır." }
+    },
+    {
+      "@type": "Question",
+      "name": "IP adresim gizli mi?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Tor kullandığınızda sadece Tor düğümünün IP'si görünür." }
+    },
+    {
+      "@type": "Question",
+      "name": "Reklam var mı?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Hayır, KeyCord reklam içermez." }
+    },
+    {
+      "@type": "Question",
+      "name": "Farklı kılan nedir?",
+      "acceptedAnswer": { "@type": "Answer", "text": "KeyCord sıfır bilgi mimarisi, zorunlu Tor entegrasyonu ve anahtarların sunucuya hiç ulaşmamasıyla ayrışır." }
+    }
+  ],
+  "keywords": ["KeyCord SSS", "Sıkça Sorulan Sorular", "Güvenlik Soruları", "Tor Mesajlaşma SSS", "Gizlilik Hakkında Bilgi", "Anonim Chat Soruları"]
+}
+</script>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const container = document.getElementById('snapContainer');
+    const sections = document.querySelectorAll('.faq-section');
+    const faqNav = document.getElementById('faqNav');
+
+    // Create navigation dots
+    sections.forEach((_, i) => {
+        const dot = document.createElement('div');
+        dot.className = 'nav-dot' + (i === 0 ? ' active' : '');
+        dot.onclick = () => scrollToSlide(i);
+        faqNav.appendChild(dot);
+    });
+
+    const dots = document.querySelectorAll('.nav-dot');
+
+    // Intersection Observer to handle active states
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                sections.forEach(s => s.classList.remove('active'));
+                entry.target.classList.add('active');
+
+                const index = Array.from(sections).indexOf(entry.target);
+                dots.forEach(d => d.classList.remove('active'));
+                dots[index].classList.add('active');
+            }
+        });
+    }, { threshold: 0.6 });
+
+    sections.forEach(section => observer.observe(section));
+
+    function scrollToSlide(index) {
+        sections[index].scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function scrollToNext() {
+        const active = document.querySelector('.faq-section.active');
+        const next = active.nextElementSibling;
+        if (next) next.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Keyboard support
+    window.addEventListener('keydown', (e) => {
+        const activeIndex = Array.from(sections).indexOf(document.querySelector('.faq-section.active'));
+        if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+            if (activeIndex < sections.length - 1) scrollToSlide(activeIndex + 1);
+        } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+            if (activeIndex > 0) scrollToSlide(activeIndex - 1);
+        }
+    });
+
+    // Mouse wheel snappiness fix for some browsers
+    let isScrolling = false;
+    container.addEventListener('wheel', (e) => {
+        if (isScrolling) return;
+
+        // Let the scroll-snap handle most things, but we can add manual control if needed
+        // For now, native scroll-snap is best for accessibility
+    }, { passive: true });
+
+</script>
+{% endblock %}

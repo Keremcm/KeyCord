@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block title %}404 - Sayfa Bulunamadı — KeyCord{% endblock %}
+
+{% block extra_css %}
+<style>
+    .error-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 4rem 2rem;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .error-code {
+        font-size: 8rem;
+        font-weight: bold;
+        line-height: 1;
+        margin-bottom: 1rem;
+        color: var(--chalk);
+        text-shadow: 3px 3px 0px rgba(0, 0, 0, 0.2);
+        font-family: 'Indie Flower', 'Architects Daughter', cursive;
+        position: relative;
+    }
+
+    .error-code::after {
+        content: "404";
+        position: absolute;
+        top: 2px;
+        left: 2px;
+        color: var(--text-dark);
+        z-index: -1;
+        opacity: 0.3;
+    }
+
+    .error-message {
+        font-size: 1.5rem;
+        margin-bottom: 2rem;
+        color: var(--muted-chalk);
+    }
+
+    .sketch-box {
+        background: rgba(255, 255, 255, 0.03);
+        padding: 2rem;
+        margin-bottom: 3rem;
+        position: relative;
+    }
+
+    .sketch-box::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border: 2px solid var(--chalk);
+        border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+        pointer-events: none;
+    }
+
+    .lost-illustration {
+        font-size: 4rem;
+        margin-bottom: 1rem;
+        display: block;
+    }
+
+    .btn-home {
+        display: inline-block;
+        padding: 1rem 2rem;
+        font-size: 1.2rem;
+        color: var(--chalk);
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+
+    .btn-home:hover {
+        transform: scale(1.05) rotate(-1deg);
+    }
+
+    @media (max-width: 768px) {
+        .error-code {
+            font-size: 6rem;
+        }
+
+        .error-message {
+            font-size: 1.2rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="error-container">
+    <div class="sketch-box">
+        <div class="error-code">404</div>
+        <p class="error-message">Görünüşe göre rotanı kaybettin...</p>
+        <p style="color: var(--muted-chalk); opacity: 0.8; font-style: italic;">
+            Aradığın sayfa gizli bir anahtarın arkasında saklanmış veya hiç var olmamış olabilir.
+        </p>
+    </div>
+
+    <a href="{{ url_for('auth.welcome') }}" class="scribble-border btn-home">
+        Ana Sayfaya Dön
+    </a>
+</div>
+{% endblock %}

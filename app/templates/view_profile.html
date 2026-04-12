@@ -1,0 +1,336 @@
+﻿{% extends "base_app.html" %}
+
+{% block title %}{{ profile_user.username }} - {{ _('Profil') }}{% endblock %}
+
+{% block extra_css %}
+{{ super() }}
+<style>
+    /* Global Layout Fixes */
+    *,
+    *::before,
+    *::after {
+        box-sizing: border-box;
+    }
+
+    /* Masaüstü Odaklı Temel Yapı */
+    .profile-container {
+        width: 100%;
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 3rem 1.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        flex: 1;
+        overflow-y: auto;
+    }
+
+    /* Ana Profil Kartı */
+    .hero-card {
+        background: rgba(255, 255, 255, 0.02);
+        border-radius: 20px;
+        padding: 3rem 2rem;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .hero-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(circle at top right, rgba(255, 255, 255, 0.05) 0%, transparent 70%);
+        pointer-events: none;
+    }
+
+    .avatar-wrapper {
+        position: relative;
+        display: inline-block;
+        margin-bottom: 1.5rem;
+    }
+
+    .profile-pic-large {
+        width: 140px;
+        height: 140px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 4px solid var(--chalk);
+        padding: 6px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .verify-badge {
+        position: absolute;
+        bottom: 8px;
+        right: 8px;
+        background: var(--brand-blue);
+        color: #000;
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        border: 3px solid var(--paper-black);
+    }
+
+    .user-name {
+        font-family: 'Reenie Beanie', cursive;
+        font-size: 4rem;
+        margin: 0;
+        line-height: 1;
+        color: var(--chalk);
+    }
+
+    .user-tag {
+        font-family: 'Caveat', cursive;
+        font-size: 1.4rem;
+        color: var(--muted-chalk);
+        margin-top: 5px;
+        opacity: 0.8;
+    }
+
+    .action-row {
+        display: flex;
+        gap: 1.2rem;
+        justify-content: center;
+        margin-top: 2rem;
+    }
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+        margin-top: 2.5rem;
+        padding-top: 2rem;
+        border-top: 1px dashed rgba(255, 255, 255, 0.1);
+    }
+
+    .stat-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .stat-value {
+        font-family: 'Reenie Beanie', cursive;
+        font-size: 2.5rem;
+        color: var(--chalk);
+        line-height: 1;
+    }
+
+    .stat-label {
+        font-family: 'Caveat', cursive;
+        font-size: 1.1rem;
+        color: var(--muted-chalk);
+    }
+
+    .profile-section {
+        padding: 1.8rem;
+    }
+
+    .section-header {
+        font-family: 'Reenie Beanie', cursive;
+        font-size: 2.5rem;
+        margin: 0 0 1rem 0;
+        color: var(--chalk);
+    }
+
+    .about-text {
+        font-family: 'Caveat', cursive;
+        font-size: 1.6rem;
+        line-height: 1.4;
+        color: var(--chalk);
+    }
+
+    /* MOBİL ÖZEL TASARIM - Radikal Düzeltmeler */
+    @media (max-width: 768px) {
+        .profile-container {
+            padding: 1rem 0.5rem;
+            /* Yan boşluklar minimuma indirildi */
+            gap: 1rem;
+            max-width: 100vw;
+            overflow-x: hidden;
+            /* Yatay taşma engellendi */
+        }
+
+        .hero-card {
+            padding: 2rem 1rem;
+            /* İç boşluklar daraltıldı */
+            border-radius: 12px;
+            margin: 0 0.5rem;
+            /* Kenarlardan çok az açık */
+            overflow: hidden;
+            /* İçerik taşması engellendi */
+        }
+
+        .profile-pic-large {
+            width: 90px;
+            height: 90px;
+            border-width: 2px;
+            padding: 3px;
+        }
+
+        .verify-badge {
+            width: 28px;
+            height: 28px;
+            font-size: 0.8rem;
+            bottom: 5px;
+            right: 5px;
+        }
+
+        .user-name {
+            font-size: 2.5rem;
+        }
+
+        .user-tag {
+            font-size: 1.1rem;
+        }
+
+        .action-row {
+            flex-direction: column;
+            width: 100%;
+            padding: 0;
+            gap: 0.8rem;
+        }
+
+        .action-row .btn,
+        .action-row form,
+        .action-row button {
+            width: 100%;
+            font-size: 0.95rem;
+            padding: 10px;
+        }
+
+        .stats-grid {
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+        }
+
+        .stat-value {
+            font-size: 1.8rem;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+        }
+
+        .profile-section {
+            padding: 1.2rem 1rem;
+            margin: 0 0.5rem;
+        }
+
+        .section-header {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .about-text {
+            font-size: 1.2rem;
+            word-wrap: break-word;
+            /* Uzun kelimelerin taşması engellendi */
+        }
+    }
+</style>
+{% endblock %}
+
+{% block sidebar_content %}
+{% include '_chat_list.html' %}
+{% endblock %}
+
+{% block app_content %}
+<div class="profile-container">
+
+    <!-- Profil Kartı -->
+    <div class="scribble-border hero-card">
+        <div class="hero-bg"></div>
+
+        <div class="avatar-wrapper">
+            <img src="{{ url_for('auth.serve_profile_picture', username=profile_user.username) }}"
+                class="profile-pic-large frame-{{ profile_user.profile_frame if profile_user.profile_frame else 'none' }}"
+                onerror="this.src='{{ profile_user.username|avatar_url }}'">
+
+            {% if profile_user.is_verified %}
+            <div class="verify-badge" title="{{ _('Onaylı Hesap') }}">✓</div>
+            {% endif %}
+        </div>
+
+        <h1 class="user-name">{{ profile_user.username }}</h1>
+        <div class="user-tag">#{{ profile_user.id }}</div>
+
+        <div class="action-row">
+            {% if is_own_profile %}
+            <a href="{{ url_for('auth.profile') }}" class="btn"
+                style="border-style: dashed; background: rgba(255,255,255,0.05);">
+                {{ _('Profili Düzenle') }}
+            </a>
+            {% else %}
+            {% if is_blocked %}
+            <form action="{{ url_for('auth.unblock_user', user_id=profile_user.id) }}" method="POST">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                <button type="submit" class="btn"
+                    style="border-style: solid; background: rgba(255,255,255,0.1); color: var(--chalk);">
+                    {{ _('Engeli Kaldır') }}
+                </button>
+            </form>
+            {% else %}
+            <div style="display: flex; gap: 10px; width: 100%; justify-content: center;">
+                {% if is_friend %}
+                <a href="{{ url_for('auth.messages') }}?with={{ profile_user.id }}" class="btn btn-primary"
+                    style="border-style: solid; flex: 1;">
+                    {{ _('Mesaj Gönder') }}
+                </a>
+                {% else %}
+                <form action="{{ url_for('auth.send_friend_request') }}" method="POST" style="flex: 1;">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                    <input type="hidden" name="to_user_id" value="{{ profile_user.id }}">
+                    <button type="submit" class="btn" style="border-style: dashed; width: 100%;">
+                        {{ _('Arkadaş Ekle') }}
+                    </button>
+                </form>
+                {% endif %}
+
+                <form action="{{ url_for('auth.block_user', user_id=profile_user.id) }}" method="POST">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                    <button type="submit" class="btn btn-danger"
+                        style="border-color: var(--brand-red); color: var(--brand-red); border-style: dashed;"
+                        onclick="return confirm('{{ _('Bu kullanıcıyı engellemek istediğinize emin misiniz?') }}')">
+                        {{ _('Engelle') }}
+                    </button>
+                </form>
+            </div>
+            {% endif %}
+            {% endif %}
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-item">
+                <span class="stat-value">{{ friend_count }}</span>
+                <span class="stat-label">{{ _('Arkadaş') }}</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-value">0</span>
+                <span class="stat-label">{{ _('Sunucu') }}</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hakkımda Bölümü -->
+    <div class="scribble-border profile-section">
+        <h3 class="section-header">{{ _('Hakkımda') }}</h3>
+        <div class="about-text">
+            {% if profile_user.about %}
+            {{ profile_user.about }}
+            {% else %}
+            <span style="color: var(--muted-chalk); font-style: italic; font-size: 1.1rem;">{{ _('Bu kullanıcı henüz bir
+                açıklama eklememiş.') }}</span>
+            {% endif %}
+        </div>
+    </div>
+
+</div>
+{% endblock %}

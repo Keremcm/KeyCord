@@ -1,0 +1,270 @@
+{% extends "base.html" %}
+
+{% block title %}KeyCord — {{ _('İnsan Doğrulaması') }}{% endblock %}
+
+{% block extra_css %}
+<style>
+    .verification-container {
+        min-height: 80vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 2rem;
+    }
+
+    .verification-card {
+        background: rgba(20, 20, 20, 0.4);
+        padding: 3rem;
+        border-radius: 20px;
+        max-width: 500px;
+        width: 100%;
+        position: relative;
+    }
+
+    .hold-button-container {
+        position: relative;
+        width: 200px;
+        height: 200px;
+        margin: 2rem auto;
+    }
+
+    .hold-button {
+        width: 160px;
+        height: 160px;
+        border-radius: 50%;
+        background: transparent;
+        border: 4px dashed rgba(255, 255, 255, 0.2);
+        color: white;
+        font-family: 'Caveat', cursive;
+        font-size: 1.5rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        z-index: 2;
+        user-select: none;
+        transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .hold-button:active {
+        transform: scale(0.95);
+        border-color: var(--brand-blue);
+    }
+
+    .hold-button.completed {
+        background: var(--brand-blue);
+        border-style: solid;
+        transform: scale(1.05);
+    }
+
+    .progress-ring {
+        position: absolute;
+        top: 0;
+        left: 0;
+        transform: rotate(-90deg);
+        z-index: 1;
+    }
+
+    .progress-ring__circle {
+        stroke-dasharray: 565.48;
+        /* 2 * PI * 90 */
+        stroke-dashoffset: 565.48;
+        transition: stroke-dashoffset 0.1s linear;
+        stroke: var(--brand-blue);
+        stroke-width: 8;
+        fill: transparent;
+        stroke-linecap: round;
+        filter: drop-shadow(0 0 5px var(--brand-blue));
+    }
+
+    .verification-status {
+        margin-top: 1.5rem;
+        font-family: 'Reenie Beanie', cursive;
+        font-size: 1.8rem;
+        color: var(--muted-chalk);
+        min-height: 2.5rem;
+    }
+
+    .sketch-arrow {
+        position: absolute;
+        bottom: -40px;
+        right: -20px;
+        transform: rotate(15deg);
+        opacity: 0.6;
+    }
+
+    @keyframes pulse-glow {
+        0% {
+            filter: drop-shadow(0 0 5px rgba(0, 195, 255, 0.3));
+        }
+
+        50% {
+            filter: drop-shadow(0 0 15px rgba(0, 195, 255, 0.6));
+        }
+
+        100% {
+            filter: drop-shadow(0 0 5px rgba(0, 195, 255, 0.3));
+        }
+    }
+
+    .holding .progress-ring__circle {
+        animation: none;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="verification-container">
+    <div class="verification-card scribble-border">
+        <h1 style="font-family: 'Caveat', cursive; font-size: 2.5rem; margin-bottom: 0.5rem;">{{ _('İnsan Mısın?') }}
+        </h1>
+        <p style="color: var(--muted-chalk); font-size: 1.1rem; margin-bottom: 2rem;">
+            {{ _('KeyCord topluluğuna katılmak için kısa bir ritüel.') }} <br>
+            <strong>{{ _('Butona 10 saniye boyunca basılı tutun.') }}</strong>
+        </p>
+
+        <div class="hold-button-container" id="interactionArea">
+            <svg class="progress-ring" width="200" height="200">
+                <circle class="progress-ring__circle" stroke="rgba(255,255,255,0.05)" stroke-width="8"
+                    fill="transparent" r="90" cx="100" cy="100" />
+                <circle id="progressCircle" class="progress-ring__circle" r="90" cx="100" cy="100" />
+            </svg>
+            <div id="holdBtn" class="hold-button">
+                {{ _('BASILI TUT') }}
+            </div>
+
+            <div class="sketch-arrow">
+                <svg width="60" height="60" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M20 20 C 40 10, 70 30, 80 80 M 80 80 L 70 70 M 80 80 L 90 70" />
+                </svg>
+            </div>
+        </div>
+
+        <div class="verification-status" id="statusText">
+            {{ _('Hazır mısın?') }}
+        </div>
+
+        <div style="margin-top: 2rem; font-size: 0.9rem; opacity: 0.7;">
+            {{ user.username }} olarak kayıt işlemini tamamlıyorsun.
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const holdBtn = document.getElementById('holdBtn');
+    const circle = document.getElementById('progressCircle');
+    const statusText = document.getElementById('statusText');
+    const radius = circle.r.baseVal.value;
+    const circumference = radius * 2 * Math.PI;
+
+    circle.style.strokeDasharray = `${circumference} ${circumference}`;
+    circle.style.strokeDashoffset = circumference;
+
+    let holdTimer = null;
+    let progress = 0;
+    const holdDuration = 10000; // 10 seconds
+    const updateInterval = 50; // Update every 50ms
+    const step = (updateInterval / holdDuration) * circumference;
+
+    function setProgress(percent) {
+        const offset = circumference - (percent / 100) * circumference;
+        circle.style.strokeDashoffset = offset;
+    }
+
+    function startHolding(e) {
+        e.preventDefault();
+        if (holdBtn.classList.contains('completed')) return;
+
+        holdBtn.classList.add('holding');
+        statusText.innerText = "{{ _('Bırakma...') }}";
+        statusText.style.color = "var(--brand-blue)";
+
+        holdTimer = setInterval(() => {
+            progress += (updateInterval / holdDuration) * 100;
+            if (progress >= 100) {
+                progress = 100;
+                completeVerification();
+            }
+            setProgress(progress);
+        }, updateInterval);
+    }
+
+    function stopHolding() {
+        if (holdBtn.classList.contains('completed')) return;
+
+        clearInterval(holdTimer);
+        holdBtn.classList.remove('holding');
+
+        if (progress < 100) {
+            progress = 0;
+            setProgress(0);
+            statusText.innerText = "{{ _('Çok erken bıraktın!') }}";
+            statusText.style.color = "#ff4b2b";
+
+            setTimeout(() => {
+                if (!holdBtn.classList.contains('holding')) {
+                    statusText.innerText = "{{ _('Tekrar Dene') }}";
+                    statusText.style.color = "var(--muted-chalk)";
+                }
+            }, 2000);
+        }
+    }
+
+    function completeVerification() {
+        clearInterval(holdTimer);
+        holdBtn.classList.add('completed');
+        holdBtn.innerText = "{{ _('DOĞRULANDI') }}";
+        statusText.innerText = "{{ _('Harika! Yönlendiriliyorsun...') }}";
+        statusText.style.color = "#4bb543";
+
+        // Form data olarak gönderelim (JSON'daki 400 hatalarını bypass etmek için daha güvenli)
+        const formData = new URLSearchParams();
+        formData.append('csrf_token', "{{ csrf_token if csrf_token else '' }}");
+        formData.append('verified', 'true');
+
+        fetch("{{ url_for('auth.verify_human_api') }}", {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    setTimeout(() => {
+                        window.location.href = data.redirect;
+                    }, 1500);
+                } else {
+                    alert("Hata: " + (data.error || "Bilinmeyen bir hata oluştu."));
+                    resetButton();
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                alert("Sunucuyla bağlantı kurulamadı.");
+                resetButton();
+            });
+    }
+
+    function resetButton() {
+        holdBtn.classList.remove('completed');
+        holdBtn.innerText = "{{ _('BASILI TUT') }}";
+        progress = 0;
+        setProgress(0);
+    }
+
+    // Event Listeners
+    holdBtn.addEventListener('mousedown', startHolding);
+    holdBtn.addEventListener('touchstart', startHolding, { passive: false });
+
+    window.addEventListener('mouseup', stopHolding);
+    window.addEventListener('touchend', stopHolding);
+    holdBtn.addEventListener('mouseleave', stopHolding);
+
+</script>
+{% endblock %}

@@ -1,0 +1,135 @@
+{% extends "base_app.html" %}
+
+{% block title %}{{ _('Topluluk Oluştur') }}{% endblock %}
+
+{% block extra_css %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/icons.css') }}">
+<style>
+    @media (max-width: 768px) {
+        .create-form-wrapper {
+            padding: 1rem !important;
+        }
+
+        .create-form-header h1 {
+            font-size: 2.8rem !important;
+        }
+
+        .create-form-card {
+            padding: 1.5rem !important;
+            transform: none !important;
+        }
+
+        .btn-stack {
+            flex-direction: column-reverse !important;
+        }
+
+        .btn-stack .btn {
+            width: 100% !important;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block sidebar_content %}
+<h3
+    style="padding: 0 1rem; margin-top: 1rem; font-family: 'Reenie Beanie'; font-size: 2rem; color: var(--chalk); transform: rotate(-1deg);">
+    {{ _('Topluluklar') }}</h3>
+<div style="padding: 0 1rem; margin-bottom: 2rem; font-size: 0.9rem; color: var(--muted-chalk);">
+    {{ _('Yeni Oluştur') }}
+</div>
+
+<a href="{{ url_for('auth.communities') }}" class="list-item">
+    <i class="icon icon-lg icon-globe" style="background-color: var(--chalk);"></i>
+    <span>{{ _('Keşfet') }}</span>
+</a>
+<a href="{{ url_for('auth.create_community_page') }}" class="list-item active">
+    <i class="icon icon-lg icon-plus" style="background-color: var(--chalk);"></i>
+    <span>{{ _('Oluştur') }}</span>
+</a>
+<div style="border-top: 2px dashed rgba(255,255,255,0.1); margin: 1rem 0;"></div>
+<a href="{{ url_for('auth.home') }}" class="list-item">
+    <i class="icon icon-lg icon-arrow-left" style="background-color: var(--chalk);"></i>
+    <span>{{ _('Ana Sayfa') }}</span>
+</a>
+{% endblock %}
+
+{% block app_content %}
+<div class="create-form-wrapper"
+    style="width: 100%; height: 100%; overflow-y: auto; padding: 2rem; display: flex; align-items: center; justify-content: center;">
+
+    <div style="width: 100%; max-width: 600px;">
+
+        <div class="create-form-header" style="text-align: center; margin-bottom: 2rem;">
+            <h1
+                style="font-family: 'Reenie Beanie'; font-size: 3.5rem; line-height: 0.8; margin-bottom: 0.5rem; transform: rotate(-1.5deg);">
+                {{ _('Kendi Topluluğunu Kur') }}</h1>
+            <p style="font-family: 'Caveat'; font-size: 1.4rem; color: var(--muted-chalk);">{{ _('İnsanları bir araya
+                getir ve sohbeti başlat') }}</p>
+        </div>
+
+        <form method="POST" enctype="multipart/form-data" class="scribble-border create-form-card"
+            style="padding: 2.5rem; background: rgba(255,255,255,0.02); transform: rotate(1deg);">
+
+            <div style="margin-bottom: 1.5rem;">
+                <label
+                    style="display: block; font-family: 'Caveat'; font-size: 1.4rem; margin-bottom: 0.5rem; color: var(--chalk);">{{
+                    _('Topluluk Adı') }}</label>
+                <input type="text" name="name" placeholder="{{ _('Örn: Oyun Severler') }}" required maxlength="120"
+                    style="width: 100%; background: transparent; border: 2px dashed rgba(255,255,255,0.2); border-radius: 12px; padding: 1rem; color: var(--chalk); font-family: 'Caveat'; font-size: 1.3rem;">
+            </div>
+
+            <div style="margin-bottom: 1.5rem;">
+                <label
+                    style="display: block; font-family: 'Caveat'; font-size: 1.4rem; margin-bottom: 0.5rem; color: var(--chalk);">{{
+                    _('Açıklama') }}</label>
+                <textarea name="description" placeholder="{{ _('Bu topluluk ne hakkında?') }}" maxlength="300" rows="3"
+                    style="width: 100%; background: transparent; border: 2px dashed rgba(255,255,255,0.2); border-radius: 12px; padding: 1rem; color: var(--chalk); font-family: 'Caveat'; font-size: 1.3rem; resize: vertical;"></textarea>
+            </div>
+
+            <div style="margin-bottom: 2rem;">
+                <label
+                    style="display: block; font-family: 'Caveat'; font-size: 1.4rem; margin-bottom: 0.5rem; color: var(--chalk);">{{
+                    _('Topluluk Resmi') }}</label>
+
+                <div style="position: relative; overflow: hidden; border: 2px dashed rgba(255,255,255,0.2); border-radius: 12px; padding: 2rem; text-align: center; cursor: pointer; transition: 0.2s;"
+                    onmouseover="this.style.borderColor='var(--chalk)'"
+                    onmouseout="this.style.borderColor='rgba(255,255,255,0.2)'">
+                    <input type="file" name="avatar" accept="image/*" id="fileInput"
+                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer;">
+
+                    <div id="fileLabelContent">
+                        <i class="icon icon-2x icon-plus"
+                            style="background-color: var(--muted-chalk); margin-bottom: 0.5rem;"></i>
+                        <p style="font-family: 'Caveat'; font-size: 1.2rem; color: var(--muted-chalk); margin: 0;">{{
+                            _('Resim Yüklemek İçin Tıkla') }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="btn-stack" style="display: flex; gap: 1rem;">
+                <button type="button" onclick="window.history.back()" class="btn"
+                    style="flex: 1; background: transparent; border: 2px dashed var(--muted-chalk); color: var(--muted-chalk);">
+                    {{ _('İptal') }}
+                </button>
+                <button type="submit" class="btn" style="flex: 2; transform: rotate(-1deg);">
+                    <i class="icon icon-check" style="background-color: currentColor;"></i> {{ _('Oluştur') }}
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+<script>
+    document.getElementById('fileInput').addEventListener('change', function (e) {
+        const fileName = e.target.files[0] ? e.target.files[0].name : "{{ _('Resim seçilmedi') }}";
+        const content = document.getElementById('fileLabelContent');
+        if (e.target.files[0]) {
+            content.innerHTML = `<i class="icon icon-2x icon-check" style="background-color: var(--chalk); margin-bottom: 0.5rem;"></i><p style="font-family: 'Caveat'; font-size: 1.2rem; color: var(--chalk); margin: 0;">${fileName}</p>`;
+        }
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,65 @@
+User-agent: *
+# Allow public landing pages
+Allow: /
+Allow: /login
+Allow: /register
+Allow: /forgot-password
+Allow: /help-center
+Allow: /faq
+Allow: /contact
+Allow: /privacy-policy
+Allow: /terms-of-service
+Allow: /gdpr
+Allow: /kvkk
+
+# Disallow application areas and sensitive routes
+Disallow: /dashboard*
+Disallow: /messages*
+Disallow: /group*
+Disallow: /community*
+Disallow: /profile*
+Disallow: /settings*
+Disallow: /api*
+Disallow: /logout
+Disallow: /admin*
+Disallow: /search*
+
+# Block AI and LLM Scrapers (Enhanced protection)
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ChatGPT-User
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: Claude-Web
+Disallow: /
+
+User-agent: Anthropic-AI
+Disallow: /
+
+User-agent: FacebookBot
+Disallow: /
+
+User-agent: Omgilibot
+Disallow: /
+
+User-agent: Bytespider
+Disallow: /
+
+# SECURITY NOTICE / GÜVENLİK UYARISI
+# ---------------------------------------------------------------------------
+# Unauthorized scanning, vulnerability testing, automated attacks, or any
+# form of malicious activity against this infrastructure is STRICTLY PROHIBITED.
+# All IP addresses are logged and continuously monitored.
+# Any detected malicious activity will be actively responded to with
+# appropriate security countermeasures, reported to relevant authorities,
+# and may result in civil and criminal legal action.
+# ---------------------------------------------------------------------------
+
+Sitemap: https://keycord.org/sitemap.xml

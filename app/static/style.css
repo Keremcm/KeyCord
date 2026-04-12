@@ -1,0 +1,176 @@
+body {
+    background: #181a20;
+    color: #e5e5e5;
+    font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: fadeIn 1s;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(30px);}
+    to { opacity: 1; transform: translateY(0);}
+}
+
+h2 {
+    color: #00c3ff;
+    margin-top: 40px;
+    letter-spacing: 2px;
+    text-shadow: 0 2px 8px #000a;
+    animation: slideDown 0.8s;
+}
+
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-40px);}
+    to { opacity: 1; transform: translateY(0);}
+}
+
+form {
+    background: #23272f;
+    padding: 32px 28px 24px 28px;
+    border-radius: 18px;
+    box-shadow: 0 4px 32px #0008;
+    margin: 24px 0;
+    min-width: 320px;
+    animation: popIn 0.7s;
+}
+
+@keyframes popIn {
+    from { opacity: 0; transform: scale(0.95);}
+    to { opacity: 1; transform: scale(1);}
+}
+
+input[type="text"], input[type="email"], input[type="password"] {
+    width: 100%;
+    padding: 10px 12px;
+    margin: 8px 0 18px 0;
+    border: none;
+    border-radius: 8px;
+    background: #181a20;
+    color: #e5e5e5;
+    font-size: 1em;
+    transition: box-shadow 0.3s, background 0.3s;
+    box-shadow: 0 2px 8px #0003 inset;
+}
+
+input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus {
+    outline: none;
+    background: #23272f;
+    box-shadow: 0 0 0 2px #00c3ff88;
+}
+
+button {
+    background: linear-gradient(90deg, #00c3ff 0%, #3a8dde 100%);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 28px;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 8px;
+    box-shadow: 0 2px 8px #00c3ff44;
+    transition: background 0.3s, transform 0.2s;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 #00c3ff44; }
+    70% { box-shadow: 0 0 0 10px #00c3ff11; }
+    100% { box-shadow: 0 0 0 0 #00c3ff44; }
+}
+
+button:hover {
+    background: linear-gradient(90deg, #3a8dde 0%, #00c3ff 100%);
+    transform: scale(1.05);
+}
+
+a {
+    color: #00c3ff;
+    text-decoration: none;
+    transition: color 0.2s;
+    font-weight: 500;
+}
+
+a:hover {
+    color: #fff;
+    text-shadow: 0 0 8px #00c3ff;
+}
+
+.flash-messages {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 18px 0;
+    animation: fadeIn 0.7s;
+}
+
+.flash-messages li {
+    background: #ff3c3c;
+    color: #fff;
+    padding: 10px 18px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    box-shadow: 0 2px 8px #0005;
+    animation: shake 0.4s;
+}
+
+@keyframes shake {
+    0% { transform: translateX(0);}
+    20% { transform: translateX(-6px);}
+    40% { transform: translateX(6px);}
+    60% { transform: translateX(-4px);}
+    80% { transform: translateX(4px);}
+    100% { transform: translateX(0);}
+}
+
+#messages {
+    background: #23272f;
+    border-radius: 10px;
+    padding: 18px;
+    min-height: 120px;
+    max-height: 300px;
+    overflow-y: auto;
+    margin-bottom: 18px;
+    box-shadow: 0 2px 8px #0005;
+    animation: fadeIn 1s;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+    background: #181a20;
+}
+::-webkit-scrollbar-thumb {
+    background: #00c3ff55;
+    border-radius: 8px;
+}
+
+.friend-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.friend-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px;
+    border-radius: 8px;
+    transition: background 0.2s;
+}
+
+.friend-item:hover {
+    background: #00c3ff1a;
+    color: #fff;
+}
+
+.friend-pic {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+}

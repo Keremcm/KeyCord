@@ -1,0 +1,1507 @@
+{% extends "base_app.html" %}
+
+{% block title %}KeyCord - {{ _('Ana Sayfa') }}{% endblock %}
+
+{% block sidebar_content %}
+{% include '_chat_list.html' %}
+{% endblock %}
+
+{% block app_header_actions %}
+<div class="notif-container mobile-bell-container">
+    <div class="bell-icon-wrap" onclick="toggleNotifications()">
+        <i class="icon icon-bell icon-lg" style="color: var(--chalk);"></i>
+        {% if notifications %}<div class="notif-badge"></div>{% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block app_content %}
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Syne:wght@400;600;700;800&display=swap');
+
+    *,
+    *::before,
+    *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    /* ── CANVAS ── */
+    .kc-canvas {
+        display: grid;
+        grid-template-rows: 1fr;
+        height: 100%;
+        min-height: 100%;
+        overflow: hidden auto;
+        position: relative;
+        background: transparent;
+        font-family: 'Syne', sans-serif;
+    }
+
+    /* Animated scanline overlay */
+    .kc-canvas::before {
+        content: '';
+        position: fixed;
+        inset: 0;
+        background: repeating-linear-gradient(0deg,
+                transparent,
+                transparent 2px,
+                rgba(255, 255, 255, 0.013) 2px,
+                rgba(255, 255, 255, 0.013) 4px);
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    /* Noise grain overlay */
+    .kc-canvas::after {
+        content: '';
+        position: fixed;
+        inset: -50%;
+        width: 200%;
+        height: 200%;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+        pointer-events: none;
+        z-index: 0;
+        opacity: 0.6;
+        animation: grainShift 0.5s steps(1) infinite;
+    }
+
+    @keyframes grainShift {
+        0% {
+            transform: translate(0, 0);
+        }
+
+        25% {
+            transform: translate(-2%, -3%);
+        }
+
+        50% {
+            transform: translate(3%, 1%);
+        }
+
+        75% {
+            transform: translate(-1%, 4%);
+        }
+
+        100% {
+            transform: translate(2%, -2%);
+        }
+    }
+
+    /* ── MAIN LAYOUT ── */
+    .kc-inner {
+        position: relative;
+        z-index: 1;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto auto;
+        gap: 0;
+        height: 100%;
+        min-height: 100%;
+    }
+
+    /* ── LEFT PANEL: Identity ── */
+    .kc-left {
+        grid-column: 1;
+        grid-row: 1 / 3;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 3.5rem 3rem 3.5rem 3.5rem;
+        border-right: 1px solid rgba(255, 255, 255, 0.06);
+        position: relative;
+        min-height: 100%;
+    }
+
+    .kc-left::after {
+        content: '';
+        position: absolute;
+        right: 0;
+        top: 15%;
+        bottom: 15%;
+        width: 1px;
+        background: linear-gradient(to bottom,
+                transparent,
+                rgba(255, 255, 255, 0.15) 30%,
+                rgba(255, 255, 255, 0.15) 70%,
+                transparent);
+    }
+
+    /* Terminal tag decoration */
+    .kc-terminal-tag {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 1.5rem;
+        color: #ffffff;
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        margin-bottom: 2.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+    }
+
+    .kc-terminal-tag::before {
+        content: '';
+        display: inline-block;
+        width: 20px;
+        height: 1px;
+        background: rgba(255, 255, 255, 0.2);
+    }
+
+    /* Avatar container */
+    .kc-avatar-zone {
+        position: relative;
+        width: fit-content;
+        margin-bottom: 2rem;
+    }
+
+    .kc-avatar-frame {
+        position: relative;
+        width: 96px;
+        height: 96px;
+    }
+
+    /* Corner markers */
+    .kc-avatar-frame::before,
+    .kc-avatar-frame::after {
+        content: '';
+        position: absolute;
+        width: 14px;
+        height: 14px;
+        z-index: 2;
+    }
+
+    .kc-avatar-frame::before {
+        top: -4px;
+        left: -4px;
+        border-top: 1.5px solid rgba(255, 255, 255, 0.4);
+        border-left: 1.5px solid rgba(255, 255, 255, 0.4);
+    }
+
+    .kc-avatar-frame::after {
+        bottom: -4px;
+        right: -4px;
+        border-bottom: 1.5px solid rgba(255, 255, 255, 0.4);
+        border-right: 1.5px solid rgba(255, 255, 255, 0.4);
+    }
+
+    .kc-avatar-corner-tr,
+    .kc-avatar-corner-bl {
+        position: absolute;
+        width: 14px;
+        height: 14px;
+        z-index: 2;
+    }
+
+    .kc-avatar-corner-tr {
+        top: -4px;
+        right: -4px;
+        border-top: 1.5px solid rgba(255, 255, 255, 0.4);
+        border-right: 1.5px solid rgba(255, 255, 255, 0.4);
+    }
+
+    .kc-avatar-corner-bl {
+        bottom: -4px;
+        left: -4px;
+        border-bottom: 1.5px solid rgba(255, 255, 255, 0.4);
+        border-left: 1.5px solid rgba(255, 255, 255, 0.4);
+    }
+
+    .kc-avatar-img {
+        width: 96px;
+        height: 96px;
+        border-radius: 6px;
+        object-fit: cover;
+        display: block;
+        filter: grayscale(15%);
+    }
+
+    .kc-status-row {
+        position: absolute;
+        bottom: -10px;
+        left: 0;
+        right: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .kc-status-pill {
+        background: rgba(10, 10, 10, 0.9);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 99px;
+        padding: 0.18rem 0.55rem;
+        display: flex;
+        align-items: center;
+        gap: 0.35rem;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.62rem;
+        color: rgba(255, 255, 255, 0.45);
+        letter-spacing: 0.05em;
+        white-space: nowrap;
+    }
+
+    .kc-status-dot {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: #4ade80;
+        box-shadow: 0 0 5px rgba(74, 222, 128, 0.6);
+        flex-shrink: 0;
+        animation: pulse-green 2.5s ease-in-out infinite;
+    }
+
+    @keyframes pulse-green {
+
+        0%,
+        100% {
+            opacity: 1;
+            box-shadow: 0 0 5px rgba(74, 222, 128, 0.6);
+        }
+
+        50% {
+            opacity: 0.7;
+            box-shadow: 0 0 10px rgba(74, 222, 128, 0.3);
+        }
+    }
+
+    /* Greeting typography */
+    .kc-greeting {
+        margin-top: 1.8rem;
+        margin-bottom: 0.4rem;
+    }
+
+    .kc-greeting-label {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.8rem;
+        color: rgba(255, 255, 255, 0.6);
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        margin-bottom: 0.4rem;
+        display: block;
+    }
+
+    .kc-name {
+        font-family: 'Syne', sans-serif;
+        font-size: 3.8rem;
+        font-weight: 800;
+        color: #ffffff;
+        line-height: 0.95;
+        letter-spacing: -0.02em;
+        word-break: break-word;
+        text-shadow: 0 0 15px rgba(255, 255, 255, 0.15);
+    }
+
+    .kc-sub {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.72rem;
+        color: rgba(255, 255, 255, 0.6);
+        letter-spacing: 0.04em;
+        margin-top: 1.2rem;
+        margin-bottom: 3rem;
+        line-height: 1.6;
+        padding-left: 1px;
+    }
+
+    /* ── QUICK ACTION BUTTONS ── */
+    .kc-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 0.55rem;
+        margin-bottom: 3rem;
+    }
+
+    .kc-btn {
+        display: flex;
+        align-items: center;
+        gap: 0.9rem;
+        padding: 0.75rem 1.1rem;
+        border-radius: 8px;
+        text-decoration: none;
+        font-family: 'Syne', sans-serif;
+        font-size: 0.88rem;
+        font-weight: 600;
+        cursor: pointer;
+        border: 1px solid transparent;
+        transition: all 0.18s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .kc-btn::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 0;
+        background: rgba(255, 255, 255, 0.04);
+        transition: width 0.2s ease;
+    }
+
+    .kc-btn:hover::before {
+        width: 100%;
+    }
+
+    .kc-btn-icon {
+        width: 32px;
+        height: 32px;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+    .kc-btn-icon svg {
+        width: 15px;
+        height: 15px;
+        stroke: currentColor;
+        fill: none;
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+    }
+
+    .kc-btn-label {
+        flex: 1;
+    }
+
+    .kc-btn-kbd {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.6rem;
+        color: rgba(255, 255, 255, 0.2);
+        letter-spacing: 0.05em;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.07);
+        padding: 0.1rem 0.4rem;
+        border-radius: 4px;
+    }
+
+    .kc-btn-primary {
+        background: var(--chalk, #f0f0f0);
+        color: #0a0a0a;
+        border-color: transparent;
+    }
+
+    .kc-btn-primary .kc-btn-icon {
+        background: rgba(0, 0, 0, 0.12);
+        color: #0a0a0a;
+    }
+
+    .kc-btn-primary .kc-btn-kbd {
+        color: rgba(0, 0, 0, 0.35);
+        background: rgba(0, 0, 0, 0.08);
+        border-color: rgba(0, 0, 0, 0.1);
+    }
+
+    .kc-btn-primary:hover {
+        opacity: 0.9;
+    }
+
+    .kc-btn-ghost {
+        background: rgba(255, 255, 255, 0.03);
+        color: var(--chalk, #f0f0f0);
+        border-color: rgba(255, 255, 255, 0.07);
+    }
+
+    .kc-btn-ghost .kc-btn-icon {
+        background: rgba(255, 255, 255, 0.05);
+        color: rgba(255, 255, 255, 0.6);
+    }
+
+    .kc-btn-ghost:hover {
+        border-color: rgba(255, 255, 255, 0.14);
+        background: rgba(255, 255, 255, 0.05);
+    }
+
+    /* ── STAT ROW ── */
+    .kc-stats {
+        display: flex;
+        gap: 0;
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    .kc-stat {
+        flex: 1;
+        padding: 0.9rem 0.6rem;
+        text-align: center;
+        position: relative;
+        background: rgba(255, 255, 255, 0.02);
+        transition: background 0.15s;
+    }
+
+    .kc-stat:hover {
+        background: rgba(255, 255, 255, 0.04);
+    }
+
+    .kc-stat+.kc-stat {
+        border-left: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .kc-stat-val {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--chalk, #f0f0f0);
+        line-height: 1;
+        margin-bottom: 0.3rem;
+        display: block;
+    }
+
+    .kc-stat-label {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.98rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.5);
+        display: block;
+    }
+
+    /* ── RIGHT PANEL: Info Cards ── */
+    .kc-right {
+        grid-column: 2;
+        grid-row: 1 / 3;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 3.5rem 3.5rem 3.5rem 3rem;
+        gap: 1rem;
+    }
+
+    /* Section label */
+    .kc-section-label {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 1.1rem;
+        color: rgba(255, 255, 255, 0.8);
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        margin-bottom: 0.8rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .kc-section-label::after {
+        content: '';
+        flex: 1;
+        height: 1px;
+        background: rgba(255, 255, 255, 0.06);
+    }
+
+    /* Tor address card */
+    .kc-tor-card {
+        background: rgba(255, 255, 255, 0.025);
+        border: 1px solid rgba(255, 255, 255, 0.07);
+        border-radius: 12px;
+        padding: 1.4rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .kc-tor-card::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.02) 0%, transparent 60%);
+        pointer-events: none;
+    }
+
+    .kc-tor-card:hover {
+        border-color: rgba(255, 255, 255, 0.14);
+        background: rgba(255, 255, 255, 0.045);
+        transform: translateY(-1px);
+    }
+
+    .kc-tor-card:active {
+        transform: translateY(0);
+    }
+
+    .kc-tor-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 0.9rem;
+    }
+
+    .kc-tor-badge {
+        display: flex;
+        align-items: center;
+        gap: 0.45rem;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.62rem;
+        color: rgba(255, 255, 255, 0.5);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+    }
+
+    .kc-tor-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #a78bfa;
+        box-shadow: 0 0 6px rgba(167, 139, 250, 0.5);
+        animation: pulse-purple 3s ease-in-out infinite;
+    }
+
+    @keyframes pulse-purple {
+
+        0%,
+        100% {
+            opacity: 1;
+        }
+
+        50% {
+            opacity: 0.5;
+        }
+    }
+
+    .kc-copy-icon {
+        width: 28px;
+        height: 28px;
+        border-radius: 6px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.15s;
+    }
+
+    .kc-tor-card:hover .kc-copy-icon {
+        background: rgba(255, 255, 255, 0.1);
+        border-color: rgba(255, 255, 255, 0.15);
+    }
+
+    .kc-copy-icon svg {
+        width: 12px;
+        height: 12px;
+        stroke: rgba(255, 255, 255, 0.4);
+        fill: none;
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+    }
+
+    .kc-tor-addr {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.68rem;
+        color: rgba(255, 255, 255, 0.55);
+        line-height: 1.7;
+        word-break: break-all;
+        letter-spacing: 0.02em;
+    }
+
+    .kc-tor-hint {
+        margin-top: 0.7rem;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.6rem;
+        color: rgba(255, 255, 255, 0.18);
+        letter-spacing: 0.06em;
+    }
+
+    /* Download card */
+    .kc-dl-card {
+        background: rgba(255, 255, 255, 0.025);
+        border: 1px solid rgba(255, 255, 255, 0.07);
+        border-radius: 12px;
+        padding: 1.4rem;
+        transition: all 0.2s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .kc-dl-card::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.02) 0%, transparent 60%);
+        pointer-events: none;
+    }
+
+    .kc-dl-card:hover {
+        border-color: rgba(255, 255, 255, 0.14);
+        background: rgba(255, 255, 255, 0.045);
+        transform: translateY(-1px);
+    }
+
+    .kc-dl-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 1rem;
+    }
+
+    .kc-dl-title {
+        font-family: 'Syne', sans-serif;
+        font-size: 0.9rem;
+        font-weight: 700;
+        color: var(--chalk, #f0f0f0);
+    }
+
+    .kc-dl-arrow {
+        font-size: 0.75rem;
+        color: rgba(255, 255, 255, 0.2);
+        font-family: 'JetBrains Mono', monospace;
+        letter-spacing: -0.05em;
+    }
+
+    .kc-dl-platforms {
+        display: flex;
+        gap: 0.6rem;
+    }
+
+    .kc-dl-platform {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.55rem 0.7rem;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 7px;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.65rem;
+        color: rgba(255, 255, 255, 0.45);
+        letter-spacing: 0.04em;
+        transition: all 0.15s;
+    }
+
+    .kc-dl-platform:hover {
+        background: rgba(255, 255, 255, 0.07);
+        color: rgba(255, 255, 255, 0.7);
+    }
+
+    .kc-dl-platform-dot {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        flex-shrink: 0;
+    }
+
+    .kc-dl-platform-dot.android {
+        background: #4ade80;
+    }
+
+    .kc-dl-platform-dot.windows {
+        background: #60a5fa;
+    }
+
+    /* Security info strip */
+    .kc-security-strip {
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 10px;
+        padding: 1rem 1.2rem;
+        background: rgba(255, 255, 255, 0.015);
+    }
+
+    .kc-security-items {
+        display: flex;
+        gap: 1.5rem;
+    }
+
+    .kc-security-item {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .kc-security-icon {
+        width: 22px;
+        height: 22px;
+        border-radius: 5px;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.07);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+    .kc-security-icon svg {
+        width: 10px;
+        height: 10px;
+        stroke: rgba(255, 255, 255, 0.35);
+        fill: none;
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+    }
+
+    .kc-security-text {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.62rem;
+        color: rgba(255, 255, 255, 0.28);
+        letter-spacing: 0.04em;
+        line-height: 1.4;
+    }
+
+    /* ── NOTIFICATION BELL ── */
+    .notif-container {
+        z-index: 100;
+    }
+
+    .desktop-notif {
+        position: absolute;
+        top: 1.4rem;
+        right: 1.4rem;
+    }
+
+    .mobile-bell-container {
+        display: none;
+    }
+
+    .bell-icon-wrap {
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.05);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        position: relative;
+        transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        z-index: 2000;
+    }
+
+    .bell-icon-wrap:active {
+        transform: scale(0.9);
+    }
+
+    .bell-icon-wrap:hover {
+        background: rgba(255, 255, 255, 0.06);
+        border-color: rgba(255, 255, 255, 0.12);
+    }
+
+    .notif-badge {
+        position: absolute;
+        top: -3px;
+        right: -3px;
+        width: 7px;
+        height: 7px;
+        background: #ef4444;
+        border-radius: 50%;
+        border: 1.5px solid var(--paper-black, #0d0d0d);
+        box-shadow: 0 0 6px rgba(239, 68, 68, 0.5);
+    }
+
+    #notification-dropdown {
+        display: none;
+        position: absolute;
+        top: 4.5rem;
+        right: 1.4rem;
+        width: clamp(300px, 90vw, 380px);
+        background: rgba(12, 12, 12, 0.98);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 16px;
+        padding: 1.2rem;
+        z-index: 5000;
+        backdrop-filter: blur(20px);
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+    }
+
+    .notif-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom: 0.75rem;
+        margin-bottom: 0.75rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .notif-header h4 {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.72rem;
+        font-weight: 600;
+        color: var(--chalk);
+        margin: 0;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+    }
+
+    .notif-read-btn {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.62rem;
+        color: rgba(255, 255, 255, 0.3);
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+        transition: color 0.15s;
+        letter-spacing: 0.04em;
+    }
+
+    .notif-read-btn:hover {
+        color: var(--chalk);
+    }
+
+    .notif-list {
+        list-style: none;
+        max-height: 260px;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+    }
+
+    .notif-item {
+        padding: 0.55rem 0.7rem;
+        border-radius: 7px;
+        background: rgba(255, 255, 255, 0.025);
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.72rem;
+        line-height: 1.5;
+        border: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    .notif-item a {
+        color: var(--chalk);
+        text-decoration: none;
+    }
+
+    .notif-item a:hover {
+        text-decoration: underline;
+    }
+
+    .notif-item span {
+        color: rgba(255, 255, 255, 0.45);
+    }
+
+    .notif-empty {
+        text-align: center;
+        padding: 1.5rem 0;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.72rem;
+        color: rgba(255, 255, 255, 0.2);
+        letter-spacing: 0.06em;
+    }
+
+    /* ── DOWNLOAD OVERLAY ── */
+    .download-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(8px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10000;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.2s, visibility 0.2s;
+    }
+
+    .download-overlay.show {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .download-menu {
+        background: rgba(12, 12, 12, 0.98);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 16px;
+        padding: 2rem;
+        max-width: 360px;
+        width: 90%;
+        text-align: center;
+        animation: popIn 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    @keyframes popIn {
+        from {
+            transform: scale(0.9);
+            opacity: 0;
+        }
+
+        to {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+
+    .dl-menu-title {
+        font-family: 'Syne', sans-serif;
+        font-size: 1rem;
+        font-weight: 700;
+        color: var(--chalk);
+        margin-bottom: 1.4rem;
+        letter-spacing: 0.02em;
+    }
+
+    .dl-options {
+        display: flex;
+        flex-direction: column;
+        gap: 0.6rem;
+    }
+
+    .dl-option {
+        display: flex;
+        align-items: center;
+        gap: 0.9rem;
+        padding: 0.85rem 1rem;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.03);
+        text-decoration: none;
+        color: var(--chalk);
+        font-family: 'Syne', sans-serif;
+        font-size: 0.9rem;
+        font-weight: 600;
+        transition: background 0.15s, border-color 0.15s;
+    }
+
+    .dl-option:hover {
+        background: rgba(255, 255, 255, 0.07);
+        border-color: rgba(255, 255, 255, 0.16);
+    }
+
+    .dl-option i {
+        font-size: 1.4rem;
+        background-color: var(--chalk);
+        flex-shrink: 0;
+    }
+
+    .dl-close {
+        margin-top: 1.2rem;
+        background: none;
+        border: none;
+        color: rgba(255, 255, 255, 0.3);
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.72rem;
+        cursor: pointer;
+        letter-spacing: 0.06em;
+        transition: color 0.15s;
+    }
+
+    .dl-close:hover {
+        color: var(--chalk);
+    }
+
+    /* ── TOAST ── */
+    .tor-toast {
+        position: fixed;
+        bottom: 2rem;
+        left: 50%;
+        transform: translateX(-50%) translateY(6px);
+        background: var(--chalk, #f0f0f0);
+        color: #0a0a0a;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.72rem;
+        font-weight: 700;
+        padding: 0.5rem 1.1rem;
+        border-radius: 99px;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s, transform 0.2s;
+        z-index: 9999;
+        white-space: nowrap;
+        letter-spacing: 0.06em;
+    }
+
+    .tor-toast.show {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+
+    /* ── ENTRANCE ANIMATIONS ── */
+    .kc-left>* {
+        opacity: 0;
+        transform: translateY(10px);
+        animation: fadeUp 0.5s ease forwards;
+    }
+
+    .kc-terminal-tag {
+        animation-delay: 0.05s;
+    }
+
+    .kc-avatar-zone {
+        animation-delay: 0.12s;
+    }
+
+    .kc-greeting {
+        animation-delay: 0.18s;
+    }
+
+    .kc-sub {
+        animation-delay: 0.23s;
+    }
+
+    .kc-actions {
+        animation-delay: 0.28s;
+    }
+
+    .kc-stats {
+        animation-delay: 0.33s;
+    }
+
+    .kc-right>* {
+        opacity: 0;
+        transform: translateX(10px);
+        animation: fadeRight 0.5s ease forwards;
+    }
+
+    .kc-section-label {
+        animation-delay: 0.2s;
+    }
+
+    .kc-tor-card {
+        animation-delay: 0.28s;
+    }
+
+    .kc-dl-card {
+        animation-delay: 0.34s;
+    }
+
+    .kc-security-strip {
+        animation-delay: 0.4s;
+    }
+
+    @keyframes fadeUp {
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes fadeRight {
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    /* ── MOBILE ── */
+    @media (max-width: 820px) {
+        .kc-inner {
+            grid-template-columns: 1fr;
+            grid-template-rows: auto auto;
+            height: auto;
+            min-height: 100%;
+        }
+
+        .kc-left {
+            grid-column: 1;
+            grid-row: 1;
+            border-right: none;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 4.5rem 1.5rem 2rem;
+            min-height: unset;
+        }
+
+        .kc-left::after {
+            display: none;
+        }
+
+        .kc-right {
+            grid-column: 1;
+            grid-row: 2;
+            padding: 2rem 1.5rem 3rem;
+        }
+
+        .kc-right>* {
+            animation-name: fadeUp;
+        }
+
+        .desktop-notif {
+            display: none;
+        }
+
+        .mobile-bell-container {
+            display: block;
+        }
+
+        #notification-dropdown {
+            position: fixed;
+            top: 70px;
+            right: 12px;
+            left: 12px;
+            width: auto;
+            max-width: none;
+        }
+
+        .kc-name {
+            font-size: 2.6rem;
+        }
+
+        .kc-security-items {
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .kc-tor-addr {
+            font-size: 0.62rem;
+        }
+
+        .kc-dl-platforms {
+            flex-direction: column;
+        }
+
+        .tor-toast {
+            white-space: normal;
+            max-width: 88%;
+            text-align: center;
+            font-size: 0.68rem;
+            bottom: 1rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .kc-left {
+            padding: 4rem 1.2rem 1.8rem;
+        }
+
+        .kc-right {
+            padding: 1.8rem 1.2rem 2.5rem;
+        }
+
+        .kc-name {
+            font-size: 2rem;
+        }
+
+        .kc-btn {
+            padding: 0.65rem 0.9rem;
+            font-size: 0.82rem;
+        }
+    }
+</style>
+
+<div class="kc-canvas">
+
+    <!-- Desktop bell -->
+    <div class="notif-container desktop-notif">
+        <div class="bell-icon-wrap" onclick="toggleNotifications()">
+            <i class="icon icon-bell" style="color: #ffffff; font-size: 1.1rem;"></i>
+            {% if notifications %}<div class="notif-badge"></div>{% endif %}
+        </div>
+    </div>
+
+    <!-- Universal Dropdown -->
+    <div id="notification-dropdown">
+        <div class="notif-header">
+            <h4>{{ _('Bildirimler') }} ({{ notifications|length }})</h4>
+            <button class="notif-read-btn" onclick="markAllRead()">{{ _('Tümünü okundu say') }}</button>
+        </div>
+        <div id="notif-list-container">
+            {% if notifications %}
+            <ul class="notif-list">
+                {% for n in notifications %}
+                <li class="notif-item">
+                    {% if n.type == 'friend_request' %}
+                    <a href="{{ url_for('auth.friend_requests') }}?notif={{ n.id }}">
+                        <span>{{ n.from_user_username }}</span> {{ _('arkadaşlık isteği gönderdi.') }}
+                    </a>
+                    {% elif n.type == 'message' %}
+                    <a href="{{ url_for('auth.messages') }}?with={{ n.from_user_id }}&notif={{ n.id }}">
+                        <span>{{ n.from_user_username }}</span>: {{ _('Yeni mesaj.') }}
+                    </a>
+                    {% elif n.type == 'group_message' %}
+                    <a href="{{ url_for('auth.group_chat', group_id=n.related_id) }}?notif={{ n.id }}">
+                        <b>{{ n.group_name }}</b> {{ _('grubunda yeni mesaj.') }}
+                    </a>
+                    {% else %}
+                    <span>{{ n.message }}</span>
+                    {% endif %}
+                </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <div class="notif-empty">{{ _('Yeni bildirim yok.') }}</div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="kc-inner">
+
+        <!-- ═══ LEFT PANEL ═══ -->
+        <div class="kc-left">
+
+            <span class="kc-terminal-tag">KeyCord / session-active</span>
+
+            <div class="kc-greeting">
+                <span class="kc-greeting-label">{{ _('Merhaba') }}</span>
+                <div class="kc-name">{{ current_user.username }}</div>
+            </div>
+
+            <div class="kc-sub">// {{ _('Bir sohbet seçin ya da') }}<br>// {{ _('yeni bağlantı başlatın.') }}</div>
+
+            <div class="kc-actions">
+                <a href="{{ url_for('auth.add_friend_page') }}" class="kc-btn kc-btn-primary">
+                    <div class="kc-btn-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                            <circle cx="9" cy="7" r="4" />
+                            <line x1="19" y1="8" x2="19" y2="14" />
+                            <line x1="22" y1="11" x2="16" y2="11" />
+                        </svg>
+                    </div>
+                    <span class="kc-btn-label">{{ _('Arkadaş Ekle') }}</span>
+                    <span class="kc-btn-kbd">⌘ N</span>
+                </a>
+                <a href="{{ url_for('auth.create_group_page') }}" class="kc-btn kc-btn-ghost">
+                    <div class="kc-btn-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                            <circle cx="9" cy="7" r="4" />
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                        </svg>
+                    </div>
+                    <span class="kc-btn-label">{{ _('Grup Kur') }}</span>
+                    <span class="kc-btn-kbd">⌘ G</span>
+                </a>
+                <a href="{{ url_for('auth.profile') }}" class="kc-btn kc-btn-ghost">
+                    <div class="kc-btn-icon">
+                        <svg viewBox="0 0 24 24">
+                            <circle cx="12" cy="8" r="4" />
+                            <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
+                        </svg>
+                    </div>
+                    <span class="kc-btn-label">{{ _('Profil') }}</span>
+                    <span class="kc-btn-kbd">⌘ P</span>
+                </a>
+            </div>
+
+            <div class="kc-stats">
+                <div class="kc-stat">
+                    <span class="kc-stat-val" id="stat-friends">{{ friends|length }}</span>
+                    <span class="kc-stat-label">{{ _('Arkadaş') }}</span>
+                </div>
+                <div class="kc-stat">
+                    <span class="kc-stat-val" id="stat-groups">{{ groups|length }}</span>
+                    <span class="kc-stat-label">{{ _('Grup') }}</span>
+                </div>
+                <div class="kc-stat">
+                    <span class="kc-stat-val" id="stat-unread">{{ notifications|length }}</span>
+                    <span class="kc-stat-label">{{ _('Bildirim') }}</span>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ═══ RIGHT PANEL ═══ -->
+        <div class="kc-right">
+
+            <div class="kc-section-label">{{ _('Ağ Bilgisi') }}</div>
+
+            <!-- Tor Address -->
+            <div class="kc-tor-card" id="tor-copy-box" title="{{ _('Kopyalamak için tıkla') }}">
+                <div class="kc-tor-header">
+                    <div class="kc-tor-badge">
+                        <span class="kc-tor-dot"></span>
+                        tor network
+                    </div>
+                    <div class="kc-copy-icon">
+                        <svg viewBox="0 0 24 24">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="kc-tor-addr">46iblsrblve4hnsl6567lwgehwh5mrony3hbfcgkenaxqphzczlb3mid.onion</div>
+                <div class="kc-tor-hint">↑ {{ _('Kopyalamak için tıklayın') }}</div>
+                <span id="tor-address"
+                    style="display:none;">46iblsrblve4hnsl6567lwgehwh5mrony3hbfcgkenaxqphzczlb3mid.onion</span>
+            </div>
+
+            <!-- Download -->
+            <div class="kc-section-label" style="margin-top:0.5rem;">{{ _('İstemci') }}</div>
+
+            <div class="kc-dl-card">
+                <div class="kc-dl-header">
+                    <div class="kc-dl-title">{{ _('Uygulamayı İndir') }}</div>
+                    <div class="kc-dl-arrow">↓</div>
+                </div>
+                <div class="kc-dl-platforms">
+                    <a href="{{ url_for('static', filename='downloads/KeyCord.apk') }}" class="kc-dl-platform" download>
+                        <span class="kc-dl-platform-dot android"></span>
+                        Android APK
+                    </a>
+                    <a href="{{ url_for('static', filename='downloads/KeyCord-Setup.exe') }}" class="kc-dl-platform"
+                        download>
+                        <span class="kc-dl-platform-dot windows"></span>
+                        Windows EXE
+                    </a>
+                </div>
+            </div>
+
+
+
+        </div>
+
+    </div>
+</div>
+
+
+
+<!-- Toast -->
+<div class="tor-toast" id="tor-toast">✓ {{ _('Kopyalandı') }}</div>
+
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script src="{{ url_for('static', filename='js/socket.io.min.js') }}"></script>
+<script>
+    const socket = io();
+    const API_TOKEN = '{{ token }}';
+
+    /* ── Token bridge ── */
+    (function () {
+        if (window.AndroidBridge && window.AndroidBridge.saveKey) {
+            try { window.AndroidBridge.saveKey('keycord_api_token', API_TOKEN); } catch (e) { }
+        }
+        localStorage.setItem('keycord_api_token', API_TOKEN);
+        const inp = document.createElement('input');
+        inp.type = 'hidden'; inp.id = 'api-token-hidden'; inp.value = API_TOKEN;
+        document.body.appendChild(inp);
+    })();
+
+    /* ── Socket ── */
+    socket.on('connect', () => socket.emit('join', { token: API_TOKEN }));
+
+    socket.on('new_notification', function (data) {
+        document.querySelectorAll('.bell-icon-wrap').forEach(b => {
+            if (!b.querySelector('.notif-badge')) {
+                const d = document.createElement('div');
+                d.className = 'notif-badge';
+                b.appendChild(d);
+            }
+        });
+
+        const val = document.getElementById('stat-unread');
+        if (val) val.textContent = parseInt(val.textContent || '0') + 1;
+
+        const container = document.getElementById('notif-list-container');
+        const empty = container.querySelector('.notif-empty');
+        if (empty) container.innerHTML = '<ul class="notif-list" id="dyn-notif-list"></ul>';
+
+        let list = container.querySelector('.notif-list');
+        if (!list) { list = document.createElement('ul'); list.className = 'notif-list'; container.appendChild(list); }
+
+        const li = document.createElement('li');
+        li.className = 'notif-item';
+        const a = document.createElement('a');
+        a.href = data.url || '#';
+        if (data.type === 'friend_request') {
+            a.innerHTML = `<span>${data.from_user_username}</span> arkadaşlık isteği gönderdi.`;
+        } else if (data.type === 'message') {
+            a.innerHTML = `<span>${data.from_user_username}</span>: Yeni mesaj.`;
+        } else if (data.type === 'group_message') {
+            a.innerHTML = `<b>${data.group_name}</b> grubunda yeni mesaj.`;
+        } else {
+            a.textContent = data.message || 'Yeni bildirim';
+        }
+        li.appendChild(a);
+        list.insertBefore(li, list.firstChild);
+
+        const h4 = document.querySelector('#notification-dropdown .notif-header h4');
+        if (h4) {
+            const m = h4.textContent.match(/\((\d+)\)/);
+            const c = m ? parseInt(m[1]) + 1 : 1;
+            h4.textContent = `{{ _('Bildirimler') }} (${c})`;
+        }
+
+        // Sidebar dot real-time sync
+        if (data.type === 'message' && data.from_user_id) {
+            const chatLink = document.querySelector(`a[href*="with=${data.from_user_id}"]`);
+            if (chatLink) {
+                const imgWrap = chatLink.querySelector('div[style*="position: relative"]');
+                if (imgWrap && !imgWrap.querySelector('.unread-dot')) {
+                    const dot = document.createElement('div');
+                    dot.className = 'unread-dot';
+                    dot.setAttribute('title', "{{ _('Yeni Mesaj!') }}");
+                    dot.style.cssText = 'position: absolute; top: -2px; right: -2px; width: 14px; height: 14px; background: var(--chalk); border-radius: 50%; box-shadow: 0 0 8px rgba(255,255,255,0.8); border: 2px solid var(--paper-black);';
+                    imgWrap.appendChild(dot);
+                }
+                const boldTxt = chatLink.querySelector('.unread-text-bold');
+                if (boldTxt) boldTxt.style.color = 'var(--chalk)';
+                const msgTxt = chatLink.querySelector('.unread-text-msg');
+                if (msgTxt) msgTxt.innerHTML = "<b>{{ _('Yeni mesajın var') }}</b>";
+            }
+        }
+    });
+
+    /* ── Notification UI ── */
+    function toggleNotifications() {
+        const dd = document.getElementById('notification-dropdown');
+        dd.style.display = dd.style.display === 'block' ? 'none' : 'block';
+    }
+
+    document.addEventListener('click', e => {
+        const dd = document.getElementById('notification-dropdown');
+        let inBell = false;
+        document.querySelectorAll('.bell-icon-wrap').forEach(b => { if (b.contains(e.target)) inBell = true; });
+        if (!inBell && !dd.contains(e.target)) dd.style.display = 'none';
+    });
+
+    function markAllRead() {
+        fetch('/api/notifications/mark-all-read', {
+            method: 'POST',
+            headers: { 'Authorization': 'Bearer ' + API_TOKEN }
+        }).then(r => r.json()).then(d => {
+            if (!d.success) return;
+            document.getElementById('notif-list-container').innerHTML = '<div class="notif-empty">{{ _("Yeni bildirim yok.") }}</div>';
+            document.querySelectorAll('.notif-badge').forEach(b => b.remove());
+            const h4 = document.querySelector('#notification-dropdown .notif-header h4');
+            if (h4) h4.textContent = '{{ _("Bildirimler") }} (0)';
+            const v = document.getElementById('stat-unread');
+            if (v) v.textContent = '0';
+
+            // Sync sidebar
+            document.querySelectorAll('.unread-dot').forEach(b => b.remove());
+            document.querySelectorAll('.unread-text-bold').forEach(b => b.style.color = '');
+            document.querySelectorAll('.unread-text-msg').forEach(b => b.innerHTML = "{{ _('Sohbeti aç') }}");
+        }).catch(console.error);
+    }
+
+    /* ── Download overlay ── */
+    function toggleDownloadMenu() {
+        document.getElementById('download-menu-overlay').classList.toggle('show');
+    }
+
+    /* ── Tor copy ── */
+    const torBox = document.getElementById('tor-copy-box');
+    const torToast = document.getElementById('tor-toast');
+
+    function showToast() {
+        torToast.classList.add('show');
+        setTimeout(() => torToast.classList.remove('show'), 2000);
+    }
+
+    if (torBox) {
+        torBox.addEventListener('click', () => {
+            const addr = document.getElementById('tor-address').textContent.trim();
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(addr).then(showToast).catch(() => fallbackCopy(addr));
+            } else { fallbackCopy(addr); }
+        });
+    }
+
+    function fallbackCopy(text) {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed'; ta.style.left = '-9999px';
+        document.body.appendChild(ta); ta.select();
+        try { document.execCommand('copy'); showToast(); } catch (e) { }
+        document.body.removeChild(ta);
+    }
+
+    /* ── Stats API ── */
+    fetch('/api/me/stats', { headers: { 'Authorization': 'Bearer ' + API_TOKEN } })
+        .then(r => r.ok ? r.json() : null)
+        .then(d => {
+            if (!d) return;
+            if (d.friends !== undefined) document.getElementById('stat-friends').textContent = d.friends;
+            if (d.groups !== undefined) document.getElementById('stat-groups').textContent = d.groups;
+        }).catch(() => { });
+</script>
+{% endblock %}

@@ -1,0 +1,657 @@
+{% extends "base.html" %}
+
+{% block title %}KeyCord — {{ _('Kayıt Ol') }}{% endblock %}
+
+{% block extra_css %}
+<style>
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    height: auto;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    min-height: 100vh;
+    overflow-x: hidden;
+    margin: 0;
+  }
+
+  .container {
+    padding-top: 0 !important;
+    max-width: none !important;
+    width: 100% !important;
+    margin: 0 !important;
+  }
+
+  /* ── PAGE LAYOUT ── */
+  .reg-page {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  /* ── LEFT PANEL ── */
+  .reg-left {
+    background: rgba(255, 255, 255, 0.015);
+    border-right: 1px solid rgba(255, 255, 255, 0.06);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 4rem 3.5rem;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+  }
+
+  .reg-logo {
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted-chalk);
+    text-decoration: none;
+    margin-bottom: 3.5rem;
+    display: block;
+  }
+
+  .reg-left-title {
+    font-size: clamp(3rem, 3.5vw, 5rem);
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--chalk);
+    margin-bottom: 1rem;
+    letter-spacing: -0.02em;
+  }
+
+  .reg-left-desc {
+    font-size: 1.5rem;
+    color: var(--muted-chalk);
+    line-height: 1.7;
+    max-width: 720px;
+    margin-bottom: 5rem;
+  }
+
+  /* feature list */
+  .reg-features {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .reg-feat {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.1rem 1.2rem;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.02);
+    transition: border-color 0.2s;
+  }
+
+  .reg-feat:hover {
+    border-color: rgba(255, 255, 255, 0.14);
+  }
+
+  .reg-feat-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.04);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .reg-feat-icon svg {
+    width: 16px;
+    height: 16px;
+    stroke: rgba(255, 255, 255, 0.55);
+    fill: none;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .reg-feat-text {
+    font-size: 1.3rem;
+    color: var(--muted-chalk);
+    line-height: 1.7;
+  }
+
+  .reg-feat-text strong {
+    display: block;
+    color: var(--chalk);
+    font-weight: 600;
+    margin-bottom: 0.15rem;
+    font-size: 0.95rem;
+  }
+
+  /* bottom note */
+  .reg-left-note {
+    margin-top: auto;
+    padding-top: 2.5rem;
+    font-size: 0.78rem;
+    color: rgba(255, 255, 255, 0.2);
+    letter-spacing: 0.04em;
+  }
+
+  /* ── RIGHT PANEL ── */
+  .reg-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 4rem 3.5rem;
+    min-height: 100vh;
+  }
+
+  .reg-form-header {
+    margin-bottom: 2.5rem;
+  }
+
+  .reg-form-title {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 700;
+    color: var(--chalk);
+    line-height: 1.2;
+    margin-bottom: 0.4rem;
+  }
+
+  .reg-form-sub {
+    font-size: 1.2rem;
+    color: var(--muted-chalk);
+  }
+
+  /* ── FORM FIELDS ── */
+  .field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    margin-bottom: 1.8rem;
+  }
+
+  .field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .field-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .field-item label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted-chalk);
+  }
+
+  .field-item input {
+    width: 100%;
+    padding: 0.85rem 1rem;
+    font-size: 1rem;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    color: var(--chalk);
+    outline: none;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .field-item input:focus {
+    border-color: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.07);
+  }
+
+  .field-item input::placeholder {
+    color: rgba(255, 255, 255, 0.2);
+  }
+
+  /* password wrapper */
+  .pw-wrap {
+    position: relative;
+  }
+
+  .pw-wrap input {
+    padding-right: 2.8rem !important;
+  }
+
+  .toggle-password {
+    position: absolute;
+    right: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.15s;
+  }
+
+  .toggle-password:hover {
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .toggle-password svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  /* strength meter */
+  .strength {
+    margin-top: 0.5rem;
+    display: none;
+  }
+
+  .strength-bar {
+    height: 4px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .strength-fill {
+    height: 100%;
+    width: 0;
+    border-radius: 2px;
+    transition: width 0.3s, background 0.3s;
+  }
+
+  .strength-text {
+    margin-top: 5px;
+    font-size: 0.78rem;
+    color: var(--muted-chalk);
+  }
+
+  /* submit */
+  .reg-submit {
+    width: 100%;
+    padding: 0.9rem;
+    background: var(--chalk);
+    color: var(--paper-black);
+    font-weight: 700;
+    font-size: 1rem;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: opacity 0.15s;
+    letter-spacing: 0.02em;
+  }
+
+  .reg-submit:hover {
+    opacity: 0.88;
+  }
+
+  .reg-submit:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  /* links */
+  .reg-links {
+    margin-top: 1.5rem;
+    text-align: center;
+    font-size: 1.2rem;
+    color: var(--muted-chalk);
+    line-height: 1.7;
+  }
+
+  .reg-links a {
+    color: var(--chalk);
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .reg-links a:hover {
+    text-decoration: underline;
+  }
+
+  .reg-links .tos {
+    margin-top: 1.8rem;
+    font-size: 1rem;
+    color: rgba(200, 200, 200, 0.8);
+  }
+
+  /* key generation notice */
+  .key-notice {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.9rem 1rem;
+    border: 1px dashed rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.02);
+    margin-bottom: 1.5rem;
+  }
+
+  .key-notice svg {
+    width: 16px;
+    height: 16px;
+    stroke: rgba(127, 255, 127, 0.5);
+    fill: none;
+    stroke-width: 1.8;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .key-notice-text {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.5;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media(max-width: 860px) {
+    .reg-page {
+      grid-template-columns: 1fr;
+    }
+
+    .reg-left {
+      position: static;
+      height: auto;
+      padding: 3rem 2rem 2rem;
+    }
+
+    .reg-left-note {
+      display: none;
+    }
+
+    .reg-right {
+      padding: 2rem;
+      min-height: auto;
+    }
+  }
+
+  @media(max-width: 480px) {
+    .field-row {
+      grid-template-columns: 1fr;
+    }
+
+    .reg-left {
+      padding: 2rem 1.5rem;
+    }
+
+    .reg-right {
+      padding: 1.5rem;
+    }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="reg-page">
+
+  <!-- ── LEFT ── -->
+  <div class="reg-left">
+    <a href="{{ url_for('auth.welcome') }}" class="reg-logo">← KeyCord</a>
+
+    <h1 class="reg-left-title">{{ _('Gizlilik bir tercih değil,\nbir haktır.') }}</h1>
+    <p class="reg-left-desc">{{ _('Hesabınız oluşturulurken şifreleme anahtarları yalnızca sizin cihazınızda üretilir.
+      Sunucumuz hiçbir zaman özel anahtarınızı görmez.') }}</p>
+
+    <div class="reg-features">
+      <div class="reg-feat">
+        <div class="reg-feat-icon">
+          <svg viewBox="0 0 24 24">
+            <rect x="3" y="11" width="18" height="11" rx="2" />
+            <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+          </svg>
+        </div>
+        <div class="reg-feat-text">
+          <strong>{{ _('Sıfır log politikası') }}</strong>
+          {{ _('Bağlantı zamanı, IP adresi veya mesaj içeriği hiçbir şekilde kayıt altına alınmaz.') }}
+        </div>
+      </div>
+
+      <div class="reg-feat">
+        <div class="reg-feat-icon">
+          <svg viewBox="0 0 24 24">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+          </svg>
+        </div>
+        <div class="reg-feat-text">
+          <strong>{{ _('İstemci tarafı şifreleme') }}</strong>
+          {{ _('Özel anahtarınız cihazınızda şifreli saklanır. Parolanız olmadan kimse mesajlarınıza erişemez.') }}
+        </div>
+      </div>
+
+      <div class="reg-feat">
+        <div class="reg-feat-icon">
+          <svg viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="10" />
+            <line x1="2" y1="12" x2="22" y2="12" />
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+          </svg>
+        </div>
+        <div class="reg-feat-text">
+          <strong>{{ _('Tor ağı desteği') }}</strong>
+          {{ _('Onion adresi üzerinden bağlanarak IP adresinizi tamamen gizleyebilirsiniz.') }}
+        </div>
+      </div>
+    </div>
+
+    <div class="reg-left-note">
+      {{ _('Tüm kriptografik işlemler tarayıcınızda, yerel olarak çalışır.') }}
+    </div>
+  </div>
+
+  <!-- ── RIGHT ── -->
+  <div class="reg-right">
+    <div class="reg-form-header">
+      <div class="reg-form-title">{{ _('Hesap Oluştur') }}</div>
+      <div class="reg-form-sub">{{ _('Kayıt için gerçek kimlik bilgisi gerekmez.') }}</div>
+    </div>
+
+    <form method="POST" id="authRegisterForm" novalidate>
+      <input type="hidden" name="csrf_token" value="{{ csrf_token }}" />
+
+      <div class="field-group">
+
+        <div class="field-row">
+          <div class="field-item">
+            <label for="username">{{ _('Kullanıcı Adı') }}</label>
+            <input type="text" id="username" name="username" placeholder="anonim_kullanici" required
+              autocomplete="username" />
+          </div>
+
+          <div class="field-item">
+            <label for="email">{{ _('E-posta') }}</label>
+            <input type="email" id="email" name="email" placeholder="mail@example.com" required autocomplete="email" />
+          </div>
+        </div>
+
+        <div class="field-item">
+          <label for="password">{{ _('Şifre') }}</label>
+          <div class="pw-wrap">
+            <input type="password" id="password" name="password" placeholder="{{ _('En az 8 karakter') }}" required
+              autocomplete="new-password" />
+            <button type="button" class="toggle-password" data-target="password" aria-label="{{ _('Şifreyi göster') }}">
+              <svg class="eye-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                <circle cx="12" cy="12" r="3" />
+              </svg>
+              <svg class="eye-off-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" style="display:none;">
+                <path
+                  d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
+                <line x1="1" y1="1" x2="23" y2="23" />
+              </svg>
+            </button>
+          </div>
+          <div class="strength" id="pwBox">
+            <div class="strength-bar">
+              <div class="strength-fill" id="pwFill"></div>
+            </div>
+            <div class="strength-text" id="pwText"></div>
+          </div>
+        </div>
+
+        <div class="field-item">
+          <label for="confirm">{{ _('Şifreyi Onayla') }}</label>
+          <div class="pw-wrap">
+            <input type="password" id="confirm" name="confirm_password" placeholder="{{ _('Tekrar giriniz') }}" required
+              autocomplete="new-password" />
+            <button type="button" class="toggle-password" data-target="confirm" aria-label="{{ _('Şifreyi göster') }}">
+              <svg class="eye-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                <circle cx="12" cy="12" r="3" />
+              </svg>
+              <svg class="eye-off-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" style="display:none;">
+                <path
+                  d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
+                <line x1="1" y1="1" x2="23" y2="23" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="key-notice">
+        <svg viewBox="0 0 24 24">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+        </svg>
+        <div class="key-notice-text">{{ _('Kayıt sırasında şifreleme anahtarlarınız yalnızca bu cihazda oluşturulur. Bu
+          işlem birkaç saniye sürebilir.') }}</div>
+      </div>
+
+      <button type="submit" class="reg-submit" id="submitBtn">{{ _('Hesap Oluştur') }}</button>
+    </form>
+
+    <div class="reg-links">
+      {{ _('Hesabın var mı?') }}
+      <a href="{{ url_for('auth.login_page') }}">{{ _('Giriş Yap') }}</a>
+      <div class="tos">
+        {{ _('Devam ederek') }}
+        <a href="{{ url_for('auth.explicit_consent') }}" target="_blank" style="color:rgba(255,255,255,0.35);">{{
+          _('Açık Rıza Beyanını') }}</a>
+        {{ _('kabul etmiş sayılırsınız.') }}
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/crypto.js') }}"></script>
+<script>
+  /* ── Şifre gücü ── */
+  const pw = document.getElementById('password');
+  const pwBox = document.getElementById('pwBox');
+  const fill = document.getElementById('pwFill');
+  const txt = document.getElementById('pwText');
+
+  if (pw) {
+    pw.addEventListener('input', () => {
+      const v = pw.value;
+      if (!v) { pwBox.style.display = 'none'; fill.style.width = '0'; return; }
+      pwBox.style.display = 'block';
+
+      let s = 0;
+      if (v.length >= 8) s += 30;
+      if (v.length >= 12) s += 10;
+      if (/[a-z]/.test(v)) s += 12;
+      if (/[A-Z]/.test(v)) s += 12;
+      if (/[0-9]/.test(v)) s += 18;
+      if (/[^A-Za-z0-9]/.test(v)) s += 18;
+      s = Math.min(100, s);
+
+      fill.style.width = s + '%';
+      if (s < 40) { txt.textContent = '{{ _("Zayıf şifre") }}'; fill.style.background = '#ff4f4f'; }
+      else if (s < 70) { txt.textContent = '{{ _("Orta güvenlik") }}'; fill.style.background = '#ffd700'; }
+      else { txt.textContent = '{{ _("Güçlü şifre") }}'; fill.style.background = '#7fff7f'; }
+    });
+  }
+
+  /* ── Şifre göster/gizle ── */
+  document.querySelectorAll('.toggle-password').forEach(btn => {
+    btn.addEventListener('click', function () {
+      const input = document.getElementById(this.dataset.target);
+      const isHidden = input.type === 'password';
+      input.type = isHidden ? 'text' : 'password';
+      this.querySelector('.eye-icon').style.display = isHidden ? 'none' : '';
+      this.querySelector('.eye-off-icon').style.display = isHidden ? '' : 'none';
+    });
+  });
+
+  /* ── Kayıt & anahtar üretimi ── */
+  const form = document.getElementById('authRegisterForm');
+  const submitBtn = document.getElementById('submitBtn');
+
+  if (form && submitBtn) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!form.checkValidity()) { form.reportValidity(); return; }
+
+      const pwd = document.getElementById('password').value;
+      const confirm = document.getElementById('confirm').value;
+
+      if (pwd !== confirm) {
+        alert('{{ _("Şifreler uyuşmuyor!") }}');
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = '{{ _("Anahtarlar oluşturuluyor...") }}';
+
+      try {
+        const keys = await KEYCORD_CRYPTO.generateKeyPair();
+        const salt = KEYCORD_CRYPTO.utils.randomSalt();
+        const encryptedPrivKey = await KEYCORD_CRYPTO.encryptPrivateKey(keys.privateKey, pwd, salt);
+
+        ['public_key', 'encrypted_private_key', 'salt'].forEach(n => {
+          const ex = form.querySelector(`input[name="${n}"]`);
+          if (ex) ex.remove();
+        });
+
+        [['public_key', keys.publicKey], ['encrypted_private_key', encryptedPrivKey], ['salt', salt]].forEach(([n, v]) => {
+          const inp = document.createElement('input');
+          inp.type = 'hidden'; inp.name = n; inp.value = v;
+          form.appendChild(inp);
+        });
+
+        submitBtn.textContent = '{{ _("Tamamlanıyor...") }}';
+        form.submit();
+
+      } catch (err) {
+        console.error(err);
+        alert('{{ _("Anahtar oluşturma hatası: ") }}' + err.message);
+        submitBtn.disabled = false;
+        submitBtn.textContent = '{{ _("Hesap Oluştur") }}';
+      }
+    });
+  }
+</script>
+
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "{{ _('Kayıt Ol') }} - KeyCord",
+    "description": "{{ _('Yeni bir KeyCord hesabı oluşturun. Tamamen anonim, log tutmayan ve güvenli iletişim dünyasına katılın.') }}",
+    "url": "{{ url_for('auth.register', _external=True) }}",
+    "inLanguage": "{{ get_locale() }}",
+    "keywords": ["KeyCord Kayıt","Yeni Hesap Oluştur","Anonim Mesajlaşma","Güvenli Chat"]
+}
+</script>
+{% endblock %}

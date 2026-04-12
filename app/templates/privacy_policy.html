@@ -1,0 +1,223 @@
+{% extends "base.html" %}
+
+{% block title %}KeyCord - Gizlilik Politikası{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Isolated Scrollbar & Global Layout Fixes */
+    *,
+    *::before,
+    *::after {
+        box-sizing: border-box;
+    }
+
+    html {
+        height: auto;
+        scroll-behavior: smooth;
+    }
+
+    body {
+        min-height: 100vh;
+        overflow-x: hidden;
+        position: relative;
+        margin: 0;
+    }
+
+    /* Privacy Policy Specific Styles */
+    .policy-container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: clamp(1rem, 5vw, 2rem);
+    }
+
+    .policy-header {
+        text-align: center;
+        margin-bottom: 4rem;
+    }
+
+    .policy-section {
+        margin-bottom: 2rem;
+        padding: clamp(1rem, 5vw, 2rem);
+        position: relative;
+    }
+
+    .policy-section:hover {
+        background: rgba(255, 255, 255, 0.01);
+    }
+
+    .section-icon {
+        font-family: 'Reenie Beanie';
+        font-size: 2.5rem;
+        color: var(--chalk);
+        display: inline-block;
+        margin-right: 10px;
+    }
+
+    .section-title {
+        font-family: 'Reenie Beanie';
+        font-size: clamp(1.8rem, 6vw, 2.2rem);
+        margin-bottom: 1.5rem;
+        color: var(--chalk);
+        border-bottom: 2px dashed rgba(255, 255, 255, 0.1);
+        padding-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        line-height: 1.1;
+    }
+
+    .policy-content {
+        font-family: 'Caveat';
+        font-size: 1.3rem;
+        color: var(--muted-chalk);
+        line-height: 1.6;
+    }
+
+    .highlight-box {
+        background: rgba(255, 255, 255, 0.03);
+        border: 2px dashed rgba(255, 255, 255, 0.1);
+        padding: 1rem;
+        border-radius: 12px;
+        margin: 1rem 0;
+        transform: rotate(-0.5deg);
+    }
+
+    .key-point {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 1rem;
+        align-items: flex-start;
+    }
+
+    .point-marker {
+        font-family: 'Reenie Beanie';
+        font-size: 1.5rem;
+        color: var(--brand-blue);
+        line-height: 1;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container policy-container">
+
+    <!-- Back Button -->
+    <a href="{{ url_for('auth.home') if not current_user.is_authenticated else url_for('auth.dashboard') }}" class="btn"
+        style="position: fixed; top: 2rem; left: 2rem; border-style: dashed; padding: 0.5rem 1rem; z-index: 100;">
+        ← Geri
+    </a>
+
+    <!-- Header -->
+    <div class="policy-header">
+        <h1
+            style="font-family: 'Reenie Beanie'; font-size: clamp(2.5rem, 10vw, 4.5rem); margin-bottom: 1rem; transform: rotate(-1deg); line-height: 1;">
+            Gizlilik Politikamız
+        </h1>
+        <p style="font-family: 'Caveat'; font-size: clamp(1.2rem, 5vw, 1.6rem); color: var(--muted-chalk);">
+            Verileriniz bizim değil, <u>sizin</u> kontrolünüzde.
+        </p>
+    </div>
+
+    <!-- Section 1: Core Philosophy -->
+    <div class="policy-section sketch-box" style="transform: rotate(0.5deg);">
+        <h2 class="section-title">
+            <span class="section-icon">⌘</span>
+            Temel Felsefemiz
+        </h2>
+        <div class="policy-content">
+            <p>KeyCord, "Sıfır Bilgi" (Zero Knowledge) prensibi üzerine inşa edilmiştir. Bu, verilerinizin şifresini
+                çözebilecek anahtarların sunucularımızda değil, <strong>sadece sizin cihazınızda</strong> (istemci
+                tarafında) saklandığı anlamına gelir. Biz bile mesajlarınızı okuyamayız.</p>
+        </div>
+    </div>
+
+    <!-- Section 2: Tor & Anonymity -->
+    <div class="policy-section sketch-box" style="transform: rotate(-0.5deg);">
+        <h2 class="section-title">
+            <span class="section-icon">❄</span>
+            Tor Tabanlı Güvenlik Ağı
+        </h2>
+        <div class="policy-content">
+            <p>Sistemimiz, iletişim trafiğini anonimleştirmek için <strong>Tor tabanlı bir yönlendirme katmanı</strong>
+                kullanır.</p>
+            <div class="highlight-box">
+                <div class="key-point">
+                    <span class="point-marker">➤</span>
+                    <div>
+                        <strong>Geçici Bağlantı Logları:</strong> Sadece siber saldırıları (DDoS, Brute Force) tespit
+                        etmek ve sistem bütünlüğünü korumak amacıyla, bağlantı verileri (IP, zaman damgası) şifrelenmiş
+                        belleklerde <u>çok kısa bir süre için</u> geçici olarak tutulur.
+                    </div>
+                </div>
+                <div class="key-point">
+                    <span class="point-marker">➤</span>
+                    <div>
+                        <strong>Otomatik Silme:</strong> Bu geçici veriler, analiz edildikten hemen sonra (genellikle
+                        birkaç dakika içinde) kalıcı olarak silinir. Hiçbir zaman disk üzerine yazılmaz.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section 3: Encryption -->
+    <div class="policy-section sketch-box" style="transform: rotate(0.8deg);">
+        <h2 class="section-title">
+            <span class="section-icon">⚕</span>
+            Uçtan Uca Şifreleme (E2EE)
+        </h2>
+        <div class="policy-content">
+            <p>Mesajlarınız cihazınızdan çıkmadan önce şifrelenir ve sadece alıcının cihazında çözülür.</p>
+            <ul style="list-style: none; padding: 0; margin-top: 1rem;">
+                <li class="key-point">
+                    <span class="point-marker">✎</span>
+                    <span>Anlık mesajlaşmalar AES-256 ile şifrelenir.</span>
+                </li>
+                <li class="key-point">
+                    <span class="point-marker">✎</span>
+                    <span>Şifreleme anahtarları (Private Keys) asla sunucularımıza gönderilmez.</span>
+                </li>
+                <li class="key-point">
+                    <span class="point-marker">✎</span>
+                    <span>Sesli görüşmeler P2P (Eşten Eşe) bağlantı üzerinden, DTLS-SRTP ile korunur.</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Section 4: Data Storage -->
+    <div class="policy-section sketch-box" style="transform: rotate(-0.3deg);">
+        <h2 class="section-title">
+            <span class="section-icon">▤</span>
+            Veri Depolama
+        </h2>
+        <div class="policy-content">
+            <p>Kullanıcı verilerinin kontrolü tamamen sizdedir.</p>
+            <div
+                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin-top: 1rem;">
+                <div class="highlight-box" style="text-align: center;">
+                    <h3 style="font-family: 'Reenie Beanie'; margin-bottom: 0.5rem; font-size: 1.8rem;">Sunucuda
+                        Tutanlar</h3>
+                    <p style="font-size: 1.1rem;">Şifrelenmiş Mesaj "Blob"ları (Çözülemez)<br>Genel Profil Bilgileri
+                        (İsteğe Bağlı)<br>Arkadaş Listesi (Hashlenmiş)</p>
+                </div>
+                <div class="highlight-box" style="text-align: center; border-color: var(--brand-blue);">
+                    <h3 style="font-family: 'Reenie Beanie'; margin-bottom: 0.5rem; font-size: 1.8rem;">Cihazda Tutanlar
+                    </h3>
+                    <p style="font-size: 1.1rem;">Şifre Çözme Anahtarları<br>Özel Sohbet Geçmişi<br>Medya Önizlemeleri
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact & Updates -->
+    <div style="margin-top: 4rem; text-align: center; font-family: 'Caveat'; color: var(--muted-chalk);">
+        <p style="font-size: 1.4rem;">
+            Bu politika en son <strong>Bugün</strong> güncellendi. <br>
+            Sorularınız için: <a href="mailto:info@keycord.org"
+                style="text-decoration: underline; text-decoration-style: dashed;">info@keycord.org</a>
+        </p>
+    </div>
+
+</div>
+{% endblock %}

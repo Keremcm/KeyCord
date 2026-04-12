@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kullanım Koşulları - KeyCord</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='logo.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/icons.css') }}">
+
+    <!-- Harici font -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='fonts/fonts.css') }}">
+
+    <style>
+        :root {
+            --paper-black: #050607;
+            --chalk: #f7f7f5;
+            --muted-chalk: #d7d7d6;
+            --sketch-width: 2.4px;
+            --accent-blue: #7dd3fc;
+            --accent-red: #fca5a5;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            height: auto;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            min-height: 100%;
+            background: var(--paper-black);
+            margin: 0;
+            padding-top: 90px;
+            color: var(--chalk);
+            font-family: 'Caveat', 'Shadows Into Light', 'Reenie Beanie', cursive;
+            overflow-x: hidden;
+            position: relative;
+            line-height: 1.6;
+        }
+
+        /* Kenarlar el çizimi gibi kavisli */
+        .scribble-border {
+            border: 3px solid rgba(255, 255, 255, 0.12);
+            border-radius: 18px;
+            position: relative;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .scribble-border::after {
+            content: "";
+            position: absolute;
+            inset: -6px;
+            border-radius: 22px;
+            border: 2px dashed rgba(255, 255, 255, 0.09);
+            transform: rotate(-0.5deg);
+            filter: blur(0.3px);
+            opacity: 0.8;
+            pointer-events: none;
+        }
+
+        .scribble-border::before {
+            content: "";
+            position: absolute;
+            inset: -10px;
+            border-radius: 26px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            transform: rotate(0.8deg);
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(3px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 14px 0;
+            z-index: 1000;
+        }
+
+        .header-content {
+            max-width: 1150px;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 1rem;
+        }
+
+        .nav-logo {
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            color: var(--chalk);
+        }
+
+        .nav-logo span {
+            font-size: 1.9rem;
+            font-weight: 700;
+            transform: rotate(-3deg);
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 1.4rem;
+        }
+
+        .nav-link {
+            font-size: 1.2rem;
+            color: var(--muted-chalk);
+            text-decoration: none;
+            padding: 6px;
+            transition: 0.15s;
+        }
+
+        .nav-link:hover {
+            color: var(--chalk);
+            transform: translateY(-3px) rotate(-1deg);
+        }
+
+        /* Button */
+        .btn {
+            padding: 8px 16px;
+            border: 2px solid rgba(255, 255, 255, 0.16);
+            background: transparent;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            color: var(--chalk);
+            transform: rotate(-1deg);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            border-color: rgba(255, 255, 255, 0.28);
+            transform: translateY(-2px) rotate(0deg);
+        }
+
+        /* Main Config */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .page-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            transform: rotate(-2deg);
+            color: var(--chalk);
+        }
+
+        .page-subtitle {
+            font-size: 1.4rem;
+            color: var(--muted-chalk);
+            max-width: 700px;
+            margin: 0 auto;
+            transform: rotate(1deg);
+        }
+
+        /* TOS Specific Content */
+        .tos-paper {
+            padding: clamp(2rem, 5vw, 4rem);
+            margin-bottom: 4rem;
+        }
+
+        .section {
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            color: var(--chalk);
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 2px dashed rgba(255, 255, 255, 0.1);
+            padding-bottom: 0.5rem;
+            transform: rotate(-0.5deg);
+        }
+
+        .section-title i {
+            font-size: 1.6rem;
+            opacity: 0.8;
+        }
+
+        .section-content p {
+            margin-bottom: 1rem;
+            color: var(--muted-chalk);
+            font-size: 1.2rem;
+        }
+
+        .section-content ul {
+            margin: 1.5rem 0;
+            padding-left: 1.5rem;
+            list-style: none;
+        }
+
+        .section-content li {
+            margin-bottom: 0.8rem;
+            color: var(--muted-chalk);
+            font-size: 1.15rem;
+            position: relative;
+            padding-left: 1.2rem;
+        }
+
+        .section-content li::before {
+            content: "-";
+            position: absolute;
+            left: 0;
+            color: var(--chalk);
+            font-weight: bold;
+        }
+
+        .highlight {
+            color: var(--accent-blue);
+            font-weight: 700;
+        }
+
+        .warning {
+            color: var(--accent-red);
+            font-weight: 700;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 3rem 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            color: var(--muted-chalk);
+            font-size: 1.1rem;
+        }
+
+        .footer a {
+            color: var(--muted-chalk);
+            margin: 0 1rem;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            color: var(--chalk);
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 2.8rem;
+            }
+
+            .tos-paper {
+                padding: 1.5rem;
+            }
+
+            .nav-menu {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="{{ url_for('auth.welcome') }}" class="nav-logo">
+                <img src="{{ url_for('static', filename='logo.png') }}" alt="KeyCord Logo"
+                    style="height: 32px; filter: drop-shadow(0 0 2px rgba(255,255,255,0.5));">
+                <span>KeyCord</span>
+            </a>
+            <nav class="nav-menu">
+                <a href="{{ url_for('auth.welcome') }}" class="nav-link">Ana Sayfa</a>
+                <a href="{{ url_for('auth.help_center') }}" class="nav-link">Yardım</a>
+                <a href="{{ url_for('auth.privacy_policy') }}" class="nav-link">Güvenlik</a>
+                <a href="{{ url_for('auth.contact') }}" class="nav-link">İletişim</a>
+            </nav>
+            <div style="display: flex; gap: 0.8rem; align-items: center;">
+                <a href="{{ url_for('auth.welcome') }}" class="btn">
+                    ← Geri
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="page-header">
+            <h1 class="page-title">Kullanım Koşulları</h1>
+            <p class="page-subtitle">
+                KeyCord platformunu kullanarak aşağıdaki koşulları kabul etmiş sayılırsınız.
+                Lütfen bu koşulları dikkatlice okuyun.
+            </p>
+        </div>
+
+        <div class="tos-paper scribble-border">
+            <div class="section">
+                <h2 class="section-title">
+                    <i class="icon icon-user"></i>
+                    1. Hesap Oluşturma ve Sorumluluklar
+                </h2>
+                <div class="section-content">
+                    <p>KeyCord'u kullanabilmek için:</p>
+                    <ul>
+                        <li><span class="highlight">18 yaşında veya üzerinde</span> olmanız gerekmektedir</li>
+                        <li><span class="highlight">Doğru ve güncel bilgiler</span> vermelisiniz</li>
+                        <li>Hesap güvenliğinizden <span class="highlight">tamamen siz sorumlusunuz</span></li>
+                    </ul>
+
+                    <div
+                        style="border: 2px dashed var(--accent-red); padding: 1.5rem; border-radius: 12px; margin: 2rem 0; background: rgba(255, 107, 107, 0.05);">
+                        <h3 style="color:var(--accent-red); margin-top:0; transform: rotate(-1deg);">⚠️ KRİTİK UYARI:
+                            ŞİFRE KURTARMA YOKTUR</h3>
+                        <p style="margin-bottom:0.5rem; color:var(--chalk);">
+                            KeyCord, <strong>Sıfır Bilgi (Zero-Knowledge)</strong> prensibiyle çalışır. Şifreniz
+                            sunucularımızda ASLA saklanmaz (hashlenmez, kaydedilmez).
+                        </p>
+                        <ul style="margin-top:0.5rem; color: #ffbcbc;">
+                            <li>Şifrenizi unutursanız, <strong>hesabınızı kurtarmamız TEKNİK OLARAK
+                                    İMKANSIZDIR.</strong></li>
+                            <li>Tüm verileriniz (mesajlar, arkadaşlar, gruplar) şifrenizle kriptolanır. Şifre yoksa,
+                                veri de yoktur.</li>
+                            <li>Lütfen şifrenizi güvenli bir yerde (örn. şifre yöneticisi) saklayınız.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">
+                    <i class="icon icon-shield"></i>
+                    2. Kabul Edilebilir Kullanım
+                </h2>
+                <div class="section-content">
+                    <p>KeyCord'u aşağıdaki amaçlar için <span class="highlight">kullanabilirsiniz:</span></p>
+                    <ul>
+                        <li>Güvenli mesajlaşma ve iletişim</li>
+                        <li>Topluluk oluşturma ve yönetimi</li>
+                        <li>Dosya ve medya paylaşımı (yasal sınırlar dahilinde)</li>
+                    </ul>
+
+                    <p><span class="warning">Kesinlikle yasaklanan kullanımlar:</span></p>
+                    <ul>
+                        <li><span class="warning">Yasadışı içerik paylaşımı</span> (terörizm, uyuşturucu, çocuk
+                            istismarı vs.)</li>
+                        <li><span class="warning">Spam, dolandırıcılık</span> veya phishing</li>
+                        <li><span class="warning">Telif hakkı ihlali</span></li>
+                        <li><span class="warning">Sistem güvenliğini tehdit etme</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">
+                    <i class="icon icon-lock"></i>
+                    3. Gizlilik ve Moderasyon Sınırları
+                </h2>
+                <div class="section-content">
+                    <p>KeyCord'un güvenlik mimarisi gereği:</p>
+                    <ul>
+                        <li><span class="highlight">Uçtan Uca Şifreleme (E2EE)</span> varsayılan olarak aktiftir.</li>
+                        <li><span class="highlight">AES-256</span> standartları kullanılır.</li>
+                    </ul>
+
+                    <div style="margin-top: 2rem;">
+                        <p><strong>⚠️ MODERASYON VE İZLEME İMKANSIZLIĞI:</strong></p>
+                        <p>Sistemizdeki tüm veriler istemci tarafında (sizin cihazınızda) şifrelenir. Bu nedenle:</p>
+                        <ul style="border-left: 3px solid var(--accent-blue); padding-left: 1rem; margin-left: 0.5rem;">
+                            <li>KeyCord ekibi, yöneticileri veya herhangi bir üçüncü şahıs <strong>mesaj içeriklerinizi,
+                                    dosyalarınızı veya aramalarınızı GÖRÜNTÜLEYEMEZ.</strong></li>
+                            <li>Platform genelinde "içerik denetimi", "filtreleme" veya "gözetleme" mekanizması bulunmaz
+                                ve <strong>uygulanması teknik olarak mümkün değildir.</strong></li>
+                            <li>Topluluklardaki düzen, tamamen o topluluğun yöneticilerinin (moderatörlerinin)
+                                sorumluluğundadır.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">
+                    <i class="icon icon-users"></i>
+                    4. Topluluk Kuralları ve Sorumluluk
+                </h2>
+                <div class="section-content">
+                    <p>KeyCord merkezi bir moderasyon sağlamadığından:</p>
+                    <ul>
+                        <li>Her topluluk/grup <strong>kendi kurallarından sorumludur.</strong></li>
+                        <li>Bir topluluğa katılarak, o topluluğun yöneticilerinin kurallarını kabul etmiş sayılırsınız.
+                        </li>
+                        <li>İllegal aktivitelerden doğacak yasal sorumluluk tamamen <strong>kullanıcıya aittir.</strong>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">
+                    <i class="icon icon-bolt"></i>
+                    5. Hizmet Kalitesi ve Erişilebilirlik
+                </h2>
+                <div class="section-content">
+                    <p>KeyCord olarak:</p>
+                    <ul>
+                        <li><span class="highlight">%99.9 uptime</span> hedefliyoruz</li>
+                        <li><span class="highlight">Düzenli güncellemeler</span> sağlıyoruz</li>
+                        <li><span class="highlight">7/24 teknik destek</span> (sadece bağlantı sorunları için)
+                            sunuyoruz.</li>
+                    </ul>
+                    <p><strong>Not:</strong> İçeriklerle ilgili destek taleplerine yanıt verilemez çünkü içeriğe
+                        erişimimiz yoktur.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">
+                    <i class="icon icon-code"></i>
+                    6. Fikri Mülkiyet
+                </h2>
+                <div class="section-content">
+                    <p>KeyCord platformu ile ilgili:</p>
+                    <ul>
+                        <li><span class="highlight">Kaynak kod:</span> Açık kaynak lisansları altındadır</li>
+                        <li><span class="highlight">Kullanıcı içerikleri:</span> Size aittir, biz erişemeyiz ve sahiplik
+                            iddia etmeyiz.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">
+                    <i class="icon icon-user-minus"></i>
+                    7. Hesap Askıya Alma
+                </h2>
+                <div class="section-content">
+                    <p>Aşağıdaki durumlarda (metadata analizi ile tespit edilebilirse) hesabınız askıya alınabilir:</p>
+                    <ul>
+                        <li><span class="warning">Sisteme saldırı</span> (DDoS, spam saldırıları)</li>
+                        <li><span class="warning">Sunucu bütünlüğünü tehdit etme</span></li>
+                    </ul>
+                    <p><strong>Önemli:</strong> Mesaj içeriğine dayalı bir "ban" veya "ceza" sistemi, içerikler
+                        okunamadığı için mümkün değildir.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">
+                    <i class="icon icon-shield"></i>
+                    8. Sorumluluk Reddi (Disclaimer)
+                </h2>
+                <div class="section-content">
+                    <p>KeyCord:</p>
+                    <ul>
+                        <li><span class="highlight">Kullanıcı içeriklerinden</span> (illegal paylaşım vs.)
+                            <strong>KESİNLİKLE</strong> sorumlu tutulamaz.
+                        </li>
+                        <li>Şifre kaybı nedeniyle yaşanan veri kayıplarından sorumlu değildir.</li>
+                        <li><span class="highlight">Veri kaybı</span> durumunda (yedeği değil) sorumlu değildir</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">
+                    <i class="icon icon-globe"></i>
+                    9. Yasal Konular
+                </h2>
+                <div class="section-content">
+                    <p>Bu sözleşme:</p>
+                    <ul>
+                        <li><span class="highlight">Türkiye Cumhuriyeti</span> yasalarına tabidir</li>
+                        <li>Veri gizliliği esastır, ancak mahkeme kararı ile talep edilebilecek <strong>tek
+                                veri</strong> (varsa) son giriş zamanı ve şifreli veri yığınıdır (içerik çözülemez).
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">
+                    <i class="icon icon-envelope"></i>
+                    10. İletişim
+                </h2>
+                <div class="section-content">
+                    <p><strong>E-posta:</strong> <span class="highlight">contact@keycord.com</span></p>
+                    <p><strong>Not:</strong> Şifre sıfırlama talepleri için lütfen iletişime GECMEYİNİZ, yardımcı
+                        olamayız.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">
+                    <i class="icon icon-calendar"></i>
+                    11. Yürürlük Tarihi
+                </h2>
+                <div class="section-content">
+                    <p>Son güncelleme: <strong>02 Ocak 2026</strong></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div style="margin-bottom: 1rem;">
+            <a href="{{ url_for('auth.privacy_policy') }}" class="nav-link"
+                style="margin-right: 1.5rem; display: inline;">Gizlilik</a>
+            <a href="{{ url_for('auth.terms_of_service') }}" class="nav-link"
+                style="margin-right: 1.5rem; display: inline;">Hizmet Şartları</a>
+            <a href="{{ url_for('auth.open_source_licenses') }}" class="nav-link" style="display: inline;">Lisanslar</a>
+        </div>
+        <div>KeyCord © 2025</div>
+    </footer>
+
+</body>
+
+</html>

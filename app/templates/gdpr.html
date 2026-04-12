@@ -1,0 +1,374 @@
+{% extends "base.html" %}
+
+{% block title %}KeyCord - KVKK & GDPR Aydınlatma Metni{% endblock %}
+
+{% block extra_css %}
+<style>
+    *,
+    *::before,
+    *::after {
+        box-sizing: border-box;
+    }
+
+    html {
+        height: auto;
+        scroll-behavior: smooth;
+    }
+
+    body {
+        min-height: 100vh;
+        overflow-x: hidden;
+        position: relative;
+        margin: 0;
+    }
+
+    .policy-container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: clamp(1rem, 5vw, 2rem);
+        color: var(--muted-chalk);
+    }
+
+    .policy-header {
+        text-align: center;
+        margin-bottom: 4rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        padding-bottom: 2rem;
+    }
+
+    .policy-section {
+        margin-bottom: 3rem;
+        padding: 1.5rem;
+        background: rgba(255, 255, 255, 0.02);
+        border-radius: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .section-title {
+        font-family: 'Inter', sans-serif;
+        font-size: 1.4rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        color: var(--chalk);
+        display: flex;
+        align-items: center;
+    }
+
+    .policy-content {
+        font-family: 'Inter', sans-serif;
+        font-size: 1rem;
+        line-height: 1.7;
+        color: var(--muted-chalk);
+        text-align: justify;
+    }
+
+    .legal-list {
+        list-style-type: decimal;
+        padding-left: 1.5rem;
+        margin-top: 1rem;
+    }
+
+    .legal-list li {
+        margin-bottom: 0.8rem;
+    }
+
+    .legal-list-bullet {
+        list-style-type: disc;
+        padding-left: 1.5rem;
+        margin-top: 1rem;
+    }
+
+    .highlight-box {
+        background: rgba(255, 255, 255, 0.03);
+        border-left: 3px solid #666;
+        padding: 1rem;
+        margin: 1rem 0;
+        font-style: italic;
+    }
+
+    strong {
+        color: var(--chalk);
+    }
+
+    a.contact-link {
+        color: var(--chalk);
+        text-decoration: underline;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container policy-container">
+
+    <a href="{{ url_for('auth.home') if not current_user.is_authenticated else url_for('auth.dashboard') }}" class="btn"
+        style="position: fixed; top: 2rem; left: 2rem; border: 1px solid rgba(255,255,255,0.2); padding: 0.5rem 1rem; z-index: 100; background: #000; color: #fff; text-decoration: none;">
+        ← {{ _('Geri') }}
+    </a>
+
+    <div class="policy-header">
+        <h1 style="font-family: 'Inter', sans-serif; font-size: 2rem; margin-bottom: 0.5rem; color: var(--chalk);">
+            {{ _('Kişisel Verilerin Korunması ve Gizlilik Politikası') }}
+        </h1>
+        <p style="font-size: 0.9rem; color: #888;">
+            {{ _('Son Güncelleme: 19.01.2026') }}
+        </p>
+    </div>
+
+    <div class="policy-content" style="margin-bottom: 2rem;">
+        <p>
+            {{ _('KeyCord ("Platform", "Biz") kullanıcılarının gizliliğini korumaya ve kişisel verilerin güvenliğini
+            sağlamaya büyük önem verir. Bu Aydınlatma Metni, 6698 sayılı Kişisel Verilerin Korunması Kanunu ("KVKK") ve
+            Avrupa Birliği Genel Veri Koruma Tüzüğü ("GDPR") çerçevesinde hangi verilerin, hangi amaçlarla işlendiğini,
+            kimlere aktarılabileceğini ve ilgili kişilerin sahip olduğu hakları açıklamak amacıyla hazırlanmıştır.') }}
+        </p>
+    </div>
+
+    <!-- 1. Veri Sorumlusu -->
+    <div class="policy-section">
+        <h2 class="section-title">{{ _('1. Veri Sorumlusu') }}</h2>
+        <div class="policy-content">
+            <p>
+                {{ _('KVKK kapsamında veri sorumlusu: <strong>KeyCord Organizasyonu</strong>\'dur. Veri sorumlusu
+                iletişim bilgilerimiz ve başvuru kanalları bu metnin 7. maddesinde yer almaktadır.') }}
+            </p>
+        </div>
+    </div>
+
+    <!-- 2. Sıfır Bilgi (Zero Knowledge) Mimarisi ve İstisnalar -->
+    <div class="policy-section">
+        <h2 class="section-title">{{ _('2. Sıfır Bilgi (Zero Knowledge) Mimarisi ve Erişim Sınırlamaları') }}</h2>
+        <div class="policy-content">
+            <p>
+                {{ _('Platformumuz, temel çalışma prensibi olarak <strong>Zero Knowledge (Sıfır Bilgi)</strong>
+                mimarisini benimser. Buna göre:') }}
+            </p>
+            <ul class="legal-list-bullet">
+                <li>
+                    {{ _('<strong>Mesaj İçerikleri:</strong> Kullanıcılar arasındaki iletişim (metin, ses, görüntü)
+                    uçtan uca şifreleme (E2EE) ile korunur. Şifreleme anahtarları kullanıcı cihazlarında tutulur;
+                    sunucularımıza ulaşan içerikler şifreli (ciphertext) biçimindedir. Bu mimari nedeniyle KeyCord\'un
+                    şifrelenmiş mesaj içeriklerine erişimi veya bunları okuyup analiz etmesi amaçlanmamaktadır.') }}
+                </li>
+                <li>
+                    {{ _('<strong>Şifre Kurtarma İmkansızlığı:</strong> Platformun Zero-Knowledge tasarımı gereği,
+                    kullanıcı şifreleri sunucularımızda saklanmaz veya işlenmez. Şifreleme anahtarları doğrudan
+                    kullanıcı şifresinden türetildiği için, şifrenin unutulması durumunda verilerin (mesajlar, hesap
+                    erişimi vb.) geri getirilmesi algoritma gereği öngörülemez ve teknik olarak imkansızdır.') }}
+                </li>
+                <li>
+                    {{ _('<strong>Hukuki Not:</strong> Şifrelenmiş veriler fiilen çözülemez olsa dahi bazı hukuki veya
+                    teknik koşullarda (örneğin kullanıcı cihazı yedeği, istemci tarafı hatası, yedekleme süreçleri veya
+                    yasal zorunluluklar) ilgili verilerle ilişkinin kurulması mümkün olabilir; bu nedenle şifreli
+                    verilerin kişisel veri niteliği tamamen ortadan kalkmış sayılmaz.') }}
+                </li>
+            </ul>
+            <p style="margin-top:0.6rem;">
+                {{ _('Bu nedenle uygulama ve mimari gereği erişim sağlamayı amaçlamıyor olmamız, tüm hukuki
+                sorumlulukları ortadan kaldırmaz — işleyiş ve denetim süreçleri KVKK ve GDPR çerçevesinde ele alınır.')
+                }}
+            </p>
+        </div>
+    </div>
+
+    <!-- 3. İşlenen Kişisel Veriler ve İşleme Amaçları -->
+    <div class="policy-section">
+        <h2 class="section-title">{{ _('3. İşlenen Kişisel Veriler ve İşleme Amaçları') }}</h2>
+        <div class="policy-content">
+            <p>
+                {{ _('Hizmetin sunulması, güvenliği ve yasal yükümlülüklerin yerine getirilmesi için sınırlı ve amaca
+                ilişkin kişisel veriler (metadata) işlenmektedir. İşlenen veri kategorileri ve amaçları aşağıda
+                açıklanmıştır:') }}
+            </p>
+
+            <ul class="legal-list">
+                <li>
+                    {{ _('<strong>Kimlik ve İletişim Bilgileri</strong><br><em>Veri Türü:</em> E-posta adresi, kullanıcı
+                    adı.<br><em>Amaç:</em> Hesap oluşturma, kimlik doğrulama, iletişim ve kullanıcı hesap güvenliğinin
+                    sağlanması.<br><em>Not:</em> Uçtan uca şifreleme nedeniyle platform tarafından şifrelerin veya mesaj
+                    içeriklerinin resetlenmesi/erişimi mümkün olmayabilir; şifre sıfırlama süreçleri için alternatif
+                    doğrulama yöntemleri (örn. e-posta doğrulaması) kullanılabilir.') }}
+                </li>
+
+                <li>
+                    {{ _('<strong>İşlem ve Güvenlik Bilgileri</strong><br><em>Veri Türü:</em> IP adresleri, erişim
+                    logları, erişim zamanı, hizmet türü, aktarılan veri miktarı, cihaz ve istemci bilgileri (ör.
+                    tarayıcı/agent, işletim sistemi), rate-limit ve anomali tespitine yönelik
+                    telemetri.<br><em>Amaç:</em> Hizmet güvenliği (DDoS, brute-force tespiti), kötüye kullanımın
+                    önlenmesi, yasal yükümlülüklerin yerine getirilmesi (ör. 5651 sayılı Kanun kapsamında trafik
+                    kayıtlarına ilişkin yükümlülükler). Bu kayıtlar, yasal gereklilikler ve hizmet gereksinimleri
+                    doğrultusunda saklanır.') }}
+                </li>
+
+                <li>
+                    {{ _('<strong>Geçici İletim Verileri (Blobs)</strong><br><em>Veri Türü:</em> Şifrelenmiş mesaj
+                    paketlerinin alıcı çevrimdışıysa kısa süreli sunucuda bekletilen halleri.<br><em>Amaç:</em>
+                    Teslimatın sağlanması; teslimat gerçekleştikten veya süre sona erdikten sonra kaydın silinmesi
+                    amaçlanır.') }}
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 4. Kişisel Veri Toplamanın Yöntemi ve Hukuki Sebebi -->
+    <div class="policy-section">
+        <h2 class="section-title">{{ _('4. Kişisel Veri Toplamanın Yöntemi ve Hukuki Sebebi') }}</h2>
+        <div class="policy-content">
+            <p>
+                {{ _('Kişisel verileriniz Platforma kayıt olmanız veya Platformu kullanmanız sırasında otomatik ve/veya
+                kullanıcı tarafından sağlanan yollarla toplanır. Bu veri işleme faaliyetleri aşağıdaki hukuki
+                dayanaklara göre yürütülmektedir:') }}
+            </p>
+            <ul class="legal-list-bullet">
+                <li>{{ _('<strong>Sözleşmenin kurulması ve ifası:</strong> Hizmet sunumu ve hesap yönetimi için gerekli
+                    işlemler.') }}</li>
+                <li>{{ _('<strong>Hukuki yükümlülük:</strong> Mevzuattan doğan zorunlulukların yerine getirilmesi (ör.
+                    5651 sayılı Kanun uyarınca trafik kayıtları).') }}</li>
+                <li>{{ _('<strong>Meşru menfaat:</strong> Sistem güvenliği ve kötüye kullanımın önlenmesi gibi veri
+                    sorumlusunun meşru menfaatleri (ilgili kişinin temel hak ve özgürlüklerini ihlal etmeyecek
+                    şekilde).') }}</li>
+                <li>{{ _('<strong>Açık rıza:</strong> Belirli durumlarda ve KVKK/GDPR çerçevesinde ilgili kişinin açık
+                    rızası alınarak yapılacak işlemler.') }}</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 5. Kişisel Verilerin Aktarılması -->
+    <div class="policy-section">
+        <h2 class="section-title">{{ _('5. Kişisel Verilerin Aktarılması') }}</h2>
+        <div class="policy-content">
+            <p>
+                {{ _('KeyCord kullanıcı verilerini <strong>satmaz, kiralamaz veya ticari amaçlı üçüncü taraflara
+                    pazarlamaz.</strong> Aşağıdaki durumlarda veriler ilgili üçüncü taraflarla paylaşılabilir:') }}
+            </p>
+            <ul class="legal-list-bullet">
+                <li>{{ _('<strong>Yasal zorunluluk:</strong> Yetkili kamu kurum ve kuruluşlarının usulüne uygun
+                    talepleri (ör. mahkeme veya savcılık talepleri).') }}</li>
+                <li>{{ _('<strong>Hizmet sağlanması:</strong> Ödeme, altyapı ve güvenlik hizmeti veren tedarikçilerle
+                    (işleyen/alt yüklenici) sınırlı ve gereklilik kapsamında veri paylaşımı.') }}</li>
+                <li>{{ _('<strong>Uluslararası aktarım:</strong> AB/AYM bölgesine veya diğer üçüncü ülkelere aktarım
+                    gerektiğinde, aktarımın hukuki dayanağı ve yeterlik mekanizmaları (ör. uygunluk kararı, standart
+                    sözleşme hükümleri) uygulanır.') }}</li>
+            </ul>
+            <p>
+                {{ _('Paylaşılan hiçbir kişisel veri ticari amaçlarla satılmaz veya reklam hedeflemeye yönelik
+                kullanılmaz.') }}
+            </p>
+        </div>
+    </div>
+
+    <!-- 6. Veri Saklama Süreleri ve İmha -->
+    <div class="policy-section">
+        <h2 class="section-title">{{ _('6. Veri Saklama Süreleri ve İmha') }}</h2>
+        <div class="policy-content">
+            <p>
+                {{ _('Verileri yalnızca amacın gerektirdiği sürece saklarız. Saklama süreleri; veri kategorisi, yasal
+                zorunluluklar ve hizmet gereksinimleri dikkate alınarak belirlenir. Örnek uygulama ilkeleri:') }}
+            </p>
+            <ul class="legal-list">
+                <li>{{ _('Güvenlik logları ve erişim kayıtları: yasal yükümlülükler ve hizmet güvenliği gereksinimleri
+                    doğrultusunda saklanır.') }}</li>
+                <li>{{ _('Hesap bilgileri (e-posta, kullanıcı adı): hesap kapatma/iptal işlemi sonrası makul bir süre ve
+                    yasal gerekliliklere uygun şekilde anonimleştirme/silme yapılır.') }}</li>
+                <li>{{ _('Geçici iletim verileri (offline teslim kuyruğu): teslimattan kısa süre sonra veya belirlenen
+                    TTL (time-to-live) sonrası otomatik silinir.') }}</li>
+            </ul>
+            <p>
+                {{ _('Saklama süreleri ve imha politikalarımız hakkında detaylı bilgi talep ederseniz, talebinizi 7.
+                maddede belirtilen kanallardan iletebilirsiniz.') }}
+            </p>
+        </div>
+    </div>
+
+    <!-- 7. İlgili Kişinin Hakları ve Başvuru Usulü -->
+    <div class="policy-section">
+        <h2 class="section-title">{{ _('7. İlgili Kişinin Hakları ve Başvuru Usulü') }}</h2>
+        <div class="policy-content">
+            <p>
+                {{ _('KVKK Madde 11 ve GDPR hükümleri uyarınca ilgili kişiler aşağıdaki haklara sahiptir:') }}
+            </p>
+            <ul class="legal-list">
+                <li>{{ _('Kişisel verilerinin işlenip işlenmediğini öğrenme,') }}</li>
+                <li>{{ _('İşlenen veriler hakkında bilgi talep etme,') }}</li>
+                <li>{{ _('Verilerin işlenme amacını ve amaca uygun kullanılıp kullanılmadığını öğrenme,') }}</li>
+                <li>{{ _('Eksik/yanlış verilerin düzeltilmesini isteme,') }}</li>
+                <li>{{ _('Verilerin silinmesini veya yok edilmesini isteme (unutulma hakkı) — yasal yükümlülükler saklı
+                    kalmak kaydıyla,') }}</li>
+                <li>{{ _('İşlenmeye itiraz etme ve otomatik karar vere dayalı işlemlere karşı itiraz etme,') }}</li>
+                <li>{{ _('Kişisel verilerin kanuna aykırı işlenmesi nedeniyle zararın giderilmesini talep etme.') }}
+                </li>
+            </ul>
+
+            <p style="margin-top:0.6rem;">
+                {{ _('<strong>Başvuru Usulü:</strong> Hak taleplerinizi yazılı olarak veya e-posta ile <a
+                    href="mailto:contact@keycord.org" class="contact-link">contact@keycord.org</a> adresine
+                iletebilirsiniz. Başvurular, talebin niteliğine göre en kısa sürede ve en geç otuz (30) gün içinde
+                ücretsiz olarak sonuçlandırılır. (KVKK uyarınca).') }}
+            </p>
+
+            <div class="highlight-box" style="text-align:left; border: none;">
+                <p>{{ _('<strong>Kimlik Doğrulama:</strong> Güvenlik nedeniyle başvuruların işleme alınabilmesi için
+                    kimliğinizi doğrulamak üzere ek belge talep edilebilir.') }}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 8. Veri İhlali Bildirimleri -->
+    <div class="policy-section">
+        <h2 class="section-title">{{ _('8. Veri İhlali Bildirimleri') }}</h2>
+        <div class="policy-content">
+            <p>
+                {{ _('Kişisel verilerin güvenliğini etkileyebilecek bir veri ihlali tespit edilmesi halinde ilgili
+                mevzuata uygun olarak gerekli adımları atarız. GDPR kapsamındaki durumlarda denetleyici otoriteye,
+                mümkünse fark edildiği tarihten itibaren 72 saat içinde bildirimde bulunulur ve etkilenen veri
+                sahipleri, risk derecesine göre uygun bir şekilde bilgilendirilir.') }}
+            </p>
+        </div>
+    </div>
+
+    <!-- 9. Sorumluluk Sınırı ve Mülkiyet -->
+    <div class="policy-section">
+        <h2 class="section-title">{{ _('9. Sorumluluk Sınırı') }}</h2>
+        <div class="policy-content">
+            <p>
+                {{ _('Platformumuz mümkün olan en yüksek güvenlik seviyesini sağlamak için teknik ve idari tedbirler
+                uygular. Ancak %%100 güvenlik garantisi verilemez. İşbu politika, kullanıcıların haklarına ilişkin genel
+                çerçeveyi belirler; özel durumlarda geçerli mevzuat önceliklidir.') }}
+            </p>
+            <div class="highlight-box">
+                <p>
+                    {{ _('<strong>Önemli Sorumluluk Reddi:</strong> Kullanıcı, hesabına ait şifreyi güvenli bir şekilde
+                    saklamakla tek başına sorumludur. Şifrenin unutulması veya kaybedilmesi durumunda, "Zero-Knowledge"
+                    mimarisi gereği KeyCord\'un herhangi bir müdahalede bulunma veya verileri kurtarma imkanı
+                    bulunmamaktadır. Bu tür durumlarda meydana gelebilecek veri kayıplarından (mesajlar, dosyalar, hesap
+                    erişimi vb.) KeyCord Organizasyonu hiçbir şekilde sorumlu tutulamaz.') }}
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 10. İrtibat ve Başvuru -->
+    <div class="policy-section">
+        <h2 class="section-title">{{ _('10. İrtibat ve Başvuru') }}</h2>
+        <div class="policy-content">
+            <p>
+                {{ _('Hak talepleriniz, gizlilik sorularınız veya bu politika ile ilgili diğer başvurularınız için bize
+                aşağıdaki kanallardan ulaşabilirsiniz:') }}
+            </p>
+            <div class="highlight-box" style="text-align: center; border: none;">
+                <p>Email: <a href="mailto:contact@keycord.org" class="contact-link">contact@keycord.org</a></p>
+                <p>{{ _('Adres: KeyCord Organizasyonu (iletisim bilgileri / ofis adresi buraya yazılacaktır)') }}</p>
+            </div>
+
+            <p>
+                {{ _('AB\'de ikamet eden veri sahipleri için gerektiğinde atanmış bir AB temsilcisi veya irtibat
+                bilgisini burada ayrıca sağlayacağız.') }}
+            </p>
+        </div>
+    </div>
+
+    <div style="margin-top: 2rem; text-align:center; color:#888;">
+        <small>{{ _('KeyCord © 2026 - Gizlilik Odaklı Mesajlaşma') }}</small>
+    </div>
+
+</div>
+{% endblock %}

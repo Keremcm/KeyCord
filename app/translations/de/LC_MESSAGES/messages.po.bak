@@ -1,0 +1,856 @@
+# German translations for KeyCord.
+# Copyright (C) 2026 ORGANIZATION
+# This file is distributed under the same license as the KeyCord project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: KeyCord 1.0\n"
+"Report-Msgid-Bugs-To: contact@keycord.org\n"
+"POT-Creation-Date: 2026-01-11 19:32+0300\n"
+"PO-Revision-Date: 2026-01-11 18:25+0300\n"
+"Last-Translator: Antigravity <ai@keycord.org>\n"
+"Language: de\n"
+"Language-Team: German <de@keycord.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#~ msgid "KeyCord - Arkadaş Ekle"
+#~ msgstr "KeyCord - Freund hinzufügen"
+
+#~ msgid "Arkadaş Ekle"
+#~ msgstr "Freund hinzufügen"
+
+#~ msgid ""
+#~ "Yeni\n"
+#~ "            insanlarla tanış, hikayelerini paylaş."
+#~ msgstr ""
+#~ "Triff neue\n"
+#~ "            Leute, teile deine Geschichten."
+
+#~ msgid "Kimleri arıyorsun?..."
+#~ msgstr "Wen suchst du?..."
+
+#~ msgid "Ara"
+#~ msgstr "Suche"
+
+#~ msgid "\"%s\" için %s sonuç bulundu:"
+#~ msgstr "%s Ergebnisse für \"%s\" gefunden:"
+
+#~ msgid "Profili İncele"
+#~ msgstr "Profil ansehen"
+
+#~ msgid "Zaten Arkadaşsınız"
+#~ msgstr "Bereits befreundet"
+
+#~ msgid "İstek Gönderildi"
+#~ msgstr "Anfrage gesendet"
+
+#~ msgid "Bu Sensin"
+#~ msgstr "Das bist du"
+
+#~ msgid "Arkadaş Ekle +"
+#~ msgstr "Freund hinzufügen +"
+
+#~ msgid "Arama yaparak yeni arkadaşlar bulabilirsin."
+#~ msgstr "Du kannst neue Freunde durch Suchen finden."
+
+#~ msgid "Duyurular - KeyCord"
+#~ msgstr "Ankündigungen - KeyCord"
+
+#~ msgid "Çevrimiçi"
+#~ msgstr "Online"
+
+#~ msgid "Ana Sayfa"
+#~ msgstr "Startseite"
+
+#~ msgid "Mesajlar"
+#~ msgstr "Nachrichten"
+
+#~ msgid "Profil"
+#~ msgstr "Profil"
+
+#~ msgid "Çıkış"
+#~ msgstr "Abmelden"
+
+#~ msgid "Çıkış Yap"
+#~ msgstr "Ausloggen"
+
+#~ msgid "Duyurular"
+#~ msgstr "Ankündigungen"
+
+#~ msgid "%d duyuru"
+#~ msgstr "%d Ankündigung"
+
+#~ msgid "Yeni Duyuru"
+#~ msgstr "Neue Ankündigung"
+
+#~ msgid "Bu duyuruyu silmek istediğinizden emin misiniz?"
+#~ msgstr "Möchten Sie diese Ankündigung wirklich löschen?"
+
+#~ msgid "Sil"
+#~ msgstr "Löschen"
+
+#~ msgid "Henüz Duyuru Yok"
+#~ msgstr "Noch keine Ankündigungen"
+
+#~ msgid "Şu anda herhangi bir duyuru bulunmuyor. Duyurular burada görünecek."
+#~ msgstr ""
+#~ "Derzeit gibt es keine Ankündigungen. "
+#~ "Ankündigungen werden hier erscheinen."
+
+#~ msgid "Yardım"
+#~ msgstr "Hilfe"
+
+#~ msgid "İletişim"
+#~ msgstr "Kontakt"
+
+#~ msgid "Uygulamaya Git"
+#~ msgstr "Zur App"
+
+#~ msgid "Giriş"
+#~ msgstr "Anmelden"
+
+#~ msgid "Gizlilik Odaklı Mesajlaşma"
+#~ msgstr "Verfrauliches Messaging"
+
+#~ msgid "Topluluklar"
+#~ msgstr "Gemeinschaften"
+
+#~ msgid "Keşfet ve Katıl"
+#~ msgstr "Entdecken und Beitreten"
+
+#~ msgid "Keşfet"
+#~ msgstr "Entdecken"
+
+#~ msgid "Oluştur"
+#~ msgstr "Erstellen"
+
+#~ msgid "Topluluk Panosu"
+#~ msgstr "Gemeinschafts-Dashboard"
+
+#~ msgid ""
+#~ "İlgi alanına göre\n"
+#~ "                topluluklar bul"
+#~ msgstr "Finde Gemeinschaften nach deinen Interessen"
+
+#~ msgid "Topluluk ara..."
+#~ msgstr "Gemeinschaft suchen..."
+
+#~ msgid "Açıklama yok."
+#~ msgstr "Keine Beschreibung."
+
+#~ msgid "Üye"
+#~ msgstr "Mitglied"
+
+#~ msgid "Henüz hiç topluluk yok."
+#~ msgstr "Noch keine Gemeinschaften."
+
+#~ msgid ""
+#~ "Topluluğunu\n"
+#~ "                        Oluştur"
+#~ msgstr "Erstelle deine Gemeinschaft"
+
+#~ msgid "Aradığın topluluk bulunamadı..."
+#~ msgstr "Gemeinschaft nicht gefunden..."
+
+#~ msgid "Ayarlar"
+#~ msgstr "Einstellungen"
+
+#~ msgid "üye"
+#~ msgstr "Mitglied"
+
+#~ msgid "Sohbet"
+#~ msgstr "Chat"
+
+#~ msgid "Topluluk Ayarları"
+#~ msgstr "Gemeinschaftseinstellungen"
+
+#~ msgid "topluluğunu yönet"
+#~ msgstr "verwalte deine Gemeinschaft"
+
+#~ msgid "Genel Bilgiler"
+#~ msgstr "Allgemeine Informationen"
+
+#~ msgid "Topluluk Adı"
+#~ msgstr "Gemeinschaftsname"
+
+#~ msgid "Açıklama"
+#~ msgstr "Beschreibung"
+
+#~ msgid ""
+#~ "Sadece\n"
+#~ "                            Yöneticiler Mesaj Atabilir"
+#~ msgstr "Nur Admins können Nachrichten senden"
+
+#~ msgid ""
+#~ "Etkinleştirilirse üyeler sadece\n"
+#~ "                            okuyabilir."
+#~ msgstr "Wenn aktiviert, können Mitglieder nur lesen."
+
+#~ msgid "Kaydet"
+#~ msgstr "Speichern"
+
+#~ msgid "Üyeler"
+#~ msgstr "Mitglieder"
+
+#~ msgid "Kurucu"
+#~ msgstr "Gründer"
+
+#~ msgid "Yönetici"
+#~ msgstr "Admin"
+
+#~ msgid "Yöneticiliği Al"
+#~ msgstr "Admin entfernen"
+
+#~ msgid "Yönetici Yap"
+#~ msgstr "Zum Admin machen"
+
+#~ msgid "Üye Yap"
+#~ msgstr "Zum Mitglied machen"
+
+#~ msgid "Bu üyeyi topluluktan çıkarmak istediğinize emin misiniz?"
+#~ msgstr "Möchtest du dieses Mitglied wirklich aus der Gemeinschaft entfernen?"
+
+#~ msgid "Çıkar"
+#~ msgstr "Rausschmeißen"
+
+#~ msgid "Ayrılmak istediğine emin misin?"
+#~ msgstr "Möchtest du wirklich verlassen?"
+
+#~ msgid "Ayrıl"
+#~ msgstr "Verlassen"
+
+#~ msgid "🔒 Şifre çözülüyor..."
+#~ msgstr "🔒 Entschlüsselung läuft..."
+
+#~ msgid "Sohbeti başlat!"
+#~ msgstr "Starte den Chat!"
+
+#~ msgid "Bu topluluğa katılarak sohbete dahil ol!"
+#~ msgstr "Tritt dieser Gemeinschaft bei, um am Chat teilzunehmen!"
+
+#~ msgid "Topluluğa Katıl"
+#~ msgstr "Gemeinschaft beitreten"
+
+#~ msgid "Bir şeyler yaz..."
+#~ msgstr "Schreib etwas..."
+
+#~ msgid "Sadece yöneticiler mesaj gönderebilir."
+#~ msgstr "Nur Administratoren können Nachrichten senden."
+
+#~ msgid "🔒 Şifre çözülemedi"
+#~ msgstr "🔒 Entschlüsselung fehlgeschlagen"
+
+#~ msgid "Anahtarlar alınamadı"
+#~ msgstr "Schlüssel konnten nicht abgerufen werden"
+
+#~ msgid "Mesaj şifrelenemedi: "
+#~ msgstr "Nachricht konnte nicht verschlüsselt werden: "
+
+#~ msgid "KeyCord - İletişim"
+#~ msgstr "KeyCord - Kontakt"
+
+#~ msgid "Geri"
+#~ msgstr "Zurück"
+
+#~ msgid "Bize Ulaşın"
+#~ msgstr "Kontaktieren Sie uns"
+
+#~ msgid "Bir sorunuz mu var? Yardımcı olmak için buradayız."
+#~ msgstr "Haben Sie eine Frage? Wir sind hier, um zu helfen."
+
+#~ msgid "Acil Güvenlik Durumu"
+#~ msgstr "Dringende Sicherheitslage"
+
+#~ msgid "Hesabınızın tehlikede olduğunu düşünüyorsanız beklemeden bize yazın."
+#~ msgstr ""
+#~ "Wenn Sie glauben, dass Ihr Konto "
+#~ "in Gefahr ist, schreiben Sie uns "
+#~ "sofort."
+
+#~ msgid "Bize Yazın"
+#~ msgstr "Schreiben Sie uns"
+
+#~ msgid "Adınız Soyadınız"
+#~ msgstr "Vollständiger Name"
+
+#~ msgid "Kim olduğunuzu bilelim..."
+#~ msgstr "Lass uns wissen, wer du bist..."
+
+#~ msgid "E-posta Adresiniz"
+#~ msgstr "Ihre E-Mail-Adresse"
+
+#~ msgid "Size nasıl dönelim?"
+#~ msgstr "Wie sollen wir uns bei Ihnen melden?"
+
+#~ msgid "Konu"
+#~ msgstr "Betreff"
+
+#~ msgid "Ne hakkında konuşacağız?"
+#~ msgstr "Worüber sollen wir sprechen?"
+
+#~ msgid "Mesajınız"
+#~ msgstr "Ihre Nachricht"
+
+#~ msgid "Bize her şeyi anlatabilirsiniz..."
+#~ msgstr "Sie können uns alles erzählen..."
+
+#~ msgid "Gönder (Şifreli)"
+#~ msgstr "Senden (Verschlüsselt)"
+
+#~ msgid "Genel Destek"
+#~ msgstr "Allgemeiner Support"
+
+#~ msgid "Her türlü soru ve sorunlarınız için:"
+#~ msgstr "Für alle Fragen und Probleme:"
+
+#~ msgid ""
+#~ "Sosyal Medyada\n"
+#~ "                    Biz"
+#~ msgstr ""
+#~ "Wir in den\n"
+#~ "                    sozialen Medien"
+
+#~ msgid "Gönderiliyor..."
+#~ msgstr "Wird gesendet..."
+
+#~ msgid "Mesajınız şifrelenerek tarafımıza iletildi! En kısa sürede döneceğiz."
+#~ msgstr ""
+#~ "Ihre Nachricht wurde verschlüsselt an "
+#~ "uns gesendet! Wir melden uns so "
+#~ "schnell wie möglich."
+
+#~ msgid "Duyuru Oluştur - KeyCord"
+#~ msgstr "Ankündigung erstellen - KeyCord"
+
+#~ msgid "Yeni Duyuru Oluştur"
+#~ msgstr "Neue Ankündigung erstellen"
+
+#~ msgid "Tüm kullanıcılara gönderilecek duyuruyu oluşturun"
+#~ msgstr "Erstellen Sie eine Ankündigung, die an alle Benutzer gesendet wird"
+
+#~ msgid "Duyuru Başlığı"
+#~ msgstr "Ankündigungstitel"
+
+#~ msgid "Duyuru başlığını buraya yazın..."
+#~ msgstr "Titel der Ankündigung hier eingeben..."
+
+#~ msgid "Duyuru İçeriği"
+#~ msgstr "Inhalt der Ankündigung"
+
+#~ msgid "Duyuru içeriğini buraya yazın..."
+#~ msgstr "Inhalt der Ankündigung hier eingeben..."
+
+#~ msgid "Bu duyuru önemli (öne çıkar)"
+#~ msgstr "Diese Ankündigung ist wichtig (anpinnen)"
+
+#~ msgid "İptal"
+#~ msgstr "Abbrechen"
+
+#~ msgid "Duyuruyu Yayınla"
+#~ msgstr "Ankündigung veröffentlichen"
+
+#~ msgid "Topluluk Oluştur"
+#~ msgstr "Gemeinschaft erstellen"
+
+#~ msgid "Yeni Oluştur"
+#~ msgstr "Neu erstellen"
+
+#~ msgid "Kendi Topluluğunu Kur"
+#~ msgstr "Baue deine Gemeinschaft auf"
+
+#~ msgid ""
+#~ "İnsanları bir araya\n"
+#~ "                getir ve sohbeti başlat"
+#~ msgstr "Bringe Menschen zusammen und starte den Chat"
+
+#~ msgid "Örn: Oyun Severler"
+#~ msgstr "Bsp: Gamer"
+
+#~ msgid "Bu topluluk ne hakkında?"
+#~ msgstr "Worum geht es in dieser Gemeinschaft?"
+
+#~ msgid "Topluluk Resmi"
+#~ msgstr "Gemeinschaftsbild"
+
+#~ msgid "Resim Yüklemek İçin Tıkla"
+#~ msgstr "Klicken zum Bild hochladen"
+
+#~ msgid "Resim seçilmedi"
+#~ msgstr "Kein Bild ausgewählt"
+
+#~ msgid "KeyCord - Grup Oluştur"
+#~ msgstr "KeyCord - Gruppe erstellen"
+
+#~ msgid "Yeni Grup Kur"
+#~ msgstr "Neue Gruppe erstellen"
+
+#~ msgid "Arkadaşlarını topla, muhabbete başla."
+#~ msgstr "Versammle deine Freunde, starte den Chat."
+
+#~ msgid "Grup Adı"
+#~ msgstr "Gruppenname"
+
+#~ msgid "Grubun ismi ne olsun?..."
+#~ msgstr "Wie soll die Gruppe heißen?..."
+
+#~ msgid "Arkadaşlarını Seç"
+#~ msgstr "Freunde auswählen"
+
+#~ msgid "Henüz hiç arkadaşın yok gibi..."
+#~ msgstr "Sieht aus, als hättest du noch keine Freunde..."
+
+#~ msgid "Arkadaş Bul"
+#~ msgstr "Freunde finden"
+
+#~ msgid "Arkadaşlık İstekleri"
+#~ msgstr "Freundschaftsanfragen"
+
+#~ msgid "Arkadaşlık"
+#~ msgstr "Freundschaft"
+
+#~ msgid "İstekleri Yönet"
+#~ msgstr "Anfragen verwalten"
+
+#~ msgid "İstekler"
+#~ msgstr "Anfragen"
+
+#~ msgid "Gelen İstekler"
+#~ msgstr "Eingehende Anfragen"
+
+#~ msgid ""
+#~ "Sana gönderilen arkadaşlık\n"
+#~ "            istekleri"
+#~ msgstr "Dir gesendete Freundschaftsanfragen"
+
+#~ msgid "Arkadaş olmak istiyor"
+#~ msgstr "möchte befreundet sein"
+
+#~ msgid "Kabul Et"
+#~ msgstr "Akzeptieren"
+
+#~ msgid "Reddet"
+#~ msgstr "Ablehnen"
+
+#~ msgid "Henüz bekleyen arkadaşlık isteği yok."
+#~ msgstr "Keine ausstehenden Freundschaftsanfragen."
+
+#~ msgid "Arkadaş ekle..."
+#~ msgstr "Freund hinzufügen..."
+
+#~ msgid ""
+#~ "Üye\n"
+#~ "                Ekle"
+#~ msgstr "Mitglied hinzufügen"
+
+#~ msgid "şimdi"
+#~ msgstr "jetzt"
+
+#~ msgid "Gruba bir şeyler yaz..."
+#~ msgstr "Schreib etwas in die Gruppe..."
+
+#~ msgid "Mesaj şifrelenirken bir hata oluştu: "
+#~ msgstr "Fehler beim Verschlüsseln der Nachricht: "
+
+#~ msgid "🔑 Anahtar yok"
+#~ msgstr "🔑 Kein Schlüssel"
+
+#~ msgid "Genel Ayarlar"
+#~ msgstr "Allgemeine Einstellungen"
+
+#~ msgid "Grup Sohbeti"
+#~ msgstr "Gruppenchat"
+
+#~ msgid "Grup Ayarları"
+#~ msgstr "Gruppeneinstellungen"
+
+#~ msgid "grubunu yönet"
+#~ msgstr "Gruppe verwalten"
+
+#~ msgid "Gruba Dön"
+#~ msgstr "Zurück zur Gruppe"
+
+#~ msgid "Temel Bilgiler"
+#~ msgstr "Basisinformationen"
+
+#~ msgid "Grup Fotoğrafı"
+#~ msgstr "Gruppenfoto"
+
+#~ msgid "Mevcut"
+#~ msgstr "Aktuell"
+
+#~ msgid "Dosya"
+#~ msgstr "Datei"
+
+#~ msgid "URL"
+#~ msgstr "URL"
+
+#~ msgid ""
+#~ "Değişiklikleri\n"
+#~ "                        Kaydet"
+#~ msgstr "Änderungen speichern"
+
+#~ msgid "Yeni Üye Ekle"
+#~ msgstr "Neues Mitglied hinzufügen"
+
+#~ msgid "Arkadaş seçin..."
+#~ msgstr "Freund auswählen..."
+
+#~ msgid "Ekle"
+#~ msgstr "Hinzufügen"
+
+#~ msgid "Grup Sahibi"
+#~ msgstr "Gruppenbesitzer"
+
+#~ msgid ""
+#~ "Bu grubun ayarlarını\n"
+#~ "                sadece grup sahibi değiştirebilir."
+#~ msgstr "Nur der Gruppenbesitzer kann die Einstellungen dieser Gruppe ändern."
+
+#~ msgid "Bu üyeyi gruptan çıkarmak istediğinize emin misiniz ? "
+#~ msgstr "Möchtest du dieses Mitglied wirklich aus der Gruppe entfernen?"
+
+#~ msgid "Hata: "
+#~ msgstr "Fehler: "
+
+#~ msgid "Bir hata oluştu"
+#~ msgstr "Ein Fehler ist aufgetreten"
+
+#~ msgid "Bildirimler"
+#~ msgstr "Benachrichtigungen"
+
+#~ msgid ""
+#~ "arkadaşlık\n"
+#~ "                            isteği gönderdi."
+#~ msgstr "hat eine Freundschaftsanfrage gesendet."
+
+#~ msgid ""
+#~ "Yeni\n"
+#~ "                            mesaj."
+#~ msgstr "Neue Nachricht."
+
+#~ msgid "grubunda yeni mesaj."
+#~ msgstr "neue Nachricht in der Gruppe."
+
+#~ msgid "Hiç yeni bildirim yok..."
+#~ msgstr "Keine neuen Benachrichtigungen..."
+
+#~ msgid "Merhaba"
+#~ msgstr "Hallo"
+
+#~ msgid "Bugün neler yapmak istersin?"
+#~ msgstr "Was möchtest du heute tun?"
+
+#~ msgid "Grup Kur"
+#~ msgstr "Gruppe erstellen"
+
+#~ msgid "Kopyalamak için tıkla"
+#~ msgstr "Zum Kopieren klicken"
+
+#~ msgid "Kopyalandı"
+#~ msgstr "Kopiert"
+
+#~ msgid "Uygulamayı İndir"
+#~ msgstr "App herunterladen"
+
+#~ msgid "İndir"
+#~ msgstr "Herunterladen"
+
+#~ msgid "Cihaz Seçin"
+#~ msgstr "Gerät auswählen"
+
+#~ msgid "Kapat"
+#~ msgstr "Schließen"
+
+#~ msgid "Giriş Yap"
+#~ msgstr "Anmelden"
+
+#~ msgid "Uçtan uca şifreli, kayıt tutmayan ve tamamen anonim."
+#~ msgstr "Ende-zu-Ende verschlüsselt, keine Logs und völlig anonym."
+
+#~ msgid "Gizlilik bir hak değil, yaşam biçimidir."
+#~ msgstr "Privatsphäre ist kein Recht, sondern ein Lebensstil."
+
+#~ msgid "Bağımsız güvenlik taramalarında"
+#~ msgstr "In unabhängigen Sicherheitsscans"
+
+#~ msgid "A+"
+#~ msgstr "A+"
+
+#~ msgid "ile değerlendirildi"
+#~ msgstr "bewertet mit"
+
+#~ msgid "E-posta"
+#~ msgstr "E-Mail"
+
+#~ msgid "Şifre"
+#~ msgstr "Passwort"
+
+#~ msgid "Beni Hatırla"
+#~ msgstr "Angemeldet bleiben"
+
+#~ msgid "Şifremi unuttum"
+#~ msgstr "Passwort vergessen"
+
+#~ msgid "Giriş yapılıyor..."
+#~ msgstr "Anmeldung läuft..."
+
+#~ msgid "Giriş başarısız."
+#~ msgstr "Anmeldung fehlgeschlagen."
+
+#~ msgid "Anahtarlar çözülüyor..."
+#~ msgstr "Schlüssel werden entschlüsselt..."
+
+#~ msgid ""
+#~ "Giriş başarılı ancak şifreleme anahtarlarınız"
+#~ " çözülemedi. Mesajlarınızı okuyamayabilirsiniz."
+#~ msgstr ""
+#~ "Anmeldung erfolgreich, aber "
+#~ "Verschlüsselungsschlüssel konnten nicht "
+#~ "entschlüsselt werden. Sie können Ihre "
+#~ "Nachrichten möglicherweise nicht lesen."
+
+#~ msgid "Hesabın yok mu?"
+#~ msgstr "Noch kein Konto?"
+
+#~ msgid "Kayıt Ol"
+#~ msgstr "Registrieren"
+
+#~ msgid "KeyCord - Mesajlar"
+#~ msgstr "KeyCord - Nachrichten"
+
+#~ msgid "Profili Gör"
+#~ msgstr "Profil ansehen"
+
+#~ msgid "Şimdi"
+#~ msgstr "Jetzt"
+
+#~ msgid "Mesaj çözülüyor..."
+#~ msgstr "Nachricht wird entschlüsselt..."
+
+#~ msgid "Mesaj yaz..."
+#~ msgstr "Schreib eine Nachricht..."
+
+#~ msgid "Sohbet Başlat"
+#~ msgstr "Chat starten"
+
+#~ msgid "Soldaki listeden bir arkadaşını seç."
+#~ msgstr "Wähle einen Freund aus der linken Liste."
+
+#~ msgid "🔒 Anahtar yok"
+#~ msgstr "🔒 Kein Schlüssel"
+
+#~ msgid "Profilim - KeyCord"
+#~ msgstr "Mein Profil - KeyCord"
+
+#~ msgid "Profil Ayarları"
+#~ msgstr "Profileinstellungen"
+
+#~ msgid "Kendini ifade et."
+#~ msgstr "Drück dich aus."
+
+#~ msgid "Kayıt Tarihi"
+#~ msgstr "Beitrittsdatum"
+
+#~ msgid "Bugün"
+#~ msgstr "Heute"
+
+#~ msgid "Kullanıcı Adı"
+#~ msgstr "Benutzername"
+
+#~ msgid "Hakkında"
+#~ msgstr "Über"
+
+#~ msgid ""
+#~ "Değişiklikleri\n"
+#~ "                    Kaydet"
+#~ msgstr "Änderungen speichern"
+
+#~ msgid "KeyCord ile tamamen anonim sohbet deneyimi yaşa."
+#~ msgstr "Erlebe völlig anonymen Chat mit KeyCord."
+
+#~ msgid "Tor ağı üzerinden şifreli iletişim kur, dijital ayak izlerini sil."
+#~ msgstr ""
+#~ "Kommuniziere verschlüsselt über das Tor-"
+#~ "Netzwerk, lösche digitale Spuren."
+
+#~ msgid "Sunucuda log tutulmaz, verileriniz sizindir."
+#~ msgstr "Keine Logs auf dem Server, Daten gehören dir."
+
+#~ msgid "Merkeziyetsiz ve açık kaynaklı yapı."
+#~ msgstr "Dezentrale und Open-Source-Struktur."
+
+#~ msgid "Yeni Hesap"
+#~ msgstr "Neues Konto"
+
+#~ msgid "Şifreyi Onayla"
+#~ msgstr "Passwort bestätigen"
+
+#~ msgid "Tekrar giriniz"
+#~ msgstr "Erneut eingeben"
+
+#~ msgid "Hesabın var mı?"
+#~ msgstr "Bereits registriert?"
+
+#~ msgid "Devam ederek Hizmet Şartlarını kabul etmiş sayılırsın."
+#~ msgstr "Durch Klick akzeptierst du die Nutzungsbedingungen."
+
+#~ msgid "Onaylı Hesap"
+#~ msgstr "Verifiziertes Konto"
+
+#~ msgid "Profili Düzenle"
+#~ msgstr "Profil bearbeiten"
+
+#~ msgid "Mesaj Gönder"
+#~ msgstr "Nachricht senden"
+
+#~ msgid "Arkadaş"
+#~ msgstr "Freund"
+
+#~ msgid "Sunucu"
+#~ msgstr "Server"
+
+#~ msgid "Hakkımda"
+#~ msgstr "Über mich"
+
+#~ msgid ""
+#~ "Bu kullanıcı henüz bir\n"
+#~ "                açıklama eklememiş."
+#~ msgstr "Dieser Benutzer hat noch keine Beschreibung hinzugefügt."
+
+#~ msgid "Hoşgeldiniz"
+#~ msgstr "Willkommen"
+
+#~ msgid "Güvenlik"
+#~ msgstr "Sicherheit"
+
+#~ msgid "Bilgi ve Dokümantasyon"
+#~ msgstr "Info und Dokumentation"
+
+#~ msgid "Gizlilik Odaklı Yeni Nesil Mesajlaşma"
+#~ msgstr "Datenschutzorientiertes Messaging"
+
+#~ msgid ""
+#~ "KeyCord tamamen uçtan uca şifreleme ve"
+#~ " Tor gizliliği ile çalışan modern bir"
+#~ "\n"
+#~ "                    sohbet platformudur."
+#~ msgstr ""
+#~ "KeyCord ist eine moderne Chat-Plattform"
+#~ " mit Ende-zu-Ende-Verschlüsselung und"
+#~ " Tor-Datenschutz."
+
+#~ msgid ""
+#~ "Giriş\n"
+#~ "                        Yap"
+#~ msgstr "Anmelden"
+
+#~ msgid "Aktif Kullanıcı Desteği"
+#~ msgstr "Aktive Benutzerunterstützung"
+
+#~ msgid "Tor Gizliliği"
+#~ msgstr "Tor-Datenschutz"
+
+#~ msgid "Şifreleme"
+#~ msgstr "Verschlüsselung"
+
+#~ msgid "Tor Adresi"
+#~ msgstr "Tor-Adresse"
+
+#~ msgid "Tor Browser ile bağlanın"
+#~ msgstr "Verbinde dich mit dem Tor-Browser"
+
+#~ msgid "Onion Adresi"
+#~ msgstr "Onion-Adresse"
+
+#~ msgid "✓ Kopyalandı!"
+#~ msgstr "✓ Kopiert!"
+
+#~ msgid "Özellikler"
+#~ msgstr "Funktionen"
+
+#~ msgid "Güvenlik için tasarlandı, hız için optimize edildi."
+#~ msgstr "Für Sicherheit entwickelt, auf Geschwindigkeit optimiert."
+
+#~ msgid "Tor Üzerinde Tam Gizlilik"
+#~ msgstr "Volle Privatsphäre auf Tor"
+
+#~ msgid "Güçlü Uçtan Uca Şifreleme"
+#~ msgstr "Starke Ende-zu-Ende-Verschlüsselung"
+
+#~ msgid "Tamamen Açık Kaynak"
+#~ msgstr "Vollständig Open Source"
+
+#~ msgid "Uygulamalarımızı İndirin"
+#~ msgstr "Apps herunterladen"
+
+#~ msgid ""
+#~ "KeyCord her zaman yanınızda. Android ve"
+#~ " Windows uygulamalarımızı hemen\n"
+#~ "            edinin."
+#~ msgstr ""
+#~ "KeyCord ist immer bei dir. Hol dir"
+#~ " jetzt unsere Android- und Windows-"
+#~ "Apps."
+
+#~ msgid "Gizlilik"
+#~ msgstr "Datenschutz"
+
+#~ msgid "Hizmet Şartları"
+#~ msgstr "AGB"
+
+#~ msgid "Lisanslar"
+#~ msgstr "Lizenzen"
+
+
+msgid "Mesajlar"
+msgstr "Nachrichten"
+
+msgid "Sohbeti aç"
+msgstr "Chat öffnen"
+
+msgid "Henüz arkadaşın yok."
+msgstr "Du hast noch keine Freunde."
+
+msgid "Gruplar"
+msgstr "Gruppen"
+
+msgid "Grup sohbeti"
+msgstr "Gruppenchat"
+
+msgid "Henüz bir grupta değilsin."
+msgstr "Du bist noch in keiner Gruppe."
+
+msgid "Yeni Grup"
+msgstr "Neue Gruppe"
+
+msgid "Topluluklar"
+msgstr "Communities"
+
+msgid "Toplulukları Keşfet"
+msgstr "Communities entdecken"
+
+msgid "üye"
+msgstr "Mitglied"
+
+msgid "Menü"
+msgstr "Menü"
+
+msgid "Misafir"
+msgstr "Gast"
+
+msgid "Menü yükleniyor..."
+msgstr "Menü wird geladen..."
+
+msgid "Ana Sayfa"
+msgstr "Startseite"
+
+msgid "Çıkış Yap"
+msgstr "Abmelden"
+
+msgid "İçerik seçin"
+msgstr "Inhalt auswählen"

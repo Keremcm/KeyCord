@@ -1,0 +1,1155 @@
+# Translations template for PROJECT.
+# Copyright (C) 2026 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2026-01-11 19:55+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: app/templates/_chat_list.html:4 app/templates/announcements.html:577
+msgid "Mesajlar"
+msgstr ""
+
+#: app/templates/_chat_list.html:16
+msgid "Sohbeti aç"
+msgstr ""
+
+#: app/templates/_chat_list.html:28
+msgid "Henüz arkadaşın yok."
+msgstr ""
+
+#: app/templates/_chat_list.html:36
+msgid "Gruplar"
+msgstr ""
+
+#: app/templates/_chat_list.html:48
+msgid "Grup sohbeti"
+msgstr ""
+
+#: app/templates/_chat_list.html:54
+msgid "Henüz bir grupta değilsin."
+msgstr ""
+
+#: app/templates/_chat_list.html:60
+msgid "Yeni Grup"
+msgstr ""
+
+#: app/templates/_chat_list.html:67 app/templates/communities.html:3
+#: app/templates/communities.html:45 app/templates/community_settings.html:73
+#: app/templates/community_view.html:98 app/templates/create_community.html:37
+msgid "Topluluklar"
+msgstr ""
+
+#: app/templates/_chat_list.html:72
+msgid "Toplulukları Keşfet"
+msgstr ""
+
+#: app/templates/_chat_list.html:89 app/templates/community_settings.html:59
+#: app/templates/community_view.html:72 app/templates/group_chat.html:177
+#: app/templates/group_settings.html:49
+msgid "üye"
+msgstr ""
+
+#: app/templates/add_friend.html:3
+msgid "KeyCord - Arkadaş Ekle"
+msgstr ""
+
+#: app/templates/add_friend.html:63 app/templates/friend_requests.html:20
+#: app/templates/friend_requests.html:99 app/templates/home.html:99
+#: app/templates/messages.html:247 app/templates/view_profile.html:281
+msgid "Arkadaş Ekle"
+msgstr ""
+
+#: app/templates/add_friend.html:65
+msgid ""
+"Yeni\n"
+"            insanlarla tanış, hikayelerini paylaş."
+msgstr ""
+
+#: app/templates/add_friend.html:74
+msgid "Kimleri arıyorsun?..."
+msgstr ""
+
+#: app/templates/add_friend.html:78
+msgid "Ara"
+msgstr ""
+
+#: app/templates/add_friend.html:86
+#, python-format
+msgid "\"%s\" için %s sonuç bulundu:"
+msgstr ""
+
+#: app/templates/add_friend.html:106
+msgid "Profili İncele"
+msgstr ""
+
+#: app/templates/add_friend.html:113
+msgid "Zaten Arkadaşsınız"
+msgstr ""
+
+#: app/templates/add_friend.html:118
+msgid "İstek Gönderildi"
+msgstr ""
+
+#: app/templates/add_friend.html:123
+msgid "Bu Sensin"
+msgstr ""
+
+#: app/templates/add_friend.html:129
+msgid "Arkadaş Ekle +"
+msgstr ""
+
+#: app/templates/add_friend.html:142
+msgid "Arama yaparak yeni arkadaşlar bulabilirsin."
+msgstr ""
+
+#: app/templates/announcements.html:7
+msgid "Duyurular - KeyCord"
+msgstr ""
+
+#: app/templates/announcements.html:565 app/templates/base_app.html:292
+#: app/templates/messages.html:196
+msgid "Çevrimiçi"
+msgstr ""
+
+#: app/templates/announcements.html:569 app/templates/base.html:33
+#: app/templates/base_app.html:316 app/templates/communities.html:61
+#: app/templates/create_community.html:53 app/templates/friend_requests.html:29
+#: app/templates/group_settings.html:63 app/templates/home.html:3
+#: app/templates/welcome.html:385
+msgid "Ana Sayfa"
+msgstr ""
+
+#: app/templates/announcements.html:588 app/templates/announcements.html:594
+#: app/templates/base_app.html:295 app/templates/home.html:131
+#: app/templates/view_profile.html:3
+msgid "Profil"
+msgstr ""
+
+#: app/templates/announcements.html:596
+msgid "Çıkış"
+msgstr ""
+
+#: app/templates/announcements.html:603 app/templates/base_app.html:320
+msgid "Çıkış Yap"
+msgstr ""
+
+#: app/templates/announcements.html:618 app/templates/announcements.html:635
+msgid "Duyurular"
+msgstr ""
+
+#: app/templates/announcements.html:636
+#, python-format
+msgid "%d duyuru"
+msgstr ""
+
+#: app/templates/announcements.html:647
+msgid "Yeni Duyuru"
+msgstr ""
+
+#: app/templates/announcements.html:671
+msgid "Bu duyuruyu silmek istediğinizden emin misiniz?"
+msgstr ""
+
+#: app/templates/announcements.html:683
+msgid "Sil"
+msgstr ""
+
+#: app/templates/announcements.html:700
+msgid "Henüz Duyuru Yok"
+msgstr ""
+
+#: app/templates/announcements.html:701
+msgid "Şu anda herhangi bir duyuru bulunmuyor. Duyurular burada görünecek."
+msgstr ""
+
+#: app/templates/base.html:34 app/templates/welcome.html:386
+msgid "Yardım"
+msgstr ""
+
+#: app/templates/base.html:35 app/templates/welcome.html:388
+msgid "İletişim"
+msgstr ""
+
+#: app/templates/base.html:39
+msgid "Uygulamaya Git"
+msgstr ""
+
+#: app/templates/base.html:41 app/templates/welcome.html:397
+msgid "Giriş"
+msgstr ""
+
+#: app/templates/base.html:66
+msgid "Gizlilik Odaklı Mesajlaşma"
+msgstr ""
+
+#: app/templates/base_app.html:276
+msgid "Menü"
+msgstr ""
+
+#: app/templates/base_app.html:291
+msgid "Misafir"
+msgstr ""
+
+#: app/templates/base_app.html:306
+msgid "Menü yükleniyor..."
+msgstr ""
+
+#: app/templates/base_app.html:330
+msgid "İçerik seçin"
+msgstr ""
+
+#: app/templates/communities.html:47
+msgid "Keşfet ve Katıl"
+msgstr ""
+
+#: app/templates/communities.html:52 app/templates/create_community.html:44
+msgid "Keşfet"
+msgstr ""
+
+#: app/templates/communities.html:56 app/templates/create_community.html:48
+#: app/templates/create_community.html:116 app/templates/create_group.html:68
+msgid "Oluştur"
+msgstr ""
+
+#: app/templates/communities.html:74
+msgid "Topluluk Panosu"
+msgstr ""
+
+#: app/templates/communities.html:75
+msgid ""
+"İlgi alanına göre\n"
+"                topluluklar bul"
+msgstr ""
+
+#: app/templates/communities.html:83
+msgid "Topluluk ara..."
+msgstr ""
+
+#: app/templates/communities.html:114
+msgid "Açıklama yok."
+msgstr ""
+
+#: app/templates/communities.html:122 app/templates/community_settings.html:160
+#: app/templates/group_settings.html:196
+msgid "Üye"
+msgstr ""
+
+#: app/templates/communities.html:132
+msgid "Henüz hiç topluluk yok."
+msgstr ""
+
+#: app/templates/communities.html:135
+msgid ""
+"Topluluğunu\n"
+"                        Oluştur"
+msgstr ""
+
+#: app/templates/communities.html:145
+msgid "Aradığın topluluk bulunamadı..."
+msgstr ""
+
+#: app/templates/community_settings.html:3
+#: app/templates/community_settings.html:68
+#: app/templates/community_view.html:83 app/templates/group_chat.html:182
+#: app/templates/group_settings.html:3
+msgid "Ayarlar"
+msgstr ""
+
+#: app/templates/community_settings.html:64
+#: app/templates/community_view.html:77
+msgid "Sohbet"
+msgstr ""
+
+#: app/templates/community_settings.html:84
+msgid "Topluluk Ayarları"
+msgstr ""
+
+#: app/templates/community_settings.html:86
+msgid "topluluğunu yönet"
+msgstr ""
+
+#: app/templates/community_settings.html:96
+msgid "Genel Bilgiler"
+msgstr ""
+
+#: app/templates/community_settings.html:101
+#: app/templates/create_community.html:77
+msgid "Topluluk Adı"
+msgstr ""
+
+#: app/templates/community_settings.html:109
+#: app/templates/create_community.html:85
+msgid "Açıklama"
+msgstr ""
+
+#: app/templates/community_settings.html:121
+msgid ""
+"Sadece\n"
+"                            Yöneticiler Mesaj Atabilir"
+msgstr ""
+
+#: app/templates/community_settings.html:123
+msgid ""
+"Etkinleştirilirse üyeler sadece\n"
+"                            okuyabilir."
+msgstr ""
+
+#: app/templates/community_settings.html:132
+msgid "Kaydet"
+msgstr ""
+
+#: app/templates/community_settings.html:141 app/templates/group_chat.html:186
+#: app/templates/group_settings.html:158 app/templates/group_settings.html:220
+msgid "Üyeler"
+msgstr ""
+
+#: app/templates/community_settings.html:156
+msgid "Kurucu"
+msgstr ""
+
+#: app/templates/community_settings.html:158
+msgid "Yönetici"
+msgstr ""
+
+#: app/templates/community_settings.html:174
+msgid "Yöneticiliği Al"
+msgstr ""
+
+#: app/templates/community_settings.html:174
+#: app/templates/community_settings.html:178
+msgid "Yönetici Yap"
+msgstr ""
+
+#: app/templates/community_settings.html:176
+msgid "Üye Yap"
+msgstr ""
+
+#: app/templates/community_settings.html:187
+msgid "Bu üyeyi topluluktan çıkarmak istediğinize emin misiniz?"
+msgstr ""
+
+#: app/templates/community_settings.html:190
+#: app/templates/group_settings.html:203
+msgid "Çıkar"
+msgstr ""
+
+#: app/templates/community_view.html:89
+msgid "Ayrılmak istediğine emin misin?"
+msgstr ""
+
+#: app/templates/community_view.html:91
+msgid "Ayrıl"
+msgstr ""
+
+#: app/templates/community_view.html:143 app/templates/group_chat.html:242
+msgid "🔒 Şifre çözülüyor..."
+msgstr ""
+
+#: app/templates/community_view.html:153
+msgid "Sohbeti başlat!"
+msgstr ""
+
+#: app/templates/community_view.html:163
+msgid "Bu topluluğa katılarak sohbete dahil ol!"
+msgstr ""
+
+#: app/templates/community_view.html:167 app/templates/register.html:114
+msgid "Topluluğa Katıl"
+msgstr ""
+
+#: app/templates/community_view.html:176
+msgid "Bir şeyler yaz..."
+msgstr ""
+
+#: app/templates/community_view.html:192
+msgid "Sadece yöneticiler mesaj gönderebilir."
+msgstr ""
+
+#: app/templates/community_view.html:230 app/templates/group_chat.html:313
+#: app/templates/group_chat.html:389 app/templates/messages.html:298
+msgid "🔒 Şifre çözülemedi"
+msgstr ""
+
+#: app/templates/community_view.html:257 app/templates/group_chat.html:331
+msgid "Anahtarlar alınamadı"
+msgstr ""
+
+#: app/templates/community_view.html:273
+msgid "Mesaj şifrelenemedi: "
+msgstr ""
+
+#: app/templates/contact.html:3
+msgid "KeyCord - İletişim"
+msgstr ""
+
+#: app/templates/contact.html:164
+msgid "Geri"
+msgstr ""
+
+#: app/templates/contact.html:171 app/templates/contact.html:285
+msgid "Bize Ulaşın"
+msgstr ""
+
+#: app/templates/contact.html:174
+msgid "Bir sorunuz mu var? Yardımcı olmak için buradayız."
+msgstr ""
+
+#: app/templates/contact.html:182
+msgid "Acil Güvenlik Durumu"
+msgstr ""
+
+#: app/templates/contact.html:185
+msgid "Hesabınızın tehlikede olduğunu düşünüyorsanız beklemeden bize yazın."
+msgstr ""
+
+#: app/templates/contact.html:198
+msgid "Bize Yazın"
+msgstr ""
+
+#: app/templates/contact.html:203
+msgid "Adınız Soyadınız"
+msgstr ""
+
+#: app/templates/contact.html:204
+msgid "Kim olduğunuzu bilelim..."
+msgstr ""
+
+#: app/templates/contact.html:209
+msgid "E-posta Adresiniz"
+msgstr ""
+
+#: app/templates/contact.html:210
+msgid "Size nasıl dönelim?"
+msgstr ""
+
+#: app/templates/contact.html:215
+msgid "Konu"
+msgstr ""
+
+#: app/templates/contact.html:217
+msgid "Ne hakkında konuşacağız?"
+msgstr ""
+
+#: app/templates/contact.html:221
+msgid "Mesajınız"
+msgstr ""
+
+#: app/templates/contact.html:223
+msgid "Bize her şeyi anlatabilirsiniz..."
+msgstr ""
+
+#: app/templates/contact.html:227
+msgid "Gönder (Şifreli)"
+msgstr ""
+
+#: app/templates/contact.html:237
+msgid "Genel Destek"
+msgstr ""
+
+#: app/templates/contact.html:238
+msgid "Her türlü soru ve sorunlarınız için:"
+msgstr ""
+
+#: app/templates/contact.html:246
+msgid ""
+"Sosyal Medyada\n"
+"                    Biz"
+msgstr ""
+
+#: app/templates/contact.html:267
+msgid "Gönderiliyor..."
+msgstr ""
+
+#: app/templates/contact.html:272
+msgid "Mesajınız şifrelenerek tarafımıza iletildi! En kısa sürede döneceğiz."
+msgstr ""
+
+#: app/templates/contact.html:286
+msgid ""
+"KeyCord destek ekibiyle iletişime geçin. Güvenlik bildirimleri, genel "
+"destek ve geri bildirimleriniz için buradayız."
+msgstr ""
+
+#: app/templates/create_announcement.html:7
+msgid "Duyuru Oluştur - KeyCord"
+msgstr ""
+
+#: app/templates/create_announcement.html:219
+msgid "Yeni Duyuru Oluştur"
+msgstr ""
+
+#: app/templates/create_announcement.html:221
+msgid "Tüm kullanıcılara gönderilecek duyuruyu oluşturun"
+msgstr ""
+
+#: app/templates/create_announcement.html:236
+msgid "Duyuru Başlığı"
+msgstr ""
+
+#: app/templates/create_announcement.html:238
+msgid "Duyuru başlığını buraya yazın..."
+msgstr ""
+
+#: app/templates/create_announcement.html:242
+msgid "Duyuru İçeriği"
+msgstr ""
+
+#: app/templates/create_announcement.html:244
+msgid "Duyuru içeriğini buraya yazın..."
+msgstr ""
+
+#: app/templates/create_announcement.html:258
+msgid "Bu duyuru önemli (öne çıkar)"
+msgstr ""
+
+#: app/templates/create_announcement.html:270
+#: app/templates/create_community.html:113
+msgid "İptal"
+msgstr ""
+
+#: app/templates/create_announcement.html:278
+msgid "Duyuruyu Yayınla"
+msgstr ""
+
+#: app/templates/create_community.html:3
+msgid "Topluluk Oluştur"
+msgstr ""
+
+#: app/templates/create_community.html:39
+msgid "Yeni Oluştur"
+msgstr ""
+
+#: app/templates/create_community.html:66
+msgid "Kendi Topluluğunu Kur"
+msgstr ""
+
+#: app/templates/create_community.html:67
+msgid ""
+"İnsanları bir araya\n"
+"                getir ve sohbeti başlat"
+msgstr ""
+
+#: app/templates/create_community.html:78
+msgid "Örn: Oyun Severler"
+msgstr ""
+
+#: app/templates/create_community.html:86
+msgid "Bu topluluk ne hakkında?"
+msgstr ""
+
+#: app/templates/create_community.html:93
+msgid "Topluluk Resmi"
+msgstr ""
+
+#: app/templates/create_community.html:105
+msgid "Resim Yüklemek İçin Tıkla"
+msgstr ""
+
+#: app/templates/create_community.html:128
+msgid "Resim seçilmedi"
+msgstr ""
+
+#: app/templates/create_group.html:3
+msgid "KeyCord - Grup Oluştur"
+msgstr ""
+
+#: app/templates/create_group.html:14
+msgid "Yeni Grup Kur"
+msgstr ""
+
+#: app/templates/create_group.html:17
+msgid "Arkadaşlarını topla, muhabbete başla."
+msgstr ""
+
+#: app/templates/create_group.html:26 app/templates/group_settings.html:102
+msgid "Grup Adı"
+msgstr ""
+
+#: app/templates/create_group.html:28
+msgid "Grubun ismi ne olsun?..."
+msgstr ""
+
+#: app/templates/create_group.html:34
+msgid "Arkadaşlarını Seç"
+msgstr ""
+
+#: app/templates/create_group.html:57
+msgid "Henüz hiç arkadaşın yok gibi..."
+msgstr ""
+
+#: app/templates/create_group.html:60
+msgid "Arkadaş Bul"
+msgstr ""
+
+#: app/templates/friend_requests.html:3
+msgid "Arkadaşlık İstekleri"
+msgstr ""
+
+#: app/templates/friend_requests.html:13
+msgid "Arkadaşlık"
+msgstr ""
+
+#: app/templates/friend_requests.html:15
+msgid "İstekleri Yönet"
+msgstr ""
+
+#: app/templates/friend_requests.html:24
+msgid "İstekler"
+msgstr ""
+
+#: app/templates/friend_requests.html:40
+msgid "Gelen İstekler"
+msgstr ""
+
+#: app/templates/friend_requests.html:41
+msgid ""
+"Sana gönderilen arkadaşlık\n"
+"            istekleri"
+msgstr ""
+
+#: app/templates/friend_requests.html:67
+msgid "Arkadaş olmak istiyor"
+msgstr ""
+
+#: app/templates/friend_requests.html:78
+msgid "Kabul Et"
+msgstr ""
+
+#: app/templates/friend_requests.html:84
+msgid "Reddet"
+msgstr ""
+
+#: app/templates/friend_requests.html:96
+msgid "Henüz bekleyen arkadaşlık isteği yok."
+msgstr ""
+
+#: app/templates/group_chat.html:204
+msgid "Arkadaş ekle..."
+msgstr ""
+
+#: app/templates/group_chat.html:212
+msgid ""
+"Üye\n"
+"                Ekle"
+msgstr ""
+
+#: app/templates/group_chat.html:236
+msgid "şimdi"
+msgstr ""
+
+#: app/templates/group_chat.html:253
+msgid "Gruba bir şeyler yaz..."
+msgstr ""
+
+#: app/templates/group_chat.html:349
+msgid "Mesaj şifrelenirken bir hata oluştu: "
+msgstr ""
+
+#: app/templates/group_chat.html:385
+msgid "🔑 Anahtar yok"
+msgstr ""
+
+#: app/templates/group_settings.html:54
+msgid "Genel Ayarlar"
+msgstr ""
+
+#: app/templates/group_settings.html:58
+msgid "Grup Sohbeti"
+msgstr ""
+
+#: app/templates/group_settings.html:76
+msgid "Grup Ayarları"
+msgstr ""
+
+#: app/templates/group_settings.html:78
+msgid "grubunu yönet"
+msgstr ""
+
+#: app/templates/group_settings.html:81
+msgid "Gruba Dön"
+msgstr ""
+
+#: app/templates/group_settings.html:97
+msgid "Temel Bilgiler"
+msgstr ""
+
+#: app/templates/group_settings.html:110
+msgid "Grup Fotoğrafı"
+msgstr ""
+
+#: app/templates/group_settings.html:118
+msgid "Mevcut"
+msgstr ""
+
+#: app/templates/group_settings.html:125
+msgid "Dosya"
+msgstr ""
+
+#: app/templates/group_settings.html:129
+msgid "URL"
+msgstr ""
+
+#: app/templates/group_settings.html:147
+msgid ""
+"Değişiklikleri\n"
+"                        Kaydet"
+msgstr ""
+
+#: app/templates/group_settings.html:165
+msgid "Yeni Üye Ekle"
+msgstr ""
+
+#: app/templates/group_settings.html:171
+msgid "Arkadaş seçin..."
+msgstr ""
+
+#: app/templates/group_settings.html:178
+msgid "Ekle"
+msgstr ""
+
+#: app/templates/group_settings.html:194
+msgid "Grup Sahibi"
+msgstr ""
+
+#: app/templates/group_settings.html:216
+msgid ""
+"Bu grubun ayarlarını\n"
+"                sadece grup sahibi değiştirebilir."
+msgstr ""
+
+#: app/templates/group_settings.html:263
+msgid "Bu üyeyi gruptan çıkarmak istediğinize emin misiniz ? "
+msgstr ""
+
+#: app/templates/group_settings.html:275
+msgid "Hata: "
+msgstr ""
+
+#: app/templates/group_settings.html:280
+msgid "Bir hata oluştu"
+msgstr ""
+
+#: app/templates/help_center.html:273
+msgid "Yardım Merkezi"
+msgstr ""
+
+#: app/templates/help_center.html:274
+msgid ""
+"KeyCord hakkında sıkça sorulan sorulara ve rehberlere ulaşın. Mesajlaşma,"
+" güvenlik ve hesap ayarları hakkında yardım alın."
+msgstr ""
+
+#: app/templates/home.html:39
+msgid "Bildirimler"
+msgstr ""
+
+#: app/templates/home.html:51
+msgid ""
+"arkadaşlık\n"
+"                            isteği gönderdi."
+msgstr ""
+
+#: app/templates/home.html:57
+msgid ""
+"Yeni\n"
+"                            mesaj."
+msgstr ""
+
+#: app/templates/home.html:63
+msgid "grubunda yeni mesaj."
+msgstr ""
+
+#: app/templates/home.html:74
+msgid "Hiç yeni bildirim yok..."
+msgstr ""
+
+#: app/templates/home.html:91
+msgid "Merhaba"
+msgstr ""
+
+#: app/templates/home.html:94
+msgid "Bugün neler yapmak istersin?"
+msgstr ""
+
+#: app/templates/home.html:110
+msgid "Grup Kur"
+msgstr ""
+
+#: app/templates/home.html:116 app/templates/welcome.html:437
+msgid "Kopyalamak için tıkla"
+msgstr ""
+
+#: app/templates/home.html:124
+msgid "Kopyalandı"
+msgstr ""
+
+#: app/templates/home.html:137
+msgid "Uygulamayı İndir"
+msgstr ""
+
+#: app/templates/home.html:142 app/templates/welcome.html:468
+#: app/templates/welcome.html:478
+msgid "İndir"
+msgstr ""
+
+#: app/templates/home.html:152
+msgid "Cihaz Seçin"
+msgstr ""
+
+#: app/templates/home.html:163
+msgid "Kapat"
+msgstr ""
+
+#: app/templates/login.html:3 app/templates/login.html:112
+#: app/templates/login.html:137 app/templates/login.html:203
+#: app/templates/login.html:214 app/templates/register.html:193
+msgid "Giriş Yap"
+msgstr ""
+
+#: app/templates/login.html:88
+msgid "Uçtan uca şifreli, kayıt tutmayan ve tamamen anonim."
+msgstr ""
+
+#: app/templates/login.html:90
+msgid "Gizlilik bir hak değil, yaşam biçimidir."
+msgstr ""
+
+#: app/templates/login.html:104
+msgid "Bağımsız güvenlik taramalarında"
+msgstr ""
+
+#: app/templates/login.html:105
+msgid "A+"
+msgstr ""
+
+#: app/templates/login.html:105
+msgid "ile değerlendirildi"
+msgstr ""
+
+#: app/templates/login.html:118 app/templates/register.html:160
+msgid "E-posta"
+msgstr ""
+
+#: app/templates/login.html:123 app/templates/register.html:168
+msgid "Şifre"
+msgstr ""
+
+#: app/templates/login.html:131
+msgid "Beni Hatırla"
+msgstr ""
+
+#: app/templates/login.html:133
+msgid "Şifremi unuttum"
+msgstr ""
+
+#: app/templates/login.html:152
+msgid "Giriş yapılıyor..."
+msgstr ""
+
+#: app/templates/login.html:172
+msgid "Giriş başarısız."
+msgstr ""
+
+#: app/templates/login.html:177
+msgid "Anahtarlar çözülüyor..."
+msgstr ""
+
+#: app/templates/login.html:193
+msgid ""
+"Giriş başarılı ancak şifreleme anahtarlarınız çözülemedi. Mesajlarınızı "
+"okuyamayabilirsiniz."
+msgstr ""
+
+#: app/templates/login.html:215
+msgid ""
+"KeyCord hesabınıza güvenli bir şekilde giriş yapın. Uçtan uca şifreli ve "
+"anonim mesajlaşma deneyimine devam edin."
+msgstr ""
+
+#: app/templates/login.html:222
+msgid "Hesabın yok mu?"
+msgstr ""
+
+#: app/templates/login.html:223 app/templates/register.html:3
+#: app/templates/register.html:188 app/templates/register.html:329
+#: app/templates/welcome.html:409
+msgid "Kayıt Ol"
+msgstr ""
+
+#: app/templates/messages.html:3
+msgid "KeyCord - Mesajlar"
+msgstr ""
+
+#: app/templates/messages.html:201
+msgid "Profili Gör"
+msgstr ""
+
+#: app/templates/messages.html:213 app/templates/messages.html:333
+msgid "Şimdi"
+msgstr ""
+
+#: app/templates/messages.html:219 app/templates/messages.html:336
+msgid "Mesaj çözülüyor..."
+msgstr ""
+
+#: app/templates/messages.html:228
+msgid "Mesaj yaz..."
+msgstr ""
+
+#: app/templates/messages.html:243
+msgid "Sohbet Başlat"
+msgstr ""
+
+#: app/templates/messages.html:245
+msgid "Soldaki listeden bir arkadaşını seç."
+msgstr ""
+
+#: app/templates/messages.html:289
+msgid "🔒 Anahtar yok"
+msgstr ""
+
+#: app/templates/profile.html:3
+msgid "Profilim - KeyCord"
+msgstr ""
+
+#: app/templates/profile.html:16
+msgid "Profil Ayarları"
+msgstr ""
+
+#: app/templates/profile.html:19
+msgid "Kendini ifade et."
+msgstr ""
+
+#: app/templates/profile.html:51
+msgid "Kayıt Tarihi"
+msgstr ""
+
+#: app/templates/profile.html:52
+msgid "Bugün"
+msgstr ""
+
+#: app/templates/profile.html:75 app/templates/register.html:155
+msgid "Kullanıcı Adı"
+msgstr ""
+
+#: app/templates/profile.html:82
+msgid "Hakkında"
+msgstr ""
+
+#: app/templates/profile.html:88
+msgid ""
+"Değişiklikleri\n"
+"                    Kaydet"
+msgstr ""
+
+#: app/templates/register.html:116
+msgid "KeyCord ile tamamen anonim sohbet deneyimi yaşa."
+msgstr ""
+
+#: app/templates/register.html:117
+msgid "Tor ağı üzerinden şifreli iletişim kur, dijital ayak izlerini sil."
+msgstr ""
+
+#: app/templates/register.html:129
+msgid "Sunucuda log tutulmaz, verileriniz sizindir."
+msgstr ""
+
+#: app/templates/register.html:140
+msgid "Merkeziyetsiz ve açık kaynaklı yapı."
+msgstr ""
+
+#: app/templates/register.html:147
+msgid "Yeni Hesap"
+msgstr ""
+
+#: app/templates/register.html:181
+msgid "Şifreyi Onayla"
+msgstr ""
+
+#: app/templates/register.html:182
+msgid "Tekrar giriniz"
+msgstr ""
+
+#: app/templates/register.html:192
+msgid "Hesabın var mı?"
+msgstr ""
+
+#: app/templates/register.html:195
+msgid "Devam ederek Hizmet Şartlarını kabul etmiş sayılırsın."
+msgstr ""
+
+#: app/templates/register.html:330
+msgid ""
+"Yeni bir KeyCord hesabı oluşturun. Tamamen anonim, log tutmayan ve "
+"güvenli iletişim dünyasına katılın."
+msgstr ""
+
+#: app/templates/view_profile.html:258
+msgid "Onaylı Hesap"
+msgstr ""
+
+#: app/templates/view_profile.html:269
+msgid "Profili Düzenle"
+msgstr ""
+
+#: app/templates/view_profile.html:275
+msgid "Mesaj Gönder"
+msgstr ""
+
+#: app/templates/view_profile.html:291
+msgid "Arkadaş"
+msgstr ""
+
+#: app/templates/view_profile.html:295
+msgid "Sunucu"
+msgstr ""
+
+#: app/templates/view_profile.html:302
+msgid "Hakkımda"
+msgstr ""
+
+#: app/templates/view_profile.html:307
+msgid ""
+"Bu kullanıcı henüz bir\n"
+"                açıklama eklememiş."
+msgstr ""
+
+#: app/templates/welcome.html:7
+msgid "Hoşgeldiniz"
+msgstr ""
+
+#: app/templates/welcome.html:387
+msgid "Güvenlik"
+msgstr ""
+
+#: app/templates/welcome.html:396
+msgid "Bilgi ve Dokümantasyon"
+msgstr ""
+
+#: app/templates/welcome.html:405
+msgid "Gizlilik Odaklı Yeni Nesil Mesajlaşma"
+msgstr ""
+
+#: app/templates/welcome.html:406
+msgid ""
+"KeyCord tamamen uçtan uca şifreleme ve Tor gizliliği ile çalışan modern "
+"bir\n"
+"                    sohbet platformudur."
+msgstr ""
+
+#: app/templates/welcome.html:410
+msgid ""
+"Giriş\n"
+"                        Yap"
+msgstr ""
+
+#: app/templates/welcome.html:418
+msgid "Aktif Kullanıcı Desteği"
+msgstr ""
+
+#: app/templates/welcome.html:422
+msgid "Tor Gizliliği"
+msgstr ""
+
+#: app/templates/welcome.html:426
+msgid "Şifreleme"
+msgstr ""
+
+#: app/templates/welcome.html:434
+msgid "Tor Adresi"
+msgstr ""
+
+#: app/templates/welcome.html:435
+msgid "Tor Browser ile bağlanın"
+msgstr ""
+
+#: app/templates/welcome.html:438
+msgid "Onion Adresi"
+msgstr ""
+
+#: app/templates/welcome.html:441
+msgid "✓ Kopyalandı!"
+msgstr ""
+
+#: app/templates/welcome.html:447
+msgid "Özellikler"
+msgstr ""
+
+#: app/templates/welcome.html:448
+msgid "Güvenlik için tasarlandı, hız için optimize edildi."
+msgstr ""
+
+#: app/templates/welcome.html:451
+msgid "Tor Üzerinde Tam Gizlilik"
+msgstr ""
+
+#: app/templates/welcome.html:452
+msgid "Güçlü Uçtan Uca Şifreleme"
+msgstr ""
+
+#: app/templates/welcome.html:453
+msgid "Tamamen Açık Kaynak"
+msgstr ""
+
+#: app/templates/welcome.html:458
+msgid "Uygulamalarımızı İndirin"
+msgstr ""
+
+#: app/templates/welcome.html:459
+msgid ""
+"KeyCord her zaman yanınızda. Android ve Windows uygulamalarımızı hemen\n"
+"            edinin."
+msgstr ""
+
+#: app/templates/welcome.html:488
+msgid "Gizlilik"
+msgstr ""
+
+#: app/templates/welcome.html:490
+msgid "Hizmet Şartları"
+msgstr ""
+
+#: app/templates/welcome.html:492
+msgid "Lisanslar"
+msgstr ""
+
+#: app/templates/welcome.html:510
+msgid ""
+"KeyCord, Türkiye tabanlı geliştirilen, gizlilik odaklı ve Tor ağı desteği"
+" sunan yeni nesil bir mesajlaşma platformudur. Kullanıcı gizliliğini ve "
+"veri kontrolünü önceliklendiren, Discord’a güvenli bir alternatif olarak "
+"tasarlanmıştır."
+msgstr ""
+
+#: app/templates/welcome.html:522
+msgid "gizlilik odaklı mesajlaşma"
+msgstr ""
+
+#: app/templates/welcome.html:523
+msgid "Tor destekli mesajlaşma"
+msgstr ""
+
+#: app/templates/welcome.html:524
+msgid "Discord alternatifi"
+msgstr ""
+
+#: app/templates/welcome.html:525
+msgid "Türkiye mesajlaşma platformu"
+msgstr ""
+
+#: app/templates/welcome.html:526
+msgid "güvenli iletişim"
+msgstr ""
+
