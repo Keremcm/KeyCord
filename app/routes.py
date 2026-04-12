@@ -13,29 +13,51 @@ from werkzeug.utils import secure_filename
 import re
 import base64
 from Crypto.PublicKey import RSA
+from Crypto.Hash import SHA256
 from Crypto.Cipher import PKCS1_OAEP
 from .utils import hash_password, check_password, generate_token, verify_token, get_conversation, save_message
 
 class LoginRSA:
-    try:
-        key = RSA.generate(2048)
-        private_key = PKCS1_OAEP.new(key)
-        public_key_pem = key.publickey().export_key('PEM').decode('utf-8')
-    except Exception as e:
-        key = None
-        private_key = None
-        public_key_pem = ""
-        print("RSA Init error:", e)
+    _private_key = None
+    public_key_pem = ""
+
+    @classmethod
+    def _initialize(cls):
+        if cls._private_key:
+            return
+        
+        # current_app can only be accessed within a request context
+        key_path = os.path.join(current_app.instance_path, 'login_rsa.pem')
+        os.makedirs(current_app.instance_path, exist_ok=True)
+        
+        if os.path.exists(key_path):
+            try:
+                with open(key_path, 'rb') as f:
+                    key = RSA.import_key(f.read())
+            except Exception as e:
+                print(f"RSA Load Error: {e}")
+                key = RSA.generate(2048)
+                with open(key_path, 'wb') as f:
+                    f.write(key.export_key('PEM'))
+        else:
+            key = RSA.generate(2048)
+            with open(key_path, 'wb') as f:
+                f.write(key.export_key('PEM'))
+
+        cls._private_key = PKCS1_OAEP.new(key, hashAlgo=SHA256)
+        cls.public_key_pem = key.publickey().export_key('PEM').decode('utf-8')
 
     @classmethod
     def decrypt(cls, encrypted_b64):
-        if not cls.private_key:
+        cls._initialize()
+        if not cls._private_key:
             return encrypted_b64
         try:
             enc_data = base64.b64decode(encrypted_b64)
-            return cls.private_key.decrypt(enc_data).decode('utf-8')
-        except Exception:
-            return encrypted_b64  # Fallback
+            return cls._private_key.decrypt(enc_data).decode('utf-8')
+        except Exception as e:
+            print(f"Decryption failed: {e}")
+            return encrypted_b64
 
 from .utils import generate_remember_token, verify_remember_token, delete_remember_token, delete_user_remember_tokens
 from .utils import create_group, add_user_to_group, get_user_groups, save_group_message, get_group_messages
