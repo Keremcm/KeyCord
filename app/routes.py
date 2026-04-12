@@ -811,7 +811,7 @@ def login_page():
                     remember_token, 
                     max_age=30*24*60*60,  # 30 gün
                     httponly=True,
-                    secure=False,  # HTTPS kullanıyorsanız True yapın
+                    secure=True,  # HTTPS kullanıyorsanız True yapın
                     samesite='Lax'
                 )
             
