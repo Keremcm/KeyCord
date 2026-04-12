@@ -8,7 +8,7 @@
 
 {% block app_header_actions %}
 <div class="notif-container mobile-bell-container">
-    <div class="bell-icon-wrap" onclick="toggleNotifications()">
+    <div class="bell-icon-wrap" id="top-bell-icon">
         <i class="icon icon-bell icon-lg" style="color: var(--chalk);"></i>
         {% if notifications %}<div class="notif-badge"></div>{% endif %}
     </div>
@@ -1178,7 +1178,7 @@
 
     <!-- Desktop bell -->
     <div class="notif-container desktop-notif">
-        <div class="bell-icon-wrap" onclick="toggleNotifications()">
+        <div class="bell-icon-wrap" id="sticky-bell-icon">
             <i class="icon icon-bell" style="color: #ffffff; font-size: 1.1rem;"></i>
             {% if notifications %}<div class="notif-badge"></div>{% endif %}
         </div>
@@ -1188,7 +1188,7 @@
     <div id="notification-dropdown">
         <div class="notif-header">
             <h4>{{ _('Bildirimler') }} ({{ notifications|length }})</h4>
-            <button class="notif-read-btn" onclick="markAllRead()">{{ _('Tümünü okundu say') }}</button>
+            <button id="mark-read-btn" class="notif-read-btn">{{ _('Tümünü okundu say') }}</button>
         </div>
         <div id="notif-list-container">
             {% if notifications %}
@@ -1350,7 +1350,7 @@
 {% block scripts %}
 {{ super() }}
 <script src="{{ url_for('static', filename='js/socket.io.min.js') }}"></script>
-<script>
+<script nonce="{{ csp_nonce }}">
     const socket = io();
     const API_TOKEN = '{{ token }}';
 
@@ -1503,5 +1503,10 @@
             if (d.friends !== undefined) document.getElementById('stat-friends').textContent = d.friends;
             if (d.groups !== undefined) document.getElementById('stat-groups').textContent = d.groups;
         }).catch(() => { });
+
+    // CSP Uyumlu Event Listeners
+    document.getElementById('top-bell-icon')?.addEventListener('click', toggleNotifications);
+    document.getElementById('sticky-bell-icon')?.addEventListener('click', toggleNotifications);
+    document.getElementById('mark-read-btn')?.addEventListener('click', markAllRead);
 </script>
 {% endblock %}

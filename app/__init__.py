@@ -129,10 +129,8 @@ def create_app():
     apply_all_middleware(app, socketio)
 
     from .routes import auth_bp, main_bp
-    from .blueprints.app_api import app_api_bp
     app.register_blueprint(auth_bp)
     app.register_blueprint(main_bp)
-    app.register_blueprint(app_api_bp)
 
     from . import sockets
 

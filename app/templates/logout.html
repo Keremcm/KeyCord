@@ -20,7 +20,7 @@
 
 <body>
     <div id="status">Kapatılıyor ve temizleniyor...</div>
-    <script>
+    <script nonce="{{ csp_nonce }}">
         // Socket.IO bağlatısını bul ve kopar
         if (typeof io !== 'undefined') {
             try {

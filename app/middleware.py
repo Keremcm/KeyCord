@@ -1,6 +1,7 @@
 from flask import request, g, session, current_app
 from functools import wraps
 import time
+import magic
 from .security import (
     rate_limit_check, log_security_event, add_security_headers,
     generate_csrf_token, check_login_attempts, record_failed_login,
@@ -184,9 +185,33 @@ def file_upload_security_middleware(app):
                     file_ext = file_obj.filename.rsplit('.', 1)[1].lower() if '.' in file_obj.filename else ''
                     
                     if file_ext not in allowed_extensions:
-                        log_security_event('INVALID_FILE_UPLOAD', 
+                        log_security_event('INVALID_FILE_EXT', 
                                          f'File: {file_obj.filename}, User: {session.get("user_id")}')
-                        return {'error': 'Geçersiz dosya türü.'}, 400
+                        return {'error': 'Geçersiz dosya uzantısı.'}, 400
+                    
+                    # Magic Bytes (MIME Type) Kontrolü
+                    try:
+                        header = file_obj.read(2048)
+                        file_obj.seek(0)
+                        mime = magic.from_buffer(header, mime=True)
+                        
+                        allowed_mimes = {
+                            'png': 'image/png',
+                            'jpg': 'image/jpeg',
+                            'jpeg': 'image/jpeg',
+                            'gif': 'image/gif',
+                            'webp': 'image/webp'
+                        }
+                        
+                        expected_mime = allowed_mimes.get(file_ext)
+                        if mime != expected_mime:
+                            log_security_event('MIME_SPOOF_ATTEMPT', 
+                                             f'File: {file_obj.filename}, Ext: {file_ext}, Real MIME: {mime}, User: {session.get("user_id")}')
+                            return {'error': 'Dosya içeriği uzantısı ile uyuşmuyor.'}, 400
+                    except Exception as e:
+                        current_app.logger.error(f"MIME check error: {e}")
+                        # Hata durumunda (libmagic yoksa vb.) sadece uyar, işlemi durdurma (opsiyonel karar)
+                        pass
                     
                     # Dosya boyutu kontrolü (5MB)
                     file_obj.seek(0, 2)  # Dosyanın sonuna git

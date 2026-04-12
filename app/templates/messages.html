@@ -632,7 +632,7 @@
         </div>
     </div>
 
-    <script>
+    <script nonce="{{ csp_nonce }}">
         if (window.innerWidth > 768) {
             document.querySelector('.desktop-placeholder').style.display = 'flex';
             document.querySelector('.desktop-placeholder').style.flexDirection = 'column';
@@ -647,7 +647,7 @@
 {{ super() }}
 <script src="{{ url_for('static', filename='js/socket.io.min.js') }}"></script>
 <script src="{{ url_for('static', filename='js/crypto.js') }}"></script>
-<script>
+<script nonce="{{ csp_nonce }}">
     document.addEventListener('DOMContentLoaded', function () {
         const socket = io();
         const token = "{{ token }}";

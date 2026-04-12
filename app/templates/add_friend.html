@@ -1,4 +1,4 @@
-﻿{% extends "base_app.html" %}
+{% extends "base_app.html" %}
 
 {% block title %}{{ _('KeyCord - Arkadaş Ekle') }}{% endblock %}
 
@@ -307,7 +307,7 @@
     }
 </style>
 
-<script>
+<script nonce="{{ csp_nonce }}">
     document.addEventListener('DOMContentLoaded', function () {
         // Çeviri metinleri
         const TRANSLATIONS = {

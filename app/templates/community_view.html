@@ -1,4 +1,4 @@
-﻿{% extends "base_app.html" %}
+{% extends "base_app.html" %}
 
 {% block title %}{{ community.name }}{% endblock %}
 
@@ -196,7 +196,7 @@
 
 <script src="{{ url_for('static', filename='js/socket.io.min.js') }}"></script>
 <script src="{{ url_for('static', filename='js/crypto.js') }}"></script>
-<script>
+<script nonce="{{ csp_nonce }}">
     // Auto scroll to bottom
     const messagesArea = document.getElementById('messagesArea');
     if (messagesArea) messagesArea.scrollTop = messagesArea.scrollHeight;
