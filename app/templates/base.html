@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="{{ get_locale() }}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}KeyCord{% endblock %}</title>
+    <meta name="description"
+        content="{% block meta_description %}KeyCord - Gizlilik odaklı, Tor tabanlı ve sansürsüz mesajlaşma platformu.{% endblock %}">
+
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='logo.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/icons.css') }}">
+
+    <!-- Paper Fonts (Local) -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='fonts/fonts.css') }}">
+
+    <!-- Paper CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/paper.css') }}">
+
+    <!-- Canonical URL -->
+    {% block canonical %}
+    <link rel="canonical" href="{{ request.base_url }}" />
+    {% endblock %}
+
+    {% block extra_css %}{% endblock %}
+
+    <style>
+        html {
+            background-color: var(--paper-black) !important;
+        }
+
+        body {
+            background-color: transparent !important;
+            margin: 0;
+            padding: 0;
+        }
+
+        body::before {
+            content: "" !important;
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100% !important;
+            height: 100% !important;
+            background-image: radial-gradient(rgba(255, 255, 255, 0.3) 1.5px, transparent 1.5px) !important;
+            background-size: 30px 30px !important;
+            z-index: -1 !important;
+            pointer-events: none !important;
+        }
+    </style>
+</head>
+
+<body>
+
+    {% block header %}
+    <header class="main-header">
+        <div class="header-content">
+            <a href="{{ url_for('auth.welcome') }}" class="nav-logo"><span>KeyCord</span></a>
+
+            <button class="mobile-menu-btn" aria-label="Menu">☰</button>
+
+            <div class="nav-wrapper">
+                <nav class="nav-menu">
+                    <a href="{{ url_for('auth.welcome') }}" class="nav-link">{{ _('Ana Sayfa') }}</a>
+                    <a href="{{ url_for('auth.faq') }}" class="nav-link">{{ _('SSS') }}</a>
+                    <a href="{{ url_for('auth.privacy_policy') }}" class="nav-link">{{ _('Güvenlik') }}</a>
+                    <a href="{{ url_for('auth.help_center') }}" class="nav-link">{{ _('Yardım') }}</a>
+                    <a href="{{ url_for('auth.contact') }}" class="nav-link">{{ _('İletişim') }}</a>
+                </nav>
+                <div class="nav-auth">
+
+                    {% if current_user %}
+                    <a href="{{ url_for('auth.home') }}" class="btn">{{ _('Uygulamaya Git') }}</a>
+                    {% else %}
+                    <a href="{{ url_for('auth.login_page') }}" class="btn">{{ _('Giriş') }}</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <style>
+        /* Desktop Default */
+        .main-header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(5, 6, 7, 0.9);
+            backdrop-filter: blur(12px);
+            border-bottom: 2px dashed rgba(255, 255, 255, 0.08);
+            /* Signal + Paper */
+            padding: 10px 0;
+            z-index: 1000;
+        }
+
+        .header-content {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-family: 'Reenie Beanie', cursive;
+            font-size: 2.7rem;
+            color: #fff;
+            transform: rotate(-2deg);
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .nav-logo:hover {
+            transform: rotate(0deg) scale(1.05);
+        }
+
+        .nav-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            flex: 1;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 2rem;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .nav-link {
+            font-family: 'Caveat', cursive;
+            font-size: 1.4rem;
+            color: var(--muted-chalk);
+            text-decoration: none;
+            position: relative;
+            padding: 4px 8px;
+            transition: 0.2s;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0%;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background: var(--chalk);
+            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border-radius: 2px;
+        }
+
+        .nav-link:hover {
+            color: #fff;
+            transform: translateY(-2px) rotate(1deg);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .nav-auth {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .nav-auth .btn {
+            font-size: 1.2rem;
+            padding: 8px 16px;
+            border-radius: 12px;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--chalk);
+            font-size: 2rem;
+            cursor: pointer;
+            z-index: 1001;
+            padding: 5px;
+            font-family: 'Caveat', cursive;
+            margin-left: auto;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 900px) {
+            .mobile-menu-btn {
+                display: block;
+                position: relative;
+                z-index: 1001; /* Stay above overlay */
+            }
+            
+            .nav-logo {
+                position: relative;
+                z-index: 1001; /* Stay above overlay */
+            }
+
+            .nav-menu {
+                position: static;
+                transform: none;
+            }
+
+            .nav-wrapper {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100dvh;
+                flex-direction: column;
+                background: rgba(5, 6, 7, 0.98);
+                backdrop-filter: blur(25px);
+                border: none;
+                border-radius: 0;
+                box-shadow: none;
+                padding: 20px;
+                padding-top: 100px; /* Push content under the header */
+                box-sizing: border-box;
+                
+                visibility: hidden;
+                opacity: 0;
+                clip-path: circle(0% at 100% 0); /* Cool circular reveal animation */
+                transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                align-items: center;
+                justify-content: flex-start;
+                z-index: 1000;
+                overflow-y: auto;
+            }
+
+            .nav-wrapper.active {
+                visibility: visible;
+                opacity: 1;
+                clip-path: circle(150% at 100% 0);
+            }
+
+            .nav-menu {
+                flex-direction: column;
+                align-items: center;
+                gap: 15px;
+                margin-top: 10px;
+                margin-bottom: 40px;
+                width: 100%;
+            }
+
+            .nav-auth {
+                flex-direction: column;
+                width: 100%;
+                max-width: 350px;
+                gap: 15px;
+            }
+
+            .nav-link {
+                font-size: 2.2rem;
+                display: block;
+                width: 100%;
+                text-align: center;
+                padding: 10px 0;
+                border-bottom: none;
+                transform: none;
+            }
+            .nav-link:hover {
+                transform: scale(1.05);
+                color: var(--chalk);
+            }
+
+            .nav-link::after {
+                display: none;
+            }
+
+            .nav-auth .btn {
+                width: 100%;
+                box-sizing: border-box;
+                text-align: center;
+                padding: 14px;
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const menuBtn = document.querySelector('.mobile-menu-btn');
+            const navWrapper = document.querySelector('.nav-wrapper');
+
+            if (menuBtn) {
+                menuBtn.addEventListener('click', function () {
+                    navWrapper.classList.toggle('active');
+                    this.textContent = navWrapper.classList.contains('active') ? '✕' : '☰';
+                });
+            }
+        });
+    </script>
+    {% endblock %}
+
+    <div class="container" style="padding-top: 100px; min-height: calc(100vh - 100px);">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <ul class="flash-messages" style="max-width: 1150px; margin: 0 auto 1rem auto; padding: 0 1rem;">
+            {% for category, message in messages %}
+            <li class="flash-message {{ category }}">
+                {{ message }}
+            </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </div>
+
+    {% block footer %}
+    <footer class="main-footer">
+        <div class="footer-bottom">
+            <div>KeyCord © 2026 - {{ _('Tor ile Sansürsüz') }}</div>
+            <div class="footer-links">
+                <a href="{{ url_for('auth.faq') }}">{{ _('SSS') }}</a>
+                <a href="{{ url_for('auth.privacy_policy') }}">{{ _('Gizlilik') }}</a>
+                <a href="{{ url_for('auth.terms_of_service') }}">{{ _('Şartlar') }}</a>
+                <a href="{{ url_for('auth.gdpr') }}">{{ _('KVKK / GDPR') }}</a>
+                <a href="{{ url_for('auth.contact') }}">{{ _('İletişim') }}</a>
+            </div>
+            <a href="https://www.instagram.com/keycord_official/" target="_blank" rel="noopener noreferrer"
+                style="display:none;">Instagram</a>
+        </div>
+    </footer>
+    {% endblock %}
+
+    <!-- Forge JS (Pure JS Crypto for Offline/HTTP Support) -->
+    <script src="{{ url_for('static', filename='js/forge.min.js') }}"></script>
+    <!-- Security Script -->
+    <script src="{{ url_for('static', filename='js/security.js') }}"></script>
+    {% block scripts %}{% endblock %}
+</body>
+
+</html>

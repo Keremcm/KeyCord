@@ -1,0 +1,293 @@
+{% extends "base_app.html" %}
+
+{% block title %}{{ group.name }} - {{ _('Ayarlar') }}{% endblock %}
+
+{% block extra_css %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/icons.css') }}">
+<style>
+    @media (max-width: 768px) {
+        .app-content-wrapper {
+            padding: 1rem !important;
+        }
+
+        h1 {
+            font-size: 2.5rem !important;
+        }
+
+        .scribble-border {
+            padding: 1.2rem !important;
+        }
+
+        .btn {
+            width: 100%;
+            margin-bottom: 0.5rem;
+        }
+
+        .member-grid {
+            grid-template-columns: 1fr !important;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block app_header_actions %}
+<div style="display: flex; align-items: center; gap: 10px; margin-right: 1rem;">
+    <h3 style="margin: 0; font-family:'Reenie Beanie'; font-size: 1.5rem; color: var(--chalk);">{{ group.name }}</h3>
+    <a href="{{ url_for('auth.group_chat', group_id=group.id) }}" class="btn"
+        style="padding: 4px 10px; font-size: 0.9rem; border-style: dashed;">
+        <i class="icon icon-comments" style="background-color: currentColor;"></i>
+    </a>
+</div>
+{% endblock %}
+
+{% block sidebar_content %}
+<h3
+    style="padding: 0 1rem; margin-top: 1rem; font-family: 'Reenie Beanie'; font-size: 2rem; color: var(--chalk); transform: rotate(-1deg);">
+    {{ group.name }}</h3>
+<div style="padding: 0 1rem; margin-bottom: 2rem; font-size: 0.9rem; color: var(--muted-chalk);">
+    {{ members|length }} {{ _('üye') }}
+</div>
+
+<a href="{{ url_for('auth.group_settings', group_id=group.id) }}" class="list-item active">
+    <i class="icon icon-lg icon-search" style="background-color: var(--chalk);"></i>
+    <span>{{ _('Genel Ayarlar') }}</span>
+</a>
+<a href="{{ url_for('auth.group_chat', group_id=group.id) }}" class="list-item">
+    <i class="icon icon-lg icon-comments" style="background-color: var(--chalk);"></i>
+    <span>{{ _('Grup Sohbeti') }}</span>
+</a>
+<div style="border-top: 2px dashed rgba(255,255,255,0.1); margin: 1rem 0;"></div>
+<a href="{{ url_for('auth.home') }}" class="list-item">
+    <i class="icon icon-lg icon-arrow-left" style="background-color: var(--chalk);"></i>
+    <span>{{ _('Ana Sayfa') }}</span>
+</a>
+{% endblock %}
+
+{% block app_content %}
+<div class="app-content-wrapper" style="width: 100%; height: 100%; overflow-y: auto; padding: 2rem;">
+
+    <!-- Header -->
+    <div style="max-width: 800px; margin: 0 auto 2rem auto;">
+        <div style="display: flex; align-items: center; justify-content: space-between;">
+            <div>
+                <h1
+                    style="font-family: 'Reenie Beanie'; font-size: 4rem; line-height: 0.8; margin-bottom: 0; transform: rotate(-1.5deg);">
+                    {{ _('Grup Ayarları') }}</h1>
+                <p style="font-family: 'Caveat'; font-size: 1.4rem; color: var(--muted-chalk);">{{ group.name }} {{
+                    _('grubunu yönet') }}</p>
+            </div>
+            <a href="{{ url_for('auth.group_chat', group_id=group.id) }}" class="btn">
+                <i class="icon icon-arrow-left" style="background-color: currentColor;"></i> {{ _('Gruba Dön') }}
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Settings Form -->
+    <div style="max-width: 800px; margin: 0 auto 3rem auto;">
+        {% if is_owner %}
+        <form method="POST" enctype="multipart/form-data"
+            action="{{ url_for('auth.group_settings', group_id=group.id) }}">
+
+            <!-- Basic Info -->
+            <div class="scribble-border"
+                style="padding: 2rem; margin-bottom: 2rem; background: rgba(255,255,255,0.02);">
+                <h2
+                    style="font-family: 'Reenie Beanie'; font-size: 2.5rem; margin-bottom: 1.5rem; color: var(--chalk); transform: rotate(-1deg);">
+                    {{ _('Temel Bilgiler') }}</h2>
+
+                <div style="margin-bottom: 1.5rem;">
+                    <label
+                        style="display: block; font-family: 'Caveat'; font-size: 1.4rem; margin-bottom: 0.5rem; color: var(--muted-chalk);">{{
+                        _('Grup Adı') }}</label>
+                    <input type="text" name="name" value="{{ group.name }}" required
+                        style="width: 100%; background: transparent; border: 2px dashed rgba(255,255,255,0.2); border-radius: 12px; padding: 1rem; color: var(--chalk); font-family: 'Caveat'; font-size: 1.3rem;">
+                </div>
+
+                <div style="margin-bottom: 1.5rem;">
+                    <label
+                        style="display: block; font-family: 'Caveat'; font-size: 1.4rem; margin-bottom: 0.5rem; color: var(--muted-chalk);">{{
+                        _('Grup Fotoğrafı') }}</label>
+
+                    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                        <!-- Current Photo Preview -->
+                        <div style="text-align: center;">
+                            <img src="{% if group.photo %}{{ url_for('static', filename=group.photo) if not group.photo.startswith('http') else group.photo }}{% else %}{{ group.name|avatar_url }}{% endif %}"
+                                style="width: 100px; height: 100px; border-radius: 50%; border: 3px solid var(--chalk); object-fit: cover; margin-bottom: 0.5rem;"
+                                onerror="this.src='{{ group.name|avatar_url }}'">
+                            <div style="font-size: 0.9rem; color: var(--muted-chalk);">{{ _('Mevcut') }}</div>
+                        </div>
+
+                        <div style="flex: 1; min-width: 250px;">
+                            <!-- Tabs for Upload/URL -->
+                            <div style="display: flex; gap: 0.5rem; margin-bottom: 0.5rem;">
+                                <button type="button" onclick="showUpload('file')" id="btn-file" class="btn"
+                                    style="padding: 5px 15px; font-size: 1rem; border-style: solid;">{{ _('Dosya')
+                                    }}</button>
+                                <button type="button" onclick="showUpload('url')" id="btn-url" class="btn"
+                                    style="padding: 5px 15px; font-size: 1rem; border-style: dashed; opacity: 0.7;">{{
+                                    _('URL') }}</button>
+                            </div>
+
+                            <div id="upload-file">
+                                <input type="file" name="photo_file" accept="image/*"
+                                    style="width: 100%; padding: 0.5rem; border: 2px dashed rgba(255,255,255,0.2); border-radius: 8px;">
+                            </div>
+                            <div id="upload-url" style="display: none;">
+                                <input type="url" name="photo_url" placeholder="https://..."
+                                    style="width: 100%; background: transparent; border: 2px dashed rgba(255,255,255,0.2); border-radius: 12px; padding: 0.8rem; color: var(--chalk); font-family: 'Caveat'; font-size: 1.2rem;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="text-align: right;">
+                    <button type="submit" class="btn btn-primary"
+                        style="transform: rotate(-1deg); border-color: var(--chalk); color: var(--chalk);">
+                        <i class="icon icon-check" style="background-color: currentColor;"></i> {{ _('Değişiklikleri
+                        Kaydet') }}
+                    </button>
+                </div>
+            </div>
+        </form>
+
+        <!-- Members Management -->
+        <div class="scribble-border" style="padding: 2rem; background: rgba(255,255,255,0.02);">
+            <h2
+                style="font-family: 'Reenie Beanie'; font-size: 2.5rem; margin-bottom: 1.5rem; color: var(--chalk); transform: rotate(-1deg);">
+                {{ _('Üyeler') }} ({{ members|length }})</h2>
+
+            <!-- Add Member Form -->
+            <div
+                style="margin-bottom: 2rem; padding: 1.5rem; border: 2px dashed rgba(255,255,255,0.1); border-radius: 16px;">
+                <h3
+                    style="font-family: 'Caveat'; font-size: 1.5rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                    <i class="icon icon-user-plus" style="background-color: var(--chalk);"></i> {{ _('Yeni Üye Ekle') }}
+                </h3>
+                <form method="POST" action="{{ url_for('auth.add_member', group_id=group.id) }}"
+                    style="display: flex; gap: 1rem; align-items: center;">
+                    <select name="friend_id" required
+                        style="flex: 1; background: transparent; border: 2px solid rgba(255,255,255,0.2); border-radius: 12px; padding: 0.8rem; color: var(--chalk); font-family: 'Caveat'; font-size: 1.2rem;">
+                        <option value="" disabled selected>{{ _('Arkadaş seçin...') }}</option>
+                        {% for f in friends %}
+                        {% if f.id not in group.members|map(attribute='id')|list %}
+                        <option value="{{ f.id }}">{{ f.username }}</option>
+                        {% endif %}
+                        {% endfor %}
+                    </select>
+                    <button type="submit" class="btn" style="border-style: dashed;">{{ _('Ekle') }}</button>
+                </form>
+            </div>
+
+            <!-- Member List -->
+            <div class="member-grid"
+                style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem;">
+                {% for member in members %}
+                <div class="sketch-box" style="text-align: center; padding: 1rem; position: relative;">
+                    <img src="{{ url_for('auth.serve_profile_picture', username=member.username) }}"
+                        data-onerror-src="{{ member.username|avatar_url }}"
+                        onerror="this.src = this.dataset.onerrorSrc;"
+                        style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 3px dashed var(--chalk); padding: 3px; margin-bottom: 15px;">
+
+                    <div style="font-family: 'Caveat'; font-size: 1.4rem; line-height: 1;">{{ member.username }}</div>
+                    <div style="font-size: 0.9rem; color: var(--muted-chalk); margin-bottom: 0.5rem;">
+                        {% if member.id == group.owner_id %}
+                        <i class="icon icon-star" style="background-color: var(--chalk);"></i> {{ _('Grup Sahibi') }}
+                        {% else %}
+                        {{ _('Üye') }}
+                        {% endif %}
+                    </div>
+
+                    {% if user.id == group.owner_id and member.id != group.owner_id %}
+                    <button data-id="{{ member.id }}" onclick="removeMember(this.dataset.id)"
+                        style="background: transparent; border: 1px dashed var(--muted-chalk); color: var(--muted-chalk); padding: 8px 15px; border-radius: 8px; cursor: pointer; font-family: 'Caveat'; font-size: 1.1rem; transition: 0.2s; width: 100%; margin-top: 10px;">
+                        {{ _('Çıkar') }}
+                    </button>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        {% else %}
+        <!-- View Only Mode -->
+        <div class="scribble-border" style="padding: 2rem; text-align: center;">
+            <p
+                style="font-family: 'Caveat'; font-size: 1.5rem; color: var(--muted-chalk); display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                <i class="icon icon-lock" style="background-color: var(--muted-chalk);"></i> {{ _('Bu grubun ayarlarını
+                sadece grup sahibi değiştirebilir.') }}
+            </p>
+            <div style="margin-top: 2rem;">
+                <h2 style="font-family: 'Reenie Beanie'; font-size: 2.5rem; color: var(--chalk);">{{ _('Üyeler') }}</h2>
+                <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; margin-top: 1rem;">
+                    {% for member in members %}
+                    <div class="sketch-box" style="padding: 0.5rem 1rem;">
+                        {{ member.username }}
+                        {% if member.id == group.owner_id %}
+                        <i class="icon icon-star" style="background-color: var(--chalk); font-size: 0.8em;"></i>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+    </div>
+</div>
+
+<script>
+    function showUpload(type) {
+        const fileDiv = document.getElementById('upload-file');
+        const urlDiv = document.getElementById('upload-url');
+        const btnFile = document.getElementById('btn-file');
+        const btnUrl = document.getElementById('btn-url');
+
+        if (type === 'file') {
+            fileDiv.style.display = 'block';
+            urlDiv.style.display = 'none';
+            btnFile.style.borderStyle = 'solid';
+            btnFile.style.opacity = '1';
+            btnUrl.style.borderStyle = 'dashed';
+            btnUrl.style.opacity = '0.7';
+        } else {
+            fileDiv.style.display = 'none';
+            urlDiv.style.display = 'block';
+            btnFile.style.borderStyle = 'dashed';
+            btnFile.style.opacity = '0.7';
+            btnUrl.style.borderStyle = 'solid';
+            btnUrl.style.opacity = '1';
+        }
+    }
+
+    function removeMember(memberId) {
+        const messages = {
+            confirm: {{ _('Bu üyeyi gruptan çıkarmak istediğinize emin misiniz?') | tojson }},
+            errorPrefix: {{ _('Hata:') | tojson }},
+            generalError: {{ _('Bir hata oluştu') | tojson }}
+        };
+
+    if (!confirm(messages.confirm)) return;
+
+    fetch('/group/{{ group.id }}/remove_member/' + memberId, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' }
+    })
+        .then(response => {
+            if (!response.ok) throw new Error('Network response was not ok');
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                location.reload();
+            } else {
+                alert(messages.errorPrefix + ' ' + (data.message || ''));
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert(messages.generalError);
+        });
+    }
+</script>
+{% endblock %}

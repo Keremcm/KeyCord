@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KeyCord // Güvenlik</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Inline overrides for specific whitepaper needs if any */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+
+<body class="loading">
+
+    <!-- === ÇEKİRDEK KANVAS KATMANLARI === -->
+    <canvas id="canvas-bg"></canvas>
+    <canvas id="canvas-main"></canvas>
+    <canvas id="canvas-ui"></canvas>
+
+    <!-- === YÜKLEME EKRANI === -->
+    <div id="loader">
+        <div class="loader-text scrambler">AUDITING_SYSTEM...</div>
+        <div class="loader-bar">
+            <div class="bar-fill"></div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <a href="index.html" class="back-link scrambler">
+        << ANA_TERMİNAL</a>
+
+            <!-- === SANAL KAYDIRMA KONTEYNERİ === -->
+            <div id="scroll-container">
+
+                <div class="whitepaper-container">
+
+                    <!-- HEADER -->
+                    <header class="wp-header">
+                        <h1 class="mega-title scrambler" style="font-size: 4rem;">KEYCORD<br>PROTOCOL_V2</h1>
+                        <div class="doc-meta">
+                            <span>DOC_ID: KC-2025-WP</span>
+                            <span>SINIFLANDIRMA: PUBLIC / OPEN</span>
+                            <span>TARİH: 16.12.2025</span>
+                        </div>
+                    </header>
+
+                    <!-- GRID LAYOUT -->
+                    <div class="wp-grid">
+
+                        <!-- SIDEBAR: TABLE OF CONTENTS -->
+                        <aside class="wp-sidebar">
+                            <span class="toc-title">İÇİNDEKİLER</span>
+                            <ul class="toc-list">
+                                <li class="toc-item"><a href="#intro" class="toc-link">> 1. GİRİŞ</a></li>
+                                <li class="toc-item"><a href="#protocol" class="toc-link">> 2. PROTOKOL SPEKLERİ</a>
+                                </li>
+                                <li class="toc-item"><a href="#fanout" class="toc-link">> 3. FAN-OUT MİMARİSİ</a></li>
+                                <li class="toc-item"><a href="#metadata" class="toc-link">> 4. METADATA ANALİZİ</a></li>
+                                <li class="toc-item"><a href="#threats" class="toc-link">> 5. TEHDİT MODELİ</a></li>
+                                <li class="toc-item"><a href="#trust" class="toc-link">> 6. GÜVEN & AUDIT</a></li>
+                            </ul>
+
+                            <div style="margin-top: 3rem; opacity: 0.6;">
+                                <span class="toc-title" style="font-size: 1rem;">DURUM</span>
+                                <div style="color: #27c93f; font-family: 'Courier New';">● SYSTEMS_ONLINE</div>
+                                <div style="color: #666; font-family: 'Courier New'; font-size: 0.8rem;">Ver. 1.0.4
+                                </div>
+                            </div>
+                        </aside>
+
+                        <!-- MAIN CONTENT -->
+                        <div class="wp-content">
+
+                            <!-- 1. GİRİŞ -->
+                            <section id="intro" class="wp-section">
+                                <h2 class="wp-title">01 // YÖNETİCİ ÖZETİ</h2>
+                                <p class="wp-text">
+                                    KeyCord, merkezi otorite gerektirmeyen, meta-veriden arındırılmış ve kriptografik
+                                    olarak reddedilebilir (plausibly deniable) bir iletişim protokolüdür. Geleneksel
+                                    "Güvenli Mesajlaşma" uygulamalarının aksine, KeyCord güveni bir kuruma değil,
+                                    tamamen istemci taraflı (client-side) çalışan matematiksel kanıtlara dayandırır.
+                                </p>
+                                <p class="wp-text">
+                                    Bu doküman, KeyCord'un alt yapısını oluşturan kriptografik primitifleri, ağ
+                                    topolojisini ve güvenlik kabullerini teknik bir dille analiz eder. Hedef kitlemiz
+                                    güvenlik araştırmacıları, kriptograflar ve mahremiyet aktivistleridir.
+                                </p>
+                            </section>
+
+                            <!-- 2. PROTOKOL -->
+                            <section id="protocol" class="wp-section">
+                                <h2 class="wp-title">02 // PROTOKOL SPEKLERİ</h2>
+
+                                <!-- Floating Spec Box -->
+                                <div class="spec-box jitter-border">
+                                    <div class="spec-title">CRYPTO_PRIMITIVES</div>
+                                    <ul class="spec-list">
+                                        <li><span>Simetrik:</span> <span>AES-256-GCM</span></li>
+                                        <li><span>Asimetrik:</span> <span>RSA-2048-OAEP</span></li>
+                                        <li><span>Hash:</span> <span>SHA-256</span></li>
+                                        <li><span>KDF:</span> <span>PBKDF2 (100k iter)</span></li>
+                                        <li><span>Transport:</span> <span>TLS 1.3 / Tor</span></li>
+                                        <li><span>RNG:</span> <span>window.crypto</span></li>
+                                    </ul>
+                                </div>
+
+                                <h3 class="wp-subtitle">Şifreleme Standartları</h3>
+                                <p class="wp-text">
+                                    KeyCord, endüstri standardı ve akademik olarak doğrulanmış algoritmaları kullanır.
+                                    "Kendi kriptonu yazma" (Don't roll your own crypto) ilkesine sıkı sıkıya bağlıyız.
+                                    Tüm kriptografik işlemler tarayıcının yerel <code>Web Crypto API</code> motorunda
+                                    gerçekleşir.
+                                </p>
+
+                                <h4 style="color:var(--chalk); font-family:'Courier New'; margin-top:2rem;">> Simetrik
+                                    Şifreleme (Payload)</h4>
+                                <p class="wp-text">
+                                    Her mesaj içeriği, o mesaja özel üretilen rastgele bir 256-bit anahtar (Session Key)
+                                    ve 96-bit IV (Initialization Vector) kullanılarak <strong>AES-256-GCM</strong>
+                                    modunda şifrelenir. GCM modu, hem gizlilik hem de bütünlük (integrity) sağlar.
+                                </p>
+
+                                <h4 style="color:var(--chalk); font-family:'Courier New'; margin-top:2rem;">> Asimetrik
+                                    Şifreleme (Key Exchange)</h4>
+                                <p class="wp-text">
+                                    Katılımcıların kimlik doğrulama ve anahtar değişimi <strong>RSA-2048</strong>
+                                    üzerinden <strong>OAEP</strong> dolgusu ile yapılır. Gelecek sürümlerde (v2.0+)
+                                    Elliptic Curve (X25519) geçişi planlanmaktadır ancak şu an evrensel tarayıcı
+                                    uyumluluğu için RSA tercih edilmiştir.
+                                </p>
+                            </section>
+
+                            <!-- 3. FAN-OUT -->
+                            <section id="fanout" class="wp-section">
+                                <h2 class="wp-title">03 // FAN-OUT MİMARİSİ</h2>
+                                <p class="wp-text">
+                                    Grup mesajlaşmalarında "Server-Side Fan-Out" (Sunucu Taraflı Dağıtım) yerine, işlem
+                                    yükünü ve güvenlik sorumluluğunu istemciye yükleyen <strong>"Client-Side
+                                        Fan-Out"</strong> kullanılır. Bu, sunucunun grup üyeleri arasındaki ilişkiyi
+                                    kriptografik olarak bilmesini engeller.
+                                </p>
+
+                                <div class="diagram-box jitter-box">
+                                    [MİMARİ AKIŞ ŞEMASI]
+
+                                    SENDER (ALICE)
+                                    |
+                                    +-- [1. Payload Şifreleme]
+                                    | AES_Key = Random()
+                                    | Ciphertext = AES_GCM(Message, AES_Key)
+                                    |
+                                    +-- [2. Anahtar Kapsülleme (KEM)]
+                                    | For each MEMBER in GROUP:
+                                    | Enc_Key[i] = RSA_Encrypt(AES_Key, Member_Pub_Key[i])
+                                    |
+                                    +-- [3. Paketleme]
+                                    Packet = { Hash(Group_ID), Ciphertext, [Enc_Key1, Enc_Key2...] }
+                                    |
+                                    v
+                                    [TOR NETWORK]
+                                    |
+                                    v
+                                    KEYCORD SERVER (RELAY ONLY)
+                                    Target: Blind Broadcast
+                                    |
+                                    +----> BOB (Decrypts Enc_Key1 -> AES_Key -> Message)
+                                    +----> CHARLIE (Decrypts Enc_Key2 -> AES_Key -> Message)
+                                </div>
+
+                                <p class="wp-text">
+                                    Bu yöntemde sunucu (KeyCord Relay), sadece şifreli bir veri bloğu (BLOB) ve bu
+                                    bloğun kime ait olduğunu bilmediği bir dizi şifreli anahtar görür. Sunucunun elinde
+                                    grup üyelerinin kimleri hangi mesajı okuyabildiğine dair bir "liste" yoktur, çünkü
+                                    headerlar da şifrelidir.
+                                </p>
+                            </section>
+
+                            <!-- 4. METADATA -->
+                            <section id="metadata" class="wp-section">
+                                <h2 class="wp-title">04 // METADATA ANALİZİ</h2>
+                                <div class="spec-box jitter-border"
+                                    style="float:left; margin-right:2rem; margin-left:0;">
+                                    <div class="spec-title">BİLİNENLER VS BİLİNMEYENLER</div>
+                                    <ul class="spec-list">
+                                        <li><span>İçerik?</span> <span style="color:#ff5f56">HAYIR</span></li>
+                                        <li><span>Kimden?</span> <span style="color:#ffbe2e">KISMEN*</span></li>
+                                        <li><span>Kime?</span> <span style="color:#ffbe2e">KISMEN*</span></li>
+                                        <li><span>Zaman?</span> <span style="color:#27c93f">EVET</span></li>
+                                        <li><span>IP Adres?</span> <span style="color:#ff5f56">HAYIR (Tor)</span></li>
+                                    </ul>
+                                </div>
+                                <p class="wp-text">
+                                    "Metadata içerikten daha tehlikelidir." — Eski NSA Direktörü.
+                                </p>
+                                <p class="wp-text">
+                                    KeyCord, IP adresinizi gizlemek için Tor (veya opsiyonel Proxy) kullanır. Ancak,
+                                    mesajın sunucuya ne zaman ulaştığı (Timestamp) sunucu tarafından bilinir. Trafik
+                                    analizi (Traffic Analysis) saldırılarına karşı, istemciler rastgele zamanlarda sahte
+                                    "Heartbeat" paketleri göndererek gerçek mesaj trafiğini gürültü içinde gizler
+                                    (Traffic Padding).
+                                </p>
+                                <div style="clear:both;"></div>
+                            </section>
+
+                            <!-- 5. TEHDİTLER -->
+                            <section id="threats" class="wp-section">
+                                <h2 class="wp-title">05 // TEHDİT MODELİ</h2>
+                                <p class="wp-text">
+                                    Güvenlik sistemleri zincirleme çalışır. Bir halka koptuğunda sistem çöker. İşte
+                                    dürüst risk analizimiz:
+                                </p>
+
+                                <div class="threat-grid">
+                                    <div class="threat-card jitter-border">
+                                        <span class="threat-level safe">RİSK: DÜŞÜK</span>
+                                        <h4>SUNUCU BASKINI</h4>
+                                        <p style="font-size:0.9rem; color:#888;">
+                                            Veritabanı diski tamamen şifrelidir. Şifresi çözülse bile, içindeki mesajlar
+                                            AES-256 ile şifreli blob'lardır. Özel anahtarlar sunucuda YOKTUR.
+                                        </p>
+                                    </div>
+                                    <div class="threat-card jitter-border">
+                                        <span class="threat-level warning">RİSK: ORTA</span>
+                                        <h4>METADATA SIZINTISI</h4>
+                                        <p style="font-size:0.9rem; color:#888;">
+                                            Aktif bir küresel gözlemci (Global Passive Adversary), mesajların
+                                            zamanlamasından kimin kiminle konuştuğunu istatistiksel olarak tahmin
+                                            edebilir. Ancak içeriği çözemez.
+                                        </p>
+                                    </div>
+                                    <div class="threat-card jitter-border">
+                                        <span class="threat-level critical">RİSK: KRİTİK</span>
+                                        <h4>ENDPOINT COMPROMISE</h4>
+                                        <p style="font-size:0.9rem; color:#888;">
+                                            Kullanıcının bilgisayarına RAT/Keylogger bulaşırsa, KeyCord'un yapabileceği
+                                            hiçbir şey yoktur. Şifreleme ekrandaki görüntüyü koruyamaz.
+                                        </p>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <!-- 6. GÜVEN -->
+                            <section id="trust" class="wp-section">
+                                <h2 class="wp-title">06 // GÜVEN & AUDIT</h2>
+                                <p class="wp-text">
+                                    KeyCord %100 Açık Kaynak (Open Source) teknolojilerden üretilmiştir.
+                                </p>
+
+                                <div
+                                    style="background: rgba(39, 201, 63, 0.05); padding: 1.5rem; border-left: 3px solid #27c93f;">
+                                    <h4 style="margin:0; color: #27c93f; font-family:'Courier New';">VERIFIABLE BUILDS
+                                    </h4>
+                                    <p style="margin:0.5rem 0 0 0; font-size: 0.9rem; color: #ccc;">
+                                        "Gizlilik bir hak değil, yaşam biçimidir."
+                                    </p>
+                                </div>
+
+                                <a href="#" class="download-btn">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                        <polyline points="7 10 12 15 17 10"></polyline>
+                                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                                    </svg>
+                                    <span>PDF RAPORU İNDİR (Yakında)</span>
+                                </a>
+                            </section>
+
+                            <footer
+                                style="margin-top: 5rem; padding-top: 2rem; border-top: 1px dashed #333; color: #666; font-size: 0.8rem; font-family: 'Courier New'; display: flex; justify-content: space-between;">
+                                <span>KEYCORD SECURITY RESEARCH LABS</span>
+                                <span>[NO_LOGS] [NO_TRACKERS] [NO_MASTERS]</span>
+                            </footer>
+
+                        </div> <!-- End Content -->
+                    </div> <!-- End Grid -->
+                </div>
+            </div>
+
+            <!-- SPOTLIGHT -->
+            <div id="cursor-spotlight"></div>
+
+            <script src="script.js"></script>
+            <script>
+                // Simple TOC Active State Logic
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            document.querySelectorAll('.toc-link').forEach(link => link.classList.remove('active'));
+                            const activeLink = document.querySelector(`.toc-link[href="#${entry.target.id}"]`);
+                            if (activeLink) activeLink.classList.add('active');
+                        }
+                    });
+                }, { threshold: 0.5 });
+
+                document.querySelectorAll('.wp-section').forEach(section => observer.observe(section));
+            </script>
+</body>
+
+</html>

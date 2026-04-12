@@ -1,0 +1,96 @@
+﻿{% extends "base_app.html" %}
+
+{% block title %}{{ _('KeyCord - Grup Oluştur') }}{% endblock %}
+
+{% block sidebar_content %}
+{% include '_chat_list.html' %}
+{% endblock %}
+
+{% block app_content %}
+<div style="padding: 2rem; max-width: 800px; margin: 0 auto; height: 100%; overflow-y: auto;">
+
+    <div class="scribble-border"
+        style="margin-bottom: 3rem; padding: 2rem; text-align: center; border: 3px dashed var(--chalk); transform: rotate(-1deg);">
+        <h1 style="font-family:'Reenie Beanie'; font-size: 3rem; color:var(--chalk); margin:0;">{{ _('Yeni Grup Kur') }}
+        </h1>
+        <p style="font-family:'Caveat'; color:var(--muted-chalk); font-size: 1.2rem; margin-top: 10px;">{{
+            _('Arkadaşlarını topla, muhabbete başla.') }}</p>
+    </div>
+
+    <form action="{{ url_for('auth.create_group_page') }}" method="POST">
+        <div class="sketch-box" style="padding: 2.5rem; transform: rotate(1deg); border-style: dashed;">
+
+            <div class="form-group" style="margin-bottom: 3rem;">
+                <label for="group_name"
+                    style="font-size:1.4rem; color:var(--chalk); font-family: 'Amatic SC', 'Caveat', cursive;">{{
+                    _('Grup Adı') }}</label>
+                <input type="text" id="group_name" name="name" required
+                    placeholder="{{ _('Grubun ismi ne olsun?...') }}"
+                    style="width:100%; font-size:1.4rem; padding:15px; background:transparent; border:2px solid rgba(255,255,255,0.2); border-radius: 10px; color:var(--chalk); font-family:'Caveat'; margin-top: 10px; outline: none;">
+            </div>
+
+            <h3
+                style="font-family:'Caveat'; font-size: 1.8rem; margin-bottom: 1.5rem; color: var(--chalk); border-bottom: 1px dashed rgba(255,255,255,0.1); padding-bottom: 10px;">
+                {{ _('Arkadaşlarını Seç') }}</h3>
+
+            <div
+                style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1.5rem; max-height: 400px; overflow-y: auto; padding: 5px;">
+                {% for f in friends %}
+                <label class="scribble-border"
+                    style="padding: 15px; display: flex; align-items: center; gap: 15px; cursor: pointer; transition: all 0.2s; border: 2px solid rgba(255,255,255,0.1); border-radius: 12px;">
+                    <input type="checkbox" name="members" value="{{ f.id }}"
+                        style="width: 20px; height: 20px; accent-color: var(--chalk); cursor: pointer;">
+
+                    <img src="{{ url_for('auth.serve_profile_picture', username=f.username) }}"
+                        style="width: 45px; height: 45px; border-radius: 50%; border: 2px dashed var(--chalk); padding: 2px;"
+                        onerror="this.src='{{ f.username|avatar_url }}';">
+
+                    <span style="font-weight: 500; font-family: 'Caveat'; font-size: 1.1rem; color: var(--chalk);">{{
+                        f.username }}</span>
+                </label>
+                {% endfor %}
+            </div>
+
+            {% if not friends %}
+            <div
+                style="text-align: center; color: var(--muted-chalk); padding: 3rem; border: 2px dashed rgba(255,255,255,0.15); border-radius: 15px; margin-top: 2rem;">
+                <p style="font-family: 'Caveat'; font-size: 1.5rem;">{{ _('Henüz hiç arkadaşın yok gibi...') }}</p>
+                <div style="margin-top: 2rem;">
+                    <a href="{{ url_for('auth.add_friend_page') }}" class="btn" style="border-style: dashed;">{{
+                        _('Arkadaş Bul') }}</a>
+                </div>
+            </div>
+            {% endif %}
+
+            <div style="margin-top: 3rem; text-align: center;">
+                <button type="submit" class="btn"
+                    style="font-size: 1.4rem; padding: 12px 50px; border-style: dashed; width: 100%;">
+                    {{ _('Oluştur') }}
+                </button>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+<style>
+    /* Custom Input Focus Style */
+    input[type="text"]:focus {
+        border-color: var(--chalk) !important;
+        background: rgba(255, 255, 255, 0.05) !important;
+    }
+
+    /* Hover effect for friend selection cards */
+    label.scribble-border:hover {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: var(--chalk) !important;
+        transform: translateY(-2px);
+    }
+
+    /* Checkbox checked state styling for label */
+    input[type="checkbox"]:checked+img {
+        border-style: solid !important;
+        border-color: var(--chalk) !important;
+    }
+</style>
+{% endblock %}

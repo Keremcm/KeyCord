@@ -1,0 +1,197 @@
+{% extends "base.html" %}
+
+{% block title %}KeyCord - {{ _('Açık Rıza Beyanı') }}{% endblock %}
+
+{% block extra_css %}
+<style>
+    *,
+    *::before,
+    *::after {
+        box-sizing: border-box;
+    }
+
+    html {
+        height: auto;
+        scroll-behavior: smooth;
+    }
+
+    body {
+        min-height: 100vh;
+        overflow-x: hidden;
+        position: relative;
+        margin: 0;
+    }
+
+    .policy-container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: clamp(1rem, 5vw, 2rem);
+        color: var(--muted-chalk);
+    }
+
+    .policy-header {
+        text-align: center;
+        margin-bottom: 4rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        padding-bottom: 2rem;
+    }
+
+    .policy-section {
+        margin-bottom: 3rem;
+        padding: 1.5rem;
+        background: rgba(255, 255, 255, 0.02);
+        border-radius: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .section-title {
+        font-family: 'Inter', sans-serif;
+        font-size: 1.4rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        color: var(--chalk);
+        display: flex;
+        align-items: center;
+    }
+
+    .policy-content {
+        font-family: 'Inter', sans-serif;
+        font-size: 1rem;
+        line-height: 1.7;
+        color: var(--muted-chalk);
+        text-align: justify;
+    }
+
+    .legal-list {
+        list-style-type: decimal;
+        padding-left: 1.5rem;
+        margin-top: 1rem;
+    }
+
+    .legal-list-bullet {
+        list-style-type: disc;
+        padding-left: 1.5rem;
+        margin-top: 1rem;
+    }
+
+    .legal-list li {
+        margin-bottom: 0.8rem;
+    }
+
+    .highlight-box {
+        background: rgba(255, 255, 255, 0.03);
+        border-left: 3px solid #666;
+        padding: 1rem;
+        margin: 1rem 0;
+        font-style: italic;
+    }
+
+    strong {
+        color: var(--chalk);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container policy-container">
+
+    <a href="javascript:history.back()" class="btn"
+        style="position: fixed; top: 2rem; left: 2rem; border: 1px solid rgba(255,255,255,0.2); padding: 0.5rem 1rem; z-index: 100; background: #000; color: #fff; text-decoration: none;">
+        ← {{ _('Geri') }}
+    </a>
+
+    <div class="policy-header">
+        <h1 style="font-family: 'Inter', sans-serif; font-size: 2rem; margin-bottom: 0.5rem; color: var(--chalk);">
+            {{ _('Açık Rıza Beyanı') }}
+        </h1>
+        <p style="font-size: 0.9rem; color: #888;">
+            {{ _('KeyCord Uçtan Uca Şifreleme ve Veri İmhası Hakkında') }}
+        </p>
+    </div>
+
+    <div class="policy-content" style="margin-bottom: 2rem;">
+        <p>
+            {{ _('KeyCord platformu, kullanıcı mahremiyetini en üst düzeyde tutmak amacıyla <strong>Uçtan Uca Şifreleme
+                (E2EE - End-to-End Encryption)</strong> ve <strong>Sıfır Bilgi (Zero-Knowledge)</strong> mimarisi
+            üzerine inşa edilmiştir. Bu mimari, verilerinizin güvenliğini sağlarken aynı zamanda verilerin imhası ve
+            erişilebilirliği konusunda belirli teknik kısıtları da beraberinde getirmektedir.') }}
+        </p>
+    </div>
+
+    <!-- 1. Şifreleme Mimarisi ve Erişim -->
+    <div class="policy-section">
+        <h2 class="section-title">{{ _('1. Şifreleme Mimarisi ve Veri Erişimi') }}</h2>
+        <div class="policy-content">
+            <p>
+                {{ _('KeyCord platformunda yapılan mesajlaşmalar ve paylaşılan içerikler, gönderici ve alıcının
+                cihazlarında oluşturulan benzersiz şifreleme anahtarları ile korunmaktadır.') }}
+            </p>
+            <ul class="legal-list-bullet">
+                <li>{{ _('<strong>Sıfır Bilgi:</strong> KeyCord sunucuları, şifrelenmiş mesaj içeriklerini (ciphertext)
+                    saklasa dahi, bu mesajları çözecek özel anahtarlara (Private Key) erişimi yoktur. Özel anahtarınız,
+                    yalnızca sizin belirlediğiniz şifre ile şifrelenmiş olarak saklanır ve şifreniz sunucularımıza düz
+                    metin olarak asla gönderilmez.') }}</li>
+                <li>{{ _('<strong>Yerel Çözümleme:</strong> Mesajlar yalnızca ilgili tarafların (gönderici ve alıcı)
+                    cihazlarında, yerel olarak çözümlenebilir.') }}</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 2. Hesap Silme ve Veri İmhası -->
+    <div class="policy-section">
+        <h2 class="section-title">{{ _('2. Hesap Silme ve Veri İmhası') }}</h2>
+        <div class="policy-content">
+            <p>
+                {{ _('Hesabınızı kalıcı olarak silmeniz durumunda aşağıdaki işlemler geri döndürülemez şekilde
+                uygulanır:') }}
+            </p>
+            <ul class="legal-list">
+                <li>{{ _('<strong>Şifreleme Anahtarları:</strong> Hesabınıza ait <code>Public Key</code> ve şifrelenmiş
+                    <code>Private Key</code> veritabanından kalıcı olarak silinir. Anahtarların silinmesi, hesabınızla
+                    ilişkilendirilmiş tüm geçmiş şifreli verilerin matematiksel olarak çözülemez hale gelmesini
+                    sağlar.') }}</li>
+                <li>{{ _('<strong>Hesap Bilgileri:</strong> Kullanıcı adı, e-posta adresi ve profil detaylarınız
+                    (metadata) sistemden tamamen kaldırılır.') }}</li>
+                <li>{{ _('<strong>Sunucu Verileri:</strong> Sunucularımızda saklanan ve size ait olan teslim edilmemiş
+                    geçici mesaj paketleri silinir.') }}</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 3. Teknik Sınırlar ve Beyan -->
+    <div class="policy-section">
+        <h2 class="section-title">{{ _('3. Teknik Sınırlar ve Kullanıcı Beyanı') }}</h2>
+        <div class="policy-content">
+            <div class="highlight-box">
+                <p>
+                    {{ _('<strong>Önemli Uyarı:</strong> Uçtan uca şifreleme ve dağıtık yapı gereği, gönderdiğiniz
+                    mesajlar alıcının cihazına ulaştıktan sonra KeyCord\'un teknik kontrol alanından çıkmaktadır.') }}
+                </p>
+            </div>
+            <p>
+                {{ _('Bu kapsamda, KeyCord platformuna üye olarak ve hizmetlerini kullanarak;') }}
+            </p>
+            <ul class="legal-list-bullet">
+                <li>{{ _('Hesabımı silmem veya verilerimin imhasını talep etmem halinde; sunucu tarafındaki tüm
+                    verilerimin ve şifreleme anahtarlarımın geri alınamaz şekilde silineceğini,') }}</li>
+                <li>{{ _('Bu işlem sonucunda, <strong>diğer kullanıcıların cihazlarına (bilgisayar, telefon vb.) daha
+                        önce iletilmiş olan mesaj kopyalarının, önbellek verilerinin veya ekran görüntülerinin</strong>
+                    KeyCord’un teknik kontrolü dışında olduğunu,') }}</li>
+                <li>{{ _('KeyCord\'un diğer kullanıcıların cihazlarına fiziksel veya uzaktan müdahale yetkisi
+                    bulunmadığından, bu yerel kopyalar üzerinde tek taraflı silme işlemi uygulayamayabileceğini,') }}
+                </li>
+                <li>{{ _('Hesap silme işleminin, şifreleme anahtarlarının yok edilmesi nedeniyle <strong>kesinlikle geri
+                        alınamayacağını</strong> ve verilerin kurtarılamayacağını') }}</li>
+            </ul>
+            <p style="margin-top: 1rem;">
+                {{ _('bildiğimi, anladığımı ve hür irademle kabul ettiğimi beyan ederim.') }}
+            </p>
+        </div>
+    </div>
+
+    <div style="margin-top: 2rem; text-align:center; color:#888;">
+        <small>{{ _('KeyCord Güvenlik Protokolü - Revizyon 1.0') }}</small>
+    </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,423 @@
+﻿{% extends "base_app.html" %}
+
+{% block title %}{{ _('KeyCord - Arkadaş Ekle') }}{% endblock %}
+
+{% block extra_css %}
+{{ super() }}
+<style>
+    @media (max-width: 768px) {
+        .add-friend-wrapper {
+            padding: 1rem !important;
+        }
+
+        .add-friend-header {
+            margin-bottom: 1.5rem !important;
+            padding: 1rem !important;
+        }
+
+        .add-friend-header h1 {
+            font-size: 2.2rem !important;
+        }
+
+        .search-box {
+            padding: 1rem !important;
+            margin-bottom: 2rem !important;
+        }
+
+        .search-form {
+            gap: 10px !important;
+        }
+
+        .search-input {
+            padding: 10px !important;
+            font-size: 1.2rem !important;
+        }
+
+        .search-btn {
+            width: 100%;
+        }
+
+        .results-grid {
+            grid-template-columns: 1fr !important;
+            gap: 1rem !important;
+        }
+
+        .result-card {
+            padding: 1.2rem !important;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block sidebar_content %}
+{% include '_chat_list.html' %}
+{% endblock %}
+
+{% block app_content %}
+<div class="add-friend-container">
+    <div class="add-friend-wrapper">
+
+        <!-- Header -->
+        <div class="scribble-border add-friend-header">
+            <h1>{{ _('Arkadaş Ekle') }}</h1>
+            <p>{{ _('Yeni insanlarla tanış, hikayelerini paylaş.') }}</p>
+        </div>
+
+        <!-- Search Box -->
+        <div class="sketch-box search-box">
+            <div class="search-form">
+                <input type="text" name="search" placeholder="{{ _('Kimleri arıyorsun?...') }}"
+                    value="{{ search_query }}" class="search-input" autocomplete="off">
+            </div>
+        </div>
+
+        <!-- Results -->
+        <div class="results-info" style="display: none;"></div>
+
+        <div class="results-grid">
+            <!-- JS ile doldurulacak -->
+        </div>
+
+        <!-- Initial Empty State -->
+        <div class="empty-state">
+            <div class="empty-icon">🔍</div>
+            <p>{{ _('Arama yaparak yeni arkadaşlar bulabilirsin.') }}</p>
+        </div>
+
+    </div>
+</div>
+
+<style>
+    .add-friend-container {
+        height: 100%;
+        overflow-y: auto;
+        padding: 1.5rem;
+        /* Reduced */
+        scrollbar-width: thin;
+        scrollbar-color: var(--chalk) transparent;
+    }
+
+    .add-friend-wrapper {
+        max-width: 1000px;
+        /* Reduced max-width slightly */
+        margin: 0 auto;
+        padding-bottom: 1.5rem;
+    }
+
+    .add-friend-header {
+        margin-bottom: 2.5rem;
+        text-align: center;
+        padding: 2rem;
+        border-color: var(--chalk);
+        transform: rotate(-1deg);
+        background: rgba(255, 255, 255, 0.02);
+    }
+
+    .add-friend-header h1 {
+        font-family: 'Reenie Beanie', cursive;
+        color: var(--chalk);
+        font-size: 3.5rem;
+        margin: 0;
+        line-height: 1.2;
+    }
+
+    .add-friend-header p {
+        font-family: 'Caveat', cursive;
+        color: var(--muted-chalk);
+        font-size: 1.4rem;
+        margin-top: 10px;
+    }
+
+    .search-box {
+        margin-bottom: 3rem;
+        transform: rotate(1deg);
+        padding: 2rem;
+        border: 2px dashed rgba(255, 255, 255, 0.2);
+        border-radius: 15px;
+    }
+
+    .search-form {
+        display: flex;
+        width: 100%;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .search-input {
+        width: 100%;
+        border: 2px solid rgba(255, 255, 255, 0.2);
+        border-radius: 12px;
+        background: rgba(0, 0, 0, 0.2);
+        color: var(--chalk);
+        padding: 15px 20px;
+        font-family: 'Caveat', cursive;
+        font-size: 1.4rem;
+        outline: none;
+        transition: all 0.3s ease;
+        text-align: center;
+    }
+
+    .search-input:focus {
+        border-color: var(--chalk);
+        background: rgba(255, 255, 255, 0.05);
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+    }
+
+    .results-info {
+        margin-bottom: 1.5rem;
+        color: var(--muted-chalk);
+        font-family: 'Caveat', cursive;
+        font-size: 1.2rem;
+        border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+        padding-bottom: 10px;
+    }
+
+    .results-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 2rem;
+    }
+
+    .result-card {
+        padding: 2rem;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        border-color: rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.01);
+        height: 100%;
+    }
+
+    .result-card:hover {
+        transform: translateY(-5px) scale(1.02);
+        border-color: var(--chalk);
+        background: rgba(255, 255, 255, 0.03);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .profile-pic-container img {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px dashed var(--chalk);
+        padding: 5px;
+        background: var(--bg-color);
+    }
+
+    .user-info h3 {
+        margin: 0;
+        font-family: 'Caveat', cursive;
+        font-size: 2rem;
+        color: var(--chalk);
+        margin-bottom: 5px;
+    }
+
+    .view-profile-link {
+        color: var(--muted-chalk);
+        font-family: 'Caveat', cursive;
+        font-size: 1rem;
+        text-decoration: none;
+        border-bottom: 1px dotted var(--muted-chalk);
+        transition: color 0.3s;
+    }
+
+    .view-profile-link:hover {
+        color: var(--chalk);
+        border-bottom-color: var(--chalk);
+    }
+
+    .action-container {
+        margin-top: auto;
+        width: 100%;
+    }
+
+    .status-btn {
+        width: 100%;
+        background: transparent;
+        cursor: default;
+        font-size: 1.1rem !important;
+        padding: 10px;
+        border-style: dotted !important;
+    }
+
+    .already-friend {
+        border-color: var(--chalk) !important;
+        color: var(--chalk) !important;
+        opacity: 0.7;
+    }
+
+    .request-sent,
+    .self-user {
+        border-color: var(--muted-chalk) !important;
+        color: var(--muted-chalk) !important;
+    }
+
+    .add-friend-btn {
+        width: 100%;
+        border-style: dashed !important;
+        font-size: 1.2rem !important;
+        padding: 12px !important;
+    }
+
+    .add-btn-form {
+        width: 100%;
+    }
+
+    .empty-state {
+        text-align: center;
+        margin-top: 5rem;
+        opacity: 0.5;
+        border: 3px dashed rgba(255, 255, 255, 0.1);
+        border-radius: 30px;
+        padding: 4rem;
+        transform: rotate(-1deg);
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .empty-icon {
+        font-size: 6rem;
+        margin-bottom: 1rem;
+        filter: grayscale(100%);
+    }
+
+    .empty-state p {
+        font-family: 'Reenie Beanie', cursive;
+        font-size: 2.2rem;
+        color: var(--muted-chalk);
+    }
+
+    @media (max-width: 768px) {
+        .add-friend-container {
+            padding: 1rem;
+        }
+
+        .add-friend-header h1 {
+            font-size: 2.5rem;
+        }
+
+        .results-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Çeviri metinleri
+        const TRANSLATIONS = {
+            alreadyFriend: "{{ _('Zaten Arkadaşsınız') }}",
+            requestSent: "{{ _('İstek Gönderildi') }}",
+            selfUser: "{{ _('Bu Sensin') }}",
+            addFriend: "{{ _('Arkadaş Ekle +') }}",
+            viewProfile: "{{ _('Profili İncele') }}",
+            resultsFound: "{{ _('sonuç bulundu') }}"
+        };
+
+        const CURRENT_USER_ID = parseInt("{{ current_user.id }}");
+        const searchInput = document.querySelector('input[name="search"]');
+        const resultsGrid = document.querySelector('.results-grid');
+        const resultsInfo = document.querySelector('.results-info');
+        const emptyState = document.querySelector('.empty-state');
+        let debounceTimer;
+
+        if (searchInput) {
+            searchInput.addEventListener('input', function (e) {
+                const query = e.target.value.trim();
+
+                clearTimeout(debounceTimer);
+                debounceTimer = setTimeout(() => {
+                    performSearch(query);
+                }, 300);
+            });
+
+            // Fokuslanınca placeholder'ı temizle (opsiyonel UX)
+            searchInput.focus();
+        }
+
+        async function performSearch(query) {
+            if (!query) {
+                // Boş sorguda ızgarayı temizle ve empty-state göster
+                if (resultsGrid) resultsGrid.innerHTML = '';
+                if (resultsInfo) resultsInfo.style.display = 'none';
+                if (emptyState) emptyState.style.display = 'block';
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/search-users?q=${encodeURIComponent(query)}`);
+                const users = await response.json();
+
+                updateUI(users, query);
+            } catch (error) {
+                console.error('Arama hatası:', error);
+            }
+        }
+
+        function updateUI(users, query) {
+            // Empty state gizle
+            if (emptyState) emptyState.style.display = 'none';
+
+            // Sonuç bilgisini güncelle
+            if (resultsInfo) {
+                resultsInfo.style.display = 'block';
+                resultsInfo.textContent = `"${query}" için ${users.length} ${TRANSLATIONS.resultsFound}:`;
+            }
+
+            // Grid'i temizle
+            if (resultsGrid) {
+                resultsGrid.innerHTML = '';
+
+                users.forEach(user => {
+                    const card = document.createElement('div');
+                    card.className = 'scribble-border result-card';
+
+                    let actionHtml = '';
+                    if (user.is_friend) {
+                        actionHtml = `<span class="btn status-btn already-friend">${TRANSLATIONS.alreadyFriend}</span>`;
+                    } else if (user.request_sent) {
+                        actionHtml = `<span class="btn status-btn request-sent">${TRANSLATIONS.requestSent}</span>`;
+                    } else if (user.id === CURRENT_USER_ID) {
+                        actionHtml = `<span class="btn status-btn self-user">${TRANSLATIONS.selfUser}</span>`;
+                    } else {
+                        actionHtml = `
+                        <form action="/add-friend" method="POST" class="add-btn-form">
+                            <input type="hidden" name="username" value="${user.username}">
+                            <button type="submit" class="btn add-friend-btn">${TRANSLATIONS.addFriend}</button>
+                        </form>`;
+                    }
+
+                    // Avatar Handling
+                    const profileUrl = user.profile_url;
+                    const fallbackUrl = user.avatar_fallback;
+
+                    card.innerHTML = `
+                        <div class="profile-pic-container">
+                            <img src="${profileUrl}" class="profile-pic" onerror="this.src='${fallbackUrl}'">
+                        </div>
+                        <div class="user-info">
+                            <h3>${user.username}</h3>
+                            <a href="/profile/${user.username}" class="view-profile-link">${TRANSLATIONS.viewProfile}</a>
+                        </div>
+                        <div class="action-container">
+                            ${actionHtml}
+                        </div>
+                    `;
+
+                    resultsGrid.appendChild(card);
+                });
+
+                // Sonuç yoksa ama sorgu varsa
+                if (users.length === 0) {
+                    // İsteğe bağlı: "Sonuç bulunamadı" mesajı
+                }
+            }
+        }
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends "email/base_email.html" %}
+
+{% block body %}
+<h1 style="font-size: 24px; margin-bottom: 20px; color: #f7f7f5;">{{ _('Hesabınızı Doğrulayın') }}</h1>
+<p>{{ _('Merhaba,') }}</p>
+<p>{{ _('KeyCord topluluğuna hoş geldiniz! Hesabınızı aktifleştirmek ve güvenli mesajlaşmaya başlamak için lütfen
+    aşağıdaki butona tıklayarak e-posta adresinizi doğrulayın.') }}</p>
+
+<div style="text-align: center;">
+    <a href="{{ verify_url }}" class="btn">
+        {{ _('E-posta Adresimi Doğrula') }}
+    </a>
+</div>
+
+<p style="margin-top: 30px; font-size: 14px; color: #d7d7d6;">
+    {{ _('Eğer butona tıklayamıyorsanız, aşağıdaki bağlantıyı tarayıcınıza kopyalayıp yapıştırabilirsiniz:') }}<br>
+    <span style="word-break: break-all; color: #d7d7d6;">{{ verify_url }}</span>
+</p>
+
+<div
+    style="margin-top: 40px; padding: 20px; background: rgba(255, 255, 255, 0.03); border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.1);">
+    <p style="margin: 0; font-size: 14px;">
+        <strong>{{ _('Not:') }}</strong> {{ _('Keycord; gizliliğe odaklanan, güvenli ve merkeziyetsiz iletişim çözümleri
+        üzerinde çalışan bir platformdur. Bu mesaj, sistemsel bir bilgilendirme amacıyla gönderilmiştir.') }}
+    </p>
+</div>
+{% endblock %}

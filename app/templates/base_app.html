@@ -1,0 +1,440 @@
+{% extends "base.html" %}
+
+{% block extra_css %}
+<style>
+    /* Icons */
+    @import url("{{ url_for('static', filename='css/icons.css') }}");
+
+    /* Global Viewport Reset */
+    html,
+    body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        /* Prevent body scroll globally for the app view */
+    }
+
+    /* App Layout Specifics */
+    body {
+        padding-top: 0 !important;
+    }
+
+    .container {
+        padding-top: 0 !important;
+        max-width: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        height: 100% !important;
+        min-height: 100% !important;
+    }
+
+    .main-layout {
+        display: flex;
+        height: 100%;
+        width: 100%;
+        position: relative;
+    }
+
+    /* Sidebar */
+    .sidebar {
+        width: 320px;
+        background: transparent;
+        border-right: 2px dashed rgba(255, 255, 255, 0.1);
+        display: flex;
+        flex-direction: column;
+        flex-shrink: 0;
+        position: relative;
+        z-index: 1010;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        box-sizing: border-box;
+    }
+
+    .profile-box {
+        padding: 24px 20px;
+        border-bottom: 2px dashed rgba(255, 255, 255, 0.1);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+
+    .profile-box:hover {
+        background: rgba(255, 255, 255, 0.03);
+    }
+
+    .profile-pic {
+        width: 52px;
+        height: 52px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid var(--chalk);
+        padding: 2px;
+    }
+
+    .profile-info h3 {
+        margin: 0;
+        font-size: 1.4rem;
+        color: var(--chalk);
+        font-family: 'Caveat', cursive;
+        letter-spacing: 1px;
+    }
+
+    .profile-info span {
+        font-size: 0.95rem;
+        color: var(--muted-chalk);
+    }
+
+    /* Scrollable Area */
+    .sidebar-scroll {
+        flex: 1;
+        overflow-y: auto;
+        padding: 10px;
+    }
+
+    .sidebar-scroll::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .sidebar-scroll::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 3px;
+    }
+
+    .sidebar-footer {
+        padding: 16px;
+        border-top: 2px dashed rgba(255, 255, 255, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    /* Main Panel */
+    .main-panel {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        background: radial-gradient(circle at center, rgba(10, 11, 12, 0.2) 0%, rgba(5, 6, 7, 0.2) 100%);
+        position: relative;
+        overflow: hidden;
+    }
+
+    /* Sketchy List Items */
+    .list-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px;
+        margin-bottom: 8px;
+        border-radius: 12px;
+        border: 2px solid transparent;
+        transition: 0.2s;
+        cursor: pointer;
+    }
+
+    .list-item:hover,
+    .list-item.active {
+        border-color: rgba(255, 255, 255, 0.15);
+        background: rgba(255, 255, 255, 0.03);
+    }
+
+    /* Mobile Header & Toggle */
+    .mobile-header {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 60px;
+        background: transparent;
+        border-bottom: 2px dashed rgba(255, 255, 255, 0.1);
+        padding: 0 20px;
+        z-index: 1000;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .mobile-menu-btn {
+        background: transparent;
+        border: 2px dashed rgba(255, 255, 255, 0.3);
+        color: var(--chalk);
+        padding: 6px 12px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 1rem;
+    }
+
+    @media (max-width: 768px) {
+        .mobile-header {
+            display: flex;
+            z-index: 2001;
+            /* Keep above sidebar */
+        }
+
+        .main-panel {
+            padding-top: 60px;
+            /* Prevent header overlap */
+        }
+
+        .sidebar-close-btn {
+            display: block;
+            top: 15px;
+            right: 20px;
+            /* Move close button inward for mobile overlay */
+        }
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100vw;
+            height: 100dvh;
+            z-index: 2000;
+            background: rgba(5, 6, 7, 0.45);
+            backdrop-filter: blur(25px);
+            border: none;
+
+            visibility: hidden;
+            opacity: 0;
+            clip-path: circle(0% at 0 0);
+            /* Reveals from top left */
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            padding-top: 60px;
+            /* Space for the header */
+        }
+
+        .sidebar.open {
+            visibility: visible;
+            opacity: 1;
+            clip-path: circle(150% at 0 0);
+        }
+
+        .sidebar-overlay {
+            display: none;
+            /* No longer needed with full-screen clip-path */
+        }
+
+        .profile-box {
+            padding: 30px 20px;
+            justify-content: center;
+        }
+
+        .profile-box:hover {
+            background: transparent;
+        }
+
+        .profile-pic {
+            width: 72px;
+            height: 72px;
+        }
+
+        .profile-info h3 {
+            font-size: 1.8rem;
+        }
+
+        .sidebar-footer {
+            padding: 24px 20px;
+            padding-bottom: calc(24px + env(safe-area-inset-bottom));
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(5px);
+        }
+
+        .sidebar-footer .nav-link {
+            font-size: 1.2rem !important;
+        }
+    }
+
+    .sidebar-close-btn {
+        display: none;
+        position: absolute;
+        top: 15px;
+        right: -45px;
+        width: 35px;
+        height: 35px;
+        background: #050607;
+        border: 2px dashed var(--chalk);
+        color: var(--chalk);
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        border-radius: 8px;
+        cursor: pointer;
+        z-index: 2001;
+    }
+
+    .sidebar.open .sidebar-close-btn {
+        display: flex;
+    }
+
+    /* Recovery Modal */
+    #recovery-modal {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.85);
+        backdrop-filter: blur(8px);
+        z-index: 9999;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    }
+
+    .recovery-card {
+        background: #0a0b0c;
+        border: 2px dashed var(--chalk);
+        border-radius: 20px;
+        padding: 2rem;
+        max-width: 400px;
+        width: 100%;
+        text-align: center;
+        box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+    }
+</style>
+<div id="recovery-modal">
+    <div class="recovery-card">
+        <h2 style="font-family: 'Reenie Beanie'; font-size: 2.5rem; margin-bottom: 1rem;">{{ _('Anahtar Kurtarma') }}
+        </h2>
+        <p style="font-family: 'Caveat'; font-size: 1.2rem; color: var(--muted-chalk); margin-bottom: 1.5rem;">
+            {{ _('Mesaj şifrelerinizi çözmek için lütfen hesap şifrenizi girin.') }}
+        </p>
+        <input type="password" id="recovery_password" placeholder="{{ _('Hesap Şifreniz') }}"
+            style="width: 100%; background: transparent; border: 2px dashed rgba(255,255,255,0.2); border-radius: 12px; color: var(--chalk); padding: 12px; font-family: 'Caveat'; font-size: 1.2rem; margin-bottom: 1.5rem;">
+        <div style="display: flex; gap: 10px;">
+            <button class="btn" onclick="KEYCORD_RECOVERY.perform()" style="flex: 1; border-style: solid;">{{
+                _('Kurtar') }}</button>
+            <button class="btn" onclick="KEYCORD_RECOVERY.hide()"
+                style="flex: 1; border-style: dashed; opacity: 0.6;">{{ _('Kapat') }}</button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block header %}{% endblock %}
+{% block footer %}{% endblock %}
+
+{% block content %}
+<div class="main-layout">
+
+    <header class="mobile-header">
+        <button class="mobile-menu-btn hand-font" onclick="toggleSidebar()">
+            ☰ {{ _('Menü') }}
+        </button>
+        <div class="mobile-header-actions">
+            {% block app_header_actions %}{% endblock %}
+        </div>
+    </header>
+
+    <aside class="sidebar">
+        <button class="sidebar-close-btn" onclick="toggleSidebar()">×</button>
+        <!-- Profile -->
+        <div class="profile-box" onclick="window.location.href='{{ url_for('auth.profile') }}'">
+            <img src="{{ url_for('auth.serve_profile_picture', username=current_user.username) }}" class="profile-pic"
+                alt="Profile" data-onerror-src="{{ (current_user.username if current_user else 'User')|avatar_url }}"
+                onerror="this.src = this.dataset.onerrorSrc;">
+            <div class="profile-info">
+                <h3>{{ current_user.username if current_user else _('Misafir') }}</h3>
+                <span>{{ _('Çevrimiçi') }}</span>
+            </div>
+        </div>
+
+        <!-- Dynamic Content -->
+        <div class="sidebar-scroll">
+            {% block sidebar_content %}
+            <!-- Default Content if not overridden -->
+            <div style="padding: 20px; text-align: center; color: var(--muted-chalk);">
+                {{ _('Menü yükleniyor...') }}
+            </div>
+            {% endblock %}
+        </div>
+
+        <!-- Footer -->
+        <div class="sidebar-footer">
+            <a href="{{ url_for('auth.dashboard') }}" class="nav-link"
+                style="color: var(--chalk); font-size: 1rem; margin-right: auto; display: flex; align-items: center; gap: 8px;">
+                <i class="icon icon-home" style="font-size: 1.2rem;"></i> {{ _('Ana Sayfa') }}
+            </a>
+            <a href="{{ url_for('auth.logout') }}" class="nav-link" style="color: var(--brand-red); font-size: 1rem; font-weight: 600;">
+                ← {{ _('Çıkış Yap') }}
+            </a>
+        </div>
+    </aside>
+
+    <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <main class="main-panel">
+        {% block app_content %}
+        <div style="display:flex; align-items:center; justify-content:center; height:100%; color: var(--muted-chalk);">
+            <h2>{{ _('İçerik seçin') }}</h2>
+        </div>
+        {% endblock %}
+    </main>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script>
+    function toggleSidebar() {
+        const sidebar = document.querySelector('.sidebar');
+        if (!sidebar) return;
+        sidebar.classList.toggle('open');
+        console.log('Sidebar toggled:', sidebar.classList.contains('open'));
+    }
+
+    // KEYCORD RECOVERY MODULE
+    const KEYCORD_RECOVERY = {
+        metadata: {
+            encryptedPrivateKey: "{{ current_user.encrypted_private_key }}",
+            salt: "{{ current_user.salt }}",
+            publicKey: "{{ current_user.public_key }}"
+        },
+        show: function () {
+            document.getElementById('recovery-modal').style.display = 'flex';
+            document.getElementById('recovery_password').focus();
+        },
+        hide: function () {
+            document.getElementById('recovery-modal').style.display = 'none';
+            document.getElementById('recovery_password').value = '';
+        },
+        perform: async function () {
+            const pwd = document.getElementById('recovery_password').value;
+            const btn = document.activeElement;
+            if (!pwd) return;
+
+            btn.disabled = true;
+            btn.textContent = "{{ _('Çözülüyor...') }}";
+
+            try {
+                const privateKey = await KEYCORD_CRYPTO.decryptPrivateKey(
+                    this.metadata.encryptedPrivateKey,
+                    pwd,
+                    this.metadata.salt
+                );
+
+                sessionStorage.setItem('keycord_private_key', privateKey);
+                sessionStorage.setItem('keycord_public_key', this.metadata.publicKey);
+
+                this.hide();
+
+                // Force reload with clear intent
+                setTimeout(() => {
+                    window.location.reload();
+                }, 500);
+
+            } catch (err) {
+                console.error("Recovery fail:", err);
+                alert("{{ _('Şifre hatalı veya bir hata oluştu.') }}");
+            } finally {
+                btn.disabled = false;
+                btn.textContent = "{{ _('Kurtar') }}";
+            }
+        }
+    };
+
+    // Global listener for Enter key in recovery modal
+    document.getElementById('recovery_password').addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') KEYCORD_RECOVERY.perform();
+    });
+</script>
+{% endblock %}

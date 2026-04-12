@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Çıkış Yapılıyor...</title>
+    <script src="{{ url_for('static', filename='js/socket.io.min.js') }}"></script>
+    <style>
+        body { background: #0a0a0a; color: #fff; font-family: monospace; display: flex; align-items: center; justify-content: center; height: 100vh; }
+    </style>
+</head>
+<body>
+    <div id="status">Kapatılıyor ve temizleniyor...</div>
+    <script>
+        // Socket.IO bağlatısını bul ve kopar
+        if (typeof io !== 'undefined') {
+            try {
+                // Daha önce alınmış bağlantılar varsa
+                for (let k in io.managers) {
+                    if (io.managers.hasOwnProperty(k)) {
+                        io.managers[k].disconnect();
+                    }
+                }
+                const socket = io();
+                socket.disconnect();
+            } catch(e) {}
+        }
+
+        // Tüm client-side depolamayı temizle
+        sessionStorage.clear();
+        localStorage.clear();
+
+        // Tüm JavaScript tanımlı çerezleri temizle
+        document.cookie.split(";").forEach(function(c) { 
+            document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); 
+        });
+
+        setTimeout(() => {
+            window.location.href = "{{ url_for('auth.login_page') }}";
+        }, 800);
+    </script>
+</body>
+</html>

@@ -1,0 +1,760 @@
+{% extends "base.html" %}
+
+{% block title %}KeyCord — {{ _('Gizli Kanal, Gerçek Güvenlik') }}{% endblock %}
+
+{% block meta_description %}KeyCord; Tor ağı ve uçtan uca şifreleme ile çalışan, log tutmayan, kimlik gerektirmeyen
+gizlilik odaklı bir mesajlaşma platformudur.{% endblock %}
+
+{% block extra_css %}
+<style>
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        overflow-x: hidden;
+    }
+
+    .container {
+        padding-top: 0 !important;
+        max-width: none !important;
+        width: 100% !important;
+        margin: 0 !important;
+    }
+
+    /* ── GENEL BÖLÜM STİLLERİ ── */
+    .section {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 5rem 2rem;
+        position: relative;
+    }
+
+    .label-tag {
+        display: inline-block;
+        font-size: 0.9rem;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--muted-chalk);
+        border-bottom: 2px solid rgba(255, 255, 255, 0.15);
+        padding-bottom: 0.5rem;
+        margin-bottom: 1.5rem;
+        font-weight: 600;
+    }
+
+    .section-h {
+        font-size: clamp(2.5rem, 6vw, 4.5rem);
+        font-weight: 800;
+        line-height: 1.1;
+        letter-spacing: -0.02em;
+        color: var(--chalk);
+        max-width: 900px;
+        margin-bottom: 1.5rem;
+    }
+
+    .section-sub {
+        font-size: 1.4rem;
+        color: var(--muted-chalk);
+        max-width: 700px;
+        line-height: 1.5;
+        margin-bottom: 2.5rem;
+    }
+
+    /* ── TOPBAR ── */
+    .topbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1rem 2.5rem;
+        background: rgba(0, 0, 0, 0.55);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .topbar-logo {
+        font-size: 1.1rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        color: var(--chalk);
+        text-decoration: none;
+    }
+
+    .topbar-links {
+        display: flex;
+        gap: 0.75rem;
+    }
+
+    /* ── HERO ── */
+    .hero {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 8rem 1.5rem 5rem;
+        position: relative;
+    }
+
+    .hero::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(ellipse 80% 60% at 50% 40%, rgba(255, 255, 255, 0.025) 0%, transparent 70%);
+        pointer-events: none;
+    }
+
+    .hero-eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.78rem;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--muted-chalk);
+        border: 1px dashed rgba(255, 255, 255, 0.18);
+        border-radius: 99px;
+        padding: 0.35rem 1rem;
+        margin-bottom: 2rem;
+    }
+
+    .hero-eyebrow-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #7fff7f;
+        box-shadow: 0 0 6px #7fff7f;
+        flex-shrink: 0;
+    }
+
+    .hero-title {
+        font-size: clamp(3.8rem, 12vw, 8.5rem);
+        font-weight: 900;
+        line-height: 0.95;
+        letter-spacing: -0.04em;
+        color: var(--chalk);
+        max-width: 1000px;
+        margin-bottom: 2.5rem;
+    }
+
+    .hero-desc {
+        font-size: 1.8rem;
+        color: var(--muted-chalk);
+        max-width: 700px;
+        line-height: 1.5;
+        margin: 0 auto 3.5rem auto;
+    }
+
+    .hero-cta {
+        margin-top: 2.5rem;
+        display: flex;
+        gap: 0.9rem;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .btn-primary {
+        display: inline-block;
+        padding: 0.75rem 1.8rem;
+        background: var(--chalk);
+        color: var(--paper-black);
+        font-weight: 700;
+        font-size: 0.95rem;
+        border-radius: 8px;
+        text-decoration: none;
+        transition: opacity 0.15s;
+    }
+
+    .btn-primary:hover {
+        opacity: 0.88;
+    }
+
+    .btn-ghost {
+        display: inline-block;
+        padding: 0.75rem 1.8rem;
+        background: transparent;
+        color: var(--chalk);
+        font-weight: 600;
+        font-size: 0.95rem;
+        border: 1.5px dashed rgba(255, 255, 255, 0.3);
+        border-radius: 8px;
+        text-decoration: none;
+        transition: border-color 0.15s;
+    }
+
+    .btn-ghost:hover {
+        border-color: rgba(255, 255, 255, 0.6);
+    }
+
+    /* ── TRUST BAR ── */
+    .trustbar {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 0.6rem;
+        margin-top: 4rem;
+        padding-top: 2.5rem;
+        border-top: 3px solid rgba(255, 255, 255, 0.07);
+        width: 100%;
+        max-width: 820px;
+    }
+
+    .trust-item {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        font-size: 1rem;
+        color: var(--muted-chalk);
+        letter-spacing: 0.02em;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 99px;
+        padding: 0.4rem 1rem;
+        white-space: nowrap;
+    }
+
+    .trust-check {
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: rgba(127, 255, 127, 0.12);
+        border: 1px solid rgba(127, 255, 127, 0.35);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+    .trust-check::after {
+        content: '';
+        display: block;
+        width: 5px;
+        height: 3px;
+        border-left: 1.5px solid #7fff7f;
+        border-bottom: 1.5px solid #7fff7f;
+        transform: rotate(-45deg) translateY(-1px);
+    }
+
+    /* ── VALUE ROW (GÜÇLENDİRİLDİ) ── */
+    .value-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 6rem;
+        align-items: center;
+        padding: 4rem 0;
+    }
+
+    .value-row.reverse {
+        direction: rtl;
+    }
+
+    .value-row.reverse .value-text {
+        direction: ltr;
+    }
+
+    .value-text h2 {
+        font-size: clamp(3rem, 8vw, 4.5rem);
+        line-height: 1.1;
+        margin-bottom: 1.5rem;
+        font-family: 'Reenie Beanie', cursive;
+        color: var(--chalk);
+    }
+
+    .value-text p {
+        font-size: 1.5rem;
+        color: var(--muted-chalk);
+        line-height: 1.5;
+        max-width: 500px;
+    }
+
+    .value-sketch {
+        aspect-ratio: 4/3;
+        border: 2px dashed rgba(255, 255, 255, 0.15);
+        border-radius: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        background: rgba(255, 255, 255, 0.02);
+        backdrop-filter: blur(5px);
+        transition: border-color 0.3s;
+        overflow: hidden;
+    }
+
+    .value-sketch img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        padding: 2rem;
+        opacity: 0.85;
+        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .value-sketch:hover img {
+        opacity: 1;
+        transform: scale(1.05) rotate(-1deg);
+    }
+
+    .value-sketch:hover {
+        border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    /* Sketch içindeki öğeler için ek stil */
+    .value-sketch>div {
+        opacity: 0.5;
+        transition: opacity 0.3s;
+    }
+
+    .value-sketch:hover>div {
+        opacity: 0.8;
+    }
+
+    /* ── 3D WORKFLOW KARTLARI (DAHA ETKİLEYİCİ) ── */
+    .workflow-3d {
+        perspective: 1200px;
+        margin-top: 4rem;
+        display: flex;
+        flex-direction: column;
+        gap: 3rem;
+    }
+
+    .step-card {
+        background: rgba(255, 255, 255, 0.03);
+        border: 2px dashed rgba(255, 255, 255, 0.15);
+        border-radius: 24px;
+        padding: 3rem;
+        display: grid;
+        grid-template-columns: 100px 1fr;
+        gap: 2.5rem;
+        transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        transform-style: preserve-3d;
+        transform: rotateX(25deg) rotateY(-15deg) translateZ(-60px);
+        opacity: 0.25;
+        backdrop-filter: blur(8px);
+        box-shadow: 0 20px 40px -20px rgba(0, 0, 0, 0.4);
+    }
+
+    .step-card.active {
+        transform: rotateX(0deg) rotateY(0deg) translateZ(0);
+        opacity: 1;
+        border-style: solid;
+        border-color: rgba(255, 255, 255, 0.25);
+        background: rgba(255, 255, 255, 0.05);
+        box-shadow: 0 30px 50px -20px rgba(0, 0, 0, 0.6);
+    }
+
+    .step-card:nth-child(even) {
+        transform: rotateX(25deg) rotateY(15deg) translateZ(-60px);
+    }
+
+    .step-card:nth-child(even).active {
+        transform: rotateX(0deg) rotateY(0deg) translateZ(0);
+    }
+
+    .step-icon {
+        width: 100px;
+        height: 100px;
+        border: 2px solid var(--chalk);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2.8rem;
+        border-radius: 20px;
+        transform: rotate(-3deg);
+        background: rgba(255, 255, 255, 0.03);
+    }
+
+    .step-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        color: var(--chalk);
+        font-family: 'Reenie Beanie', cursive;
+        letter-spacing: 0.05em;
+    }
+
+    .step-desc {
+        font-size: 1.4rem;
+        color: var(--muted-chalk);
+        line-height: 1.5;
+        max-width: 700px;
+    }
+
+    /* ── TOR SECTION ── */
+    .tor-section {
+        padding: 5rem 1.5rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.06);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .tor-inner {
+        max-width: 700px;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    .onion-chip {
+        display: inline-flex;
+        align-items: center;
+        font-family: 'Courier New', monospace;
+        font-size: 1rem;
+        color: var(--chalk);
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px dashed rgba(255, 255, 255, 0.2);
+        border-radius: 12px;
+        padding: 1rem 1.8rem;
+        cursor: pointer;
+        transition: all 0.2s;
+        word-break: break-all;
+        text-align: left;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .onion-chip:hover {
+        background: rgba(255, 255, 255, 0.08);
+        border-color: rgba(255, 255, 255, 0.4);
+    }
+
+    .onion-copy-hint {
+        margin-top: 0.8rem;
+        font-size: 0.85rem;
+        color: var(--muted-chalk);
+    }
+
+    .copy-flash {
+        display: inline-block;
+        opacity: 0;
+        font-size: 0.85rem;
+        color: #7fff7f;
+        margin-left: 0.6rem;
+        transition: opacity 0.3s;
+    }
+
+    .copy-flash.visible {
+        opacity: 1;
+    }
+
+    /* ── DOWNLOAD CARDS (İKONLAR EKLENDİ) ── */
+    .dl-grid {
+        display: flex;
+        gap: 1.5rem;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-top: 2.5rem;
+    }
+
+    .dl-card {
+        display: flex;
+        align-items: center;
+        gap: 1.2rem;
+        padding: 1.5rem 2.5rem;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 16px;
+        background: rgba(255, 255, 255, 0.02);
+        text-decoration: none;
+        color: var(--chalk);
+        transition: all 0.2s;
+        min-width: 220px;
+        backdrop-filter: blur(5px);
+    }
+
+    .dl-card:hover {
+        border-color: rgba(255, 255, 255, 0.4);
+        background: rgba(255, 255, 255, 0.06);
+        transform: translateY(-3px);
+    }
+
+    .dl-card-icon {
+        font-size: 2.5rem;
+        line-height: 1;
+        flex-shrink: 0;
+    }
+
+    /* Basit ikonlar (font-icon yoksa emoji kullanılabilir) */
+    .icon-android::before {
+        content: "🤖";
+        font-size: 2.5rem;
+    }
+
+    .icon-windows::before {
+        content: "🪟";
+        font-size: 2.5rem;
+    }
+
+    .dl-card-sub {
+        font-size: 0.9rem;
+        color: var(--muted-chalk);
+        letter-spacing: 0.05em;
+    }
+
+    .dl-card-name {
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin-top: 4px;
+    }
+
+    /* ── FOOTER ── */
+    .footer {
+        text-align: center;
+        padding: 3rem 1rem;
+        font-size: 0.85rem;
+        color: var(--muted-chalk);
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    /* ── RESPONSIVE İYİLEŞTİRMELER ── */
+    @media(max-width: 900px) {
+        .value-row {
+            gap: 2rem;
+            padding: 2rem 0;
+        }
+
+        .step-card {
+            grid-template-columns: 1fr;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .step-icon {
+            margin: 0 auto;
+        }
+    }
+
+    @media(max-width: 768px) {
+        .topbar {
+            padding: 0.9rem 1.2rem;
+        }
+
+        .section {
+            padding: 3rem 1.5rem;
+        }
+
+        .value-row {
+            grid-template-columns: 1fr;
+            gap: 3rem;
+        }
+
+        .value-row.reverse {
+            direction: ltr;
+        }
+
+        .value-text h2 {
+            font-size: 2.8rem;
+        }
+
+        .value-text p {
+            font-size: 1.3rem;
+        }
+
+        .hero-title {
+            font-size: clamp(2.8rem, 10vw, 5rem);
+        }
+
+        .hero-desc {
+            font-size: 1.3rem;
+        }
+
+        .step-title {
+            font-size: 2rem;
+        }
+
+        .step-desc {
+            font-size: 1.2rem;
+        }
+    }
+
+    @media(max-width: 480px) {
+        .hero-title {
+            font-size: 2.4rem;
+        }
+
+        .trust-item {
+            font-size: 0.8rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-eyebrow">
+        <span class="hero-eyebrow-dot"></span>
+        {{ _('Veri Sende Kalır') }}
+    </div>
+
+    <h1 class="hero-title">
+        {{ _('Özgürce Konuş.') }}
+    </h1>
+
+    <p class="hero-desc">
+        {{ _('KeyCord; IP kayıtlarını silen, metadata tutmayan ve hiçbir bilgi istemeyen bir özgürlük alanıdır.') }}
+    </p>
+
+    <div class="hero-cta">
+        <a href="{{ url_for('auth.register') }}" class="btn-primary" style="padding: 1rem 3rem; font-size: 1.2rem;">{{
+            _('KeyCord\'u Edin') }}</a>
+    </div>
+
+    <div class="trustbar">
+        <span class="trust-item"><span class="trust-check"></span>{{ _('Reklam Yok') }}</span>
+        <span class="trust-item"><span class="trust-check"></span>{{ _('İzleyici Yok') }}</span>
+        <span class="trust-item"><span class="trust-check"></span>{{ _('Bedava') }}</span>
+    </div>
+</section>
+
+<!-- VALUE SECTIONS -->
+<section class="section">
+    <div class="value-row">
+        <div class="value-text">
+            <h2>{{ _('Neden Kayıt?') }}</h2>
+            <p>{{ _('Telefon numarası, e-posta veya kimlik doğrulaması gerekmez. KeyCord anonim doğar, anonim kalır.')
+                }}
+            </p>
+        </div>
+        <div class="value-sketch">
+            <img src="{{ url_for('static', filename='img/sketches/anonymous.png') }}" alt="{{ _('Anonim Kimlik Taslağı') }}">
+        </div>
+    </div>
+
+    <div class="value-row reverse">
+        <div class="value-text">
+            <h2>{{ _('Tor Gücü.') }}</h2>
+            <p>{{ _('Tüm trafik Tor ağı üzerinden akar. IP adresin sunucumuza bile uğramaz. Kimliğin ağın
+                derinliklerinde kaybolur.') }}
+            </p>
+        </div>
+        <div class="value-sketch">
+            <img src="{{ url_for('static', filename='img/sketches/tor.png') }}" alt="{{ _('Tor Ağı Labsis Çizimi') }}">
+        </div>
+    </div>
+
+    <div class="value-row">
+        <div class="value-text">
+            <h2>{{ _('Açık Kaynak.') }}</h2>
+            <p>{{ _('Gizleyecek bir şeyimiz yok. Uygulamamızın her satırı denetlenebilir, doğrulanabilir. Güven değil,
+                ispat.') }}
+            </p>
+        </div>
+        <div class="value-sketch">
+            <img src="{{ url_for('static', filename='img/sketches/opensource.png') }}" alt="{{ _('Açık Kaynak Taslağı') }}">
+        </div>
+    </div>
+</section>
+
+<!-- TOR ACCESS -->
+<div class="tor-section">
+    <div class="tor-inner">
+        <span class="label-tag">{{ _('Tor Erişimi') }}</span>
+        <h2 class="section-h" style="margin: 0 auto 0.8rem; text-align: center; max-width: 100%;">{{ _('Tor Browser ile
+            bağlanın') }}</h2>
+        <p class="section-sub" style="margin: 0 auto 1.8rem; text-align: center; max-width: 100%;">{{ _('Ağ düzeyinde
+            gizlilik için .onion adresimizi kullanın.') }}</p>
+
+        <div class="onion-chip" id="tor-copy-box" title="{{ _('Kopyalamak için tıkla') }}">
+            46iblsrblve4hnsl6567lwgehwh5mrony3hbfcgkenaxqphzczlb3mid.onion
+        </div>
+        <div class="onion-copy-hint">
+            {{ _('Adrese tıklayarak kopyala') }}
+            <span class="copy-flash" id="copy-flash">{{ _('✓ Kopyalandı') }}</span>
+        </div>
+    </div>
+</div>
+
+<!-- DOWNLOAD -->
+<section class="section" style="text-align: center;">
+    <span class="label-tag">{{ _('İndirin') }}</span>
+    <h2 class="section-h" style="margin: 0 auto 0.5rem; max-width: 100%;">{{ _('Tüm platformlarda çalışır') }}</h2>
+    <p class="section-sub" style="margin: 0 auto; max-width: 100%;">{{ _('Web arayüzüne ek olarak yerel istemcilerimizi
+        de kullanabilirsiniz.') }}</p>
+
+    <div class="dl-grid">
+        <a href="{{ url_for('static', filename='downloads/KeyCord.apk') }}" class="dl-card">
+            <div class="dl-card-icon">
+                <i class="icon icon-android" style="background-color: var(--chalk);"></i>
+            </div>
+            <div>
+                <div class="dl-card-sub">{{ _('İndir') }} · Android</div>
+                <div class="dl-card-name">KeyCord APK</div>
+            </div>
+        </a>
+
+        <a href="{{ url_for('static', filename='downloads/KeyCord-Setup.exe') }}" class="dl-card">
+            <div class="dl-card-icon">
+                <i class="icon icon-windows" style="background-color: var(--chalk);"></i>
+            </div>
+            <div>
+                <div class="dl-card-sub">{{ _('İndir') }} · Windows</div>
+                <div class="dl-card-name">KeyCord Setup</div>
+            </div>
+        </a>
+    </div>
+</section>
+
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "KeyCord",
+    "applicationCategory": "CommunicationApplication",
+    "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "customer support",
+        "email": "contact@keycord.org"
+    },
+    "operatingSystem": "Web, Android, Windows",
+    "inLanguage": "{{ get_locale() }}",
+    "description": "{{ _('KeyCord, gizlilik odaklı, Tor ağı desteği sunan uçtan uca şifreli bir mesajlaşma platformudur.') }}",
+    "url": "https://keycord.org",
+    "publisher": {
+        "@type": "Organization",
+        "name": "KeyCord",
+        "address": { "@type": "PostalAddress", "addressCountry": "TR" }
+    },
+    "keywords": ["KeyCord","Güvenli Mesajlaşma","Anonim Sohbet","Tor Ağı Mesajlaşma","Uçtan Uca Şifreleme","Gizlilik Odaklı Sohbet","Log Tutmayan Mesajlaşma","Kriptolu Chat","Onion Mesajlaşma"]
+}
+</script>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const box = document.getElementById('tor-copy-box');
+    const flash = document.getElementById('copy-flash');
+    const onion = '46iblsrblve4hnsl6567lwgehwh5mrony3hbfcgkenaxqphzczlb3mid.onion';
+
+    if (box) {
+        box.addEventListener('click', function () {
+            navigator.clipboard.writeText(onion).then(function () {
+                flash.classList.add('visible');
+                setTimeout(() => flash.classList.remove('visible'), 2000);
+            });
+        });
+    }
+
+    // Interactive 3D Cards Observer
+    const cardObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+            } else {
+                // Opsiyonel: Ekrandan çıkınca geri kapansın istenirse
+                // entry.target.classList.remove('active');
+            }
+        });
+    }, {
+        threshold: 0.3,
+        rootMargin: '0px 0px -10% 0px'
+    });
+
+    document.querySelectorAll('.step-card').forEach(card => {
+        cardObserver.observe(card);
+    });
+</script>
+{% endblock %}

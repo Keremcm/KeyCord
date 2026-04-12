@@ -1,0 +1,43 @@
+# KeyCord GitHub Yükleme Rehberi
+
+Sistemi GitHub'a yüklemeden önce yapılabilecek adımlar ve komutlar aşağıdadır.
+
+## 1. Hazırlık
+Az önce dizinde bir `.gitignore` dosyası oluşturdum. Bu dosya şunların GitHub'a yüklenmesini engelleyecektir:
+- `venv/` (Sanal ortam dosyaları)
+- `instance/` (Yerel veritabanı ve gizli anahtarlar)
+- `*.log` (Log dosyaları)
+- `__pycache__` (Derlenmiş Python dosyaları)
+- `.env` (Özel yapılandırma dosyaları)
+
+## 2. GitHub'a Yükleme Komutları
+
+Terminali açın ve proje klasöründe (`KeyCord/`) olduğunuzdan emin olun.
+
+### İlk Kurulum (Eğer git daha önce başlatılmadıysa):
+```bash
+git init
+git add .
+git commit -m "Initial commit: KeyCord Paper Design & Real-time Notification Update"
+```
+
+### GitHub Reposuna Bağlama:
+GitHub'da yeni bir boş repo oluşturduktan sonra size verilen bağlantıyı buraya ekleyin:
+```bash
+git branch -M main
+git remote add origin https://github.com/KULLANICI_ADINIZ/REPOR_ADINIZ.git
+git push -u origin main
+```
+
+### Güncelleme Göndermek İçin (Gelecekte):
+```bash
+git add .
+git commit -m "Düzenleme açıklaması"
+git push
+```
+
+## 3. Ömür Boyu Dikkat Edilmesi Gerekenler
+- `.env` veya `config.py` içinde şifrelerinizi/gizli anahtarlarınızı (SECRET_KEY gibi) doğrudan bırakmayın. Bunları ortam değişkeni (environment variables) olarak kullanın.
+- Veritabanı dosyasını (`.db`) asla GitHub'a göndermeyin (gitignore zaten bunu engelliyor).
+
+KeyCord artık GitHub'a hazır!

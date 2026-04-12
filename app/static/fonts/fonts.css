@@ -1,0 +1,32 @@
+/* Google Fonts CDN (Primary — works on all WebViews) */
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Reenie+Beanie&family=Shadows+Into+Light&display=swap');
+
+/* Local Fallback (for HTTPS-only / offline environments) */
+@font-face {
+  font-family: 'Caveat';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: local('Caveat'), url('WnznHAc5bAfYB2QRah7pcpNvOx-pjcB9SII.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Caveat';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Caveat Bold'), url('WnznHAc5bAfYB2QRah7pcpNvOx-pjRV6SII.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Reenie Beanie';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Reenie Beanie'), url('z7NSdR76eDkaJKZJFkkjuvWxbP0.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Shadows Into Light';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Shadows Into Light'), url('UqyNK9UOIntux_czAvDQx_ZcHqZXBNQDcg.ttf') format('truetype');
+}

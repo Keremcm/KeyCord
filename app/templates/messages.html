@@ -1,0 +1,415 @@
+{% extends "base_app.html" %}
+
+{% block title %}{{ _('KeyCord - Mesajlar') }}{% endblock %}
+
+{% block sidebar_content %}
+{% include '_chat_list.html' %}
+{% endblock %}
+
+{% block extra_css %}
+{{ super() }}
+<style>
+    /* Chat Interface Specifics - Monochrome */
+    .chat-container {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        max-height: 100%;
+        padding-bottom: 0;
+        flex: 1;
+    }
+
+    /* Chat Header */
+    .chat-header {
+        padding: 1rem 1.5rem;
+        border-bottom: 3px dashed var(--chalk);
+        background: transparent;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        flex-shrink: 0;
+        transform: rotate(0.5deg);
+    }
+
+    /* Messages Area */
+    .messages-area {
+        flex: 1;
+        overflow-y: auto;
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    /* Message Bubbles */
+    .message-group {
+        display: flex;
+        flex-direction: column;
+        max-width: 70%;
+    }
+
+    .message-group.me {
+        align-self: flex-end;
+        align-items: flex-end;
+    }
+
+    .message-group.other {
+        align-self: flex-start;
+        align-items: flex-start;
+    }
+
+    .bubble {
+        padding: 12px 18px;
+        border-radius: 18px;
+        font-size: 1.1rem;
+        position: relative;
+        word-wrap: break-word;
+        font-family: 'Caveat', cursive;
+    }
+
+    .bubble.me {
+        background: rgba(255, 255, 255, 0.1);
+        border: 2px solid var(--chalk);
+        color: var(--chalk);
+        border-bottom-right-radius: 4px;
+    }
+
+    .bubble.other {
+        background: transparent;
+        border: 2px dashed rgba(255, 255, 255, 0.3);
+        color: var(--chalk);
+        border-bottom-left-radius: 4px;
+    }
+
+    .sender-info {
+        font-size: 0.85rem;
+        color: var(--muted-chalk);
+        margin-bottom: 4px;
+        padding: 0 4px;
+        font-family: 'Caveat', cursive;
+    }
+
+    /* Input Area */
+    .chat-input-area {
+        padding: 1.5rem;
+        background: transparent;
+        border-top: 3px dashed var(--chalk);
+        flex-shrink: 0;
+        transform: rotate(-0.5deg);
+    }
+
+    .input-form {
+        display: flex;
+        gap: 10px;
+    }
+
+    /* Mobile Adjustments */
+    @media (max-width: 768px) {
+        .chat-container {
+            height: 100%;
+            position: relative;
+        }
+
+        /* Detail View Specifics */
+        .chat-header.mobile-sticky {
+            position: sticky;
+            top: 0;
+            background: rgba(5, 6, 7, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 10;
+            padding: 0.8rem 1rem;
+            transform: none;
+            border-bottom-width: 2px;
+        }
+
+        /* Global Padding for fixed header */
+        .messages-area {
+            padding: 1rem;
+            padding-bottom: 120px;
+            /* Space for fixed input area */
+            flex: 1;
+        }
+
+        .chat-input-area.mobile-fixed {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 0.8rem 1rem;
+            background: rgba(5, 6, 7, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            border-top: 2px dashed var(--chalk);
+            transform: none;
+            padding-bottom: calc(0.8rem + env(safe-area-inset-bottom));
+        }
+
+        .message-group {
+            max-width: 85%;
+        }
+
+        .bubble {
+            font-size: 1rem;
+            padding: 10px 14px;
+        }
+
+        /* Inbox View Specifics */
+        .inbox-view {
+            padding: 1rem;
+            height: 100%;
+            overflow-y: auto;
+            flex: 1;
+        }
+    }
+
+    @media (min-width: 769px) {
+        .inbox-view {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: var(--muted-chalk);
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .chat-list-wrapper {
+            display: none;
+            /* Already in sidebar on desktop */
+        }
+    }
+</style>
+{% endblock %}
+
+{% block app_content %}
+<div class="chat-container">
+    {% if selected_friend %}
+    <!-- Chat Header -->
+    <div class="chat-header mobile-sticky">
+        <img src="{{ url_for('auth.serve_profile_picture', username=selected_friend.username) }}" class="profile-pic"
+            style="width: 44px; height: 44px; border: 2px dashed var(--chalk); padding: 2px;"
+            onerror="this.src='{{ selected_friend.username|avatar_url }}';">
+
+        <div style="flex: 1;">
+            <h3 style="margin: 0; font-size: 1.4rem; font-family: 'Reenie Beanie'; letter-spacing: 1px;">{{
+                selected_friend.username }}</h3>
+            <span style="font-size: 0.9rem; color: var(--muted-chalk); font-family: 'Caveat';">{{ _('Çevrimiçi')
+                }}</span>
+        </div>
+
+        <a href="{{ url_for('auth.view_profile', username=selected_friend.username) }}" class="action-btn"
+            title="{{ _('Profili Gör') }}"
+            style="border-style: dashed; display: flex; align-items: center; justify-content: center; padding: 5px;">
+            <i class="icon icon-user" style="background-color: var(--chalk); font-size: 1.2rem;"></i>
+        </a>
+    </div>
+
+    <!-- Messages -->
+    <div class="messages-area" id="messages">
+        {% for m in conversation %}
+        <div class="message-group {% if m.sender == user.username %}me{% else %}other{% endif %}">
+            <div class="sender-info">
+                {% if m.sender != user.username %}{{ m.sender }}{% endif %}
+            </div>
+            <div class="bubble {% if m.sender == user.username %}me{% else %}other{% endif %}" data-encrypted="true"
+                data-content="{{ m.content }}"
+                data-key="{{ m.encrypted_aes_key_sender if m.sender == user.username else m.encrypted_aes_key }}"
+                data-iv="{{ m.iv }}">
+                <span class="lock-icon">🔒</span> {{ _('Mesaj çözülüyor...') }}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Input -->
+    <div class="chat-input-area mobile-fixed">
+        <div class="input-form">
+            <input type="text" id="message_input" placeholder="{{ _('Mesaj yaz...') }}" autocomplete="off"
+                style="flex:1; background: transparent; border: 2px solid rgba(255,255,255,0.20); border-radius: 12px; color: var(--chalk); padding: 10px; font-family: 'Caveat'; font-size: 1.2rem;">
+            <button type="button" class="btn" id="send_button"
+                style="padding: 10px 20px; border-style: dashed;">➤</button>
+        </div>
+    </div>
+
+    {% else %}
+    <!-- No Chat Selected State (Inbox / Friend List on Mobile) -->
+    <div class="inbox-view">
+        <div class="chat-list-wrapper">
+            {% include '_chat_list.html' %}
+        </div>
+        <div class="desktop-placeholder" style="display: none;">
+            <div class="sketch-box" style="padding: 1rem 2rem; transform: rotate(1deg);">
+                <h2 style="margin-bottom: 1rem; font-family: 'Reenie Beanie'; font-size: 2.5rem;">{{ _('Sohbet Başlat')
+                    }}</h2>
+                <p style="font-family: 'Caveat'; font-size: 1.3rem;">{{ _('Soldaki listeden bir arkadaşını seç.') }}</p>
+                <br>
+                <a href="{{ url_for('auth.add_friend_page') }}" class="btn">{{ _('Arkadaş Ekle') }}</a>
+            </div>
+        </div>
+    </div>
+    <script>
+        if (window.innerWidth > 768) {
+            document.querySelector('.desktop-placeholder').style.display = 'block';
+        }
+    </script>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script src="{{ url_for('static', filename='js/socket.io.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/crypto.js') }}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Socket.IO
+        const socket = io();
+        const token = "{{ token }}";
+        const currentUser = "{{ user.username }}";
+        const selectedFriend = "{{ selected_friend.username if selected_friend else '' }}";
+        const selectedFriendPublicKey = "{{ selected_friend.public_key if selected_friend else '' }}";
+        const messagesDiv = document.getElementById("messages");
+        const messageInput = document.getElementById("message_input");
+
+        // Decrypt helper (Global)
+        window.decryptBubble = async function (element) {
+            const content = element.getAttribute('data-content');
+            const key = element.getAttribute('data-key');
+            const iv = element.getAttribute('data-iv');
+
+            if (!content || !key || !iv || key === 'None' || iv === 'None') {
+                element.textContent = content;
+                return;
+            }
+
+            try {
+                const privateKey = sessionStorage.getItem('keycord_private_key');
+                const native = KEYCORD_CRYPTO.getBridge();
+                if (!privateKey && !native) {
+                    element.innerHTML = `<span style="cursor:pointer; text-decoration:underline;" onclick="KEYCORD_RECOVERY.show()">${'{{ _("🔒 Anahtar yok (Kurtar)") }}'}</span>`;
+                    return;
+                }
+
+                const decrypted = await KEYCORD_CRYPTO.decryptMessage(content, key, iv, privateKey);
+                element.textContent = decrypted;
+                element.removeAttribute('data-encrypted');
+            } catch (err) {
+                console.error("Decrypt fail:", err);
+                element.textContent = "{{ _('🔒 Şifre çözülemedi') }}";
+            }
+        };
+
+        // Decrypt all existing messages
+        document.querySelectorAll('.bubble[data-encrypted="true"]').forEach(decryptBubble);
+
+        // Scroll to bottom helper
+        function scrollToBottom() {
+            if (messagesDiv) {
+                messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            }
+        }
+
+        // Connect
+        socket.on('connect', function () {
+            if (token) {
+                socket.emit('join', { token: token });
+            }
+        });
+
+        // Error handling
+        socket.on('error', function (data) {
+            console.error('Socket error:', data);
+        });
+
+        // Receive Message
+        socket.on('receive_message', function (data) {
+            if ((data.from === currentUser && data.to === selectedFriend) || (data.from === selectedFriend && data.to === currentUser)) {
+                const group = document.createElement("div");
+                group.className = `message-group ${data.from === currentUser ? 'me' : 'other'}`;
+
+                const senderInfo = document.createElement('div');
+                senderInfo.className = 'sender-info';
+                if (data.from !== currentUser) {
+                    senderInfo.appendChild(document.createTextNode(data.from));
+                }
+
+                const bubble = document.createElement('div');
+                bubble.className = `bubble ${data.from === currentUser ? 'me' : 'other'}`;
+
+                if (data.encrypted_aes_key) {
+                    const lockIcon = document.createElement('span');
+                    lockIcon.className = 'lock-icon';
+                    lockIcon.textContent = '🔒';
+                    bubble.appendChild(lockIcon);
+                    bubble.appendChild(document.createTextNode(" {{ _('Mesaj çözülüyor...') }}"));
+                } else {
+                    bubble.textContent = data.content;
+                }
+
+                group.appendChild(senderInfo);
+                group.appendChild(bubble);
+
+                messagesDiv.appendChild(group);
+                scrollToBottom();
+
+                if (data.encrypted_aes_key) {
+                    const bubble = group.querySelector('.bubble');
+                    bubble.setAttribute('data-content', data.content);
+                    bubble.setAttribute('data-key', data.encrypted_aes_key);
+                    bubble.setAttribute('data-iv', data.iv);
+                    decryptBubble(bubble);
+                }
+            }
+        });
+
+        // Send Message Function
+        async function sendMessage() {
+            const content = messageInput.value;
+            if (!content.trim() || !selectedFriend) return;
+
+            try {
+                let payload = { token: token, to: selectedFriend };
+
+                if (selectedFriendPublicKey && selectedFriendPublicKey !== 'None') {
+                    const myPublicKey = sessionStorage.getItem('keycord_public_key');
+                    const encrypted = await KEYCORD_CRYPTO.encryptMessage(content, selectedFriendPublicKey, myPublicKey);
+                    payload.content = encrypted.content;
+                    payload.encrypted_aes_key = encrypted.encrypted_aes_key;
+                    payload.encrypted_aes_key_sender = encrypted.encrypted_aes_key_sender;
+                    payload.iv = encrypted.iv;
+                } else {
+                    payload.content = content;
+                }
+
+                socket.emit("send_message", payload);
+                messageInput.value = "";
+                messageInput.focus();
+            } catch (err) {
+                console.error("Encryption error:", err);
+            }
+        }
+
+        const sendButton = document.getElementById("send_button");
+        if (sendButton) {
+            sendButton.addEventListener('click', sendMessage);
+        }
+
+        if (messageInput) {
+            messageInput.addEventListener('keydown', function (e) {
+                if (e.key === "Enter" && !e.shiftKey) {
+                    e.preventDefault();
+                    sendMessage();
+                }
+            });
+        }
+
+        scrollToBottom();
+
+        // Listen for recovery event
+        window.addEventListener('keycord_recovered', function () {
+            document.querySelectorAll('.bubble[data-encrypted="true"]').forEach(decryptBubble);
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,2567 @@
+# Turkish translations for PROJECT.
+# Copyright (C) 2026 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2026-01-20 22:53+0300\n"
+"PO-Revision-Date: 2026-01-11 18:18+0300\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: tr\n"
+"Language-Team: tr <LL@li.org>\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: app/templates/_chat_list.html:4 app/templates/announcements.html:577
+msgid "Mesajlar"
+msgstr ""
+
+#: app/templates/_chat_list.html:16
+msgid "Sohbeti aç"
+msgstr ""
+
+#: app/templates/_chat_list.html:28
+msgid "Henüz arkadaşın yok."
+msgstr ""
+
+#: app/templates/_chat_list.html:36
+msgid "Gruplar"
+msgstr ""
+
+#: app/templates/_chat_list.html:48
+msgid "Grup sohbeti"
+msgstr ""
+
+#: app/templates/_chat_list.html:54
+msgid "Henüz bir grupta değilsin."
+msgstr ""
+
+#: app/templates/_chat_list.html:60
+msgid "Yeni Grup"
+msgstr ""
+
+#: app/templates/_chat_list.html:67 app/templates/communities.html:3
+#: app/templates/communities.html:45 app/templates/community_settings.html:73
+#: app/templates/community_view.html:98 app/templates/create_community.html:37
+msgid "Topluluklar"
+msgstr ""
+
+#: app/templates/_chat_list.html:72
+msgid "Toplulukları Keşfet"
+msgstr ""
+
+#: app/templates/_chat_list.html:89 app/templates/community_settings.html:59
+#: app/templates/community_view.html:72 app/templates/group_chat.html:177
+#: app/templates/group_settings.html:49
+msgid "üye"
+msgstr ""
+
+#: app/templates/add_friend.html:3
+msgid "KeyCord - Arkadaş Ekle"
+msgstr ""
+
+#: app/templates/add_friend.html:63 app/templates/friend_requests.html:20
+#: app/templates/friend_requests.html:99 app/templates/home.html:99
+#: app/templates/messages.html:246 app/templates/view_profile.html:292
+msgid "Arkadaş Ekle"
+msgstr ""
+
+#: app/templates/add_friend.html:65
+msgid ""
+"Yeni\n"
+"            insanlarla tanış, hikayelerini paylaş."
+msgstr ""
+
+#: app/templates/add_friend.html:74
+msgid "Kimleri arıyorsun?..."
+msgstr ""
+
+#: app/templates/add_friend.html:78
+msgid "Ara"
+msgstr ""
+
+#: app/templates/add_friend.html:86
+#, python-format
+msgid "\"%(query)s\" için %(count)s sonuç bulundu:"
+msgstr ""
+
+#: app/templates/add_friend.html:106
+msgid "Profili İncele"
+msgstr ""
+
+#: app/templates/add_friend.html:113
+msgid "Zaten Arkadaşsınız"
+msgstr ""
+
+#: app/templates/add_friend.html:118
+msgid "İstek Gönderildi"
+msgstr ""
+
+#: app/templates/add_friend.html:123
+msgid "Bu Sensin"
+msgstr ""
+
+#: app/templates/add_friend.html:129
+msgid "Arkadaş Ekle +"
+msgstr ""
+
+#: app/templates/add_friend.html:142
+msgid "Arama yaparak yeni arkadaşlar bulabilirsin."
+msgstr ""
+
+#: app/templates/announcements.html:7
+msgid "Duyurular - KeyCord"
+msgstr ""
+
+#: app/templates/announcements.html:565 app/templates/base_app.html:292
+#: app/templates/messages.html:196
+msgid "Çevrimiçi"
+msgstr ""
+
+#: app/templates/announcements.html:569 app/templates/base.html:35
+#: app/templates/base_app.html:316 app/templates/communities.html:61
+#: app/templates/create_community.html:53 app/templates/friend_requests.html:29
+#: app/templates/group_settings.html:63 app/templates/home.html:3
+msgid "Ana Sayfa"
+msgstr ""
+
+#: app/templates/announcements.html:588 app/templates/announcements.html:594
+#: app/templates/base_app.html:295 app/templates/home.html:131
+#: app/templates/view_profile.html:3
+msgid "Profil"
+msgstr ""
+
+#: app/templates/announcements.html:596
+msgid "Çıkış"
+msgstr ""
+
+#: app/templates/announcements.html:603 app/templates/base_app.html:320
+msgid "Çıkış Yap"
+msgstr ""
+
+#: app/templates/announcements.html:618 app/templates/announcements.html:635
+msgid "Duyurular"
+msgstr ""
+
+#: app/templates/announcements.html:636
+#, python-format
+msgid "%(count)d duyuru"
+msgstr ""
+
+#: app/templates/announcements.html:647
+msgid "Yeni Duyuru"
+msgstr ""
+
+#: app/templates/announcements.html:671
+msgid "Bu duyuruyu silmek istediğinizden emin misiniz?"
+msgstr ""
+
+#: app/templates/announcements.html:683
+msgid "Sil"
+msgstr ""
+
+#: app/templates/announcements.html:700
+msgid "Henüz Duyuru Yok"
+msgstr ""
+
+#: app/templates/announcements.html:701
+msgid "Şu anda herhangi bir duyuru bulunmuyor. Duyurular burada görünecek."
+msgstr ""
+
+#: app/templates/base.html:36 app/templates/base.html:80
+msgid "SSS"
+msgstr ""
+
+#: app/templates/base.html:37
+msgid "Güvenlik"
+msgstr ""
+
+#: app/templates/base.html:38
+msgid "Yardım"
+msgstr ""
+
+#: app/templates/base.html:39 app/templates/base.html:84
+msgid "İletişim"
+msgstr ""
+
+#: app/templates/base.html:47
+msgid "Bilgi ve Dokümantasyon"
+msgstr ""
+
+#: app/templates/base.html:50
+msgid "Uygulamaya Git"
+msgstr ""
+
+#: app/templates/base.html:52
+msgid "Giriş"
+msgstr ""
+
+#: app/templates/base.html:78 app/templates/email/base_email.html:97
+msgid "Gizlilik Odaklı Mesajlaşma"
+msgstr ""
+
+#: app/templates/base.html:81
+msgid "Gizlilik"
+msgstr ""
+
+#: app/templates/base.html:82
+msgid "Şartlar"
+msgstr ""
+
+#: app/templates/base.html:83
+msgid "KVKK / GDPR"
+msgstr ""
+
+#: app/templates/base_app.html:276
+msgid "Menü"
+msgstr ""
+
+#: app/templates/base_app.html:291
+msgid "Misafir"
+msgstr ""
+
+#: app/templates/base_app.html:306
+msgid "Menü yükleniyor..."
+msgstr ""
+
+#: app/templates/base_app.html:330
+msgid "İçerik seçin"
+msgstr ""
+
+#: app/templates/communities.html:47
+msgid "Keşfet ve Katıl"
+msgstr ""
+
+#: app/templates/communities.html:52 app/templates/create_community.html:44
+msgid "Keşfet"
+msgstr ""
+
+#: app/templates/communities.html:56 app/templates/create_community.html:48
+#: app/templates/create_community.html:116 app/templates/create_group.html:68
+msgid "Oluştur"
+msgstr ""
+
+#: app/templates/communities.html:74
+msgid "Topluluk Panosu"
+msgstr ""
+
+#: app/templates/communities.html:75
+msgid ""
+"İlgi alanına göre\n"
+"                topluluklar bul"
+msgstr ""
+
+#: app/templates/communities.html:83
+msgid "Topluluk ara..."
+msgstr ""
+
+#: app/templates/communities.html:114
+msgid "Açıklama yok."
+msgstr ""
+
+#: app/templates/communities.html:122 app/templates/community_settings.html:160
+#: app/templates/group_settings.html:196
+msgid "Üye"
+msgstr ""
+
+#: app/templates/communities.html:132
+msgid "Henüz hiç topluluk yok."
+msgstr ""
+
+#: app/templates/communities.html:135
+msgid ""
+"Topluluğunu\n"
+"                        Oluştur"
+msgstr ""
+
+#: app/templates/communities.html:145
+msgid "Aradığın topluluk bulunamadı..."
+msgstr ""
+
+#: app/templates/community_settings.html:3
+#: app/templates/community_settings.html:68
+#: app/templates/community_view.html:83 app/templates/group_chat.html:182
+#: app/templates/group_settings.html:3
+msgid "Ayarlar"
+msgstr ""
+
+#: app/templates/community_settings.html:64
+#: app/templates/community_view.html:77
+msgid "Sohbet"
+msgstr ""
+
+#: app/templates/community_settings.html:84
+msgid "Topluluk Ayarları"
+msgstr ""
+
+#: app/templates/community_settings.html:86
+msgid "topluluğunu yönet"
+msgstr ""
+
+#: app/templates/community_settings.html:96
+msgid "Genel Bilgiler"
+msgstr ""
+
+#: app/templates/community_settings.html:101
+#: app/templates/create_community.html:77
+msgid "Topluluk Adı"
+msgstr ""
+
+#: app/templates/community_settings.html:109
+#: app/templates/create_community.html:85
+msgid "Açıklama"
+msgstr ""
+
+#: app/templates/community_settings.html:121
+msgid ""
+"Sadece\n"
+"                            Yöneticiler Mesaj Atabilir"
+msgstr ""
+
+#: app/templates/community_settings.html:123
+msgid ""
+"Etkinleştirilirse üyeler sadece\n"
+"                            okuyabilir."
+msgstr ""
+
+#: app/templates/community_settings.html:132
+msgid "Kaydet"
+msgstr ""
+
+#: app/templates/community_settings.html:141 app/templates/group_chat.html:186
+#: app/templates/group_settings.html:158 app/templates/group_settings.html:220
+msgid "Üyeler"
+msgstr ""
+
+#: app/templates/community_settings.html:156
+msgid "Kurucu"
+msgstr ""
+
+#: app/templates/community_settings.html:158
+msgid "Yönetici"
+msgstr ""
+
+#: app/templates/community_settings.html:174
+msgid "Yöneticiliği Al"
+msgstr ""
+
+#: app/templates/community_settings.html:174
+#: app/templates/community_settings.html:178
+msgid "Yönetici Yap"
+msgstr ""
+
+#: app/templates/community_settings.html:176
+msgid "Üye Yap"
+msgstr ""
+
+#: app/templates/community_settings.html:187
+msgid "Bu üyeyi topluluktan çıkarmak istediğinize emin misiniz?"
+msgstr ""
+
+#: app/templates/community_settings.html:190
+#: app/templates/group_settings.html:203
+msgid "Çıkar"
+msgstr ""
+
+#: app/templates/community_view.html:89
+msgid "Ayrılmak istediğine emin misin?"
+msgstr ""
+
+#: app/templates/community_view.html:91
+msgid "Ayrıl"
+msgstr ""
+
+#: app/templates/community_view.html:141 app/templates/group_chat.html:241
+msgid "🔒 Şifre çözülüyor..."
+msgstr ""
+
+#: app/templates/community_view.html:151
+msgid "Sohbeti başlat!"
+msgstr ""
+
+#: app/templates/community_view.html:161
+msgid "Bu topluluğa katılarak sohbete dahil ol!"
+msgstr ""
+
+#: app/templates/community_view.html:165 app/templates/register.html:151
+msgid "Topluluğa Katıl"
+msgstr ""
+
+#: app/templates/community_view.html:174
+msgid "Bir şeyler yaz..."
+msgstr ""
+
+#: app/templates/community_view.html:190
+msgid "Sadece yöneticiler mesaj gönderebilir."
+msgstr ""
+
+#: app/templates/community_view.html:228 app/templates/group_chat.html:312
+#: app/templates/group_chat.html:388 app/templates/messages.html:297
+msgid "🔒 Şifre çözülemedi"
+msgstr ""
+
+#: app/templates/community_view.html:255 app/templates/group_chat.html:330
+msgid "Anahtarlar alınamadı"
+msgstr ""
+
+#: app/templates/community_view.html:271
+msgid "Mesaj şifrelenemedi: "
+msgstr ""
+
+#: app/templates/contact.html:3
+msgid "KeyCord - İletişim"
+msgstr ""
+
+#: app/templates/contact.html:164 app/templates/explicit_consent.html:100
+#: app/templates/gdpr.html:105
+msgid "Geri"
+msgstr ""
+
+#: app/templates/contact.html:171 app/templates/contact.html:285
+msgid "Bize Ulaşın"
+msgstr ""
+
+#: app/templates/contact.html:174
+msgid "Bir sorunuz mu var? Yardımcı olmak için buradayız."
+msgstr ""
+
+#: app/templates/contact.html:182
+msgid "Acil Güvenlik Durumu"
+msgstr ""
+
+#: app/templates/contact.html:185
+msgid "Hesabınızın tehlikede olduğunu düşünüyorsanız beklemeden bize yazın."
+msgstr ""
+
+#: app/templates/contact.html:198
+msgid "Bize Yazın"
+msgstr ""
+
+#: app/templates/contact.html:203
+msgid "Adınız Soyadınız"
+msgstr ""
+
+#: app/templates/contact.html:204
+msgid "Kim olduğunuzu bilelim..."
+msgstr ""
+
+#: app/templates/contact.html:209
+msgid "E-posta Adresiniz"
+msgstr ""
+
+#: app/templates/contact.html:210
+msgid "Size nasıl dönelim?"
+msgstr ""
+
+#: app/templates/contact.html:215
+msgid "Konu"
+msgstr ""
+
+#: app/templates/contact.html:217
+msgid "Ne hakkında konuşacağız?"
+msgstr ""
+
+#: app/templates/contact.html:221
+msgid "Mesajınız"
+msgstr ""
+
+#: app/templates/contact.html:223
+msgid "Bize her şeyi anlatabilirsiniz..."
+msgstr ""
+
+#: app/templates/contact.html:227
+msgid "Gönder (Şifreli)"
+msgstr ""
+
+#: app/templates/contact.html:237
+msgid "Genel Destek"
+msgstr ""
+
+#: app/templates/contact.html:238
+msgid "Her türlü soru ve sorunlarınız için:"
+msgstr ""
+
+#: app/templates/contact.html:246
+msgid ""
+"Sosyal Medyada\n"
+"                    Biz"
+msgstr ""
+
+#: app/templates/contact.html:267
+msgid "Gönderiliyor..."
+msgstr ""
+
+#: app/templates/contact.html:272
+msgid "Mesajınız şifrelenerek tarafımıza iletildi! En kısa sürede döneceğiz."
+msgstr ""
+
+#: app/templates/contact.html:286
+msgid ""
+"KeyCord destek ekibiyle iletişime geçin. Güvenlik bildirimleri, genel "
+"destek ve geri bildirimleriniz için buradayız."
+msgstr ""
+
+#: app/templates/create_announcement.html:7
+msgid "Duyuru Oluştur - KeyCord"
+msgstr ""
+
+#: app/templates/create_announcement.html:219
+msgid "Yeni Duyuru Oluştur"
+msgstr ""
+
+#: app/templates/create_announcement.html:221
+msgid "Tüm kullanıcılara gönderilecek duyuruyu oluşturun"
+msgstr ""
+
+#: app/templates/create_announcement.html:236
+msgid "Duyuru Başlığı"
+msgstr ""
+
+#: app/templates/create_announcement.html:238
+msgid "Duyuru başlığını buraya yazın..."
+msgstr ""
+
+#: app/templates/create_announcement.html:242
+msgid "Duyuru İçeriği"
+msgstr ""
+
+#: app/templates/create_announcement.html:244
+msgid "Duyuru içeriğini buraya yazın..."
+msgstr ""
+
+#: app/templates/create_announcement.html:258
+msgid "Bu duyuru önemli (öne çıkar)"
+msgstr ""
+
+#: app/templates/create_announcement.html:270
+#: app/templates/create_community.html:113 app/templates/profile.html:126
+msgid "İptal"
+msgstr ""
+
+#: app/templates/create_announcement.html:278
+msgid "Duyuruyu Yayınla"
+msgstr ""
+
+#: app/templates/create_community.html:3
+msgid "Topluluk Oluştur"
+msgstr ""
+
+#: app/templates/create_community.html:39
+msgid "Yeni Oluştur"
+msgstr ""
+
+#: app/templates/create_community.html:66
+msgid "Kendi Topluluğunu Kur"
+msgstr ""
+
+#: app/templates/create_community.html:67
+msgid ""
+"İnsanları bir araya\n"
+"                getir ve sohbeti başlat"
+msgstr ""
+
+#: app/templates/create_community.html:78
+msgid "Örn: Oyun Severler"
+msgstr ""
+
+#: app/templates/create_community.html:86
+msgid "Bu topluluk ne hakkında?"
+msgstr ""
+
+#: app/templates/create_community.html:93
+msgid "Topluluk Resmi"
+msgstr ""
+
+#: app/templates/create_community.html:105
+msgid "Resim Yüklemek İçin Tıkla"
+msgstr ""
+
+#: app/templates/create_community.html:128
+msgid "Resim seçilmedi"
+msgstr ""
+
+#: app/templates/create_group.html:3
+msgid "KeyCord - Grup Oluştur"
+msgstr ""
+
+#: app/templates/create_group.html:14
+msgid "Yeni Grup Kur"
+msgstr ""
+
+#: app/templates/create_group.html:17
+msgid "Arkadaşlarını topla, muhabbete başla."
+msgstr ""
+
+#: app/templates/create_group.html:26 app/templates/group_settings.html:102
+msgid "Grup Adı"
+msgstr ""
+
+#: app/templates/create_group.html:28
+msgid "Grubun ismi ne olsun?..."
+msgstr ""
+
+#: app/templates/create_group.html:34
+msgid "Arkadaşlarını Seç"
+msgstr ""
+
+#: app/templates/create_group.html:57
+msgid "Henüz hiç arkadaşın yok gibi..."
+msgstr ""
+
+#: app/templates/create_group.html:60
+msgid "Arkadaş Bul"
+msgstr ""
+
+#: app/templates/explicit_consent.html:3
+#: app/templates/explicit_consent.html:105 app/templates/login.html:227
+msgid "Açık Rıza Beyanı"
+msgstr ""
+
+#: app/templates/explicit_consent.html:108
+msgid "KeyCord Uçtan Uca Şifreleme ve Veri İmhası Hakkında"
+msgstr ""
+
+#: app/templates/explicit_consent.html:114
+msgid ""
+"KeyCord platformu, kullanıcı mahremiyetini en üst düzeyde tutmak amacıyla"
+" <strong>Uçtan Uca Şifreleme\n"
+"                (E2EE - End-to-End Encryption)</strong> ve <strong>Sıfır "
+"Bilgi (Zero-Knowledge)</strong> mimarisi\n"
+"            üzerine inşa edilmiştir. Bu mimari, verilerinizin güvenliğini"
+" sağlarken aynı zamanda verilerin imhası ve\n"
+"            erişilebilirliği konusunda belirli teknik kısıtları da "
+"beraberinde getirmektedir."
+msgstr ""
+
+#: app/templates/explicit_consent.html:123
+msgid "1. Şifreleme Mimarisi ve Veri Erişimi"
+msgstr ""
+
+#: app/templates/explicit_consent.html:126
+msgid ""
+"KeyCord platformunda yapılan mesajlaşmalar ve paylaşılan içerikler, "
+"gönderici ve alıcının\n"
+"                cihazlarında oluşturulan benzersiz şifreleme anahtarları "
+"ile korunmaktadır."
+msgstr ""
+
+#: app/templates/explicit_consent.html:130
+msgid ""
+"<strong>Sıfır Bilgi:</strong> KeyCord sunucuları, şifrelenmiş mesaj "
+"içeriklerini (ciphertext)\n"
+"                    saklasa dahi, bu mesajları çözecek özel anahtarlara "
+"(Private Key) erişimi yoktur. Özel anahtarınız,\n"
+"                    yalnızca sizin belirlediğiniz şifre ile şifrelenmiş "
+"olarak saklanır ve şifreniz sunucularımıza düz\n"
+"                    metin olarak asla gönderilmez."
+msgstr ""
+
+#: app/templates/explicit_consent.html:134
+msgid ""
+"<strong>Yerel Çözümleme:</strong> Mesajlar yalnızca ilgili tarafların "
+"(gönderici ve alıcı)\n"
+"                    cihazlarında, yerel olarak çözümlenebilir."
+msgstr ""
+
+#: app/templates/explicit_consent.html:142
+msgid "2. Hesap Silme ve Veri İmhası"
+msgstr ""
+
+#: app/templates/explicit_consent.html:145
+msgid ""
+"Hesabınızı kalıcı olarak silmeniz durumunda aşağıdaki işlemler geri "
+"döndürülemez şekilde\n"
+"                uygulanır:"
+msgstr ""
+
+#: app/templates/explicit_consent.html:149
+msgid ""
+"<strong>Şifreleme Anahtarları:</strong> Hesabınıza ait <code>Public "
+"Key</code> ve şifrelenmiş\n"
+"                    <code>Private Key</code> veritabanından kalıcı olarak"
+" silinir. Anahtarların silinmesi, hesabınızla\n"
+"                    ilişkilendirilmiş tüm geçmiş şifreli verilerin "
+"matematiksel olarak çözülemez hale gelmesini\n"
+"                    sağlar."
+msgstr ""
+
+#: app/templates/explicit_consent.html:153
+msgid ""
+"<strong>Hesap Bilgileri:</strong> Kullanıcı adı, e-posta adresi ve profil"
+" detaylarınız\n"
+"                    (metadata) sistemden tamamen kaldırılır."
+msgstr ""
+
+#: app/templates/explicit_consent.html:155
+msgid ""
+"<strong>Sunucu Verileri:</strong> Sunucularımızda saklanan ve size ait "
+"olan teslim edilmemiş\n"
+"                    geçici mesaj paketleri silinir."
+msgstr ""
+
+#: app/templates/explicit_consent.html:163
+msgid "3. Teknik Sınırlar ve Kullanıcı Beyanı"
+msgstr ""
+
+#: app/templates/explicit_consent.html:167
+msgid ""
+"<strong>Önemli Uyarı:</strong> Uçtan uca şifreleme ve dağıtık yapı "
+"gereği, gönderdiğiniz\n"
+"                    mesajlar alıcının cihazına ulaştıktan sonra "
+"KeyCord'un teknik kontrol alanından çıkmaktadır."
+msgstr ""
+
+#: app/templates/explicit_consent.html:172
+msgid "Bu kapsamda, KeyCord platformuna üye olarak ve hizmetlerini kullanarak;"
+msgstr ""
+
+#: app/templates/explicit_consent.html:175
+msgid ""
+"Hesabımı silmem veya verilerimin imhasını talep etmem halinde; sunucu "
+"tarafındaki tüm\n"
+"                    verilerimin ve şifreleme anahtarlarımın geri alınamaz"
+" şekilde silineceğini,"
+msgstr ""
+
+#: app/templates/explicit_consent.html:177
+msgid ""
+"Bu işlem sonucunda, <strong>diğer kullanıcıların cihazlarına (bilgisayar,"
+" telefon vb.) daha\n"
+"                        önce iletilmiş olan mesaj kopyalarının, önbellek "
+"verilerinin veya ekran görüntülerinin</strong>\n"
+"                    KeyCord’un teknik kontrolü dışında olduğunu,"
+msgstr ""
+
+#: app/templates/explicit_consent.html:180
+msgid ""
+"KeyCord'un diğer kullanıcıların cihazlarına fiziksel veya uzaktan "
+"müdahale yetkisi\n"
+"                    bulunmadığından, bu yerel kopyalar üzerinde tek "
+"taraflı silme işlemi uygulayamayabileceğini,"
+msgstr ""
+
+#: app/templates/explicit_consent.html:183
+msgid ""
+"Hesap silme işleminin, şifreleme anahtarlarının yok edilmesi nedeniyle "
+"<strong>kesinlikle geri\n"
+"                        alınamayacağını</strong> ve verilerin "
+"kurtarılamayacağını"
+msgstr ""
+
+#: app/templates/explicit_consent.html:187
+msgid "bildiğimi, anladığımı ve hür irademle kabul ettiğimi beyan ederim."
+msgstr ""
+
+#: app/templates/explicit_consent.html:193
+msgid "KeyCord Güvenlik Protokolü - Revizyon 1.0"
+msgstr ""
+
+#: app/templates/faq.html:3
+msgid "Anonim Sohbet, Güvenli Mesajlaşma ve Tor"
+msgstr ""
+
+#: app/templates/faq.html:6
+msgid ""
+"Anonim sohbet ve güvenli mesajlaşma platformu KeyCord hakkında sık "
+"sorulan sorular. Gizlilik, Tor ağı ve uçtan uca\n"
+"şifreleme (E2EE) detayları."
+msgstr ""
+
+#: app/templates/faq.html:235
+msgid "Geri Dön"
+msgstr ""
+
+#: app/templates/faq.html:244
+msgid "Sıkça Sorulan Sorular – KeyCord Anonim Sohbet Platformu"
+msgstr ""
+
+#: app/templates/faq.html:245
+msgid "KeyCord Dünyasına Hoş Geldiniz"
+msgstr ""
+
+#: app/templates/faq.html:246
+msgid "Aşağı Kaydırın"
+msgstr ""
+
+#: app/templates/faq.html:253
+msgid "KeyCord tam olarak nedir?"
+msgstr ""
+
+#: app/templates/faq.html:255
+msgid ""
+"KeyCord, gizlilik ve anonimlik odaklı bir mesajlaşma platformudur. "
+"Geleneksel uygulamaların\n"
+"                    aksine, verilerinizi merkezi bir sunucuda açık halde "
+"tutmaz. Tor ağı entegrasyonu ve uçtan uca\n"
+"                    şifreleme (E2EE) ile verileriniz sadece sizin "
+"kontrolünüzdedir."
+msgstr ""
+
+#: app/templates/faq.html:266
+msgid "KeyCord ücretli mi?"
+msgstr ""
+
+#: app/templates/faq.html:268
+msgid ""
+"Hayır, KeyCord temel özellikleri ile tamamen ücretsizdir. Projenin amacı,"
+" herkesin güvenli ve\n"
+"                    sansürlenemez bir iletişim kanalına sahip olmasını "
+"sağlamaktır."
+msgstr ""
+
+#: app/templates/faq.html:278
+msgid "Telefon numaramı vermem gerekiyor mu?"
+msgstr ""
+
+#: app/templates/faq.html:280
+msgid ""
+"Kesinlikle hayır. KeyCord \"Zero-Knowledge\" (Sıfır Bilgi) prensibiyle "
+"çalışır. Kayıt sırasında\n"
+"                    telefon numarası, gerçek isim veya rehber erişimi "
+"gibi kişisel veriler asla istenmez."
+msgstr ""
+
+#: app/templates/faq.html:290
+msgid "Mesajlarımı kimse okuyabilir mi?"
+msgstr ""
+
+#: app/templates/faq.html:292
+msgid ""
+"Mesajlarınız cihazınızdan çıkmadan önce AES-256 ve RSA algoritmaları ile "
+"şifrelenir. Şifre\n"
+"                    çözme anahtarları sadece sizin cihazınızda saklanır. "
+"Bu nedenle ne biz, ne de bir başkası\n"
+"                    mesajlarınızın içeriğine erişemez."
+msgstr ""
+
+#: app/templates/faq.html:303
+msgid "Tor ağı neden kullanılıyor?"
+msgstr ""
+
+#: app/templates/faq.html:305
+msgid ""
+"Tor ağı trafiğinizi anonimleştirir. IP adresinizin ve konumunuzun takip "
+"edilmesini engeller. Bu\n"
+"                    da KeyCord'u sansürün yoğun olduğu bölgelerde bile "
+"güvenli bir liman haline getirir."
+msgstr ""
+
+#: app/templates/faq.html:315
+msgid "Şifremi unutursam ne olur?"
+msgstr ""
+
+#: app/templates/faq.html:317
+msgid ""
+"Şifreniz, anahtarlarınızı çözmek için kullanılan tek araçtır. \"Sıfır "
+"Bilgi\" yapımız gereği\n"
+"                    şifrenizi biz bilmiyoruz ve sistemimizde "
+"saklamıyoruz. Şifrenizi kaybederseniz, hesabınıza\n"
+"                    erişiminizi kalıcı olarak kaybedersiniz."
+msgstr ""
+
+#: app/templates/faq.html:328
+msgid "Verilerim nerede saklanıyor?"
+msgstr ""
+
+#: app/templates/faq.html:330
+msgid ""
+"Şifreli mesajlarınız sunucularımızda saklanır. Ancak bu mesajları açacak "
+"anahtarlar sadece\n"
+"                    sizin cihazınızın tarayıcı hafızasında bulunur ve "
+"asla sunucuya gönderilmez."
+msgstr ""
+
+#: app/templates/faq.html:340
+msgid "Hesabımı silebilir miyim?"
+msgstr ""
+
+#: app/templates/faq.html:342
+msgid ""
+"Evet, profil ayarlarınızdan hesabınızı ve tüm ilişkili verileri kalıcı "
+"olarak silebilirsiniz.\n"
+"                    Silme işlemi anında gerçekleşir ve geri döndürülemez."
+msgstr ""
+
+#: app/templates/faq.html:352
+msgid "KeyCord açık kaynaklı mı?"
+msgstr ""
+
+#: app/templates/faq.html:354
+msgid ""
+"Evet, KeyCord topluluk odaklı bir projedir ve güvenliğin denetlenebilir "
+"olması gerektiğine\n"
+"                    inanıyoruz. Kodlarımıza GitHub üzerinden "
+"ulaşabilirsiniz."
+msgstr ""
+
+#: app/templates/faq.html:364
+msgid "Grup sohbetleri de uçtan uca şifreli mi?"
+msgstr ""
+
+#: app/templates/faq.html:366
+msgid ""
+"Kesinlikle. Grup sohbetlerinde her katılımcı için özel anahtar değişimi "
+"yapılır ve mesajlar\n"
+"                    gruptaki herkes için ayrı ayrı şifrelenir."
+msgstr ""
+
+#: app/templates/faq.html:376
+msgid "Dosya gönderimi yapılabiliyor mu?"
+msgstr ""
+
+#: app/templates/faq.html:378
+msgid ""
+"Şu an için profil resmi ve temel görsel paylaşımları desteklenmektedir. "
+"Büyük boyutlu dosya\n"
+"                    gönderimi özelliği geliştirme aşamasındadır."
+msgstr ""
+
+#: app/templates/faq.html:388
+msgid "Hangi cihazlarda çalışır?"
+msgstr ""
+
+#: app/templates/faq.html:390
+msgid ""
+"KeyCord web tabanlıdır. Modern tüm tarayıcılarda (Chrome, Firefox, Tor "
+"Browser vb.) ve mobil\n"
+"                    tarayıcılarda sorunsuz çalışmaktadır."
+msgstr ""
+
+#: app/templates/faq.html:400
+msgid "IP adresim sunucuda görünüyor mu?"
+msgstr ""
+
+#: app/templates/faq.html:402
+msgid ""
+"Tor ağını kullandığınızda sunucumuz sadece Tor düğümünün IP adresini "
+"görür, gerçek IP adresiniz\n"
+"                    ve konumunuz gizli kalır."
+msgstr ""
+
+#: app/templates/faq.html:412
+msgid "Uygulamada reklam var mı?"
+msgstr ""
+
+#: app/templates/faq.html:414
+msgid ""
+"Hayır, KeyCord reklam içermez ve verilerinizi üçüncü taraflara satmaz. "
+"Mahremiyetiniz bizim en\n"
+"                    öncelikli değerimizdir."
+msgstr ""
+
+#: app/templates/faq.html:424
+msgid "KeyCord'u diğerlerinden farklı kılan nedir?"
+msgstr ""
+
+#: app/templates/faq.html:426
+msgid ""
+"KeyCord hiçbir gerçek dünya kimliğiyle eşleştirme yapmaz, Tor zorunluluğu"
+" sunar ve şifreleme\n"
+"                    anahtarlarını asla sunucuya dokundurmaz."
+msgstr ""
+
+#: app/templates/friend_requests.html:3
+msgid "Arkadaşlık İstekleri"
+msgstr ""
+
+#: app/templates/friend_requests.html:13
+msgid "Arkadaşlık"
+msgstr ""
+
+#: app/templates/friend_requests.html:15
+msgid "İstekleri Yönet"
+msgstr ""
+
+#: app/templates/friend_requests.html:24
+msgid "İstekler"
+msgstr ""
+
+#: app/templates/friend_requests.html:40
+msgid "Gelen İstekler"
+msgstr ""
+
+#: app/templates/friend_requests.html:41
+msgid ""
+"Sana gönderilen arkadaşlık\n"
+"            istekleri"
+msgstr ""
+
+#: app/templates/friend_requests.html:67
+msgid "Arkadaş olmak istiyor"
+msgstr ""
+
+#: app/templates/friend_requests.html:78
+msgid "Kabul Et"
+msgstr ""
+
+#: app/templates/friend_requests.html:84
+msgid "Reddet"
+msgstr ""
+
+#: app/templates/friend_requests.html:96
+msgid "Henüz bekleyen arkadaşlık isteği yok."
+msgstr ""
+
+#: app/templates/gdpr.html:110
+msgid "Kişisel Verilerin Korunması ve Gizlilik Politikası"
+msgstr ""
+
+#: app/templates/gdpr.html:113
+msgid "Son Güncelleme: 19.01.2026"
+msgstr ""
+
+#: app/templates/gdpr.html:119
+msgid ""
+"KeyCord (\"Platform\", \"Biz\") kullanıcılarının gizliliğini korumaya ve "
+"kişisel verilerin güvenliğini\n"
+"            sağlamaya büyük önem verir. Bu Aydınlatma Metni, 6698 sayılı "
+"Kişisel Verilerin Korunması Kanunu (\"KVKK\") ve\n"
+"            Avrupa Birliği Genel Veri Koruma Tüzüğü (\"GDPR\") "
+"çerçevesinde hangi verilerin, hangi amaçlarla işlendiğini,\n"
+"            kimlere aktarılabileceğini ve ilgili kişilerin sahip olduğu "
+"hakları açıklamak amacıyla hazırlanmıştır."
+msgstr ""
+
+#: app/templates/gdpr.html:128
+msgid "1. Veri Sorumlusu"
+msgstr ""
+
+#: app/templates/gdpr.html:131
+msgid ""
+"KVKK kapsamında veri sorumlusu: <strong>KeyCord "
+"Organizasyonu</strong>'dur. Veri sorumlusu\n"
+"                iletişim bilgilerimiz ve başvuru kanalları bu metnin 7. "
+"maddesinde yer almaktadır."
+msgstr ""
+
+#: app/templates/gdpr.html:139
+msgid "2. Sıfır Bilgi (Zero Knowledge) Mimarisi ve Erişim Sınırlamaları"
+msgstr ""
+
+#: app/templates/gdpr.html:142
+msgid ""
+"Platformumuz, temel çalışma prensibi olarak <strong>Zero Knowledge (Sıfır"
+" Bilgi)</strong>\n"
+"                mimarisini benimser. Buna göre:"
+msgstr ""
+
+#: app/templates/gdpr.html:147
+msgid ""
+"<strong>Mesaj İçerikleri:</strong> Kullanıcılar arasındaki iletişim "
+"(metin, ses, görüntü)\n"
+"                    uçtan uca şifreleme (E2EE) ile korunur. Şifreleme "
+"anahtarları kullanıcı cihazlarında tutulur;\n"
+"                    sunucularımıza ulaşan içerikler şifreli (ciphertext) "
+"biçimindedir. Bu mimari nedeniyle KeyCord'un\n"
+"                    şifrelenmiş mesaj içeriklerine erişimi veya bunları "
+"okuyup analiz etmesi amaçlanmamaktadır."
+msgstr ""
+
+#: app/templates/gdpr.html:153
+msgid ""
+"<strong>Hukuki Not:</strong> Şifrelenmiş veriler fiilen çözülemez olsa "
+"dahi bazı hukuki veya\n"
+"                    teknik koşullarda (örneğin kullanıcı cihazı yedeği, "
+"istemci tarafı hatası, yedekleme süreçleri veya\n"
+"                    yasal zorunluluklar) ilgili verilerle ilişkinin "
+"kurulması mümkün olabilir; bu nedenle şifreli\n"
+"                    verilerin kişisel veri niteliği tamamen ortadan "
+"kalkmış sayılmaz."
+msgstr ""
+
+#: app/templates/gdpr.html:160
+msgid ""
+"Bu nedenle uygulama ve mimari gereği erişim sağlamayı amaçlamıyor "
+"olmamız, tüm hukuki\n"
+"                sorumlulukları ortadan kaldırmaz — işleyiş ve denetim "
+"süreçleri KVKK ve GDPR çerçevesinde ele alınır."
+msgstr ""
+
+#: app/templates/gdpr.html:169
+msgid "3. İşlenen Kişisel Veriler ve İşleme Amaçları"
+msgstr ""
+
+#: app/templates/gdpr.html:172
+msgid ""
+"Hizmetin sunulması, güvenliği ve yasal yükümlülüklerin yerine getirilmesi"
+" için sınırlı ve amaca\n"
+"                ilişkin kişisel veriler (metadata) işlenmektedir. İşlenen"
+" veri kategorileri ve amaçları aşağıda\n"
+"                açıklanmıştır:"
+msgstr ""
+
+#: app/templates/gdpr.html:179
+msgid ""
+"<strong>Kimlik ve İletişim Bilgileri</strong><br><em>Veri Türü:</em> "
+"E-posta adresi, kullanıcı\n"
+"                    adı.<br><em>Amaç:</em> Hesap oluşturma, kimlik "
+"doğrulama, iletişim ve kullanıcı hesap güvenliğinin\n"
+"                    sağlanması.<br><em>Not:</em> Uçtan uca şifreleme "
+"nedeniyle platform tarafından şifrelerin veya mesaj\n"
+"                    içeriklerinin resetlenmesi/erişimi mümkün "
+"olmayabilir; şifre sıfırlama süreçleri için alternatif\n"
+"                    doğrulama yöntemleri (örn. e-posta doğrulaması) "
+"kullanılabilir."
+msgstr ""
+
+#: app/templates/gdpr.html:187
+msgid ""
+"<strong>İşlem ve Güvenlik Bilgileri</strong><br><em>Veri Türü:</em> IP "
+"adresleri, erişim\n"
+"                    logları, erişim zamanı, hizmet türü, aktarılan veri "
+"miktarı, cihaz ve istemci bilgileri (ör.\n"
+"                    tarayıcı/agent, işletim sistemi), rate-limit ve "
+"anomali tespitine yönelik\n"
+"                    telemetri.<br><em>Amaç:</em> Hizmet güvenliği (DDoS, "
+"brute-force tespiti), kötüye kullanımın\n"
+"                    önlenmesi, yasal yükümlülüklerin yerine getirilmesi "
+"(ör. 5651 sayılı Kanun kapsamında trafik\n"
+"                    kayıtlarına ilişkin yükümlülükler). Bu kayıtlar, "
+"yasal gereklilikler ve hizmet gereksinimleri\n"
+"                    doğrultusunda saklanır."
+msgstr ""
+
+#: app/templates/gdpr.html:197
+msgid ""
+"<strong>Geçici İletim Verileri (Blobs)</strong><br><em>Veri Türü:</em> "
+"Şifrelenmiş mesaj\n"
+"                    paketlerinin alıcı çevrimdışıysa kısa süreli sunucuda"
+" bekletilen halleri.<br><em>Amaç:</em>\n"
+"                    Teslimatın sağlanması; teslimat gerçekleştikten veya "
+"süre sona erdikten sonra kaydın silinmesi\n"
+"                    amaçlanır."
+msgstr ""
+
+#: app/templates/gdpr.html:208
+msgid "4. Kişisel Veri Toplamanın Yöntemi ve Hukuki Sebebi"
+msgstr ""
+
+#: app/templates/gdpr.html:211
+msgid ""
+"Kişisel verileriniz Platforma kayıt olmanız veya Platformu kullanmanız "
+"sırasında otomatik ve/veya\n"
+"                kullanıcı tarafından sağlanan yollarla toplanır. Bu veri "
+"işleme faaliyetleri aşağıdaki hukuki\n"
+"                dayanaklara göre yürütülmektedir:"
+msgstr ""
+
+#: app/templates/gdpr.html:216
+msgid ""
+"<strong>Sözleşmenin kurulması ve ifası:</strong> Hizmet sunumu ve hesap "
+"yönetimi için gerekli\n"
+"                    işlemler."
+msgstr ""
+
+#: app/templates/gdpr.html:218
+msgid ""
+"<strong>Hukuki yükümlülük:</strong> Mevzuattan doğan zorunlulukların "
+"yerine getirilmesi (ör.\n"
+"                    5651 sayılı Kanun uyarınca trafik kayıtları)."
+msgstr ""
+
+#: app/templates/gdpr.html:220
+msgid ""
+"<strong>Meşru menfaat:</strong> Sistem güvenliği ve kötüye kullanımın "
+"önlenmesi gibi veri\n"
+"                    sorumlusunun meşru menfaatleri (ilgili kişinin temel "
+"hak ve özgürlüklerini ihlal etmeyecek\n"
+"                    şekilde)."
+msgstr ""
+
+#: app/templates/gdpr.html:223
+msgid ""
+"<strong>Açık rıza:</strong> Belirli durumlarda ve KVKK/GDPR çerçevesinde "
+"ilgili kişinin açık\n"
+"                    rızası alınarak yapılacak işlemler."
+msgstr ""
+
+#: app/templates/gdpr.html:231
+msgid "5. Kişisel Verilerin Aktarılması"
+msgstr ""
+
+#: app/templates/gdpr.html:234
+msgid ""
+"KeyCord kullanıcı verilerini <strong>satmaz, kiralamaz veya ticari amaçlı"
+" üçüncü taraflara\n"
+"                    pazarlamaz.</strong> Aşağıdaki durumlarda veriler "
+"ilgili üçüncü taraflarla paylaşılabilir:"
+msgstr ""
+
+#: app/templates/gdpr.html:238
+msgid ""
+"<strong>Yasal zorunluluk:</strong> Yetkili kamu kurum ve kuruluşlarının "
+"usulüne uygun\n"
+"                    talepleri (ör. mahkeme veya savcılık talepleri)."
+msgstr ""
+
+#: app/templates/gdpr.html:240
+msgid ""
+"<strong>Hizmet sağlanması:</strong> Ödeme, altyapı ve güvenlik hizmeti "
+"veren tedarikçilerle\n"
+"                    (işleyen/alt yüklenici) sınırlı ve gereklilik "
+"kapsamında veri paylaşımı."
+msgstr ""
+
+#: app/templates/gdpr.html:242
+msgid ""
+"<strong>Uluslararası aktarım:</strong> AB/AYM bölgesine veya diğer üçüncü"
+" ülkelere aktarım\n"
+"                    gerektiğinde, aktarımın hukuki dayanağı ve yeterlik "
+"mekanizmaları (ör. uygunluk kararı, standart\n"
+"                    sözleşme hükümleri) uygulanır."
+msgstr ""
+
+#: app/templates/gdpr.html:247
+msgid ""
+"Paylaşılan hiçbir kişisel veri ticari amaçlarla satılmaz veya reklam "
+"hedeflemeye yönelik\n"
+"                kullanılmaz."
+msgstr ""
+
+#: app/templates/gdpr.html:255
+msgid "6. Veri Saklama Süreleri ve İmha"
+msgstr ""
+
+#: app/templates/gdpr.html:258
+msgid ""
+"Verileri yalnızca amacın gerektirdiği sürece saklarız. Saklama süreleri; "
+"veri kategorisi, yasal\n"
+"                zorunluluklar ve hizmet gereksinimleri dikkate alınarak "
+"belirlenir. Örnek uygulama ilkeleri:"
+msgstr ""
+
+#: app/templates/gdpr.html:262
+msgid ""
+"Güvenlik logları ve erişim kayıtları: yasal yükümlülükler ve hizmet "
+"güvenliği gereksinimleri\n"
+"                    doğrultusunda saklanır."
+msgstr ""
+
+#: app/templates/gdpr.html:264
+msgid ""
+"Hesap bilgileri (e-posta, kullanıcı adı): hesap kapatma/iptal işlemi "
+"sonrası makul bir süre ve\n"
+"                    yasal gerekliliklere uygun şekilde "
+"anonimleştirme/silme yapılır."
+msgstr ""
+
+#: app/templates/gdpr.html:266
+msgid ""
+"Geçici iletim verileri (offline teslim kuyruğu): teslimattan kısa süre "
+"sonra veya belirlenen\n"
+"                    TTL (time-to-live) sonrası otomatik silinir."
+msgstr ""
+
+#: app/templates/gdpr.html:270
+msgid ""
+"Saklama süreleri ve imha politikalarımız hakkında detaylı bilgi talep "
+"ederseniz, talebinizi 7.\n"
+"                maddede belirtilen kanallardan iletebilirsiniz."
+msgstr ""
+
+#: app/templates/gdpr.html:278
+msgid "7. İlgili Kişinin Hakları ve Başvuru Usulü"
+msgstr ""
+
+#: app/templates/gdpr.html:281
+msgid ""
+"KVKK Madde 11 ve GDPR hükümleri uyarınca ilgili kişiler aşağıdaki haklara"
+" sahiptir:"
+msgstr ""
+
+#: app/templates/gdpr.html:284
+msgid "Kişisel verilerinin işlenip işlenmediğini öğrenme,"
+msgstr ""
+
+#: app/templates/gdpr.html:285
+msgid "İşlenen veriler hakkında bilgi talep etme,"
+msgstr ""
+
+#: app/templates/gdpr.html:286
+msgid ""
+"Verilerin işlenme amacını ve amaca uygun kullanılıp kullanılmadığını "
+"öğrenme,"
+msgstr ""
+
+#: app/templates/gdpr.html:287
+msgid "Eksik/yanlış verilerin düzeltilmesini isteme,"
+msgstr ""
+
+#: app/templates/gdpr.html:288
+msgid ""
+"Verilerin silinmesini veya yok edilmesini isteme (unutulma hakkı) — yasal"
+" yükümlülükler saklı\n"
+"                    kalmak kaydıyla,"
+msgstr ""
+
+#: app/templates/gdpr.html:290
+msgid ""
+"İşlenmeye itiraz etme ve otomatik karar vere dayalı işlemlere karşı "
+"itiraz etme,"
+msgstr ""
+
+#: app/templates/gdpr.html:291
+msgid ""
+"Kişisel verilerin kanuna aykırı işlenmesi nedeniyle zararın giderilmesini"
+" talep etme."
+msgstr ""
+
+#: app/templates/gdpr.html:296
+msgid ""
+"<strong>Başvuru Usulü:</strong> Hak taleplerinizi yazılı olarak veya "
+"e-posta ile <a\n"
+"                    href=\"mailto:contact@keycord.org\" class=\"contact-"
+"link\">contact@keycord.org</a> adresine\n"
+"                iletebilirsiniz. Başvurular, talebin niteliğine göre en "
+"kısa sürede ve en geç otuz (30) gün içinde\n"
+"                ücretsiz olarak sonuçlandırılır. (KVKK uyarınca)."
+msgstr ""
+
+#: app/templates/gdpr.html:303
+msgid ""
+"<strong>Kimlik Doğrulama:</strong> Güvenlik nedeniyle başvuruların işleme"
+" alınabilmesi için\n"
+"                    kimliğinizi doğrulamak üzere ek belge talep "
+"edilebilir."
+msgstr ""
+
+#: app/templates/gdpr.html:311
+msgid "8. Veri İhlali Bildirimleri"
+msgstr ""
+
+#: app/templates/gdpr.html:314
+msgid ""
+"Kişisel verilerin güvenliğini etkileyebilecek bir veri ihlali tespit "
+"edilmesi halinde ilgili\n"
+"                mevzuata uygun olarak gerekli adımları atarız. GDPR "
+"kapsamındaki durumlarda denetleyici otoriteye,\n"
+"                mümkünse fark edildiği tarihten itibaren 72 saat içinde "
+"bildirimde bulunulur ve etkilenen veri\n"
+"                sahipleri, risk derecesine göre uygun bir şekilde "
+"bilgilendirilir."
+msgstr ""
+
+#: app/templates/gdpr.html:324
+msgid "9. Sorumluluk Sınırı"
+msgstr ""
+
+#: app/templates/gdpr.html:327
+#, python-format
+msgid ""
+"Platformumuz mümkün olan en yüksek güvenlik seviyesini sağlamak için "
+"teknik ve idari tedbirler\n"
+"                uygular. Ancak %%100 güvenlik garantisi verilemez. İşbu "
+"politika, kullanıcıların haklarına ilişkin genel\n"
+"                çerçeveyi belirler; özel durumlarda geçerli mevzuat "
+"önceliklidir."
+msgstr ""
+
+#: app/templates/gdpr.html:336
+msgid "10. İrtibat ve Başvuru"
+msgstr ""
+
+#: app/templates/gdpr.html:339
+msgid ""
+"Hak talepleriniz, gizlilik sorularınız veya bu politika ile ilgili diğer "
+"başvurularınız için bize\n"
+"                aşağıdaki kanallardan ulaşabilirsiniz:"
+msgstr ""
+
+#: app/templates/gdpr.html:344
+msgid ""
+"Adres: KeyCord Organizasyonu (iletisim bilgileri / ofis adresi buraya "
+"yazılacaktır)"
+msgstr ""
+
+#: app/templates/gdpr.html:348
+msgid ""
+"AB'de ikamet eden veri sahipleri için gerektiğinde atanmış bir AB "
+"temsilcisi veya irtibat\n"
+"                bilgisini burada ayrıca sağlayacağız."
+msgstr ""
+
+#: app/templates/gdpr.html:355
+msgid "KeyCord © 2026 - Gizlilik Odaklı Mesajlaşma"
+msgstr ""
+
+#: app/templates/group_chat.html:204
+msgid "Arkadaş ekle..."
+msgstr ""
+
+#: app/templates/group_chat.html:212
+msgid ""
+"Üye\n"
+"                Ekle"
+msgstr ""
+
+#: app/templates/group_chat.html:252
+msgid "Gruba bir şeyler yaz..."
+msgstr ""
+
+#: app/templates/group_chat.html:348
+msgid "Mesaj şifrelenirken bir hata oluştu: "
+msgstr ""
+
+#: app/templates/group_chat.html:384
+msgid "🔑 Anahtar yok"
+msgstr ""
+
+#: app/templates/group_settings.html:54
+msgid "Genel Ayarlar"
+msgstr ""
+
+#: app/templates/group_settings.html:58
+msgid "Grup Sohbeti"
+msgstr ""
+
+#: app/templates/group_settings.html:76
+msgid "Grup Ayarları"
+msgstr ""
+
+#: app/templates/group_settings.html:78
+msgid "grubunu yönet"
+msgstr ""
+
+#: app/templates/group_settings.html:81
+msgid "Gruba Dön"
+msgstr ""
+
+#: app/templates/group_settings.html:97
+msgid "Temel Bilgiler"
+msgstr ""
+
+#: app/templates/group_settings.html:110
+msgid "Grup Fotoğrafı"
+msgstr ""
+
+#: app/templates/group_settings.html:118
+msgid "Mevcut"
+msgstr ""
+
+#: app/templates/group_settings.html:125
+msgid "Dosya"
+msgstr ""
+
+#: app/templates/group_settings.html:129
+msgid "URL"
+msgstr ""
+
+#: app/templates/group_settings.html:147
+msgid ""
+"Değişiklikleri\n"
+"                        Kaydet"
+msgstr ""
+
+#: app/templates/group_settings.html:165
+msgid "Yeni Üye Ekle"
+msgstr ""
+
+#: app/templates/group_settings.html:171
+msgid "Arkadaş seçin..."
+msgstr ""
+
+#: app/templates/group_settings.html:178
+msgid "Ekle"
+msgstr ""
+
+#: app/templates/group_settings.html:194
+msgid "Grup Sahibi"
+msgstr ""
+
+#: app/templates/group_settings.html:216
+msgid ""
+"Bu grubun ayarlarını\n"
+"                sadece grup sahibi değiştirebilir."
+msgstr ""
+
+#: app/templates/group_settings.html:263
+msgid "Bu üyeyi gruptan çıkarmak istediğinize emin misiniz ? "
+msgstr ""
+
+#: app/templates/group_settings.html:275
+msgid "Hata: "
+msgstr ""
+
+#: app/templates/group_settings.html:280
+msgid "Bir hata oluştu"
+msgstr ""
+
+#: app/templates/help_center.html:273
+msgid "Yardım Merkezi"
+msgstr ""
+
+#: app/templates/help_center.html:274
+msgid ""
+"KeyCord hakkında sıkça sorulan sorulara ve rehberlere ulaşın. Mesajlaşma,"
+" güvenlik ve hesap ayarları hakkında yardım alın."
+msgstr ""
+
+#: app/templates/home.html:39
+msgid "Bildirimler"
+msgstr ""
+
+#: app/templates/home.html:51
+msgid ""
+"arkadaşlık\n"
+"                            isteği gönderdi."
+msgstr ""
+
+#: app/templates/home.html:57
+msgid ""
+"Yeni\n"
+"                            mesaj."
+msgstr ""
+
+#: app/templates/home.html:63
+msgid "grubunda yeni mesaj."
+msgstr ""
+
+#: app/templates/home.html:74
+msgid "Hiç yeni bildirim yok..."
+msgstr ""
+
+#: app/templates/home.html:91
+msgid "Merhaba"
+msgstr ""
+
+#: app/templates/home.html:94
+msgid "Bugün neler yapmak istersin?"
+msgstr ""
+
+#: app/templates/home.html:110
+msgid "Grup Kur"
+msgstr ""
+
+#: app/templates/home.html:116 app/templates/welcome.html:255
+msgid "Kopyalamak için tıkla"
+msgstr ""
+
+#: app/templates/home.html:124
+msgid "Kopyalandı"
+msgstr ""
+
+#: app/templates/home.html:137
+msgid "Uygulamayı İndir"
+msgstr ""
+
+#: app/templates/home.html:142 app/templates/welcome.html:285
+#: app/templates/welcome.html:294
+msgid "İndir"
+msgstr ""
+
+#: app/templates/home.html:152
+msgid "Cihaz Seçin"
+msgstr ""
+
+#: app/templates/home.html:163
+msgid "Kapat"
+msgstr ""
+
+#: app/templates/human_verification.html:3
+msgid "İnsan Doğrulaması"
+msgstr ""
+
+#: app/templates/human_verification.html:124
+msgid "İnsan Mısın?"
+msgstr ""
+
+#: app/templates/human_verification.html:127
+msgid "KeyCord topluluğuna katılmak için kısa bir ritüel."
+msgstr ""
+
+#: app/templates/human_verification.html:128
+msgid "Butona 10 saniye boyunca basılı tutun."
+msgstr ""
+
+#: app/templates/human_verification.html:138
+#: app/templates/human_verification.html:256
+msgid "BASILI TUT"
+msgstr ""
+
+#: app/templates/human_verification.html:149
+msgid "Hazır mısın?"
+msgstr ""
+
+#: app/templates/human_verification.html:186
+msgid "Bırakma..."
+msgstr ""
+
+#: app/templates/human_verification.html:208
+msgid "Çok erken bıraktın!"
+msgstr ""
+
+#: app/templates/human_verification.html:213
+msgid "Tekrar Dene"
+msgstr ""
+
+#: app/templates/human_verification.html:223
+msgid "DOĞRULANDI"
+msgstr ""
+
+#: app/templates/human_verification.html:224
+msgid "Harika! Yönlendiriliyorsun..."
+msgstr ""
+
+#: app/templates/login.html:3 app/templates/login.html:112
+#: app/templates/login.html:137 app/templates/login.html:203
+#: app/templates/login.html:214 app/templates/register.html:264
+#: app/templates/welcome.html:228
+msgid "Giriş Yap"
+msgstr ""
+
+#: app/templates/login.html:88
+msgid "Uçtan uca şifreli, kayıt tutmayan ve tamamen anonim."
+msgstr ""
+
+#: app/templates/login.html:90
+msgid "Gizlilik bir hak değil, yaşam biçimidir."
+msgstr ""
+
+#: app/templates/login.html:104
+msgid "Bağımsız güvenlik taramalarında"
+msgstr ""
+
+#: app/templates/login.html:105
+msgid "A+"
+msgstr ""
+
+#: app/templates/login.html:105
+msgid "ile değerlendirildi"
+msgstr ""
+
+#: app/templates/login.html:118 app/templates/register.html:197
+msgid "E-posta"
+msgstr ""
+
+#: app/templates/login.html:123 app/templates/register.html:205
+msgid "Şifre"
+msgstr ""
+
+#: app/templates/login.html:131
+msgid "Beni Hatırla"
+msgstr ""
+
+#: app/templates/login.html:133
+msgid "Şifremi unuttum"
+msgstr ""
+
+#: app/templates/login.html:152
+msgid "Giriş yapılıyor..."
+msgstr ""
+
+#: app/templates/login.html:172
+msgid "Giriş başarısız."
+msgstr ""
+
+#: app/templates/login.html:177
+msgid "Anahtarlar çözülüyor..."
+msgstr ""
+
+#: app/templates/login.html:193
+msgid ""
+"Giriş başarılı ancak şifreleme anahtarlarınız çözülemedi. Mesajlarınızı "
+"okuyamayabilirsiniz."
+msgstr ""
+
+#: app/templates/login.html:215
+msgid ""
+"KeyCord hesabınıza güvenli bir şekilde giriş yapın. Uçtan uca şifreli ve "
+"anonim mesajlaşma deneyimine devam edin."
+msgstr ""
+
+#: app/templates/login.html:223
+msgid "Hesabın yok mu?"
+msgstr ""
+
+#: app/templates/login.html:224 app/templates/register.html:3
+#: app/templates/register.html:259 app/templates/register.html:424
+#: app/templates/welcome.html:227
+msgid "Kayıt Ol"
+msgstr ""
+
+#: app/templates/messages.html:3
+msgid "KeyCord - Mesajlar"
+msgstr ""
+
+#: app/templates/messages.html:201
+msgid "Profili Gör"
+msgstr ""
+
+#: app/templates/messages.html:218 app/templates/messages.html:343
+msgid "Mesaj çözülüyor..."
+msgstr ""
+
+#: app/templates/messages.html:227
+msgid "Mesaj yaz..."
+msgstr ""
+
+#: app/templates/messages.html:242
+msgid "Sohbet Başlat"
+msgstr ""
+
+#: app/templates/messages.html:244
+msgid "Soldaki listeden bir arkadaşını seç."
+msgstr ""
+
+#: app/templates/messages.html:288
+msgid "🔒 Anahtar yok"
+msgstr ""
+
+#: app/templates/profile.html:3
+msgid "Profilim - KeyCord"
+msgstr ""
+
+#: app/templates/profile.html:16
+msgid "Profil Ayarları"
+msgstr ""
+
+#: app/templates/profile.html:19
+msgid "Kendini ifade et."
+msgstr ""
+
+#: app/templates/profile.html:69 app/templates/register.html:192
+msgid "Kullanıcı Adı"
+msgstr ""
+
+#: app/templates/profile.html:76
+msgid "Hakkında"
+msgstr ""
+
+#: app/templates/profile.html:82
+msgid ""
+"Değişiklikleri\n"
+"                    Kaydet"
+msgstr ""
+
+#: app/templates/profile.html:88
+msgid "Tehlikeli Bölge"
+msgstr ""
+
+#: app/templates/profile.html:91
+msgid ""
+"Hesabınızı sildiğinizde tüm arkadaşlıklarınız, mesajlarınız ve profil "
+"bilgileriniz kalıcı\n"
+"                    olarak silinecektir. Bu işlem geri alınamaz."
+msgstr ""
+
+#: app/templates/profile.html:97
+msgid "Hesabımı Kapat"
+msgstr ""
+
+#: app/templates/profile.html:110
+msgid ""
+"Emin\n"
+"            misiniz?"
+msgstr ""
+
+#: app/templates/profile.html:113
+msgid "Hesabınızı silmek için şifrenizi girmeniz gerekmektedir."
+msgstr ""
+
+#: app/templates/profile.html:119
+msgid "Şifreniz"
+msgstr ""
+
+#: app/templates/profile.html:130
+msgid "EVET, SİL"
+msgstr ""
+
+#: app/templates/register.html:153
+msgid "KeyCord ile tamamen anonim sohbet deneyimi yaşa."
+msgstr ""
+
+#: app/templates/register.html:154
+msgid "Tor ağı üzerinden şifreli iletişim kur, dijital ayak izlerini sil."
+msgstr ""
+
+#: app/templates/register.html:166
+msgid "Sunucuda log tutulmaz, verileriniz sizindir."
+msgstr ""
+
+#: app/templates/register.html:177
+msgid "Merkeziyetsiz ve açık kaynaklı yapı."
+msgstr ""
+
+#: app/templates/register.html:184
+msgid "Yeni Hesap"
+msgstr ""
+
+#: app/templates/register.html:235
+msgid "Şifreyi Onayla"
+msgstr ""
+
+#: app/templates/register.html:237
+msgid "Tekrar giriniz"
+msgstr ""
+
+#: app/templates/register.html:263
+msgid "Hesabın var mı?"
+msgstr ""
+
+#: app/templates/register.html:267
+msgid "Devam ederek Hizmet Şartlarını ve"
+msgstr ""
+
+#: app/templates/register.html:268
+msgid "Açık Rıza Beyanını"
+msgstr ""
+
+#: app/templates/register.html:268
+msgid ""
+"kabul\n"
+"        etmiş sayılırsın."
+msgstr ""
+
+#: app/templates/register.html:425
+msgid ""
+"Yeni bir KeyCord hesabı oluşturun. Tamamen anonim, log tutmayan ve "
+"güvenli iletişim dünyasına katılın."
+msgstr ""
+
+#: app/templates/view_profile.html:258
+msgid "Onaylı Hesap"
+msgstr ""
+
+#: app/templates/view_profile.html:269
+msgid "Profili Düzenle"
+msgstr ""
+
+#: app/templates/view_profile.html:277
+msgid "Engeli Kaldır"
+msgstr ""
+
+#: app/templates/view_profile.html:285
+msgid "Mesaj Gönder"
+msgstr ""
+
+#: app/templates/view_profile.html:301
+msgid "Bu kullanıcıyı engellemek istediğinize emin misiniz?"
+msgstr ""
+
+#: app/templates/view_profile.html:302
+msgid "Engelle"
+msgstr ""
+
+#: app/templates/view_profile.html:313
+msgid "Arkadaş"
+msgstr ""
+
+#: app/templates/view_profile.html:317
+msgid "Sunucu"
+msgstr ""
+
+#: app/templates/view_profile.html:324
+msgid "Hakkımda"
+msgstr ""
+
+#: app/templates/view_profile.html:329
+msgid ""
+"Bu kullanıcı henüz bir\n"
+"                açıklama eklememiş."
+msgstr ""
+
+#: app/templates/welcome.html:3
+msgid "Hoşgeldiniz"
+msgstr ""
+
+#: app/templates/welcome.html:223
+msgid "Gizlilik Odaklı Yeni Nesil Mesajlaşma"
+msgstr ""
+
+#: app/templates/welcome.html:224
+msgid ""
+"KeyCord tamamen uçtan uca şifreleme ve Tor gizliliği ile çalışan modern "
+"bir sohbet\n"
+"                platformudur."
+msgstr ""
+
+#: app/templates/welcome.html:236
+msgid "Aktif Kullanıcı Desteği"
+msgstr ""
+
+#: app/templates/welcome.html:240
+msgid "Tor Gizliliği"
+msgstr ""
+
+#: app/templates/welcome.html:244
+msgid "Şifreleme"
+msgstr ""
+
+#: app/templates/welcome.html:252
+msgid "Tor Adresi"
+msgstr ""
+
+#: app/templates/welcome.html:253
+msgid "Tor Browser ile bağlanın"
+msgstr ""
+
+#: app/templates/welcome.html:256
+msgid "Onion Adresi"
+msgstr ""
+
+#: app/templates/welcome.html:259
+msgid "✓ Kopyalandı!"
+msgstr ""
+
+#: app/templates/welcome.html:265
+msgid "Özellikler"
+msgstr ""
+
+#: app/templates/welcome.html:266
+msgid "Güvenlik için tasarlandı, hız için optimize edildi."
+msgstr ""
+
+#: app/templates/welcome.html:269
+msgid "Tor Üzerinde Tam Gizlilik"
+msgstr ""
+
+#: app/templates/welcome.html:270
+msgid "Güçlü Uçtan Uca Şifreleme"
+msgstr ""
+
+#: app/templates/welcome.html:271
+msgid "Tamamen Açık Kaynak"
+msgstr ""
+
+#: app/templates/welcome.html:276
+msgid "Uygulamalarımızı İndirin"
+msgstr ""
+
+#: app/templates/welcome.html:277
+msgid ""
+"KeyCord her zaman yanınızda. Android ve Windows uygulamalarımızı hemen "
+"edinin."
+msgstr ""
+
+#: app/templates/welcome.html:314
+msgid ""
+"KeyCord, Türkiye tabanlı geliştirilen, gizlilik odaklı ve Tor ağı desteği"
+" sunan yeni nesil bir mesajlaşma platformudur."
+msgstr ""
+
+#: app/templates/email/base_email.html:99
+msgid ""
+"Bu e-postayı, Keycord.org üzerinde oluşturduğunuz abonelik kapsamında "
+"alıyorsunuz."
+msgstr ""
+
+#: app/templates/email/base_email.html:100
+msgid "Abonelikten Ayrıl"
+msgstr ""
+
+#: app/templates/email/verification_email.html:4
+msgid "Hesabınızı Doğrulayın"
+msgstr ""
+
+#: app/templates/email/verification_email.html:5
+msgid "Merhaba,"
+msgstr ""
+
+#: app/templates/email/verification_email.html:6
+msgid ""
+"KeyCord topluluğuna hoş geldiniz! Hesabınızı aktifleştirmek ve güvenli "
+"mesajlaşmaya başlamak için lütfen\n"
+"    aşağıdaki butona tıklayarak e-posta adresinizi doğrulayın."
+msgstr ""
+
+#: app/templates/email/verification_email.html:11
+msgid "E-posta Adresimi Doğrula"
+msgstr ""
+
+#: app/templates/email/verification_email.html:16
+msgid ""
+"Eğer butona tıklayamıyorsanız, aşağıdaki bağlantıyı tarayıcınıza "
+"kopyalayıp yapıştırabilirsiniz:"
+msgstr ""
+
+#: app/templates/email/verification_email.html:23
+msgid "Not:"
+msgstr ""
+
+#: app/templates/email/verification_email.html:23
+msgid ""
+"Keycord; gizliliğe odaklanan, güvenli ve merkeziyetsiz iletişim çözümleri"
+"\n"
+"        üzerinde çalışan bir platformdur. Bu mesaj, sistemsel bir "
+"bilgilendirme amacıyla gönderilmiştir."
+msgstr ""
+
+#~ msgid "Ana Sayfa"
+#~ msgstr ""
+
+#~ msgid "Yardım"
+#~ msgstr ""
+
+#~ msgid "İletişim"
+#~ msgstr ""
+
+#~ msgid "Uygulamaya Git"
+#~ msgstr ""
+
+#~ msgid "Giriş"
+#~ msgstr ""
+
+#~ msgid "Gizlilik Odaklı Mesajlaşma"
+#~ msgstr ""
+
+#~ msgid "Topluluklar"
+#~ msgstr ""
+
+#~ msgid "Keşfet ve Katıl"
+#~ msgstr ""
+
+#~ msgid "Keşfet"
+#~ msgstr ""
+
+#~ msgid "Oluştur"
+#~ msgstr ""
+
+#~ msgid "Topluluk Panosu"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "İlgi alanına göre\n"
+#~ "                topluluklar bul"
+#~ msgstr ""
+
+#~ msgid "Topluluk ara..."
+#~ msgstr ""
+
+#~ msgid "Açıklama yok."
+#~ msgstr ""
+
+#~ msgid "Üye"
+#~ msgstr ""
+
+#~ msgid "Henüz hiç topluluk yok."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Topluluğunu\n"
+#~ "                        Oluştur"
+#~ msgstr ""
+
+#~ msgid "Aradığın topluluk bulunamadı..."
+#~ msgstr ""
+
+#~ msgid "Ayarlar"
+#~ msgstr ""
+
+#~ msgid "üye"
+#~ msgstr ""
+
+#~ msgid "Sohbet"
+#~ msgstr ""
+
+#~ msgid "Topluluk Ayarları"
+#~ msgstr ""
+
+#~ msgid "topluluğunu yönet"
+#~ msgstr ""
+
+#~ msgid "Genel Bilgiler"
+#~ msgstr ""
+
+#~ msgid "Topluluk Adı"
+#~ msgstr ""
+
+#~ msgid "Açıklama"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Sadece\n"
+#~ "                            Yöneticiler Mesaj Atabilir"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Etkinleştirilirse üyeler sadece\n"
+#~ "                            okuyabilir."
+#~ msgstr ""
+
+#~ msgid "Kaydet"
+#~ msgstr ""
+
+#~ msgid "Üyeler"
+#~ msgstr ""
+
+#~ msgid "Kurucu"
+#~ msgstr ""
+
+#~ msgid "Yönetici"
+#~ msgstr ""
+
+#~ msgid "Yöneticiliği Al"
+#~ msgstr ""
+
+#~ msgid "Yönetici Yap"
+#~ msgstr ""
+
+#~ msgid "Üye Yap"
+#~ msgstr ""
+
+#~ msgid "Bu üyeyi topluluktan çıkarmak istediğinize emin misiniz?"
+#~ msgstr ""
+
+#~ msgid "Çıkar"
+#~ msgstr ""
+
+#~ msgid "Ayrılmak istediğine emin misin?"
+#~ msgstr ""
+
+#~ msgid "Ayrıl"
+#~ msgstr ""
+
+#~ msgid "🔒 Şifre çözülüyor..."
+#~ msgstr ""
+
+#~ msgid "Sohbeti başlat!"
+#~ msgstr ""
+
+#~ msgid "Bu topluluğa katılarak sohbete dahil ol!"
+#~ msgstr ""
+
+#~ msgid "Topluluğa Katıl"
+#~ msgstr ""
+
+#~ msgid "Bir şeyler yaz..."
+#~ msgstr ""
+
+#~ msgid "Sadece yöneticiler mesaj gönderebilir."
+#~ msgstr ""
+
+#~ msgid "🔒 Şifre çözülemedi"
+#~ msgstr ""
+
+#~ msgid "Anahtarlar alınamadı"
+#~ msgstr ""
+
+#~ msgid "Mesaj şifrelenemedi: "
+#~ msgstr ""
+
+#~ msgid "Topluluk Oluştur"
+#~ msgstr ""
+
+#~ msgid "Yeni Oluştur"
+#~ msgstr ""
+
+#~ msgid "Kendi Topluluğunu Kur"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "İnsanları bir araya\n"
+#~ "                getir ve sohbeti başlat"
+#~ msgstr ""
+
+#~ msgid "Örn: Oyun Severler"
+#~ msgstr ""
+
+#~ msgid "Bu topluluk ne hakkında?"
+#~ msgstr ""
+
+#~ msgid "Topluluk Resmi"
+#~ msgstr ""
+
+#~ msgid "Resim Yüklemek İçin Tıkla"
+#~ msgstr ""
+
+#~ msgid "İptal"
+#~ msgstr ""
+
+#~ msgid "Resim seçilmedi"
+#~ msgstr ""
+
+#~ msgid "KeyCord - Grup Oluştur"
+#~ msgstr ""
+
+#~ msgid "Yeni Grup Kur"
+#~ msgstr ""
+
+#~ msgid "Arkadaşlarını topla, muhabbete başla."
+#~ msgstr ""
+
+#~ msgid "Grup Adı"
+#~ msgstr ""
+
+#~ msgid "Grubun ismi ne olsun?..."
+#~ msgstr ""
+
+#~ msgid "Arkadaşlarını Seç"
+#~ msgstr ""
+
+#~ msgid "Henüz hiç arkadaşın yok gibi..."
+#~ msgstr ""
+
+#~ msgid "Arkadaş Bul"
+#~ msgstr ""
+
+#~ msgid "Arkadaş ekle..."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Üye\n"
+#~ "                Ekle"
+#~ msgstr ""
+
+#~ msgid "şimdi"
+#~ msgstr ""
+
+#~ msgid "Gruba bir şeyler yaz..."
+#~ msgstr ""
+
+#~ msgid "Mesaj şifrelenirken bir hata oluştu: "
+#~ msgstr ""
+
+#~ msgid "🔑 Anahtar yok"
+#~ msgstr ""
+
+#~ msgid "Genel Ayarlar"
+#~ msgstr ""
+
+#~ msgid "Grup Sohbeti"
+#~ msgstr ""
+
+#~ msgid "Grup Ayarları"
+#~ msgstr ""
+
+#~ msgid "grubunu yönet"
+#~ msgstr ""
+
+#~ msgid "Gruba Dön"
+#~ msgstr ""
+
+#~ msgid "Temel Bilgiler"
+#~ msgstr ""
+
+#~ msgid "Grup Fotoğrafı"
+#~ msgstr ""
+
+#~ msgid "Mevcut"
+#~ msgstr ""
+
+#~ msgid "Dosya"
+#~ msgstr ""
+
+#~ msgid "URL"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Değişiklikleri\n"
+#~ "                        Kaydet"
+#~ msgstr ""
+
+#~ msgid "Yeni Üye Ekle"
+#~ msgstr ""
+
+#~ msgid "Arkadaş seçin..."
+#~ msgstr ""
+
+#~ msgid "Ekle"
+#~ msgstr ""
+
+#~ msgid "Grup Sahibi"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Bu grubun ayarlarını\n"
+#~ "                sadece grup sahibi değiştirebilir."
+#~ msgstr ""
+
+#~ msgid "Bu üyeyi gruptan çıkarmak istediğinize emin misiniz ? "
+#~ msgstr ""
+
+#~ msgid "Hata: "
+#~ msgstr ""
+
+#~ msgid "Bir hata oluştu"
+#~ msgstr ""
+
+#~ msgid "Bildirimler"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "arkadaşlık\n"
+#~ "                            isteği gönderdi."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Yeni\n"
+#~ "                            mesaj."
+#~ msgstr ""
+
+#~ msgid "grubunda yeni mesaj."
+#~ msgstr ""
+
+#~ msgid "Hiç yeni bildirim yok..."
+#~ msgstr ""
+
+#~ msgid "Merhaba"
+#~ msgstr ""
+
+#~ msgid "Bugün neler yapmak istersin?"
+#~ msgstr ""
+
+#~ msgid "Arkadaş Ekle"
+#~ msgstr ""
+
+#~ msgid "Grup Kur"
+#~ msgstr ""
+
+#~ msgid "Kopyalamak için tıkla"
+#~ msgstr ""
+
+#~ msgid "Kopyalandı"
+#~ msgstr ""
+
+#~ msgid "Profil"
+#~ msgstr ""
+
+#~ msgid "Uygulamayı İndir"
+#~ msgstr ""
+
+#~ msgid "İndir"
+#~ msgstr ""
+
+#~ msgid "Cihaz Seçin"
+#~ msgstr ""
+
+#~ msgid "Kapat"
+#~ msgstr ""
+
+#~ msgid "Giriş Yap"
+#~ msgstr ""
+
+#~ msgid "Uçtan uca şifreli, kayıt tutmayan ve tamamen anonim."
+#~ msgstr ""
+
+#~ msgid "Gizlilik bir hak değil, yaşam biçimidir."
+#~ msgstr ""
+
+#~ msgid "Bağımsız güvenlik taramalarında"
+#~ msgstr ""
+
+#~ msgid "A+"
+#~ msgstr ""
+
+#~ msgid "ile değerlendirildi"
+#~ msgstr ""
+
+#~ msgid "E-posta"
+#~ msgstr ""
+
+#~ msgid "Şifre"
+#~ msgstr ""
+
+#~ msgid "Beni Hatırla"
+#~ msgstr ""
+
+#~ msgid "Şifremi unuttum"
+#~ msgstr ""
+
+#~ msgid "Giriş yapılıyor..."
+#~ msgstr ""
+
+#~ msgid "Giriş başarısız."
+#~ msgstr ""
+
+#~ msgid "Anahtarlar çözülüyor..."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Giriş başarılı ancak şifreleme anahtarlarınız"
+#~ " çözülemedi. Mesajlarınızı okuyamayabilirsiniz."
+#~ msgstr ""
+
+#~ msgid "Hesabın yok mu?"
+#~ msgstr ""
+
+#~ msgid "Kayıt Ol"
+#~ msgstr ""
+
+#~ msgid "KeyCord ile tamamen anonim sohbet deneyimi yaşa."
+#~ msgstr ""
+
+#~ msgid "Tor ağı üzerinden şifreli iletişim kur, dijital ayak izlerini sil."
+#~ msgstr ""
+
+#~ msgid "Sunucuda log tutulmaz, verileriniz sizindir."
+#~ msgstr ""
+
+#~ msgid "Merkeziyetsiz ve açık kaynaklı yapı."
+#~ msgstr ""
+
+#~ msgid "Yeni Hesap"
+#~ msgstr ""
+
+#~ msgid "Kullanıcı Adı"
+#~ msgstr ""
+
+#~ msgid "Şifreyi Onayla"
+#~ msgstr ""
+
+#~ msgid "Tekrar giriniz"
+#~ msgstr ""
+
+#~ msgid "Hesabın var mı?"
+#~ msgstr ""
+
+#~ msgid "Devam ederek Hizmet Şartlarını kabul etmiş sayılırsın."
+#~ msgstr ""
+
+#~ msgid "Hoşgeldiniz"
+#~ msgstr ""
+
+#~ msgid "Güvenlik"
+#~ msgstr ""
+
+#~ msgid "Bilgi ve Dokümantasyon"
+#~ msgstr ""
+
+#~ msgid "Gizlilik Odaklı Yeni Nesil Mesajlaşma"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "KeyCord tamamen uçtan uca şifreleme ve"
+#~ " Tor gizliliği ile çalışan modern bir"
+#~ "\n"
+#~ "                    sohbet platformudur."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Giriş\n"
+#~ "                        Yap"
+#~ msgstr ""
+
+#~ msgid "Aktif Kullanıcı Desteği"
+#~ msgstr ""
+
+#~ msgid "Tor Gizliliği"
+#~ msgstr ""
+
+#~ msgid "Şifreleme"
+#~ msgstr ""
+
+#~ msgid "Tor Adresi"
+#~ msgstr ""
+
+#~ msgid "Tor Browser ile bağlanın"
+#~ msgstr ""
+
+#~ msgid "Onion Adresi"
+#~ msgstr ""
+
+#~ msgid "✓ Kopyalandı!"
+#~ msgstr ""
+
+#~ msgid "Özellikler"
+#~ msgstr ""
+
+#~ msgid "Güvenlik için tasarlandı, hız için optimize edildi."
+#~ msgstr ""
+
+#~ msgid "Tor Üzerinde Tam Gizlilik"
+#~ msgstr ""
+
+#~ msgid "Güçlü Uçtan Uca Şifreleme"
+#~ msgstr ""
+
+#~ msgid "Tamamen Açık Kaynak"
+#~ msgstr ""
+
+#~ msgid "Uygulamalarımızı İndirin"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "KeyCord her zaman yanınızda. Android ve"
+#~ " Windows uygulamalarımızı hemen\n"
+#~ "            edinin."
+#~ msgstr ""
+
+#~ msgid "Gizlilik"
+#~ msgstr ""
+
+#~ msgid "Hizmet Şartları"
+#~ msgstr ""
+
+#~ msgid "Lisanslar"
+#~ msgstr ""
+
+#~ msgid "\"%s\" için %s sonuç bulundu:"
+#~ msgstr ""
+
+#~ msgid "%d duyuru"
+#~ msgstr ""
+
+#~ msgid "Şimdi"
+#~ msgstr ""
+
+#~ msgid "Kayıt Tarihi"
+#~ msgstr ""
+
+#~ msgid "Bugün"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "KeyCord, Türkiye tabanlı geliştirilen, "
+#~ "gizlilik odaklı ve Tor ağı desteği "
+#~ "sunan yeni nesil bir mesajlaşma "
+#~ "platformudur. Kullanıcı gizliliğini ve veri"
+#~ " kontrolünü önceliklendiren, Discord’a güvenli"
+#~ " bir alternatif olarak tasarlanmıştır."
+#~ msgstr ""
+
+#~ msgid "gizlilik odaklı mesajlaşma"
+#~ msgstr ""
+
+#~ msgid "Tor destekli mesajlaşma"
+#~ msgstr ""
+
+#~ msgid "Discord alternatifi"
+#~ msgstr ""
+
+#~ msgid "Türkiye mesajlaşma platformu"
+#~ msgstr ""
+
+#~ msgid "güvenli iletişim"
+#~ msgstr ""
+
+#~ msgid "anonim_kullanici"
+#~ msgstr ""
+
+#~ msgid "mail@example.com"
+#~ msgstr ""
+
+#~ msgid "Min. 8 karakter"
+#~ msgstr ""
+
+#~ msgid "Örn: 'Şifre değiştirme', 'Grup kurma'..."
+#~ msgstr ""
+
+#~ msgid "https://..."
+#~ msgstr ""
+
+#~ msgid "••••••••"
+#~ msgstr ""
+
+#~ msgid "Bilgi"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Platformumuz mümkün olan en yüksek "
+#~ "güvenlik seviyesini sağlamak için teknik "
+#~ "ve idari tedbirler\n"
+#~ "                uygular. Ancak %100 güvenlik"
+#~ " garantisi verilemez. İşbu politika, "
+#~ "kullanıcıların haklarına ilişkin genel\n"
+#~ "                çerçeveyi belirler; özel "
+#~ "durumlarda geçerli mevzuat önceliklidir."
+#~ msgstr ""
+
+#~ msgid "Email:"
+#~ msgstr ""
+
