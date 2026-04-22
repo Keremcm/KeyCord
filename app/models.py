@@ -98,8 +98,8 @@ class Community(db.Model):
     owner_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     avatar = db.Column(db.String(255), default='default.png')
     created_at = db.Column(db.DateTime, default=datetime.datetime.utcnow)
-    members = db.Column(db.PickleType, default=list)  # Üye id'leri listesi
-    admins = db.Column(db.PickleType, default=list)   # Yönetici id'leri listesi
+    members = db.Column(db.JSON, default=list)  # Üye id'leri listesi (JSON — PickleType'dan dönüştürüldü, RCE riski ortadan kaldırıldı)
+    admins = db.Column(db.JSON, default=list)   # Yönetici id'leri listesi (JSON)
     only_admin_chat = db.Column(db.Boolean, default=False)  # Sadece yöneticiler mesaj atabilir
 
     owner = db.relationship('User', backref='owned_communities')

@@ -133,7 +133,7 @@ def log_action(event, user=None, ip=None, target=None, extra=None):
 # --- GLOBAL RATE LIMITING (DoS/DDOS) ---
 GLOBAL_RATE_LIMITS = {}  # {ip: [timestamps]}
 GLOBAL_RATE_LIMIT_WINDOW = 60  # saniye
-GLOBAL_RATE_LIMIT_MAX = 10000   # 1 dakikada 10.000 istek
+GLOBAL_RATE_LIMIT_MAX = 400    # 1 dakikada 400 istek (eski: 10.000 — çok yüksekti)
 
 def is_global_rate_limited(ip, max_req=GLOBAL_RATE_LIMIT_MAX, window=GLOBAL_RATE_LIMIT_WINDOW):
     now = time.time()
@@ -156,7 +156,7 @@ def global_rate_limit():
 # --- BRUTE FORCE KORUMASI (login/register) ---
 LOGIN_ATTEMPTS = {}  # {ip: [timestamps]}
 LOGIN_WINDOW = 300  # 5 dakika
-LOGIN_MAX = 100      # 5 dakikada 100 deneme
+LOGIN_MAX = 10      # 5 dakikada 10 deneme (eski: 100 — brute-force'a karşı yetersizdi)
 
 def is_login_limited(ip):
     now = time.time()
@@ -170,7 +170,7 @@ def is_login_limited(ip):
 
 REGISTER_ATTEMPTS = {}  # {ip: [timestamps]}
 REGISTER_WINDOW = 300
-REGISTER_MAX = 100
+REGISTER_MAX = 5  # 5 dakikada 5 kayıt (eski: 100)
 
 def is_register_limited(ip):
     now = time.time()
@@ -535,20 +535,43 @@ def update_user():
         return jsonify({"error": "Geçersiz token."}), 401
 
     user = User.query.get(user_id)
-    data = request.get_json(silent=True)
+    if not user:
+        return jsonify({"error": "Kullanıcı bulunamadı."}), 404
+
+    data = request.get_json(silent=True) or {}
 
     new_username = data.get("username")
     new_email = data.get("email")
     new_password = data.get("password")
 
-    if new_username:
-        user.username = new_username
-    if new_email:
-        user.email = new_email
+    # Şifre değiştirme işlemi: mevcut şifre zorunlu
     if new_password:
+        current_password = data.get("current_password")
+        if not current_password:
+            return jsonify({"error": "Şifre değiştirmek için mevcut şifrenizi girmelisiniz."}), 400
+        if not check_password(current_password, user.password):
+            record_failed_login(request.remote_addr)
+            log_security_event('PASSWORD_CHANGE_FAILED', f'User: {user.username}, IP: {request.remote_addr}')
+            return jsonify({"error": "Mevcut şifre yanlış."}), 403
         user.password = hash_password(new_password)
+        log_security_event('PASSWORD_CHANGED', f'User: {user.username}')
+
+    if new_username:
+        # Kullanıcı adı benzersizlik kontrolü
+        exists = User.query.filter(User.username == new_username, User.id != user_id).first()
+        if exists:
+            return jsonify({"error": "Bu kullanıcı adı zaten alınmış."}), 409
+        user.username = new_username
+
+    if new_email:
+        # E-posta benzersizlik kontrolü
+        exists = User.query.filter(User.email == new_email, User.id != user_id).first()
+        if exists:
+            return jsonify({"error": "Bu e-posta adresi zaten kayıtlı."}), 409
+        user.email = new_email
 
     db.session.commit()
+    log_security_event('USER_UPDATED', f'User: {user.username}')
     return jsonify({"message": "Bilgiler güncellendi."}), 200
 
 @auth_bp.route('/add-friend', methods=['POST'])
@@ -864,13 +887,17 @@ def logout():
 
 @auth_bp.route('/debug-locale')
 def debug_locale():
+    # Sadece oturum açmış kullanıcılara erişim izni
+    user_id = session.get('user_id')
+    if not user_id:
+        log_security_event('UNAUTHORIZED_ACCESS', 'Route: debug_locale')
+        return jsonify({"error": "Yetkilendirme gerekli."}), 401
+
     from app import get_locale
     locale = get_locale()
+    # Hassas config bilgileri çıkarıldı, yalnızca locale devinfo döndürülüyor
     return jsonify({
         "detected_locale": str(locale),
-        "accept_languages": str(request.accept_languages),
-        "babel_default_locale": current_app.config['BABEL_DEFAULT_LOCALE'],
-        "languages": current_app.config['LANGUAGES']
     })
 
 

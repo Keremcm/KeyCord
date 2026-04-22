@@ -37,7 +37,7 @@ def log_action(event, user=None, ip=None, target=None, extra=None):
 # --- SOCKET RATE LIMITING ---
 SOCKET_RATE_LIMITS = {}  # {ip: [timestamps]}
 SOCKET_RATE_LIMIT_WINDOW = 60  # saniye
-SOCKET_RATE_LIMIT_MAX = 1000    # 1 dakikada 1000 event (User Request: loosened)
+SOCKET_RATE_LIMIT_MAX = 120    # 1 dakikada 120 event (eski: 1000 — çok yüksekti)
 
 def is_socket_rate_limited(ip, max_req=SOCKET_RATE_LIMIT_MAX, window=SOCKET_RATE_LIMIT_WINDOW):
     now = time.time()
