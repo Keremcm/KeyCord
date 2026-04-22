@@ -42,12 +42,19 @@ def security_middleware(app):
     def after_request(response):
         # Güvenlik header'larını ekle
         response = add_security_headers(response)
-        
-        # CORS header'ları (gerekirse)
-        response.headers['Access-Control-Allow-Origin'] = '*'
+
+        # CORS header'ları — Whitelist tabanlı, wildcard '*' yasak
+        allowed_origins = current_app.config.get(
+            'ALLOWED_ORIGINS',
+            ['http://127.0.0.1:8005', 'http://localhost:8005']
+        )
+        origin = request.headers.get('Origin', '')
+        if origin in allowed_origins:
+            response.headers['Access-Control-Allow-Origin'] = origin
+            response.headers['Vary'] = 'Origin'
         response.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS'
         response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization, X-CSRF-Token, X-Requested-With'
-        
+
         return response
     
     @app.errorhandler(404)
@@ -200,7 +207,7 @@ def api_security_middleware(app):
             # API rate limiting (daha sıkı)
             client_ip = get_remote_addr()
             identifier = f"api_{client_ip}"
-            if not rate_limit_check(identifier, max_requests=1000, window=60): # Loosened from 50
+            if not rate_limit_check(identifier, max_requests=60, window=60):  # eski: 1000
                 log_security_event('API_RATE_LIMIT', f'IP: {client_ip}')
                 return {'error': 'API rate limit aşıldı.'}, 429
             
@@ -222,7 +229,7 @@ def socket_security_middleware(socketio):
         
         # Rate limiting kontrolü
         identifier = f"socket_connect_{client_ip}"
-        if not rate_limit_check(identifier, max_requests=200, window=60): # Loosened from 10
+        if not rate_limit_check(identifier, max_requests=20, window=60):  # eski: 200
             log_security_event('SOCKET_RATE_LIMIT', f'IP: {client_ip}')
             return False  # Bağlantıyı reddet
     

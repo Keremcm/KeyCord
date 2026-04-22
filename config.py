@@ -15,7 +15,10 @@ class Config:
         SECRET_KEYS = [k.strip() for k in _env_keys.split(',')]
     else:
         # Fallback (Production'da .env'de bu mutlaka tanımlanmalı!)
-        SECRET_KEYS = ['change-me-in-production-for-security']
+        SECRET_KEYS = ['change-me-in-production-and-security']
+
+    if SECRET_KEYS == ['change-me-in-production-and-security']:
+        raise RuntimeError("CRITICAL: SECRET_KEYS must be set in production!")
     
     # Flask standart uyumluluğu için ilk anahtarı set et
     SECRET_KEY = SECRET_KEYS[0] if SECRET_KEYS else None
@@ -52,7 +55,7 @@ class Config:
     MAX_CONTENT_LENGTH = 5 * 1024 * 1024  # 5 MB
     
     # Güvenlik ayarları
-    SESSION_COOKIE_SECURE = False  # HTTPS zorunlu değil (Localhost/HTTP için)
+    SESSION_COOKIE_SECURE = True  # HTTPS zorunlu değil (Localhost/HTTP için)
     SESSION_COOKIE_HTTPONLY = True
     SESSION_COOKIE_SAMESITE = 'Lax'
     SESSION_COOKIE_MAX_AGE = 3600  # 1 saat
@@ -93,10 +96,19 @@ class Config:
     TOKEN_EXPIRY = 3600  # 1 saat
     REMEMBER_TOKEN_EXPIRY = 30 * 24 * 3600  # 30 gün
     
-    # Rate limiting ayarları
-    MAX_REQUESTS_PER_MINUTE = 200
-    MAX_LOGIN_ATTEMPTS = 5
-    LOGIN_LOCKOUT_TIME = 300  # 5 dakika
+    # Rate limiting ayarları (routes.py/middleware.py ile senkronize)
+    MAX_REQUESTS_PER_MINUTE = 400          # Global limit
+    MAX_LOGIN_ATTEMPTS = 10                # 5 dakikada 10 deneme
+    LOGIN_LOCKOUT_TIME = 300               # 5 dakika kilitlenme süresi
+
+    # CORS izin verilen kaynaklar — Wildcard '*' YASAK
+    # Production için .env'de: ALLOWED_ORIGINS=https://keycord.org,https://www.keycord.org
+    _allowed_origins_env = os.environ.get('ALLOWED_ORIGINS', '')
+    ALLOWED_ORIGINS = (
+        [o.strip() for o in _allowed_origins_env.split(',') if o.strip()]
+        if _allowed_origins_env
+        else ['http://127.0.0.1:8005', 'http://localhost:8005']  # Lab varsayılanı
+    )
     
     # Dosya güvenliği
     MAX_FILE_SIZE = 5 * 1024 * 1024  # 5MB
