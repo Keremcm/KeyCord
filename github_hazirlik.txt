@@ -41,3 +41,9 @@ git push
 - Veritabanı dosyasını (`.db`) asla GitHub'a göndermeyin (gitignore zaten bunu engelliyor).
 
 KeyCord artık GitHub'a hazır!
+
+
+## 4. İndirme
+```bash
+git pull origin main
+```
