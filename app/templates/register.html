@@ -391,7 +391,14 @@
       padding: 1.5rem;
     }
   }
+
+  .turnstile-container {
+    margin: 1.5rem 0;
+    display: flex;
+    justify-content: center;
+  }
 </style>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 {% endblock %}
 
 {% block content %}
@@ -532,6 +539,10 @@
         </svg>
         <div class="key-notice-text">{{ _('Kayıt sırasında şifreleme anahtarlarınız yalnızca bu cihazda oluşturulur. Bu
           işlem birkaç saniye sürebilir.') }}</div>
+      </div>
+
+      <div class="turnstile-container">
+        <div class="cf-turnstile" data-sitekey="{{ config.TURNSTILE_SITE_KEY }}" data-theme="dark"></div>
       </div>
 
       <button type="submit" class="reg-submit" id="submitBtn">{{ _('Hesap Oluştur') }}</button>

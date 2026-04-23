@@ -115,7 +115,14 @@
     .holding .progress-ring__circle {
         animation: none;
     }
+
+    .turnstile-container {
+        margin: 2rem 0;
+        display: flex;
+        justify-content: center;
+    }
 </style>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 {% endblock %}
 
 {% block content %}
@@ -137,12 +144,15 @@
             <div id="holdBtn" class="hold-button">
                 {{ _('BASILI TUT') }}
             </div>
-
             <div class="sketch-arrow">
                 <svg width="60" height="60" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M20 20 C 40 10, 70 30, 80 80 M 80 80 L 70 70 M 80 80 L 90 70" />
                 </svg>
             </div>
+        </div>
+
+        <div class="turnstile-container">
+            <div class="cf-turnstile" data-sitekey="{{ config.TURNSTILE_SITE_KEY }}" data-theme="dark"></div>
         </div>
 
         <div class="verification-status" id="statusText">
@@ -228,6 +238,9 @@
         const formData = new URLSearchParams();
         formData.append('csrf_token', "{{ csrf_token if csrf_token else '' }}");
         formData.append('verified', 'true');
+        
+        const turnstileResponse = document.querySelector('[name="cf-turnstile-response"]').value;
+        formData.append('cf-turnstile-response', turnstileResponse);
 
         fetch("{{ url_for('auth.verify_human_api') }}", {
             method: 'POST',

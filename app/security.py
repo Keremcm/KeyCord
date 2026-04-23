@@ -3,6 +3,7 @@ import json
 import hashlib
 import secrets
 import time
+import requests
 from functools import wraps
 from flask import request, jsonify, session, current_app, g, redirect, flash
 from flask_socketio import emit
@@ -360,7 +361,7 @@ def add_security_headers(response):
     response.headers['X-Content-Type-Options'] = 'nosniff'
     response.headers['X-Frame-Options'] = 'DENY'
     response.headers['X-XSS-Protection'] = '1; mode=block'
-    response.headers['Content-Security-Policy'] = "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data:; connect-src 'self' ws: wss:;"
+    response.headers['Content-Security-Policy'] = "default-src 'self'; script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data:; connect-src 'self' https://challenges.cloudflare.com ws: wss:;"
     response.headers['Referrer-Policy'] = 'strict-origin-when-cross-origin'
     response.headers['Permissions-Policy'] = 'geolocation=(), microphone=(), camera=()'
     return response
@@ -423,4 +424,30 @@ def validate_email(email):
     if not re.match(email_pattern, email.strip()):
         return False, "Geçerli bir email adresi girin."
     
-    return True, "Email geçerli." 
+    return True, "Email geçerli."
+
+def verify_turnstile(token):
+    """Cloudflare Turnstile token doğrulama"""
+    secret_key = current_app.config.get('TURNSTILE_SECRET_KEY')
+    if not secret_key:
+        # Secret key ayarlanmamışsa doğrulama atlanır (Geliştirme aşaması için)
+        return True
+        
+    if not token:
+        return False
+        
+    try:
+        response = requests.post(
+            'https://challenges.cloudflare.com/turnstile/v0/siteverify',
+            data={
+                'secret': secret_key,
+                'response': token,
+                'remoteip': get_remote_addr()
+            },
+            timeout=5
+        )
+        outcome = response.json()
+        return outcome.get('success', False)
+    except Exception as e:
+        log_security_event('TURNSTILE_ERROR', f'Error: {str(e)}')
+        return False
