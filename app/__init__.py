@@ -50,7 +50,17 @@ def create_app():
         def __call__(self, environ, start_response):
             # Cloudflare IP'sini environ'a (Flask'ın kalbine) enjekte et
             real_ip = environ.get('HTTP_CF_CONNECTING_IP') or \
+                      environ.get('HTTP_X_REAL_IP') or \
                       environ.get('HTTP_X_FORWARDED_FOR', '').split(',')[0].strip()
+            
+            # Eğer bulunan IP 127.0.0.1 ise ve listede başka IP varsa onları dene
+            if real_ip == '127.0.0.1' and environ.get('HTTP_X_FORWARDED_FOR'):
+                ips = [i.strip() for i in environ.get('HTTP_X_FORWARDED_FOR', '').split(',')]
+                for ip in ips:
+                    if ip != '127.0.0.1':
+                        real_ip = ip
+                        break
+
             if real_ip:
                 environ['REMOTE_ADDR'] = real_ip
             return self.app(environ, start_response)
