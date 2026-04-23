@@ -46,6 +46,12 @@ SECURITY_CONFIG = {
         r'<input[^>]*>',
         r'<textarea[^>]*>',
         r'<select[^>]*>'
+    ],
+    'MALICIOUS_PATTERNS': [
+        r'wget\s+', r'curl\s+', r'chmod\s+', r'rm\s+-rf', r'sudo\s+',
+        r'cat\s+/etc/passwd', r'cat\s+/etc/shadow', r'base64\s+',
+        r'phpinfo\(\)', r'system\(', r'exec\(', r'passthru\(',
+        r'shell_exec\(', r'union\s+select', r'order\s+by\s+\d+'
     ]
 }
 
@@ -141,6 +147,19 @@ def validate_password_strength(password):
         return False, "Şifre en az bir özel karakter içermelidir."
     
     return True, "Şifre güvenli."
+
+def is_malicious_request(text):
+    """URL veya gövdede zararlı komut/pattern kontrolü"""
+    if not text:
+        return False
+    for pattern in SECURITY_CONFIG['MALICIOUS_PATTERNS']:
+        if re.search(pattern, str(text), re.IGNORECASE):
+            return True
+    return False
+
+def check_ban_cookie():
+    """Banned çerezi kontrolü"""
+    return request.cookies.get('kcord_status') == 'banned'
 
 def rate_limit_check(identifier, max_requests=None, window=None):
     """Rate limiting kontrolü"""

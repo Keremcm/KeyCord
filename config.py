@@ -164,7 +164,7 @@ class Config:
     MAIL_METHOD = 'terminal_command'
     
     # Honeypot ayarları
-    HONEYPOT_LIMIT = 1000
+    HONEYPOT_LIMIT = 20  # 1000'den 20'ye düşürüldü
     HONEYPOT_WINDOW = 600  # 10 dakika
 
     # Dil Ayarları

@@ -70,7 +70,8 @@ from .security import (
     record_failed_login, clear_failed_login_attempts, check_login_attempts,
     validate_file_upload, generate_secure_token, verify_secure_token,
     rate_limit_check, validate_user_input, sanitize_message_content,
-    validate_friendship, verify_turnstile, get_remote_addr
+    validate_friendship, verify_turnstile, get_remote_addr,
+    is_malicious_request, check_ban_cookie
 )
 from flask_mail import Mail, Message
 import time
@@ -238,14 +239,29 @@ def allowed_file(filename, fileobj=None):
 
 # 9. IP engelleme (örnek: kara liste)
 BLOCKED_IPS = {"1.2.3.4", "5.6.7.8"}
+TEMP_BLOCKED_IPS = {} # ip -> expiry_timestamp
 @auth_bp.before_app_request
 def block_bad_ips():
     ip = get_remote_addr()
     if ip.startswith("127.") or ip.startswith("192.168."):
         return  # Lokal IP'leri engelleme
-    if ip in BLOCKED_IPS:
-        log_action("BLOCKED_IP", user=None, ip=ip, extra="Kara listede")
-        return "Erişiminiz engellendi.", 403
+        
+    # Kalıcı Ban Kontrolü
+    if ip in BLOCKED_IPS or check_ban_cookie():
+        log_action("BANNED_IP_ATTEMPT", user=None, ip=ip)
+        abort(403, "Bu servise erişiminiz kalıcı olarak engellendi.")
+
+    # Geçici Ban Kontrolü (Honeypot kaynaklı)
+    temp_expiry = TEMP_BLOCKED_IPS.get(ip)
+    if temp_expiry and time.time() < temp_expiry:
+        diff = int(temp_expiry - time.time())
+        abort(403, f"Çok fazla hatalı istek. Erişiminiz {diff} saniye daha kısıtlıdır.")
+
+    # TEK SEFERLİK KALICI BAN: URL'den zararlı pattern kontrolü (wget, chmod vb.)
+    if is_malicious_request(request.url):
+        BLOCKED_IPS.add(ip)
+        log_security_event('MALICIOUS_REQUEST_PERMANENT_BAN', f'IP: {ip}, URL: {request.url}')
+        abort(403, "Kritik güvenlik ihlali. IP adresiniz kalıcı olarak kara listeye alındı.")
 
 # 4. E-posta doğrulama için kayıt sonrası e-posta gönderimi (örnek, gerçek gönderim için Flask-Mail gerekir)
 mail = Mail()
@@ -1533,23 +1549,34 @@ HONEYPOT_COUNT = {}
 HONEYPOT_LIMIT = 1000
 HONEYPOT_WINDOW = 600  # 10 dakika
 
-# @auth_bp.app_errorhandler(404)
+@auth_bp.app_errorhandler(404)
 def fake_404_handler(e):
     ip = get_remote_addr()
     path = request.path
     now = time.time()
+    
+    # Honeypot logu ve geciktirme
     log_action("HONEYPOT_FAKE_PAGE", user=None, ip=ip, extra=f"tried_path={path}")
-    # Saldırganı yavaşlatmak için (ör: 1-2 saniye beklet)
-    time.sleep(random.uniform(1, 2))
-    # Alarm ve engelleme
+    time.sleep(random.uniform(1, 3))
+    
+    # Limit kontrolü
     entries = HONEYPOT_COUNT.get(ip, [])
-    entries = [t for t in entries if now - t < HONEYPOT_WINDOW]
+    entries = [t for t in entries if now - t < current_app.config['HONEYPOT_WINDOW']]
     entries.append(now)
     HONEYPOT_COUNT[ip] = entries
-    if len(entries) > HONEYPOT_LIMIT:
+    
+    if len(entries) > 30: # 30+ deneme -> KALICI BAN
         BLOCKED_IPS.add(ip)
-        log_action("HONEYPOT_BLOCKED", user=None, ip=ip, extra="Çok fazla sahte sayfa denemesi")
-    return random_fake_page(), 200, {'Content-Type': 'text/html'}
+        log_action("HONEYPOT_PERMANENT_BAN", user=None, ip=ip, extra=f"Sürekli tarama tespiti: {path}")
+    elif len(entries) > 5: # 5+ deneme -> GEÇİCİ BAN (30 Dakika)
+        TEMP_BLOCKED_IPS[ip] = time.time() + 1800
+        log_action("HONEYPOT_TEMP_BAN", user=None, ip=ip, extra=f"Hız sınırlama: {path}")
+        
+    # Sahte bir sayfa döndür ve "banned" çerezi ekle
+    response = make_response(random_fake_page())
+    # Çerez her durumda eklenir, tarayıcıyı işaretlemek için
+    response.set_cookie('kcord_status', 'banned', max_age=31536000, httponly=True, samesite='Strict')
+    return response, 200
 
 def random_fake_page():
     # Rastgele sahte başlık ve içerik üret
