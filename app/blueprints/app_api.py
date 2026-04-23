@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify, current_app
 from app import db
 from app.models import User, ChatMessage
-from app.security import require_auth, rate_limit_check, log_security_event, check_login_attempts, record_failed_login, clear_failed_login_attempts
+from app.security import require_auth, rate_limit_check, log_security_event, check_login_attempts, record_failed_login, clear_failed_login_attempts, get_remote_addr
 import time
 
 app_api_bp = Blueprint('app_api', __name__, url_prefix='/api/app/v1')
@@ -12,7 +12,7 @@ def status():
 
 @app_api_bp.route('/login', methods=['POST'])
 def login():
-    ip = request.remote_addr
+    ip = get_remote_addr()
 
     # Brute-force koruması — ana login endpoint'i ile aynı mekanizma
     if not check_login_attempts(ip):

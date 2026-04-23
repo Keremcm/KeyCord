@@ -70,7 +70,7 @@ from .security import (
     record_failed_login, clear_failed_login_attempts, check_login_attempts,
     validate_file_upload, generate_secure_token, verify_secure_token,
     rate_limit_check, validate_user_input, sanitize_message_content,
-    validate_friendship, verify_turnstile
+    validate_friendship, verify_turnstile, get_remote_addr
 )
 from flask_mail import Mail, Message
 import time
@@ -148,7 +148,7 @@ def is_global_rate_limited(ip, max_req=GLOBAL_RATE_LIMIT_MAX, window=GLOBAL_RATE
 
 @auth_bp.before_app_request
 def global_rate_limit():
-    ip = request.remote_addr
+    ip = get_remote_addr()
     if is_global_rate_limited(ip):
         log_action("DDOS_BLOCKED", user=None, ip=ip, extra="Global rate limit aşıldı")
         abort(429, "Çok fazla istek. Lütfen bekleyin.")
@@ -240,7 +240,7 @@ def allowed_file(filename, fileobj=None):
 BLOCKED_IPS = {"1.2.3.4", "5.6.7.8"}
 @auth_bp.before_app_request
 def block_bad_ips():
-    ip = request.remote_addr
+    ip = get_remote_addr()
     if ip.startswith("127.") or ip.startswith("192.168."):
         return  # Lokal IP'leri engelleme
     if ip in BLOCKED_IPS:
@@ -365,14 +365,14 @@ def generate_avatar(name):
 @auth_bp.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
-        ip = request.remote_addr
+        ip = get_remote_addr()
         if is_register_limited(ip):
             flash('Çok fazla kayıt denemesi. Lütfen 5 dakika bekleyin.')
             return redirect(url_for('auth.register'))
             
         REGISTER_ATTEMPTS[ip].append(time.time())
         # Rate limiting kontrolü
-        if not rate_limit_check(f"register_{request.remote_addr}", 5, 300):
+        if not rate_limit_check(f"register_{get_remote_addr()}", 5, 300):
             flash('Çok fazla kayıt denemesi. Lütfen 5 dakika bekleyin.')
             return redirect(url_for('auth.register'))
         
@@ -441,7 +441,7 @@ def register():
         )
         db.session.add(new_user)
         db.session.commit()
-        log_action("REGISTER", user=username, ip=request.remote_addr)
+        log_action("REGISTER", user=username, ip=get_remote_addr())
         
         # Güvenlik logu
         log_security_event('USER_REGISTERED', f'Username: {username}, Email: {email}')
@@ -562,8 +562,8 @@ def update_user():
         if not current_password:
             return jsonify({"error": "Şifre değiştirmek için mevcut şifrenizi girmelisiniz."}), 400
         if not check_password(current_password, user.password):
-            record_failed_login(request.remote_addr)
-            log_security_event('PASSWORD_CHANGE_FAILED', f'User: {user.username}, IP: {request.remote_addr}')
+            record_failed_login(get_remote_addr())
+            log_security_event('PASSWORD_CHANGE_FAILED', f'User: {user.username}, IP: {get_remote_addr()}')
             return jsonify({"error": "Mevcut şifre yanlış."}), 403
         user.password = hash_password(new_password)
         log_security_event('PASSWORD_CHANGED', f'User: {user.username}')
@@ -652,7 +652,7 @@ def add_friend():
     db.session.add(notif)
     
     db.session.commit()
-    log_action("ADD_FRIEND", user=user_id, ip=request.remote_addr, target=friend_username)
+    log_action("ADD_FRIEND", user=user_id, ip=get_remote_addr(), target=friend_username)
 
     if request.is_json:
         return jsonify({"message": f"{friend.username} başarıyla eklendi."}), 201
@@ -783,7 +783,7 @@ def home():
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login_page():
     if request.method == 'POST':
-        ip = request.remote_addr
+        ip = get_remote_addr()
         if is_login_limited(ip):
             flash('Çok fazla başarısız giriş denemesi. Lütfen 5 dakika bekleyin.')
             log_action("BRUTE_FORCE_BLOCK", user=None, ip=ip, extra="login brute force")
@@ -847,7 +847,7 @@ def login_page():
             # Başarılı giriş
             session['user_id'] = user.id
             session['user_agent'] = request.headers.get('User-Agent', '')
-            session['ip_address'] = request.remote_addr
+            session['ip_address'] = get_remote_addr()
             session['last_activity'] = time.time()
             
             # Başarısız giriş denemelerini temizle
@@ -855,7 +855,7 @@ def login_page():
             
             # Güvenlik logu
             log_security_event('LOGIN_SUCCESS', f'User: {user.username}, Email: {email}')
-            log_action("LOGIN_SUCCESS", user=user.username, ip=request.remote_addr)
+            log_action("LOGIN_SUCCESS", user=user.username, ip=get_remote_addr())
             
             response_data = {
                 "message": "Giriş başarılı.",
@@ -889,7 +889,7 @@ def login_page():
             # Başarısız giriş
             record_failed_login(ip)
             log_security_event('LOGIN_FAILED', f'Email: {email}, IP: {ip}')
-            log_action("LOGIN_FAIL", user=email, ip=request.remote_addr)
+            log_action("LOGIN_FAIL", user=email, ip=get_remote_addr())
             
             if request.is_json:
                 return jsonify({"error": "Geçersiz giriş bilgileri."}), 401
@@ -1535,7 +1535,7 @@ HONEYPOT_WINDOW = 600  # 10 dakika
 
 # @auth_bp.app_errorhandler(404)
 def fake_404_handler(e):
-    ip = request.remote_addr
+    ip = get_remote_addr()
     path = request.path
     now = time.time()
     log_action("HONEYPOT_FAKE_PAGE", user=None, ip=ip, extra=f"tried_path={path}")
@@ -1682,7 +1682,7 @@ def create_announcement():
             }, room=f'user_{target_user.id}')
         
         db.session.commit()
-        log_action("ANNOUNCEMENT_CREATED", user=user_id, ip=request.remote_addr, target=title)
+        log_action("ANNOUNCEMENT_CREATED", user=user_id, ip=get_remote_addr(), target=title)
         
         flash("Duyuru başarıyla oluşturuldu ve tüm kullanıcılara bildirim gönderildi.", "success")
         return redirect(url_for('auth.announcements'))
@@ -1892,7 +1892,7 @@ def mark_all_notifications_read():
         db.session.commit()
         
         # Log kaydet
-        log_action("MARK_ALL_NOTIFICATIONS_READ", user=user_id, ip=request.remote_addr, extra=f"Marked {updated_count} notifications as read")
+        log_action("MARK_ALL_NOTIFICATIONS_READ", user=user_id, ip=get_remote_addr(), extra=f"Marked {updated_count} notifications as read")
         
         return jsonify({
             "message": "Tüm bildirimler okundu olarak işaretlendi.",
@@ -2343,7 +2343,7 @@ def remove_community_from_home(community_id):
     # Değişiklikleri veritabanına kaydet
     db.session.commit()
     
-    log_action("REMOVE_COMMUNITY", user=user_id, ip=request.remote_addr, target=community.name)
+    log_action("REMOVE_COMMUNITY", user=user_id, ip=get_remote_addr(), target=community.name)
     
     # AJAX isteği kontrolü
     is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest' or request.content_type == 'application/json'
@@ -2381,7 +2381,7 @@ def join_community(community_id):
         community.members = members
         db.session.commit()
     
-    log_action("JOIN_COMMUNITY", user=user_id, ip=request.remote_addr, target=community.name)
+    log_action("JOIN_COMMUNITY", user=user_id, ip=get_remote_addr(), target=community.name)
     
     # AJAX isteği kontrolü
     is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest' or request.content_type == 'application/json'
@@ -2440,7 +2440,7 @@ def leave_community(community_id):
     # Değişiklikleri veritabanına kaydet
     db.session.commit()
     
-    log_action("LEAVE_COMMUNITY", user=user_id, ip=request.remote_addr, target=community.name)
+    log_action("LEAVE_COMMUNITY", user=user_id, ip=get_remote_addr(), target=community.name)
     
     # AJAX isteği kontrolü
     is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest' or request.content_type == 'application/json'
