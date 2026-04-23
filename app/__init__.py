@@ -40,7 +40,22 @@ def create_app():
 
     # ProxyFix for Nginx/Cloudflare real IP
     from werkzeug.middleware.proxy_fix import ProxyFix
-    app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1)
+    # x_for=2: Cloudflare(1) + Nginx(1) = 2 proxy güvenliği
+    app.wsgi_app = ProxyFix(app.wsgi_app, x_for=2, x_proto=1, x_host=1, x_prefix=1)
+
+    # Standart Flask/Werkzeug Loglarını Gerçek IP ile Güncelleme (WSGI Middleware)
+    class RealIPMiddleware:
+        def __init__(self, app):
+            self.app = app
+        def __call__(self, environ, start_response):
+            # Cloudflare IP'sini environ'a (Flask'ın kalbine) enjekte et
+            real_ip = environ.get('HTTP_CF_CONNECTING_IP') or \
+                      environ.get('HTTP_X_FORWARDED_FOR', '').split(',')[0].strip()
+            if real_ip:
+                environ['REMOTE_ADDR'] = real_ip
+            return self.app(environ, start_response)
+
+    app.wsgi_app = RealIPMiddleware(app.wsgi_app)
 
     # Custom Session Interface (Key Rotation)
     from .session_interface import RotateKeysSessionInterface
