@@ -71,7 +71,8 @@ from .security import (
     validate_file_upload, generate_secure_token, verify_secure_token,
     rate_limit_check, validate_user_input, sanitize_message_content,
     validate_friendship, verify_turnstile, get_remote_addr,
-    is_malicious_request, check_ban_cookie
+    is_malicious_request, check_ban_cookie,
+    load_banned_ips, save_banned_ip
 )
 from flask_mail import Mail, Message
 import time
@@ -238,7 +239,7 @@ def allowed_file(filename, fileobj=None):
     return True
 
 # 9. IP engelleme (örnek: kara liste)
-BLOCKED_IPS = {"1.2.3.4", "5.6.7.8"}
+BLOCKED_IPS = load_banned_ips()
 TEMP_BLOCKED_IPS = {} # ip -> expiry_timestamp
 @auth_bp.before_app_request
 def block_bad_ips():
@@ -259,7 +260,9 @@ def block_bad_ips():
 
     # TEK SEFERLİK KALICI BAN: URL'den zararlı pattern kontrolü (wget, chmod vb.)
     if is_malicious_request(request.url):
-        BLOCKED_IPS.add(ip)
+        if ip not in BLOCKED_IPS:
+            BLOCKED_IPS.add(ip)
+            save_banned_ip(ip)
         log_security_event('MALICIOUS_REQUEST_PERMANENT_BAN', f'IP: {ip}, URL: {request.url}')
         abort(403, "Kritik güvenlik ihlali. IP adresiniz kalıcı olarak kara listeye alındı.")
 
@@ -1566,7 +1569,9 @@ def fake_404_handler(e):
     HONEYPOT_COUNT[ip] = entries
     
     if len(entries) > 30: # 30+ deneme -> KALICI BAN
-        BLOCKED_IPS.add(ip)
+        if ip not in BLOCKED_IPS:
+            BLOCKED_IPS.add(ip)
+            save_banned_ip(ip)
         log_action("HONEYPOT_PERMANENT_BAN", user=None, ip=ip, extra=f"Sürekli tarama tespiti: {path}")
     elif len(entries) > 5: # 5+ deneme -> GEÇİCİ BAN (30 Dakika)
         TEMP_BLOCKED_IPS[ip] = time.time() + 1800

@@ -163,6 +163,28 @@ def check_ban_cookie():
     """Banned çerezi kontrolü"""
     return request.cookies.get('kcord_status') == 'banned'
 
+def load_banned_ips():
+    """Dosyadan yasaklı IP'leri yükle"""
+    import os
+    banned_file = os.path.join(os.getcwd(), 'banned_ips.txt')
+    if not os.path.exists(banned_file):
+        return set()
+    try:
+        with open(banned_file, 'r') as f:
+            return set(line.strip() for line in f if line.strip())
+    except Exception:
+        return set()
+
+def save_banned_ip(ip):
+    """IP'yi dosyaya kalıcı olarak kaydet"""
+    import os
+    banned_file = os.path.join(os.getcwd(), 'banned_ips.txt')
+    try:
+        with open(banned_file, 'a') as f:
+            f.write(f"{ip}\n")
+    except Exception:
+        pass
+
 def rate_limit_check(identifier, max_requests=None, window=None):
     """Rate limiting kontrolü"""
     if max_requests is None:
