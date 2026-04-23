@@ -74,7 +74,25 @@ security_logger = setup_security_logging()
 
 def get_remote_addr():
     """Gerçek IP adresini döndürür (Cloudflare ve Proxy desteğiyle)"""
-    return request.headers.get('CF-Connecting-IP') or request.remote_addr
+    # Cloudflare başlığına öncelik ver
+    cf_ip = request.headers.get('CF-Connecting-IP')
+    if cf_ip and cf_ip != '127.0.0.1':
+        return cf_ip
+        
+    # X-Forwarded-For listesini tara
+    forwarded = request.headers.get('X-Forwarded-For')
+    if forwarded:
+        ips = [i.strip() for i in forwarded.split(',')]
+        for ip in ips:
+            if ip and not ip.startswith('127.') and not ip.startswith('192.168.'):
+                return ip
+                
+    # Diğer standart başlıklar
+    real_ip = request.headers.get('X-Real-IP')
+    if real_ip and real_ip != '127.0.0.1':
+        return real_ip
+        
+    return request.remote_addr
 
 def log_security_event(event_type, details, user_id=None, ip_address=None):
     """Güvenlik olaylarını loglar (Şifreli)"""

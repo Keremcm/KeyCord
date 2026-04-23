@@ -244,27 +244,30 @@ TEMP_BLOCKED_IPS = {} # ip -> expiry_timestamp
 @auth_bp.before_app_request
 def block_bad_ips():
     ip = get_remote_addr()
-    if ip.startswith("127.") or ip.startswith("192.168."):
-        return  # Lokal IP'leri engelleme
-        
-    # Kalıcı Ban Kontrolü
-    if ip in BLOCKED_IPS or check_ban_cookie():
-        log_action("BANNED_IP_ATTEMPT", user=None, ip=ip)
-        abort(403, "Bu servise erişiminiz kalıcı olarak engellendi.")
+    
+    # KRİTİK: Zararlı pattern kontrolü IP'den BAĞIMSIZ yapılmalı.
+    # Lokal IP gibi görünse bile saldırı kodu varsa engelle.
+    if is_malicious_request(request.url) or is_malicious_request(request.get_data(as_text=True)):
+        if ip and not ip.startswith("127."):
+            if ip not in BLOCKED_IPS:
+                BLOCKED_IPS.add(ip)
+                save_banned_ip(ip)
+        log_security_event('MALICIOUS_REQUEST_PERMANENT_BAN', f'IP: {ip}, URL: {request.url}')
+        abort(403, "Kritik güvenlik ihlali tespit edildi.")
 
+    if ip.startswith("127.") or ip.startswith("192.168."):
+        return  # Temiz lokal IP'leri engelleme
+        
     # Geçici Ban Kontrolü (Honeypot kaynaklı)
     temp_expiry = TEMP_BLOCKED_IPS.get(ip)
     if temp_expiry and time.time() < temp_expiry:
         diff = int(temp_expiry - time.time())
         abort(403, f"Çok fazla hatalı istek. Erişiminiz {diff} saniye daha kısıtlıdır.")
 
-    # TEK SEFERLİK KALICI BAN: URL'den zararlı pattern kontrolü (wget, chmod vb.)
-    if is_malicious_request(request.url):
-        if ip not in BLOCKED_IPS:
-            BLOCKED_IPS.add(ip)
-            save_banned_ip(ip)
-        log_security_event('MALICIOUS_REQUEST_PERMANENT_BAN', f'IP: {ip}, URL: {request.url}')
-        abort(403, "Kritik güvenlik ihlali. IP adresiniz kalıcı olarak kara listeye alındı.")
+    # IP veya Çerez tabanlı ban kontrolü
+    if ip in BLOCKED_IPS or check_ban_cookie():
+        log_action("BANNED_IP_ATTEMPT", user=None, ip=ip)
+        abort(403, "Bu servise erişiminiz kalıcı olarak engellendi.")
 
 # 4. E-posta doğrulama için kayıt sonrası e-posta gönderimi (örnek, gerçek gönderim için Flask-Mail gerekir)
 mail = Mail()
