@@ -26,6 +26,10 @@ class Config:
     DATABASE_KEY = os.environ.get('DATABASE_KEY')
     LOG_ENCRYPTION_KEY = os.environ.get('LOG_ENCRYPTION_KEY')
     
+    # Cloudflare Turnstile Ayarları
+    TURNSTILE_SITE_KEY = os.environ.get('TURNSTILE_SITE_KEY')
+    TURNSTILE_SECRET_KEY = os.environ.get('TURNSTILE_SECRET_KEY')
+    
     # Ana dizini al ve instance klasörünün tam yolunu belirle
     _basedir = os.path.abspath(os.path.dirname(__file__))
     _instance_path = os.path.join(_basedir, 'instance')
@@ -74,7 +78,7 @@ class Config:
         'X-Frame-Options': 'DENY',
         'X-XSS-Protection': '1; mode=block',
         'Strict-Transport-Security': 'max-age=31536000; includeSubDomains',
-        'Content-Security-Policy': "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' ws://127.0.0.1:* wss://127.0.0.1:*; font-src 'self';",
+        'Content-Security-Policy': "default-src 'self'; script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://challenges.cloudflare.com ws://127.0.0.1:* wss://127.0.0.1:*; font-src 'self';",
         'Referrer-Policy': 'strict-origin-when-cross-origin',
         'Permissions-Policy': 'geolocation=(), microphone=(), camera=()'
     }

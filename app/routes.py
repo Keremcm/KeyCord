@@ -70,7 +70,7 @@ from .security import (
     record_failed_login, clear_failed_login_attempts, check_login_attempts,
     validate_file_upload, generate_secure_token, verify_secure_token,
     rate_limit_check, validate_user_input, sanitize_message_content,
-    validate_friendship
+    validate_friendship, verify_turnstile
 )
 from flask_mail import Mail, Message
 import time
@@ -369,10 +369,17 @@ def register():
         if is_register_limited(ip):
             flash('Çok fazla kayıt denemesi. Lütfen 5 dakika bekleyin.')
             return redirect(url_for('auth.register'))
+            
         REGISTER_ATTEMPTS[ip].append(time.time())
         # Rate limiting kontrolü
         if not rate_limit_check(f"register_{request.remote_addr}", 5, 300):
             flash('Çok fazla kayıt denemesi. Lütfen 5 dakika bekleyin.')
+            return redirect(url_for('auth.register'))
+        
+        # Cloudflare Turnstile doğrulama
+        turnstile_token = request.form.get('cf-turnstile-response')
+        if not verify_turnstile(turnstile_token):
+            flash('Lütfen insan olduğunuzu doğrulayın.')
             return redirect(url_for('auth.register'))
         
         # Input validasyonu ve sanitization
@@ -487,6 +494,11 @@ def verify_human_api():
         data = request.get_json(silent=True) or {}
     except Exception:
         data = {}
+
+    # Cloudflare Turnstile doğrulama
+    turnstile_token = request.form.get('cf-turnstile-response')
+    if not verify_turnstile(turnstile_token):
+        return jsonify({"error": "Lütfen insan olduğunuzu doğrulayın (Turnstile)."}), 400
 
     # Güvenlik Logu
     log_security_event('HUMAN_VERIFICATION_COMPLETE', f'Username: {user.username}')
@@ -793,6 +805,18 @@ def login_page():
             raw_password = request.form.get('password', '').strip()
             password = LoginRSA.decrypt(raw_password)
             remember = request.form.get('remember') == 'on'
+        
+        # Cloudflare Turnstile doğrulama
+        turnstile_token = request.form.get('cf-turnstile-response')
+        if not turnstile_token and request.is_json:
+            data = request.get_json(silent=True) or {}
+            turnstile_token = data.get('cf-turnstile-response')
+            
+        if not verify_turnstile(turnstile_token):
+            if request.is_json:
+                return jsonify({"error": "Lütfen insan olduğunuzu doğrulayın."}), 400
+            flash('Lütfen insan olduğunuzu doğrulayın.')
+            return render_template('login.html', csrf_token=generate_csrf_token())
         
         # Input validasyonu
         if not email or not password:
