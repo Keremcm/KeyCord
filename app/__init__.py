@@ -57,6 +57,22 @@ def create_app():
 
     app.wsgi_app = RealIPMiddleware(app.wsgi_app)
 
+    # --- Werkzeug Terminal Loglarını Yamalama (Monkey-Patch) ---
+    # Bu kısım terminaldeki "127.0.0.1 - - [date] GET..." satırlarını düzeltir
+    try:
+        import werkzeug.serving
+        parent_address_string = werkzeug.serving.WSGIRequestHandler.address_string
+        
+        def patched_address_string(self):
+            # Headers içinden gerçek IP'yi ara
+            real_ip = self.headers.get('CF-Connecting-IP') or \
+                      self.headers.get('X-Forwarded-For', '').split(',')[0].strip()
+            return real_ip if real_ip else parent_address_string(self)
+            
+        werkzeug.serving.WSGIRequestHandler.address_string = patched_address_string
+    except (ImportError, AttributeError):
+        pass
+
     # Custom Session Interface (Key Rotation)
     from .session_interface import RotateKeysSessionInterface
     app.session_interface = RotateKeysSessionInterface()
