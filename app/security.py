@@ -48,10 +48,10 @@ SECURITY_CONFIG = {
         r'<select[^>]*>'
     ],
     'MALICIOUS_PATTERNS': [
-        r'wget\s+', r'curl\s+', r'chmod\s+', r'rm\s+-rf', r'sudo\s+',
-        r'cat\s+/etc/passwd', r'cat\s+/etc/shadow', r'base64\s+',
-        r'phpinfo\(\)', r'system\(', r'exec\(', r'passthru\(',
-        r'shell_exec\(', r'union\s+select', r'order\s+by\s+\d+'
+        r'wget', r'curl', r'chmod', r'rm\s+-rf', r'sudo\s+',
+        r'cat\s+/etc', r'base64', r'phpinfo', r'system\(',
+        r'exec\(', r'passthru', r'shell_exec', r'union\s+select',
+        r'order\s+by'
     ]
 }
 
@@ -152,8 +152,10 @@ def is_malicious_request(text):
     """URL veya gövdede zararlı komut/pattern kontrolü"""
     if not text:
         return False
+    from urllib.parse import unquote
+    decoded_text = unquote(str(text))
     for pattern in SECURITY_CONFIG['MALICIOUS_PATTERNS']:
-        if re.search(pattern, str(text), re.IGNORECASE):
+        if re.search(pattern, decoded_text, re.IGNORECASE):
             return True
     return False
 
