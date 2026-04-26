@@ -1898,19 +1898,25 @@ def add_member(group_id):
         flash('Bu işlemi yapmaya yetkiniz yok.', 'danger')
         return redirect(url_for('auth.group_chat', group_id=group_id))
     
-    username = request.form.get('username')
-    user_to_add = User.query.filter_by(username=username).first()
+    # Kullanıcıyı bul
+    friend_id = request.form.get('friend_id')
+    user_to_add = User.query.get(friend_id)
     
     if not user_to_add:
         flash('Kullanıcı bulunamadı.', 'danger')
         return redirect(url_for('auth.group_settings', group_id=group_id))
     
+    # Zaten üye mi?
+    from .models import Group
+    db_group = Group.query.get(group_id)
+    if user_to_add in db_group.members:
+        flash('Bu kullanıcı zaten grubun üyesi.', 'warning')
+        return redirect(url_for('auth.group_settings', group_id=group_id))
+
     # Kullanıcıyı gruba ekle
-    success = add_user_to_group(group_id, user_to_add.id)
-    if success:
-        flash(f'{username} gruba eklendi.', 'success')
-    else:
-        flash('Kullanıcı gruba eklenirken hata oluştu.', 'danger')
+    db_group.members.append(user_to_add)
+    db.session.commit()
+    flash(f'{user_to_add.username} gruba eklendi.', 'success')
     
     return redirect(url_for('auth.group_settings', group_id=group_id))
 
@@ -1920,45 +1926,22 @@ def remove_member(group_id, member_id):
     if not user_id:
         return redirect(url_for('auth.login_page'))
     
-    from .utils import get_user_groups
-    import json
-    import os
+    from .models import Group, User
+    group = Group.query.get(group_id)
     
-    # Kullanıcının grup sahibi olup olmadığını kontrol et
-    groups = get_user_groups(user_id)
-    group = next((g for g in groups if g['id'] == group_id), None)
+    if not group or group.owner_id != user_id:
+        return jsonify({"success": False, "message": "Bu işlemi yapmaya yetkiniz yok."}), 403
     
-    if not group or group['owner_id'] != user_id:
-        flash('Bu işlemi yapmaya yetkiniz yok.', 'danger')
-        return redirect(url_for('auth.group_chat', group_id=group_id))
+    if member_id == group.owner_id:
+        return jsonify({"success": False, "message": "Grup sahibini çıkaramazsınız."}), 400
     
-    # Grup sahibini çıkaramayız
-    if member_id == group['owner_id']:
-        flash('Grup sahibini çıkaramazsınız.', 'danger')
-        return redirect(url_for('auth.group_settings', group_id=group_id))
+    user_to_remove = User.query.get(member_id)
+    if user_to_remove in group.members:
+        group.members.remove(user_to_remove)
+        db.session.commit()
+        return jsonify({"success": True, "message": "Üye gruptan çıkarıldı."})
     
-    # JSON dosyasını güncelle
-    GROUPS_FILE = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'instance', 'groups.json')
-    
-    if os.path.exists(GROUPS_FILE):
-        with open(GROUPS_FILE, "r") as f:
-            all_groups = json.load(f)
-        
-        # İlgili grubu bul ve üyeyi çıkar
-        for g in all_groups:
-            if g['id'] == group_id:
-                if member_id in g['members']:
-                    g['members'].remove(member_id)
-                    flash('Üye gruptan çıkarıldı.', 'success')
-                else:
-                    flash('Üye grupta bulunamadı.', 'danger')
-                break
-        
-        # Dosyayı kaydet
-        with open(GROUPS_FILE, "w") as f:
-            json.dump(all_groups, f)
-    
-    return redirect(url_for('auth.group_settings', group_id=group_id))
+    return jsonify({"success": False, "message": "Üye grupta bulunamadı."})
 
 
 # Topluluklar (Communities) sayfası

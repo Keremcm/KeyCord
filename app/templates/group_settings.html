@@ -88,6 +88,7 @@
         {% if is_owner %}
         <form method="POST" enctype="multipart/form-data"
             action="{{ url_for('auth.group_settings', group_id=group.id) }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
             <!-- Basic Info -->
             <div class="scribble-border"
@@ -166,6 +167,7 @@
                 </h3>
                 <form method="POST" action="{{ url_for('auth.add_member', group_id=group.id) }}"
                     style="display: flex; gap: 1rem; align-items: center;">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                     <select name="friend_id" required
                         style="flex: 1; background: transparent; border: 2px solid rgba(255,255,255,0.2); border-radius: 12px; padding: 0.8rem; color: var(--chalk); font-family: 'Caveat'; font-size: 1.2rem;">
                         <option value="" disabled selected>{{ _('Arkadaş seçin...') }}</option>
@@ -271,7 +273,10 @@
 
     fetch('/group/{{ group.id }}/remove_member/' + memberId, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' }
+        headers: { 
+            'Content-Type': 'application/json',
+            'X-CSRFToken': '{{ csrf_token() }}'
+        }
     })
         .then(response => {
             if (!response.ok) throw new Error('Network response was not ok');
