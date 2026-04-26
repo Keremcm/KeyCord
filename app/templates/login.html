@@ -405,13 +405,7 @@
     }
   }
 
-  .turnstile-container {
-    margin: 1.5rem 0;
-    display: flex;
-    justify-content: center;
-  }
 </style>
-<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 {% endblock %}
 
 {% block content %}
@@ -533,9 +527,7 @@
           <a href="{{ url_for('auth.forgot_password') }}" class="forgot-link">{{ _('Şifremi unuttum') }}</a>
         </div>
 
-        <div class="turnstile-container">
-          <div class="cf-turnstile" data-sitekey="{{ config.TURNSTILE_SITE_KEY }}" data-theme="dark"></div>
-        </div>
+
 
         <button type="submit" class="login-submit" id="loginBtn">{{ _('Giriş Yap') }}</button>
       </form>
@@ -576,7 +568,6 @@
       const formData = new FormData(form);
       const data = Object.fromEntries(formData.entries());
       data.remember = form.querySelector('[name="remember"]').checked;
-      data['cf-turnstile-response'] = formData.get('cf-turnstile-response');
 
       // ── Client-Side Encryption Setup ──
       const rawPublicKey = document.getElementById('rsa-pub-key').textContent.trim();
