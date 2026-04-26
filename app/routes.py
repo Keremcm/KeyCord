@@ -719,18 +719,6 @@ def login_page():
             password = LoginRSA.decrypt(raw_password)
             remember = request.form.get('remember') == 'on'
         
-        # Cloudflare Turnstile doğrulama
-        turnstile_token = request.form.get('cf-turnstile-response')
-        if not turnstile_token and request.is_json:
-            data = request.get_json(silent=True) or {}
-            turnstile_token = data.get('cf-turnstile-response')
-            
-        if not verify_turnstile(turnstile_token):
-            if request.is_json:
-                return jsonify({"error": "Lütfen insan olduğunuzu doğrulayın."}), 400
-            flash('Lütfen insan olduğunuzu doğrulayın.')
-            return render_template('login.html', csrf_token=generate_csrf_token())
-        
         # Input validasyonu
         if not email or not password:
             record_failed_login(ip)
