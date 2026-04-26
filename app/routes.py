@@ -74,18 +74,14 @@ from .security import (
     is_malicious_request, check_ban_cookie,
     load_banned_ips, save_banned_ip
 )
-from flask_mail import Mail, Message
 import time
 import logging
 import random
 import string
 import marshmallow as ma
 import mimetypes
-import smtplib
 import subprocess
 import shutil
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
 
 auth_bp = Blueprint("auth", __name__)
 main_bp = Blueprint("main", __name__)
@@ -270,111 +266,6 @@ def block_bad_ips():
         abort(403, "Bu servise erişiminiz kalıcı olarak engellendi.")
 
 # 4. E-posta doğrulama için kayıt sonrası e-posta gönderimi (örnek, gerçek gönderim için Flask-Mail gerekir)
-mail = Mail()
-# Flask-Mail ayarları (config.py'ye eklemen gerekir)
-# app.config['MAIL_SERVER'] = 'smtp.gmail.com'
-# app.config['MAIL_PORT'] = 587
-# app.config['MAIL_USE_TLS'] = True
-# app.config['MAIL_USERNAME'] = 'your_email@gmail.com'
-# app.config['MAIL_PASSWORD'] = 'your_app_password'
-# app.config['MAIL_DEFAULT_SENDER'] = 'your_email@gmail.com'
-
-# Kullanıcı modeline ekle (models.py):
-# is_verified = db.Column(db.Boolean, default=False)
-
-def send_verification_email(email, token):
-    # Config'den ayarları al
-    mail_server = current_app.config.get('MAIL_SERVER', '127.0.0.1')
-    mail_port = current_app.config.get('MAIL_PORT', 25)
-    mail_senders = current_app.config.get('MAIL_SENDERS', {})
-    
-    # Gönderici: no-reply alias'ı veya default sender
-    sender = mail_senders.get('no-reply', current_app.config.get('MAIL_DEFAULT_SENDER'))
-    konu = "KeyCord - E-posta Doğrulama"
-    verify_url = url_for('auth.verify_email', token=token, _external=True)
-    
-    # Render Plain Text and HTML bodies
-    mesaj_text = f"Merhaba,\n\nHesabınızı doğrulamak için bu linke tıklayın: {verify_url}\n\nKeycord; gizliliğe odaklanan, güvenli ve merkeziyetsiz iletişim çözümleri üzerinde çalışan bir platformdur.\n\nKeycord Ekibi"
-    mesaj_html = render_template('email/verification_email.html', verify_url=verify_url)
-
-    # Construct Multipart Message
-    msg = MIMEMultipart("alternative")
-    msg["Subject"] = konu
-    msg["From"] = sender
-    msg["To"] = email
-    
-    # Özel Headerlar
-    msg["List-Unsubscribe"] = "<mailto:unsubscribe@keycord.org>, <https://keycord.org/unsubscribe>"
-    msg["X-Entity-Ref-ID"] = generate_secure_token() # Deliverability için
-    
-    part1 = MIMEText(mesaj_text, "plain", "utf-8")
-    part2 = MIMEText(mesaj_html, "html", "utf-8")
-    
-    msg.attach(part1)
-    msg.attach(part2)
-
-    try:
-        # Yöntem Kontrolü: SMTP vs Command Line
-        mail_method = current_app.config.get('MAIL_METHOD', 'smtp')
-
-        if mail_method == 'terminal_command':
-            # Linux 'mail' komutu veya 'sendmail' (Postfix/Exim)
-            # HTML desteği için sendmail daha güvenilirdir
-            sendmail_cmd = shutil.which("sendmail") or shutil.which("/usr/sbin/sendmail")
-            
-            if sendmail_cmd:
-                # Sendmail standard input üzerinden tüm raw mesajı (headerlar dahil) alır
-                process = subprocess.Popen(
-                    [sendmail_cmd, "-t", "-f", sender],
-                    stdin=subprocess.PIPE,
-                    stdout=subprocess.PIPE,
-                    stderr=subprocess.PIPE,
-                    text=True
-                )
-                stdout, stderr = process.communicate(input=msg.as_string())
-                
-                if process.returncode == 0:
-                    print(f"Sendmail ile e-posta gönderildi: {email}")
-                else:
-                    print(f"Sendmail Hatası: {stderr}")
-            else:
-                # Fallback to 'mail' command if sendmail is missing
-                mail_cmd_path = shutil.which("mail")
-                if not mail_cmd_path:
-                    print("Hata: Ne 'sendmail' ne de 'mail' komutu sunucuda bulunamadı.")
-                    return
-
-                # Note: 'mail' command handling of HTML and custom headers varies by implementation
-                command = [mail_cmd_path, '-r', sender, '-s', konu, email]
-                process = subprocess.Popen(
-                    command, 
-                    stdin=subprocess.PIPE, 
-                    stdout=subprocess.PIPE, 
-                    stderr=subprocess.PIPE, 
-                    text=True
-                )
-                process.communicate(input=mesaj_text) # Fallback to text for local mail command
-                print("Hata: 'sendmail' bulunamadığı için sadece düz metin e-posta gönderildi.")
-
-        else:
-            # Standart SMTP Gönderimi
-            with smtplib.SMTP(mail_server, mail_port) as server:
-                # Eğer auth gerekirse:
-                username = current_app.config.get('MAIL_USERNAME')
-                password = current_app.config.get('MAIL_PASSWORD')
-                
-                if current_app.config.get('MAIL_USE_TLS'):
-                    server.starttls()
-                
-                if username and password:
-                    server.login(username, password)
-                
-                server.send_message(msg)
-                print(f"SMTP ile e-posta gönderildi: {email} (Sender: {sender})")
-
-    except Exception as e:
-        print(f"E-posta gönderim hatası ({mail_server}:{mail_port}):", e)
-
 # Local Avatar Generator Route
 @auth_bp.route('/avatar/<name>')
 def generate_avatar(name):
@@ -1591,24 +1482,6 @@ def random_fake_page():
     title = ''.join(random.choices(string.ascii_letters + string.digits, k=12))
     content = ''.join(random.choices(string.ascii_letters + string.digits + " ", k=100))
     return f"<html><head><title>{title}</title></head><body><h1>{title}</h1><p>{content}</p></body></html>"
-
-@auth_bp.route('/verify-email/<token>')
-def verify_email(token):
-    user_id = verify_token(token)
-    if not user_id:
-        flash("Geçersiz veya süresi dolmuş doğrulama linki.", "danger")
-        return redirect(url_for('auth.login_page'))
-    user = User.query.get(user_id)
-    if not user:
-        flash("Kullanıcı bulunamadı.", "danger")
-        return redirect(url_for('auth.login_page'))
-    if getattr(user, "is_verified", False):
-        flash("Hesabınız zaten doğrulanmış.", "info")
-        return redirect(url_for('auth.login_page'))
-    user.is_verified = True
-    db.session.commit()
-    flash("E-posta adresiniz başarıyla doğrulandı. Artık giriş yapabilirsiniz.", "success")
-    return redirect(url_for('auth.login_page'))
 
 @auth_bp.before_app_request
 def refresh_session():
