@@ -1,6 +1,5 @@
 
 Flask
-Flask-Mail
 Flask-Login
 Flask-SQLAlchemy
 Flask-SocketIO

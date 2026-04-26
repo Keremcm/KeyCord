@@ -142,27 +142,6 @@ class Config:
     MAX_ABOUT_LENGTH = 500
     MAX_GAMES_LENGTH = 200
     
-    # Flask-Mail ayarları
-    MAIL_SERVER = os.environ.get('MAIL_SERVER', '127.0.0.1')
-    MAIL_PORT = int(os.environ.get('MAIL_PORT', 25))
-    MAIL_USE_TLS = os.environ.get('MAIL_USE_TLS', 'False').lower() == 'true'
-    MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
-    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
-    MAIL_DEFAULT_SENDER = os.environ.get('MAIL_DEFAULT_SENDER', 'info@keycord.org')
-    
-    # E-posta Hesapları
-    MAIL_SENDERS = {
-        'info': 'info@keycord.org',
-        'contact': 'contact@keycord.org',
-        'support': 'support@keycord.org',
-        'no-reply': 'no-reply@keycord.org',
-        'admin': 'admin@keycord.org'
-    }
-    
-    # E-posta Gönderim Yöntemi ('smtp' veya 'terminal_command')
-    # Linux üzerinde yerel Postfix kullanıyorsanız ve environment variable kullanmıyorsanız:
-    MAIL_METHOD = 'terminal_command'
-    
     # Honeypot ayarları
     HONEYPOT_LIMIT = 20  # 1000'den 20'ye düşürüldü
     HONEYPOT_WINDOW = 600  # 10 dakika
