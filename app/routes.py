@@ -70,7 +70,7 @@ from .security import (
     record_failed_login, clear_failed_login_attempts, check_login_attempts,
     validate_file_upload, generate_secure_token, verify_secure_token,
     rate_limit_check, validate_user_input, sanitize_message_content,
-    validate_friendship, verify_turnstile, get_remote_addr,
+    validate_friendship, get_remote_addr,
     is_malicious_request, check_ban_cookie,
     load_banned_ips, save_banned_ip
 )
@@ -289,11 +289,7 @@ def register():
             flash('Çok fazla kayıt denemesi. Lütfen 5 dakika bekleyin.')
             return redirect(url_for('auth.register'))
         
-        # Cloudflare Turnstile doğrulama
-        turnstile_token = request.form.get('cf-turnstile-response')
-        if not verify_turnstile(turnstile_token):
-            flash('Lütfen insan olduğunuzu doğrulayın.')
-            return redirect(url_for('auth.register'))
+
         
         # Input validasyonu ve sanitization
         username = request.form.get('username', '').strip()
@@ -408,10 +404,7 @@ def verify_human_api():
     except Exception:
         data = {}
 
-    # Cloudflare Turnstile doğrulama
-    turnstile_token = request.form.get('cf-turnstile-response')
-    if not verify_turnstile(turnstile_token):
-        return jsonify({"error": "Lütfen insan olduğunuzu doğrulayın (Turnstile)."}), 400
+
 
     # Güvenlik Logu
     log_security_event('HUMAN_VERIFICATION_COMPLETE', f'Username: {user.username}')
