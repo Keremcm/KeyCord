@@ -116,13 +116,7 @@
         animation: none;
     }
 
-    .turnstile-container {
-        margin: 2rem 0;
-        display: flex;
-        justify-content: center;
-    }
-</style>
-<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
 {% endblock %}
 
 {% block content %}
@@ -151,9 +145,7 @@
             </div>
         </div>
 
-        <div class="turnstile-container">
-            <div class="cf-turnstile" data-sitekey="{{ config.TURNSTILE_SITE_KEY }}" data-theme="dark"></div>
-        </div>
+
 
         <div class="verification-status" id="statusText">
             {{ _('Hazır mısın?') }}
@@ -239,8 +231,7 @@
         formData.append('csrf_token', "{{ csrf_token if csrf_token else '' }}");
         formData.append('verified', 'true');
         
-        const turnstileResponse = document.querySelector('[name="cf-turnstile-response"]').value;
-        formData.append('cf-turnstile-response', turnstileResponse);
+
 
         fetch("{{ url_for('auth.verify_human_api') }}", {
             method: 'POST',
