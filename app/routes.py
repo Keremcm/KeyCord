@@ -66,7 +66,7 @@ import uuid
 from flask_socketio import emit, join_room
 from .security import (
     require_auth, require_csrf, generate_csrf_token, validate_password_strength,
-    validate_username, validate_email, sanitize_input, log_security_event,
+    validate_username, validate_nickname, sanitize_input, log_security_event,
     record_failed_login, clear_failed_login_attempts, check_login_attempts,
     validate_file_upload, generate_secure_token, verify_secure_token,
     rate_limit_check, validate_user_input, sanitize_message_content,
@@ -183,7 +183,7 @@ def is_register_limited(ip):
 # 5. Kapsamlı input validation için örnek Marshmallow şeması:
 class RegisterSchema(ma.Schema):
     username = ma.fields.Str(required=True, validate=ma.validate.Length(min=3, max=20))
-    email = ma.fields.Email(required=True)
+    nickname = ma.fields.Str(required=True, validate=ma.validate.Length(min=2, max=50))
     password = ma.fields.Str(required=True, validate=ma.validate.Length(min=8))
     confirm_password = ma.fields.Str(required=True)
 
@@ -293,15 +293,15 @@ def register():
         
         # Input validasyonu ve sanitization
         username = request.form.get('username', '').strip()
-        email = request.form.get('email', '').strip()
+        nickname = request.form.get('nickname', '').strip()
         password = request.form.get('password', '').strip()
         confirm_password = request.form.get('confirm_password', '').strip()
         
         # Input sanitization
         username = sanitize_input(username)
-        email = sanitize_input(email)
+        nickname = sanitize_input(nickname)
         
-        if username is None or email is None:
+        if username is None or nickname is None:
             flash('Geçersiz karakterler tespit edildi.')
             return redirect(url_for('auth.register'))
         
@@ -311,10 +311,10 @@ def register():
             flash(username_error)
             return redirect(url_for('auth.register'))
         
-        # Email validasyonu
-        is_valid_email, email_error = validate_email(email)
-        if not is_valid_email:
-            flash(email_error)
+        # Nickname validasyonu
+        is_valid_nickname, nickname_error = validate_nickname(nickname)
+        if not is_valid_nickname:
+            flash(nickname_error)
             return redirect(url_for('auth.register'))
         
         # Şifre gücü kontrolü
@@ -333,15 +333,15 @@ def register():
             flash('Bu kullanıcı adı zaten alınmış.')
             return redirect(url_for('auth.register'))
         
-        # Email benzersizlik kontrolü
-        if User.query.filter_by(email=email).first():
-            flash('Bu email zaten kayıtlı.')
-            return redirect(url_for('auth.register'))
+        # Nickname benzersizlik kontrolü (Opsiyonel, display name olarak kullanılacaksa unique olmayabilir ama şimdilik nickname için check yapalım)
+        # Ancak kullanıcı isim/nickname isteyelim dediği için nickname'i de unique yapabiliriz ya da sadece username yeterli.
+        # Kullanıcı login için username kullanacak.
+        pass
         
         # Kullanıcı oluştur
         new_user = User(
             username=username,
-            email=email,
+            nickname=nickname,
             password=generate_password_hash(password),
             # E2EE Keys
             public_key=request.form.get('public_key'),
@@ -353,7 +353,7 @@ def register():
         log_action("REGISTER", user=username, ip=get_remote_addr())
         
         # Güvenlik logu
-        log_security_event('USER_REGISTERED', f'Username: {username}, Email: {email}')
+        log_security_event('USER_REGISTERED', f'Username: {username}, Nickname: {nickname}')
         
         # 4. İnsan doğrulama adımına yönlendir
         session['pending_verification_user_id'] = new_user.id
@@ -438,7 +438,7 @@ def get_current_user():
     return jsonify({
         "id": user.id,
         "username": user.username,
-        "email": user.email
+        "nickname": user.nickname
     }), 200
     
 @auth_bp.route("/me", methods=["PUT"])
@@ -459,7 +459,7 @@ def update_user():
     data = request.get_json(silent=True) or {}
 
     new_username = data.get("username")
-    new_email = data.get("email")
+    new_nickname = data.get("nickname")
     new_password = data.get("password")
 
     # Şifre değiştirme işlemi: mevcut şifre zorunlu
@@ -481,12 +481,8 @@ def update_user():
             return jsonify({"error": "Bu kullanıcı adı zaten alınmış."}), 409
         user.username = new_username
 
-    if new_email:
-        # E-posta benzersizlik kontrolü
-        exists = User.query.filter(User.email == new_email, User.id != user_id).first()
-        if exists:
-            return jsonify({"error": "Bu e-posta adresi zaten kayıtlı."}), 409
-        user.email = new_email
+    if new_nickname:
+        user.nickname = new_nickname
 
     db.session.commit()
     log_security_event('USER_UPDATED', f'User: {user.username}')
@@ -699,7 +695,7 @@ def login_page():
         
         if request.is_json:
             data = request.get_json(silent=True)
-            email = data.get('email', '').strip()
+            username = data.get('username', '').strip()
             raw_password = data.get('password', '').strip()
             
             # Decrypt the client-side RSA encrypted password (or fallback to plaintext)
@@ -707,29 +703,29 @@ def login_page():
             
             remember = data.get('remember', False)
         else:
-            email = request.form.get('email', '').strip()
+            username = request.form.get('username', '').strip()
             raw_password = request.form.get('password', '').strip()
             password = LoginRSA.decrypt(raw_password)
             remember = request.form.get('remember') == 'on'
         
         # Input validasyonu
-        if not email or not password:
+        if not username or not password:
             record_failed_login(ip)
             if request.is_json:
-                return jsonify({"error": "Email ve şifre gerekli."}), 400
-            flash('Email ve şifre gerekli.')
+                return jsonify({"error": "Kullanıcı adı ve şifre gerekli."}), 400
+            flash('Kullanıcı adı ve şifre gerekli.')
             return render_template('login.html', csrf_token=generate_csrf_token(), server_public_key=LoginRSA.public_key_pem)
         
-        # Email format kontrolü
-        is_valid_email, _ = validate_email(email)
-        if not is_valid_email:
+        # Kullanıcı adı format kontrolü
+        is_valid_username, _ = validate_username(username)
+        if not is_valid_username:
             record_failed_login(ip)
             if request.is_json:
-                return jsonify({"error": "Geçersiz email formatı."}), 400
-            flash('Geçersiz email formatı.')
+                return jsonify({"error": "Geçersiz kullanıcı adı formatı."}), 400
+            flash('Geçersiz kullanıcı adı formatı.')
             return render_template('login.html', csrf_token=generate_csrf_token(), server_public_key=LoginRSA.public_key_pem)
         
-        user = User.query.filter_by(email=email).first()
+        user = User.query.filter_by(username=username).first()
         if user and check_password(password, user.password):
             # E-posta doğrulama kontrolü
             allow_unverified = current_app.config.get('ALLOW_UNVERIFIED_LOGIN', False)
@@ -748,7 +744,7 @@ def login_page():
             clear_failed_login_attempts(ip)
             
             # Güvenlik logu
-            log_security_event('LOGIN_SUCCESS', f'User: {user.username}, Email: {email}')
+            log_security_event('LOGIN_SUCCESS', f'User: {user.username}')
             log_action("LOGIN_SUCCESS", user=user.username, ip=get_remote_addr())
             
             response_data = {
@@ -782,8 +778,8 @@ def login_page():
         else:
             # Başarısız giriş
             record_failed_login(ip)
-            log_security_event('LOGIN_FAILED', f'Email: {email}, IP: {ip}')
-            log_action("LOGIN_FAIL", user=email, ip=get_remote_addr())
+            log_security_event('LOGIN_FAILED', f'Username: {username}, IP: {ip}')
+            log_action("LOGIN_FAIL", user=username, ip=get_remote_addr())
             
             if request.is_json:
                 return jsonify({"error": "Geçersiz giriş bilgileri."}), 401

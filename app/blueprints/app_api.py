@@ -20,14 +20,14 @@ def login():
         return jsonify({"error": "Çok fazla başarısız giriş denemesi. Lütfen 5 dakika bekleyin."}), 429
 
     data = request.get_json(silent=True) or {}
-    email = data.get('email')
+    username = data.get('username')
     password = data.get('password')
 
-    if not email or not password:
+    if not username or not password:
         record_failed_login(ip)
-        return jsonify({"error": "Email ve şifre gerekli."}), 400
+        return jsonify({"error": "Kullanıcı adı ve şifre gerekli."}), 400
 
-    user = User.query.filter_by(email=email).first()
+    user = User.query.filter_by(username=username).first()
     from app.utils import check_password, generate_token
 
     if user and check_password(password, user.password):
@@ -52,7 +52,7 @@ def login():
 
     # Başarısız giriş — sayıcı artır
     record_failed_login(ip)
-    log_security_event('API_LOGIN_FAILED', f'Email: {email}, IP: {ip}')
+    log_security_event('API_LOGIN_FAILED', f'Username: {username}, IP: {ip}')
     return jsonify({"error": "Geçersiz giriş bilgileri."}), 401
 
 @app_api_bp.route('/update_keys', methods=['POST'])
