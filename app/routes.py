@@ -66,7 +66,7 @@ import uuid
 from flask_socketio import emit, join_room
 from .security import (
     require_auth, require_csrf, generate_csrf_token, validate_password_strength,
-    validate_username, validate_nickname, sanitize_input, log_security_event,
+    validate_username, sanitize_input, log_security_event,
     record_failed_login, clear_failed_login_attempts, check_login_attempts,
     validate_file_upload, generate_secure_token, verify_secure_token,
     rate_limit_check, validate_user_input, sanitize_message_content,
@@ -183,7 +183,6 @@ def is_register_limited(ip):
 # 5. Kapsamlı input validation için örnek Marshmallow şeması:
 class RegisterSchema(ma.Schema):
     username = ma.fields.Str(required=True, validate=ma.validate.Length(min=3, max=20))
-    nickname = ma.fields.Str(required=True, validate=ma.validate.Length(min=2, max=50))
     password = ma.fields.Str(required=True, validate=ma.validate.Length(min=8))
     confirm_password = ma.fields.Str(required=True)
 
@@ -293,15 +292,13 @@ def register():
         
         # Input validasyonu ve sanitization
         username = request.form.get('username', '').strip()
-        nickname = request.form.get('nickname', '').strip()
         password = request.form.get('password', '').strip()
         confirm_password = request.form.get('confirm_password', '').strip()
         
         # Input sanitization
         username = sanitize_input(username)
-        nickname = sanitize_input(nickname)
         
-        if username is None or nickname is None:
+        if username is None:
             flash('Geçersiz karakterler tespit edildi.')
             return redirect(url_for('auth.register'))
         
@@ -311,11 +308,7 @@ def register():
             flash(username_error)
             return redirect(url_for('auth.register'))
         
-        # Nickname validasyonu
-        is_valid_nickname, nickname_error = validate_nickname(nickname)
-        if not is_valid_nickname:
-            flash(nickname_error)
-            return redirect(url_for('auth.register'))
+
         
         # Şifre gücü kontrolü
         is_strong_password, password_error = validate_password_strength(password)
@@ -333,15 +326,11 @@ def register():
             flash('Bu kullanıcı adı zaten alınmış.')
             return redirect(url_for('auth.register'))
         
-        # Nickname benzersizlik kontrolü (Opsiyonel, display name olarak kullanılacaksa unique olmayabilir ama şimdilik nickname için check yapalım)
-        # Ancak kullanıcı isim/nickname isteyelim dediği için nickname'i de unique yapabiliriz ya da sadece username yeterli.
-        # Kullanıcı login için username kullanacak.
-        pass
+
         
         # Kullanıcı oluştur
         new_user = User(
             username=username,
-            nickname=nickname,
             password=generate_password_hash(password),
             # E2EE Keys
             public_key=request.form.get('public_key'),
@@ -353,7 +342,7 @@ def register():
         log_action("REGISTER", user=username, ip=get_remote_addr())
         
         # Güvenlik logu
-        log_security_event('USER_REGISTERED', f'Username: {username}, Nickname: {nickname}')
+        log_security_event('USER_REGISTERED', f'Username: {username}')
         
         # 4. İnsan doğrulama adımına yönlendir
         session['pending_verification_user_id'] = new_user.id
@@ -437,8 +426,7 @@ def get_current_user():
     user = User.query.get(user_id)
     return jsonify({
         "id": user.id,
-        "username": user.username,
-        "nickname": user.nickname
+        "username": user.username
     }), 200
     
 @auth_bp.route("/me", methods=["PUT"])
@@ -459,7 +447,6 @@ def update_user():
     data = request.get_json(silent=True) or {}
 
     new_username = data.get("username")
-    new_nickname = data.get("nickname")
     new_password = data.get("password")
 
     # Şifre değiştirme işlemi: mevcut şifre zorunlu
@@ -481,8 +468,7 @@ def update_user():
             return jsonify({"error": "Bu kullanıcı adı zaten alınmış."}), 409
         user.username = new_username
 
-    if new_nickname:
-        user.nickname = new_nickname
+
 
     db.session.commit()
     log_security_event('USER_UPDATED', f'User: {user.username}')
