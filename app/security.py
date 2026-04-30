@@ -475,10 +475,6 @@ def validate_username(username):
     
     return True, "Kullanıcı adı geçerli."
 
-def validate_nickname(nickname):
-    """Nickname validasyonu"""
-    if not nickname or len(nickname.strip()) < 2 or len(nickname.strip()) > 50:
-        return False, "Nickname 2-50 karakter arasında olmalıdır."
-    return True, "Nickname geçerli."
+
 
 
