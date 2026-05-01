@@ -3,7 +3,7 @@
 {% block title %}KeyCord — {{ _('Kayıt Ol') }}{% endblock %}
 
 {% block extra_css %}
-<style>
+<style nonce="{{ csp_nonce }}">
   *,
   *::before,
   *::after {
@@ -549,8 +549,8 @@
 {% endblock %}
 
 {% block scripts %}
-<script src="{{ url_for('static', filename='js/crypto.js') }}"></script>
-<script>
+<script nonce="{{ csp_nonce }}" src="{{ url_for('static', filename='js/crypto.js') }}"></script>
+<script nonce="{{ csp_nonce }}">
   /* ── Şifre gücü ── */
   const pw = document.getElementById('password');
   const pwBox = document.getElementById('pwBox');
@@ -639,7 +639,7 @@
   }
 </script>
 
-<script type="application/ld+json">
+<script nonce="{{ csp_nonce }}" type="application/ld+json">
 {
     "@context": "https://schema.org",
     "@type": "WebPage",

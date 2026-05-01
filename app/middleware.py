@@ -161,15 +161,15 @@ def session_security_middleware(app):
                 session.clear()
                 return {'error': 'Güvenlik ihlali tespit edildi.'}, 401
             
-            # IP değişikliği kontrolü
+            # IP değişikliği kontrolü (Session Hijacking Koruması)
             stored_ip = session.get('ip_address')
             current_ip = get_remote_addr()
             
             if stored_ip and stored_ip != current_ip:
-                log_security_event('IP_CHANGE', 
+                log_security_event('SESSION_IP_MISMATCH', 
                                  f'User: {session.get("user_id")}, Old: {stored_ip}, New: {current_ip}')
-                # IP değişikliğinde session'ı yenile
-                session['ip_address'] = current_ip
+                session.clear()
+                return {'error': 'Oturum güvenliği nedeniyle çıkış yapıldı (IP Değişikliği).'}, 401
 
 def file_upload_security_middleware(app):
     """Dosya yükleme güvenlik middleware'i"""

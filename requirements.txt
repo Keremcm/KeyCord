@@ -14,3 +14,4 @@ itsdangerous
 Flask-Migrate
 Flask-Babel
 sqlcipher3-binary
+python-magic

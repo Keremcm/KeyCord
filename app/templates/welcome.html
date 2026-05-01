@@ -6,7 +6,7 @@
 gizlilik odaklı bir mesajlaşma platformudur.{% endblock %}
 
 {% block extra_css %}
-<style>
+<style nonce="{{ csp_nonce }}">
     html {
         scroll-behavior: smooth;
     }
@@ -700,7 +700,7 @@ gizlilik odaklı bir mesajlaşma platformudur.{% endblock %}
     </div>
 </section>
 
-<script type="application/ld+json">
+<script nonce="{{ csp_nonce }}" type="application/ld+json">
 {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
@@ -726,7 +726,7 @@ gizlilik odaklı bir mesajlaşma platformudur.{% endblock %}
 {% endblock %}
 
 {% block scripts %}
-<script>
+<script nonce="{{ csp_nonce }}">
     const box = document.getElementById('tor-copy-box');
     const flash = document.getElementById('copy-flash');
     const onion = '46iblsrblve4hnsl6567lwgehwh5mrony3hbfcgkenaxqphzczlb3mid.onion';

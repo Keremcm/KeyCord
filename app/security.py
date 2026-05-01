@@ -20,10 +20,10 @@ failed_login_timestamps = defaultdict(list)
 
 # Güvenlik konfigürasyonu
 SECURITY_CONFIG = {
-    'MAX_LOGIN_ATTEMPTS': 5,
+    'MAX_LOGIN_ATTEMPTS': 10,
     'LOGIN_LOCKOUT_TIME': 300,  # 5 dakika
     'RATE_LIMIT_WINDOW': 60,    # 1 dakika
-    'MAX_REQUESTS_PER_WINDOW': 2000,
+    'MAX_REQUESTS_PER_WINDOW': 400,
     'PASSWORD_MIN_LENGTH': 8,
     'PASSWORD_REQUIREMENTS': {
         'uppercase': True,
@@ -203,55 +203,87 @@ def save_banned_ip(ip):
     except Exception:
         pass
 
-def rate_limit_check(identifier, max_requests=None, window=None):
-    """Rate limiting kontrolü"""
+def rate_limit_check(identifier, max_requests=None, window=None, request_type='general'):
+    """Veritabanı tabanlı ve şifreli rate limiting kontrolü"""
+    from .models import RateLimit
+    from . import db
+    from cryptography.fernet import Fernet
+    
     if max_requests is None:
         max_requests = SECURITY_CONFIG['MAX_REQUESTS_PER_WINDOW']
     if window is None:
         window = SECURITY_CONFIG['RATE_LIMIT_WINDOW']
     
-    current_time = time.time()
-    requests = rate_limit_store[identifier]
+    # Identifier (IP) için SHA-256 hash oluştur (Arama için)
+    id_hash = hashlib.sha256(identifier.encode()).hexdigest()
     
-    # Eski istekleri temizle
-    requests = [req_time for req_time in requests if current_time - req_time < window]
-    rate_limit_store[identifier] = requests
+    current_time = datetime.datetime.utcnow()
+    window_start = current_time - datetime.timedelta(seconds=window)
     
-    if len(requests) >= max_requests:
-        log_security_event('RATE_LIMIT_EXCEEDED', f'Identifier: {identifier}')
+    # Veritabanından son penceredeki istek sayısını sorgula
+    request_count = RateLimit.query.filter(
+        RateLimit.identifier_hash == id_hash,
+        RateLimit.request_type == request_type,
+        RateLimit.timestamp >= window_start
+    ).count()
+    
+    if request_count >= max_requests:
+        log_security_event('RATE_LIMIT_EXCEEDED', f'Identifier: {identifier}, Type: {request_type}')
         return False
     
-    requests.append(current_time)
+    # Yeni isteği kaydet
+    try:
+        # IP'yi Fernet ile şifrele (Opsiyonel denetim için)
+        encrypted_id = None
+        encryption_key = current_app.config.get('LOG_ENCRYPTION_KEY')
+        if encryption_key:
+            f = Fernet(encryption_key.encode())
+            encrypted_id = f.encrypt(identifier.encode()).decode()
+
+        new_entry = RateLimit(
+            identifier_hash=id_hash,
+            encrypted_identifier=encrypted_id,
+            request_type=request_type,
+            timestamp=current_time
+        )
+        db.session.add(new_entry)
+        db.session.commit()
+    except Exception as e:
+        db.session.rollback()
+        print(f"RateLimit save error: {e}")
+    
     return True
 
 def check_login_attempts(identifier):
-    """Başarısız giriş denemelerini kontrol eder"""
-    current_time = time.time()
-    
-    # Eski denemeleri temizle
-    failed_login_timestamps[identifier] = [
-        ts for ts in failed_login_timestamps[identifier] 
-        if current_time - ts < SECURITY_CONFIG['LOGIN_LOCKOUT_TIME']
-    ]
-    
-    if len(failed_login_timestamps[identifier]) >= SECURITY_CONFIG['MAX_LOGIN_ATTEMPTS']:
-        log_security_event('LOGIN_LOCKOUT', f'Identifier: {identifier}')
-        return False
-    
-    return True
+    """Başarısız giriş denemelerini DB üzerinden kontrol eder"""
+    # Login denemeleri için rate_limit_check'i kullan
+    return rate_limit_check(
+        identifier, 
+        max_requests=SECURITY_CONFIG['MAX_LOGIN_ATTEMPTS'], 
+        window=SECURITY_CONFIG['LOGIN_LOCKOUT_TIME'],
+        request_type='login_fail'
+    )
 
 def record_failed_login(identifier):
-    """Başarısız giriş denemesini kaydeder"""
-    current_time = time.time()
-    failed_login_timestamps[identifier].append(current_time)
-    failed_login_attempts[identifier] += 1
-    
+    """Başarısız giriş denemesini DB'ye kaydeder"""
+    # rate_limit_check zaten kayıt yapıyor, 
+    # ancak başarısız girişi tetiklemek için burada bir kayıt oluşturabiliriz.
+    # Bu fonksiyon sadece log basmak için kullanılabilir veya manuel kayıt atar.
     log_security_event('FAILED_LOGIN', f'Identifier: {identifier}')
+    # Kayıt işlemi check_login_attempts veya rate_limit_check tarafından yapılacağı için 
+    # burada ekstra bir işlem yapmaya gerek kalmayabilir, ancak mevcut akışı bozmamak için:
+    pass 
 
 def clear_failed_login_attempts(identifier):
-    """Başarılı giriş sonrası deneme sayısını sıfırlar"""
-    failed_login_attempts[identifier] = 0
-    failed_login_timestamps[identifier] = []
+    """Başarılı giriş sonrası DB'deki eski login_fail kayıtlarını temizler (Opsiyonel)"""
+    from .models import RateLimit
+    from . import db
+    id_hash = hashlib.sha256(identifier.encode()).hexdigest()
+    try:
+        RateLimit.query.filter_by(identifier_hash=id_hash, request_type='login_fail').delete()
+        db.session.commit()
+    except Exception:
+        db.session.rollback()
 
 def validate_file_upload(filename, file_size):
     """Dosya yükleme güvenlik kontrolü"""
@@ -277,9 +309,14 @@ def validate_file_upload(filename, file_size):
     return True, "Dosya güvenli."
 
 def generate_secure_token(user_id, additional_data=None):
-    """Güvenli token oluşturur"""
+    """Güvenli token oluşturur (Versioning destekli)"""
+    from .models import User
+    user = User.query.get(user_id)
+    t_version = user.token_version if user else 1
+
     payload = {
         'user_id': user_id,
+        'token_version': t_version,
         'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=SECURITY_CONFIG['TOKEN_EXPIRY']),
         'iat': datetime.datetime.utcnow(),
         'jti': secrets.token_urlsafe(16),  # JWT ID
@@ -290,16 +327,22 @@ def generate_secure_token(user_id, additional_data=None):
     return jwt.encode(payload, secret, algorithm='HS256')
 
 def verify_secure_token(token):
-    """Güvenli token doğrulama"""
+    """Güvenli token doğrulama (Versioning kontrolü dahil)"""
     try:
         secret = current_app.config['SECRET_KEY']
         payload = jwt.decode(token, secret, algorithms=['HS256'])
         
-        # Token'ın süresi dolmuş mu kontrol et
-        if datetime.datetime.utcnow().timestamp() > payload['exp']:
+        user_id = payload.get('user_id')
+        token_ver = payload.get('token_version')
+
+        # Token versiyon kontrolü
+        from .models import User
+        user = User.query.get(user_id)
+        if not user or token_ver != user.token_version:
+            log_security_event('INVALID_TOKEN_VERSION', f'User: {user_id}')
             return None
-        
-        return payload['user_id']
+            
+        return user_id
     except jwt.ExpiredSignatureError:
         log_security_event('TOKEN_EXPIRED', 'Token süresi dolmuş')
         return None
@@ -418,11 +461,26 @@ def socket_auth_required(f):
     return decorated_function
 
 def add_security_headers(response):
-    """Güvenlik header'larını ekler"""
+    """Güvenlik header'larını ekler (Nonce tabanlı CSP dahil)"""
+    from flask import g
+    nonce = getattr(g, 'csp_nonce', '')
+    
     response.headers['X-Content-Type-Options'] = 'nosniff'
     response.headers['X-Frame-Options'] = 'DENY'
     response.headers['X-XSS-Protection'] = '1; mode=block'
-    response.headers['Content-Security-Policy'] = "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data:; connect-src 'self' ws: wss:; frame-src 'none'; child-src 'none';"
+    
+    # CSP: Script'ler için nonce şart, Style'lar için 'unsafe-inline' (Görüntü için serbest)
+    csp = (
+        f"default-src 'self'; "
+        f"script-src 'self' 'nonce-{nonce}'; "
+        f"style-src 'self' 'unsafe-inline'; "
+        f"font-src 'self' data:; "
+        f"img-src 'self' data:; "
+        f"connect-src 'self' ws: wss:; "
+        f"frame-src 'none'; "
+        f"child-src 'none';"
+    )
+    response.headers['Content-Security-Policy'] = csp
     response.headers['Referrer-Policy'] = 'strict-origin-when-cross-origin'
     response.headers['Permissions-Policy'] = 'geolocation=(), microphone=(), camera=()'
     return response

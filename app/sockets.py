@@ -35,20 +35,12 @@ def log_action(event, user=None, ip=None, target=None, extra=None):
     logging.info(msg)
 
 # --- SOCKET RATE LIMITING ---
-SOCKET_RATE_LIMITS = {}  # {ip: [timestamps]}
-SOCKET_RATE_LIMIT_WINDOW = 60  # saniye
-SOCKET_RATE_LIMIT_MAX = 120    # 1 dakikada 120 event (eski: 1000 — çok yüksekti)
+SOCKET_RATE_LIMIT_WINDOW = 60
+SOCKET_RATE_LIMIT_MAX = 100
 
 def is_socket_rate_limited(ip, max_req=SOCKET_RATE_LIMIT_MAX, window=SOCKET_RATE_LIMIT_WINDOW):
-    now = time.time()
-    timestamps = SOCKET_RATE_LIMITS.get(ip, [])
-    timestamps = [t for t in timestamps if now - t < window]
-    if len(timestamps) >= max_req:
-        log_action("SOCKET_DOS_BLOCK", user=None, ip=ip, extra=f"socket_limit={max_req}/{window}s")
-        return True
-    timestamps.append(now)
-    SOCKET_RATE_LIMITS[ip] = timestamps
-    return False
+    # Yeni DB tabanlı fonksiyonu kullan
+    return not rate_limit_check(ip, max_requests=max_req, window=window, request_type='socket')
 
 
 @socketio.on("join")
