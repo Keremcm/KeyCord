@@ -24,7 +24,7 @@
 
     {% block extra_css %}{% endblock %}
 
-    <style>
+    <style nonce="{{ csp_nonce }}">
         html {
             background-color: var(--paper-black) !important;
         }
@@ -79,7 +79,7 @@
         </div>
     </header>
 
-    <style>
+    <style nonce="{{ csp_nonce }}">
         /* Desktop Default */
         .main-header {
             position: fixed;
@@ -281,7 +281,7 @@
         }
     </style>
 
-    <script>
+    <script nonce="{{ csp_nonce }}">
         document.addEventListener('DOMContentLoaded', function () {
             const menuBtn = document.querySelector('.mobile-menu-btn');
             const navWrapper = document.querySelector('.nav-wrapper');
@@ -330,9 +330,9 @@
     {% endblock %}
 
     <!-- Forge JS (Pure JS Crypto for Offline/HTTP Support) -->
-    <script src="{{ url_for('static', filename='js/forge.min.js') }}"></script>
+    <script nonce="{{ csp_nonce }}" src="{{ url_for('static', filename='js/forge.min.js') }}"></script>
     <!-- Security Script -->
-    <script src="{{ url_for('static', filename='js/security.js') }}"></script>
+    <script nonce="{{ csp_nonce }}" src="{{ url_for('static', filename='js/security.js') }}"></script>
     {% block scripts %}{% endblock %}
 </body>
 

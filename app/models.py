@@ -28,6 +28,7 @@ class User(db.Model):
     about = db.Column(db.Text, default='')
     games = db.Column(db.String(255), default='')
     is_verified = db.Column(db.Boolean, default=False)
+    token_version = db.Column(db.Integer, default=1)  # Tüm cihazlardan çıkış/token geçersiz kılma için
 
     # E2EE Keys
     public_key = db.Column(db.Text, nullable=True)  # Diğer kullanıcılar için RSA/X25519 Public Key
@@ -117,6 +118,13 @@ class CommunityMessage(db.Model):
 
     user = db.relationship('User', backref='community_messages')
     community = db.relationship('Community', backref='messages')
+
+class RateLimit(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    identifier_hash = db.Column(db.String(64), index=True, nullable=False) # Arama için SHA-256 hash
+    encrypted_identifier = db.Column(db.Text, nullable=True) # Denetim için Fernet şifreli IP
+    request_type = db.Column(db.String(50))
+    timestamp = db.Column(db.DateTime, default=datetime.datetime.utcnow)
 
 class BlockedUser(db.Model):
     id = db.Column(db.Integer, primary_key=True)

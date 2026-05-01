@@ -1,6 +1,11 @@
-# Jinja2 filter for datetime formatting
+import os
+import base64
 import datetime
-from flask import Flask
+import re
+from cryptography.fernet import Fernet
+from Crypto.PublicKey import RSA
+from Crypto.Hash import SHA256
+from Crypto.Cipher import PKCS1_OAEP
 from .models import (
     User, FriendRequest, Friendship, ChatMessage, Notification, 
     Announcement, BlockedUser, Group, 
@@ -10,11 +15,6 @@ from flask import Blueprint, request, render_template, redirect, url_for, flash,
 from app import db, socketio
 from werkzeug.security import generate_password_hash
 from werkzeug.utils import secure_filename
-import re
-import base64
-from Crypto.PublicKey import RSA
-from Crypto.Hash import SHA256
-from Crypto.Cipher import PKCS1_OAEP
 from .utils import hash_password, check_password, generate_token, verify_token, get_conversation, save_message
 
 class LoginRSA:
@@ -26,23 +26,40 @@ class LoginRSA:
         if cls._private_key:
             return
         
-        # current_app can only be accessed within a request context
         key_path = os.path.join(current_app.instance_path, 'login_rsa.pem')
         os.makedirs(current_app.instance_path, exist_ok=True)
         
+        encryption_key = current_app.config.get('LOG_ENCRYPTION_KEY')
+        fernet = Fernet(encryption_key.encode()) if encryption_key else None
+        
+        key = None
         if os.path.exists(key_path):
             try:
                 with open(key_path, 'rb') as f:
-                    key = RSA.import_key(f.read())
+                    content = f.read()
+                    
+                # Önce deşifre etmeyi dene (eğer fernet varsa)
+                if fernet:
+                    try:
+                        content = fernet.decrypt(content)
+                    except:
+                        # Şifreli değilse (geçiş aşaması), düz devam et
+                        pass
+                
+                key = RSA.import_key(content)
             except Exception as e:
                 print(f"RSA Load Error: {e}")
-                key = RSA.generate(2048)
-                with open(key_path, 'wb') as f:
-                    f.write(key.export_key('PEM'))
-        else:
+        
+        if not key:
             key = RSA.generate(2048)
-            with open(key_path, 'wb') as f:
-                f.write(key.export_key('PEM'))
+            
+        # Anahtarı kaydet/güncelle (şifreli olarak)
+        pem_data = key.export_key('PEM')
+        if fernet:
+            pem_data = fernet.encrypt(pem_data)
+            
+        with open(key_path, 'wb') as f:
+            f.write(pem_data)
 
         cls._private_key = PKCS1_OAEP.new(key, hashAlgo=SHA256)
         cls.public_key_pem = key.publickey().export_key('PEM').decode('utf-8')
@@ -129,20 +146,12 @@ def log_action(event, user=None, ip=None, target=None, extra=None):
     logging.info(msg)
 
 # --- GLOBAL RATE LIMITING (DoS/DDOS) ---
-GLOBAL_RATE_LIMITS = {}  # {ip: [timestamps]}
-GLOBAL_RATE_LIMIT_WINDOW = 60  # saniye
-GLOBAL_RATE_LIMIT_MAX = 400    # 1 dakikada 400 istek (eski: 10.000 — çok yüksekti)
+GLOBAL_RATE_LIMIT_WINDOW = 60
+GLOBAL_RATE_LIMIT_MAX = 400
 
 def is_global_rate_limited(ip, max_req=GLOBAL_RATE_LIMIT_MAX, window=GLOBAL_RATE_LIMIT_WINDOW):
-    now = time.time()
-    timestamps = GLOBAL_RATE_LIMITS.get(ip, [])
-    timestamps = [t for t in timestamps if now - t < window]
-    if len(timestamps) >= max_req:
-        log_action("RATE_LIMIT_BLOCK", user=None, ip=ip, extra=f"limit={max_req}/{window}s")
-        return True
-    timestamps.append(now)
-    GLOBAL_RATE_LIMITS[ip] = timestamps
-    return False
+    # Yeni DB tabanlı fonksiyonu kullan
+    return not rate_limit_check(ip, max_requests=max_req, window=window, request_type='global')
 
 @auth_bp.before_app_request
 def global_rate_limit():
@@ -1401,12 +1410,22 @@ def refresh_session():
 
 @auth_bp.route('/logout-all')
 def logout_all():
+    user_id = session.get('user_id')
+    if user_id:
+        user = User.query.get(user_id)
+        if user:
+            user.token_version += 1
+            db.session.commit()
+            log_action("LOGOUT_ALL_DEVICES", user=user.username, ip=get_remote_addr())
+    
     session.clear()
-    return redirect(url_for('auth.login_page'))
+    response = make_response(redirect(url_for('auth.login_page')))
+    response.delete_cookie('remember_token')
+    return response
 
 # 10. Log analizi/alarm (örnek: çok fazla 404 isteği atan IP'yi engelle)
 HONEYPOT_COUNT = {}
-HONEYPOT_LIMIT = 1000
+HONEYPOT_LIMIT = 20
 HONEYPOT_WINDOW = 600  # 10 dakika
 
 @auth_bp.app_errorhandler(404)
@@ -1425,12 +1444,12 @@ def fake_404_handler(e):
     entries.append(now)
     HONEYPOT_COUNT[ip] = entries
     
-    if len(entries) > 30: # 30+ deneme -> KALICI BAN
+    if len(entries) >= HONEYPOT_LIMIT: # KALICI BAN
         if ip not in BLOCKED_IPS:
             BLOCKED_IPS.add(ip)
             save_banned_ip(ip)
         log_action("HONEYPOT_PERMANENT_BAN", user=None, ip=ip, extra=f"Sürekli tarama tespiti: {path}")
-    elif len(entries) > 5: # 5+ deneme -> GEÇİCİ BAN (30 Dakika)
+    elif len(entries) >= (HONEYPOT_LIMIT // 4): # GEÇİCİ BAN (Örn: 5 deneme)
         TEMP_BLOCKED_IPS[ip] = time.time() + 1800
         log_action("HONEYPOT_TEMP_BAN", user=None, ip=ip, extra=f"Hız sınırlama: {path}")
         

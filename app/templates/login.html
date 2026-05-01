@@ -3,7 +3,7 @@
 {% block title %}KeyCord — {{ _('Giriş Yap') }}{% endblock %}
 
 {% block extra_css %}
-<style>
+<style nonce="{{ csp_nonce }}">
   *,
   *::before,
   *::after {
@@ -412,7 +412,7 @@
 <div class="login-page">
 
 
-  <script>
+  <script nonce="{{ csp_nonce }}">
     // 1. TAMAMEN ÇIKIŞ VE TEMİZLİK (Logout Cleanup)
     // Eski oturumdan kalan socket bağlantılarını kes
     if (typeof socket !== 'undefined' && socket.connected) {
@@ -547,14 +547,14 @@
 </div>
 
 <!-- RSA Public Key Store (Safe Injection) -->
-<script id="rsa-pub-key" type="text/plain">{{ server_public_key|default('') }}</script>
+<script nonce="{{ csp_nonce }}" id="rsa-pub-key" type="text/plain">{{ server_public_key|default('') }}</script>
 
 {% endblock %}
 
 {% block scripts %}
-<script src="{{ url_for('static', filename='js/forge.min.js') }}"></script>
-<script src="{{ url_for('static', filename='js/crypto.js') }}"></script>
-<script>
+<script nonce="{{ csp_nonce }}" src="{{ url_for('static', filename='js/forge.min.js') }}"></script>
+<script nonce="{{ csp_nonce }}" src="{{ url_for('static', filename='js/crypto.js') }}"></script>
+<script nonce="{{ csp_nonce }}">
   const form = document.getElementById('loginForm');
   const btn = document.getElementById('loginBtn');
 
@@ -647,7 +647,7 @@
   }
 </script>
 
-<script type="application/ld+json">
+<script nonce="{{ csp_nonce }}" type="application/ld+json">
 {
     "@context": "https://schema.org",
     "@type": "WebPage",

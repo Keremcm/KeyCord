@@ -1,4 +1,5 @@
-from flask import Flask, request, current_app
+from flask import Flask, request, current_app, g
+import secrets
 from flask_babel import Babel
 from flask_sqlalchemy import SQLAlchemy
 from flask_socketio import SocketIO
@@ -109,10 +110,18 @@ def create_app():
     from .routes import register_filters
     register_filters(app)
     
+    @app.before_request
+    def set_nonce():
+        g.csp_nonce = secrets.token_urlsafe(16)
+
     @app.context_processor
     def inject_global_data():
         from .security import generate_csrf_token
-        return dict(get_locale=get_locale, csrf_token=generate_csrf_token())
+        return dict(
+            get_locale=get_locale, 
+            csrf_token=generate_csrf_token(),
+            csp_nonce=getattr(g, 'csp_nonce', '')
+        )
 
 
     # Güvenlik middleware'lerini uygula

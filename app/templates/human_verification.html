@@ -3,7 +3,7 @@
 {% block title %}KeyCord — {{ _('İnsan Doğrulaması') }}{% endblock %}
 
 {% block extra_css %}
-<style>
+<style nonce="{{ csp_nonce }}">
     .verification-container {
         min-height: 80vh;
         display: flex;
@@ -159,7 +159,7 @@
 {% endblock %}
 
 {% block scripts %}
-<script>
+<script nonce="{{ csp_nonce }}">
     const holdBtn = document.getElementById('holdBtn');
     const circle = document.getElementById('progressCircle');
     const statusText = document.getElementById('statusText');
