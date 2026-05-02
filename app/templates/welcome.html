@@ -729,35 +729,6 @@ gizlilik odaklı bir mesajlaşma platformudur.{% endblock %}
     </div>
 </div>
 
-<!-- DOWNLOAD -->
-<section class="section" style="text-align: center;">
-    <span class="label-tag">{{ _('İndirin') }}</span>
-    <h2 class="section-h" style="margin: 0 auto 0.5rem; max-width: 100%;">{{ _('Tüm platformlarda çalışır') }}</h2>
-    <p class="section-sub" style="margin: 0 auto; max-width: 100%;">{{ _('Web arayüzüne ek olarak yerel istemcilerimizi
-        de kullanabilirsiniz.') }}</p>
-
-    <div class="dl-grid">
-        <a href="{{ url_for('static', filename='downloads/KeyCord.apk') }}" class="dl-card">
-            <div class="dl-card-icon">
-                <i class="icon icon-android" style="background-color: var(--chalk);"></i>
-            </div>
-            <div>
-                <div class="dl-card-sub">{{ _('İndir') }} · Android</div>
-                <div class="dl-card-name">KeyCord APK</div>
-            </div>
-        </a>
-
-        <a href="{{ url_for('static', filename='downloads/KeyCord-Setup.exe') }}" class="dl-card">
-            <div class="dl-card-icon">
-                <i class="icon icon-windows" style="background-color: var(--chalk);"></i>
-            </div>
-            <div>
-                <div class="dl-card-sub">{{ _('İndir') }} · Windows</div>
-                <div class="dl-card-name">KeyCord Setup</div>
-            </div>
-        </a>
-    </div>
-</section>
 
 <script nonce="{{ csp_nonce }}" type="application/ld+json">
 {
@@ -770,7 +741,7 @@ gizlilik odaklı bir mesajlaşma platformudur.{% endblock %}
         "contactType": "customer support",
         "email": "contact@keycord.org"
     },
-    "operatingSystem": "Web, Android, Windows",
+    "operatingSystem": "Web",
     "inLanguage": "{{ get_locale() }}",
     "description": "{{ _('KeyCord, gizlilik odaklı, Tor ağı desteği sunan uçtan uca şifreli bir mesajlaşma platformudur.') }}",
     "url": "https://keycord.org",
