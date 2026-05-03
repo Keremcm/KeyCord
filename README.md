@@ -2,8 +2,6 @@
 
 **Gizli Kanal, Gerçek Güvenlik** — KeyCord, Tor ağı üzerinde çalışan, gizlilik odaklı, merkeziyetsiz esinli bir mesajlaşma platformudur. Benzersiz "Kağıt/El çizimi" estetiğini, en modern client-side kriptografi ile birleştirir.
 
-![KeyCord Banner](app/static/logo.png)
-
 > **Veri Sende Kalır. Özgürce Konuş.** — KeyCord; hiçbir bilgi istemeyen bir özgürlük alanıdır.
 
 **Gizlilik temelli değil, gizliliği inşaa eden platform.** — Burada gizlilik bir hak değil, özgürlüktür. Her mesajınız, her bağlantınız özgürlüğünüzü inşa eder.
@@ -52,6 +50,8 @@
 ---
 
 ## 🛠️ Teknoloji Yığını
+
+![Python](https://img.shields.io/badge/Python-3.8+-blue) ![Flask](https://img.shields.io/badge/Flask-2.x-lightgrey) ![Socket.IO](https://img.shields.io/badge/Socket.IO-4.x-black) ![SQLAlchemy](https://img.shields.io/badge/SQLAlchemy-1.x-red) ![Tor](https://img.shields.io/badge/Tor-Network-green) ![RSA](https://img.shields.io/badge/RSA-OAEP-orange)
 
 - **Backend:** Python / Flask (WSGI, ProxyFix, CSP, Rate Limiting)
 - **Gerçek Zamanlı:** Socket.IO (Flask-SocketIO)
