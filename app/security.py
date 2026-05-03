@@ -444,14 +444,19 @@ def socket_auth_required(f):
     """Socket.IO için authentication decorator"""
     @wraps(f)
     def decorated_function(data):
+        user_id = None
         token = data.get('token')
-        if not token:
-            emit('error', {'message': 'Token gerekli.'})
-            return
-        
-        user_id = verify_secure_token(token)
+        if token:
+            user_id = verify_secure_token(token)
+            if not user_id:
+                user_id = None
+
         if not user_id:
-            emit('error', {'message': 'Geçersiz token.'})
+            # Session fallback: WebSocket oturumları da session cookie ile çalışır
+            user_id = session.get('user_id')
+
+        if not user_id:
+            emit('error', {'message': 'Oturum doğrulaması başarısız. Lütfen tekrar giriş yapın.'})
             return
         
         # Rate limiting kontrolü
@@ -537,4 +542,4 @@ def validate_username(username):
 
 
 
-
+

@@ -97,6 +97,7 @@ class Config:
     # Token ayarları
     TOKEN_EXPIRY = 3600  # 1 saat
     REMEMBER_TOKEN_EXPIRY = 30 * 24 * 3600  # 30 gün
+    INVITE_CODE_EXPIRY_DAYS = 30  # Davet kodları 30 gün sonra geçersiz olur
     
     # Rate limiting ayarları (routes.py/middleware.py ile senkronize)
     MAX_REQUESTS_PER_MINUTE = 400          # Global limit

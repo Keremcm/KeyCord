@@ -657,6 +657,17 @@
         const messagesDiv = document.getElementById("messages");
         const messageInput = document.getElementById("message_input");
 
+        function createRecoveryLink(text) {
+            const btn = document.createElement('span');
+            btn.className = 'keycord-recovery-link';
+            btn.style.cursor = 'pointer';
+            btn.style.textDecoration = 'underline';
+            btn.style.fontSize = '0.82rem';
+            btn.textContent = text;
+            btn.addEventListener('click', () => KEYCORD_RECOVERY.show());
+            return btn;
+        }
+
         /* ── Decrypt helper ── */
         window.decryptBubble = async function (element) {
             const content = element.getAttribute('data-content');
@@ -672,7 +683,8 @@
                 const privateKey = sessionStorage.getItem('keycord_private_key');
                 const native = KEYCORD_CRYPTO.getBridge();
                 if (!privateKey && !native) {
-                    element.innerHTML = `<span style="cursor:pointer;text-decoration:underline;font-size:0.82rem;" onclick="KEYCORD_RECOVERY.show()">${'{{ _("Anahtar yok — kurtar") }}'}</span>`;
+                    element.textContent = '';
+                    element.appendChild(createRecoveryLink('{{ _("Anahtar yok — kurtar") }}'));
                     return;
                 }
                 const decrypted = await KEYCORD_CRYPTO.decryptMessage(content, key, iv, privateKey);

@@ -615,6 +615,15 @@
                                 placeholder="{{ _('Kendinizi kısaca tanıtın...') }}">{{ current_user.about or '' }}</textarea>
                             <span class="field-hint">{{ _('Maksimum 200 karakter. Arkadaşlarınız görebilir.') }}</span>
                         </div>
+
+                        <div class="field-item">
+                            <label>{{ _('Davet Sistemi') }}</label>
+                            <p class="field-hint">{{ _('Yeni üyeler yalnızca mevcut kullanıcı tarafından verilen tek kullanımlık davet kodu ile kaydolabilir.') }}</p>
+                            <a href="{{ url_for('auth.invite_codes') }}" class="prof-btn prof-btn-ghost" style="display:inline-flex; align-items:center; gap:0.5rem;">
+                                <svg viewBox="0 0 24 24" style="width:18px; height:18px;"><path d="M12 5v14M5 12h14" /></svg>
+                                {{ _('Davet Kodu Oluştur') }}
+                            </a>
+                        </div>
                     </div>
                 </div>
 

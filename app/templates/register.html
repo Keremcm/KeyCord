@@ -471,6 +471,13 @@
           </div>
 
         <div class="field-item">
+          <label for="invite_code">{{ _('Davet Kodu') }}</label>
+          <input type="text" id="invite_code" name="invite_code" placeholder="{{ _('Arkadaşınızdan aldığınız kod') }}"
+            autocomplete="off" />
+          <span class="field-hint">{{ _('Yeni hesap açmak için bu kodu arkadaşınızdan almalısınız.') }}</span>
+        </div>
+
+        <div class="field-item">
           <label for="password">{{ _('Şifre') }}</label>
           <div class="pw-wrap">
             <input type="password" id="password" name="password" placeholder="{{ _('En az 8 karakter') }}" required
