@@ -1,92 +1,82 @@
-# KeyCord 🔐🌐
+# KeyCord
 
-KeyCord is a privacy-first, decentralized-inspired messaging platform designed to operate over the **Tor Network**. It combines a unique "Paper/Hand-drawn" aesthetic with state-of-the-art client-side cryptography.
+**Gizli Kanal, Gerçek Güvenlik** — KeyCord, Tor ağı üzerinde çalışan, gizlilik odaklı, merkeziyetsiz esinli bir mesajlaşma platformudur. Benzersiz "Kağıt/El çizimi" estetiğini, en modern client-side kriptografi ile birleştirir.
 
 ![KeyCord Banner](app/static/logo.png)
 
-## 🌟 Features
+> **Veri Sende Kalır. Özgürce Konuş.** — KeyCord; hiçbir bilgi istemeyen bir özgürlük alanıdır.
 
-### 🛡️ Privacy & Security
-- **Zero-Knowledge Architecture:** Your private keys are generated and stored only on your device. The server never sees your plain-text password or private keys.
-- **Client-Side Encryption:** All messages are encrypted in the browser using **RSA-OAEP** before being sent.
-- **Tor Network Native:** Full support for `.onion` addresses to hide your IP and metadata.
-- **No Personal Data:** No phone number or real name required. registration is completely anonymous.
-
-### 💬 Real-time Communication
-- **Instant Messaging:** Powered by Socket.IO for real-time delivery.
-- **Synchronized Notifications:** Smart notification system that syncs across all open tabs and devices instantly.
-- **Groups & Communities:** Create private groups or discover public communities.
-
-### 🎨 Unique Aesthetic
-- **Paper Design:** A minimalist "dotted notebook" interface featuring hand-drawn sketches and organic typography.
-- **Modern Performance:** Smooth animations (Anime.js) and responsive layout for Mobile & Desktop.
+**Gizlilik temelli değil, gizliliği inşaa eden platform.** — Burada gizlilik bir hak değil, özgürlüktür. Her mesajınız, her bağlantınız özgürlüğünüzü inşa eder.
 
 ---
 
-## 🛠️ Tech Stack
+## 🔒 Güvenlik & Doğrulama
 
-- **Backend:** Python / Flask
-- **Real-time:** Socket.IO
-- **Database:** SQLAlchemy (PostgreSQL/SQLite)
-- **Encryption:** Forge.js (RSA, AES, SHA-256)
-- **Frontend:** Vanilla JS, CSS3, Jinja2
-- **Network:** Tor Project / Onion Routing
+**Güven değil, ispat.** — Gizliliğinizi koruduğumuzu sadece iddia etmiyoruz. Bunu bağımsız güvenlik testleri ve tamamen açık kaynak kodumuzla kanıtlıyoruz.
 
----
+- **Mozilla Observatory:** 120/100 puan (kusursuz yapılandırma) — [Raporu İncele](https://developer.mozilla.org/en-US/observatory/analyze?host=keycord.org)
+- **Security Headers:** A+ sınıfı (tam HTTP güvenlik başlıkları) — [Raporu İncele](https://securityheaders.com/?q=keycord.org&followRedirects=on)
+- **GitHub Açık Kaynak:** %100 denetlenebilir kod — [Kodları İncele](https://github.com/Keremcm/KeyCord)
 
-## 🚀 Quick Start
+### 🛡️ Gizlilik & Güvenlik Özellikleri
+- **Zero-Knowledge Mimarisi:** Özel anahtarlarınız cihazınızda oluşturulur ve saklanır. Sunucu hiçbir zaman şifrenizi veya özel anahtarlarınızı görmez.
+- **Client-Side Şifreleme:** Tüm mesajlar gönderilmeden önce tarayıcıda **RSA-OAEP** kullanılarak şifrelenir.
+- **Tor Ağında Doğal:** IP'nizi ve meta verilerinizi korumak için `.onion` adresleri için tam destek.
+- **Kişisel Veri Yok:** Telefon numarası veya gerçek isim gerekli değil. Kayıt tamamen anonim.
+- **Log Tutmama:** Sunucu hiçbir mesajı veya meta veriyi saklamaz.
+- **Reklam Yok, İzleyici Yok:** Tamamen erişilebilir ve özgür.
 
-### Prerequisites
-- Python 3.8+
-- Tor Browser (for .onion access)
-
-### Installation
-
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/Keremcm/KeyCord.git
-   cd KeyCord
-   ```
-
-2. **Setup virtual environment:**
-   ```bash
-   python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
-   ```
-
-3. **Install dependencies:**
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-4. **Configuration:**
-   Create a `.env` file in the root directory:
-   ```env
-   SECRET_KEY=your_super_secret_key
-   DATABASE_URL=sqlite:///keycord.db
-   ```
-
-5. **Run the application:**
-   ```bash
-   python main.py
-   ```
+### 🔐 Uçtan Uca Şifreleme (E2EE)
+- **RSA + AES-GCM:** Mesajlar RSA-OAEP ile AES anahtarları şifrelenir, içerik AES-GCM ile korunur.
+- **Grup Şifreleme:** Grup mesajları için çoklu alıcı anahtar yönetimi.
+- **İstemci Taraflı:** Şifreleme/decryption tamamen tarayıcıda gerçekleşir.
 
 ---
 
-## 📱 Platforms
-KeyCord is designed to be cross-platform. Check the `applications/` directory for:
-- 📱 **Android:** Native wrapper (Kotlin)
-- 💻 **Windows:** Desktop client (Python/PyQt)
-- 🐧 **Linux:** GTK/Qt compatible wrapper
+## 🌟 Diğer Özellikler
+
+### 💬 Gerçek Zamanlı İletişim
+- **Anlık Mesajlaşma:** Socket.IO ile gerçek zamanlı teslimat.
+- **Senkronize Bildirimler:** Akıllı bildirim sistemi tüm açık sekmeler ve cihazlar arasında anında senkronize olur.
+- **Gruplar & Topluluklar:** Özel gruplar oluşturun veya genel toplulukları keşfedin.
+- **Arkadaş İstekleri & Duyurular:** Sosyal özellikler.
+
+### 🎨 Benzersiz Estetik
+- **Kağıt Tasarımı:** El çizimi eskizler ve organik tipografi ile minimalist "noktalı defter" arayüzü.
+- **Modern Performans:** Anime.js ile akıcı animasyonlar ve mobil/desktope duyarlı düzen.
+
+### 🌐 Çok Dilli Destek
+- **Çeviriler:** Türkçe, İngilizce, Almanca (Flask-Babel ile).
+- **Uluslararasılaştırma:** Tam i18n desteği.
 
 ---
 
-## 📄 License
-Distributed under the MIT License. See `LICENSE` for more information.
+## 🛠️ Teknoloji Yığını
 
-## 🤝 Contact
-Project Link: [https://github.com/Keremcm/KeyCord](https://github.com/Keremcm/KeyCord)  
-Instagram: [@keycord_official](https://www.instagram.com/keycord_official/)
+- **Backend:** Python / Flask (WSGI, ProxyFix, CSP, Rate Limiting)
+- **Gerçek Zamanlı:** Socket.IO (Flask-SocketIO)
+- **Veritabanı:** SQLAlchemy (SQLite/PostgreSQL), Alembic Migrations
+- **Şifreleme:** Cryptography (RSA, AES), PyCryptoDome, Forge.js (client-side)
+- **Frontend:** Vanilla JS, CSS3, Jinja2 Templates, Anime.js
+- **Ağ:** Tor Project / Onion Routing, .onion adresleri, Cloudflare-Tunnel
+- **Güvenlik:** Werkzeug, Flask-Login, JWT, CSP Nonce, Security Headers
+- **Diğer:** Flask-Babel (i18n), Flask-Migrate, Requests, Marshmallow
 
 ---
-*Developed with ❤️ for privacy and freedom.*
+
+## 📄 Lisans
+Bu proje **sadece görüntüleme ve inceleme amaçlıdır**. Kodların kullanımı, değiştirilmesi, dağıtılması veya herhangi bir şekilde ticari/sosyal amaçla kullanılması **yasaktır**. Tüm hakları saklıdır.
+
+Bu lisans, projenin gizlilik ve güvenlik özelliklerini sergilemek için GitHub'da paylaşılmasını sağlar, ancak herhangi bir kullanım izni vermez.
+
+---
+
+## 🤝 İletişim
+- **Proje Bağlantısı:** [https://github.com/Keremcm/KeyCord](https://github.com/Keremcm/KeyCord)
+- **Web Sitesi:** [https://keycord.org](https://keycord.org)
+- **Tor Erişimi:** `46iblsrblve4hnsl6567lwgehwh5mrony3hbfcgkenaxqphzczlb3mid.onion`
+- **Instagram:** [@keycord_official](https://www.instagram.com/keycord_official)
+- **E-posta:** contact@keycord.org
+
+---
+*Gizlilik ve özgürlük için ❤️ ile geliştirildi.*
