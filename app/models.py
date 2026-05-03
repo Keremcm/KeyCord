@@ -29,11 +29,27 @@ class User(db.Model):
     games = db.Column(db.String(255), default='')
     is_verified = db.Column(db.Boolean, default=False)
     token_version = db.Column(db.Integer, default=1)  # Tüm cihazlardan çıkış/token geçersiz kılma için
+    invited_by_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
 
     # E2EE Keys
     public_key = db.Column(db.Text, nullable=True)  # Diğer kullanıcılar için RSA/X25519 Public Key
     encrypted_private_key = db.Column(db.Text, nullable=True)  # Kullanıcının şifresiyle şifrelenmiş RSA/X25519 Private Key
     salt = db.Column(db.String(64), nullable=True)  # Şifreden anahtar türetmek için tuz
+
+    invited_by = db.relationship('User', remote_side=[id], foreign_keys=[invited_by_id], backref='invitees')
+
+class InviteCode(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    code = db.Column(db.String(64), unique=True, nullable=False)
+    inviter_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    used_by_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
+    created_at = db.Column(db.DateTime, default=datetime.datetime.utcnow)
+    used_at = db.Column(db.DateTime, nullable=True)
+    expires_at = db.Column(db.DateTime, nullable=True)
+    is_used = db.Column(db.Boolean, default=False)
+
+    inviter = db.relationship('User', foreign_keys=[inviter_id], backref='sent_invites')
+    used_by = db.relationship('User', foreign_keys=[used_by_id], backref='used_invites')
 
 class Friendship(db.Model):
     id = db.Column(db.Integer, primary_key=True)

@@ -282,11 +282,24 @@
         scrollToBottom();
     });
 
+    function createRecoveryLink(text) {
+        const btn = document.createElement('span');
+        btn.className = 'keycord-recovery-link';
+        btn.style.cursor = 'pointer';
+        btn.style.textDecoration = 'underline';
+        btn.textContent = text;
+        btn.addEventListener('click', () => KEYCORD_RECOVERY.show());
+        return btn;
+    }
+
     async function decryptExistingMessages() {
         const bubbles = document.querySelectorAll('.bubble[data-encrypted="true"]');
         const myPrivateKey = sessionStorage.getItem('keycord_private_key');
         if (!myPrivateKey) {
-            bubbles.forEach(b => b.innerHTML = `<span style="cursor:pointer; text-decoration:underline;" onclick="KEYCORD_RECOVERY.show()">${'{{ _("🔑 Anahtar yok (Kurtar)") }}'}</span>`);
+            bubbles.forEach(b => {
+                b.innerHTML = '';
+                b.appendChild(createRecoveryLink('{{ _("🔑 Anahtar yok (Kurtar)") }}'));
+            });
             return;
         }
 
@@ -371,18 +384,6 @@
                         currentUserId,
                         myPrivateKey
                     );
-                } else {
-                    displayContent = `<span style="cursor:pointer; text-decoration:underline;" onclick="KEYCORD_RECOVERY.show()">${'{{ _("🔑 Anahtar yok (Kurtar)") }}'}</span>`;
-                    const bubble = group.querySelector('.bubble');
-                    if (bubble) {
-                        bubble.innerHTML = displayContent;
-                        // Store metadata for later re-decryption
-                        bubble.setAttribute('data-encrypted', 'true');
-                        bubble.setAttribute('data-content', data.content);
-                        bubble.setAttribute('data-keys', data.encrypted_keys_json);
-                        bubble.setAttribute('data-iv', data.iv);
-                    }
-                    return; // Return early as we updated the bubble inside manually for better control
                 }
             } catch (e) {
                 console.error("Decryption failed:", e);
@@ -396,7 +397,17 @@
 
         const bubble = document.createElement('div');
         bubble.className = `bubble ${bubbleClass}`;
-        bubble.textContent = displayContent;
+
+        if (data.encrypted_keys_json && !sessionStorage.getItem('keycord_private_key')) {
+            bubble.innerHTML = '';
+            bubble.appendChild(createRecoveryLink('{{ _("🔑 Anahtar yok (Kurtar)") }}'));
+            bubble.setAttribute('data-encrypted', 'true');
+            bubble.setAttribute('data-content', data.content);
+            bubble.setAttribute('data-keys', data.encrypted_keys_json);
+            bubble.setAttribute('data-iv', data.iv);
+        } else {
+            bubble.textContent = displayContent;
+        }
 
         group.appendChild(senderInfo);
         group.appendChild(bubble);

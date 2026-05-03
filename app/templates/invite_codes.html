@@ -1,0 +1,62 @@
+{% extends "base_app.html" %}
+
+{% block title %}KeyCord — {{ _('Davet Kodları') }}{% endblock %}
+
+{% block content %}
+<div class="page-section" style="max-width:1200px; margin:2rem auto; padding:2rem;">
+  <div class="section-header" style="margin-bottom:2.5rem; display:flex; align-items:center; gap:1.5rem;">
+    <a href="{{ url_for('auth.profile') }}" class="kc-btn kc-btn-ghost" style="padding:0.7rem 1rem; font-size:0.95rem; display:inline-flex; align-items:center; gap:0.5rem;">
+      <svg viewBox="0 0 24 24" style="width:18px; height:18px; stroke-width:2;">
+        <path d="M19 12H5M12 19l-7-7 7-7"/>
+      </svg>
+      {{ _('Geri') }}
+    </a>
+    <div>
+      <h1 style="margin:0;">{{ _('Davet Kodları') }}</h1>
+      <p style="color: rgba(255,255,255,0.75); margin:0.75rem 0 0 0;">{{ _('Yeni kullanıcıların kayıt olabilmesi için paylaşabileceğiniz tek kullanımlık davet kodları.') }}</p>
+    </div>
+  </div>
+
+  <form method="POST" class="scribble-border" style="padding:1.8rem; margin-bottom:2rem; display:flex; gap:1.5rem; align-items:center; flex-wrap:wrap;">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+    <button type="submit" class="kc-btn kc-btn-primary" style="min-width:240px; padding:0.9rem 1.5rem;">{{ _('Yeni Davet Kodu Üret') }}</button>
+    <p style="margin:0; color: rgba(255,255,255,0.75); font-size:1.05rem;">{{ _('Oluşturulan kodlar tek kullanımlıktır ve süresi dolduğunda geçersiz olur.') }}</p>
+  </form>
+
+  <div class="scribble-border" style="padding:2rem;">
+    <h2 style="margin-top:0; margin-bottom:1.5rem; font-size:1.4rem;">{{ _('Kod Listesi') }}</h2>
+
+    {% if invites %}
+    <div style="display:grid; gap:1.5rem; margin-top:1.5rem;">
+      {% for invite in invites %}
+      <div class="invite-card" style="border:1px solid rgba(255,255,255,0.08); border-radius:14px; padding:1.5rem; display:grid; grid-template-columns:1fr auto; gap:2rem; align-items:center;">
+        <div>
+          <div style="font-family:monospace; letter-spacing:0.04em; font-size:1.1rem; color:#fff; word-break:break-all;">{{ invite.code }}</div>
+          <div style="color: rgba(255,255,255,0.6); font-size:1rem; margin-top:0.8rem;">
+            {{ _('Oluşturan') }}: <strong>{{ invite.inviter.username }}</strong> •
+            {{ _('Oluşturuldu') }}: <strong>{{ invite.created_at.strftime('%Y-%m-%d') if invite.created_at else '-' }}</strong> •
+            {{ _('Durum') }}: <strong>{{ _('Kullanıldı') if invite.is_used else _('Aktif') }}</strong>
+          </div>
+          {% if invite.expires_at %}
+          <div style="color: rgba(255,255,255,0.5); font-size:0.95rem; margin-top:0.5rem;">{{ _('Son Kullanma') }}: <strong>{{ invite.expires_at.strftime('%Y-%m-%d') }}</strong></div>
+          {% endif %}
+        </div>
+        <div style="text-align:right; color: rgba(255,255,255,0.75); font-size:1rem; min-width:200px;">
+          {% if invite.used_by %}
+          <div style="color:rgba(127,255,127,0.8);">✓ {{ _('Kullanan') }}</div>
+          <div>{{ invite.used_by.username }}</div>
+          <div style="color: rgba(255,255,255,0.5); font-size:0.9rem; margin-top:0.3rem;">{{ invite.used_at.strftime('%Y-%m-%d') if invite.used_at else '-' }}</div>
+          {% else %}
+          <div style="color:rgba(255,200,0,0.8); font-weight:600;">{{ _('Henüz kullanılmadı') }}</div>
+          {% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <p style="color: rgba(255,255,255,0.75); margin-top:1.5rem; font-size:1.05rem;">{{ _('Henüz davet kodu üretmediniz. Üstteki butona tıklayarak ilk kodu oluşturabilirsiniz.') }}</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
+

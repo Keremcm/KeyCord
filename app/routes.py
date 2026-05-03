@@ -2,6 +2,7 @@ import os
 import base64
 import datetime
 import re
+import secrets
 from cryptography.fernet import Fernet
 from Crypto.PublicKey import RSA
 from Crypto.Hash import SHA256
@@ -9,7 +10,7 @@ from Crypto.Cipher import PKCS1_OAEP
 from .models import (
     User, FriendRequest, Friendship, ChatMessage, Notification, 
     Announcement, BlockedUser, Group, 
-    Community, CommunityMessage, RememberToken
+    Community, CommunityMessage, RememberToken, InviteCode
 )
 from flask import Blueprint, request, render_template, redirect, url_for, flash, session, make_response, current_app, g, jsonify, abort, send_from_directory
 from app import db, socketio
@@ -301,10 +302,28 @@ def register():
 
         
         # Input validasyonu ve sanitization
+        invite_code = request.form.get('invite_code', '').strip()
         username = request.form.get('username', '').strip()
         password = request.form.get('password', '').strip()
         confirm_password = request.form.get('confirm_password', '').strip()
-        
+
+        require_invite = User.query.count() > 0
+        invite = None
+        if require_invite:
+            # Davet kodu kontrolü
+            if not invite_code:
+                flash('Davet kodu gerekli. Yeni kayıt için bir arkadaşınızdan alınmış kodu girin.')
+                return redirect(url_for('auth.register'))
+
+            invite = InviteCode.query.filter_by(code=invite_code, is_used=False).first()
+            if not invite:
+                flash('Geçersiz veya kullanılmış davet kodu. Lütfen arkadaşınızdan yeni bir kod isteyin.')
+                return redirect(url_for('auth.register'))
+
+            if invite.expires_at and invite.expires_at < datetime.datetime.utcnow():
+                flash('Bu davet kodu süresi dolmuş. Yeni bir kod isteyin.')
+                return redirect(url_for('auth.register'))
+
         # Input sanitization
         username = sanitize_input(username)
         
@@ -342,6 +361,7 @@ def register():
         new_user = User(
             username=username,
             password=generate_password_hash(password),
+            invited_by_id=invite.inviter_id if invite else None,
             # E2EE Keys
             public_key=request.form.get('public_key'),
             encrypted_private_key=request.form.get('encrypted_private_key'),
@@ -349,6 +369,12 @@ def register():
         )
         db.session.add(new_user)
         db.session.commit()
+
+        if invite:
+            invite.used_by_id = new_user.id
+            invite.used_at = datetime.datetime.utcnow()
+            invite.is_used = True
+            db.session.commit()
         log_action("REGISTER", user=username, ip=get_remote_addr())
         
         # Güvenlik logu
@@ -866,6 +892,36 @@ def profile():
     friends = User.query.join(Friendship, Friendship.friend_id == User.id)\
         .filter(Friendship.user_id == user_id).all()
     return render_template('profile.html', user=user, friends=friends)
+
+@auth_bp.route('/invite-codes', methods=['GET', 'POST'])
+@require_auth
+@require_csrf
+def invite_codes():
+    user_id = session.get('user_id')
+    user = User.query.get(user_id)
+
+    if request.method == 'POST':
+        if not rate_limit_check(f"invite_generate_{user_id}", 5, 300):
+            flash('Çok fazla davet kodu üretme isteği. Lütfen biraz bekleyin.')
+            return redirect(url_for('auth.invite_codes'))
+
+        code = secrets.token_urlsafe(24)
+        expiry_days = current_app.config.get('INVITE_CODE_EXPIRY_DAYS', 30)
+        expires_at = datetime.datetime.utcnow() + datetime.timedelta(days=expiry_days)
+
+        invite = InviteCode(
+            code=code,
+            inviter_id=user_id,
+            expires_at=expires_at
+        )
+        db.session.add(invite)
+        db.session.commit()
+
+        flash('Yeni davet kodu oluşturuldu. Arkadaşınıza gönderin.')
+        return redirect(url_for('auth.invite_codes'))
+
+    invites = InviteCode.query.filter_by(inviter_id=user_id).order_by(InviteCode.created_at.desc()).all()
+    return render_template('invite_codes.html', user=user, invites=invites)
 
 @auth_bp.route('/add-friend', methods=['GET', 'POST'])
 def add_friend_page():

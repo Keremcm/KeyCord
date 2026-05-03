@@ -47,10 +47,10 @@ def is_socket_rate_limited(ip, max_req=SOCKET_RATE_LIMIT_MAX, window=SOCKET_RATE
 @socketio.on("join")
 @socket_auth_required
 def handle_join(data):
-    token = data.get("token")
-    user_id = verify_token(token)  # verify_secure_token yerine verify_token
+    # Session'ı ilk kontrol et (token versioning problemi yok, logout'da silinir)
+    user_id = session.get('user_id')
     if not user_id:
-        return emit("error", {"message": "Token geçersiz."})
+        return emit("error", {"message": "Oturum bulunamadı. Lütfen giriş yapın."})
 
     room = f"user_{user_id}"
     join_room(room)
@@ -58,16 +58,17 @@ def handle_join(data):
     log_security_event('SOCKET_JOIN', f'User: {user_id}, Room: {room}')
     print(f"Kullanıcı {user_id} odaya katıldı: {room}")
 
+
 @socketio.on("send_message")
 @socket_auth_required
 def handle_send_message(data):
-    token = data.get("token")
+    # Session'ı ilk kontrol et (token versioning problemi yok, logout'da silinir)
+    sender_id = session.get('user_id')
+    if not sender_id:
+        return emit("error", {"message": "Oturum bulunamadı. Lütfen giriş yapın."})
+    
     content = data.get("content", "").strip()
     receiver_username = data.get("to", "").strip()
-
-    sender_id = verify_secure_token(token)
-    if not sender_id:
-        return emit("error", {"message": "Token geçersiz."})
 
     # Input validasyonu
     if not content or not receiver_username:
