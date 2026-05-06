@@ -1,0 +1,117 @@
+GİZLİLİK POLİTİKASI
+KeyCord — Gizlilik Öncelikli Şifreli Mesajlaşma Platformu
+Son güncelleme: Mayıs 2026
+
+────────────────────────────────────────
+
+1. GENEL BAKIŞ
+
+Bu gizlilik politikası, KeyCord platformunun ("KeyCord", "biz", "platform") kişisel verilerinizi nasıl ele aldığını açıklamaktadır. KeyCord, 6698 sayılı Kişisel Verilerin Korunması Kanunu (KVKK) ve Avrupa Birliği Genel Veri Koruma Tüzüğü (GDPR) kapsamındaki yükümlülüklerine uygun şekilde hareket etmeyi taahhüt eder.
+
+KeyCord'un temel tasarım ilkesi: Sizi tanımamak. Platform, tasarımı gereği kullanıcı verisi toplamayacak şekilde inşa edilmiştir.
+
+────────────────────────────────────────
+
+2. VERİ SORUMLUSU
+
+Veri sorumlusu: KeyCord
+İletişim: privacy@keycord.org
+
+────────────────────────────────────────
+
+3. HANGİ VERİLERİ TOPLUYORUZ?
+
+KeyCord, normal kullanım sırasında kullanıcılardan hiçbir kişisel veri toplamaz. Özellikle şunlar kaydedilmez veya saklanmaz:
+
+- Kullanıcı adı, e-posta adresi veya telefon numarası
+- IP adresi (Cloudflare altyapısı, gerçek sunucu IP'sini kullanıcılardan gizler; kullanıcı IP'si platformumuz tarafından loglanmaz)
+- Mesaj içeriği (uçtan uca şifreleme nedeniyle platformun mesaj içeriğine teknik erişimi yoktur)
+- Konum bilgisi
+- Cihaz bilgisi
+- Kullanım alışkanlıkları veya davranışsal veri
+- Çerez (cookie) veya izleme teknolojileri
+
+Tek işlenen veri: Ağ güvenliğimizi tehdit eden saldırıların tespiti ve engellenmesi amacıyla, kötü niyetli bağlantılara ait bağlantı verileri (örneğin anormal trafik desenleri) işlenebilir. Bu işlem, meşru kullanıcıları tanımlamaya yönelik değil; yalnızca saldırganların bağlantılarını tespit etmeye yöneliktir. Bu veriler herhangi bir kullanıcı profiliyle ilişkilendirilmez ve hizmetin güvenliği için zorunlu olduğu sürece tutulur, akabinde silinir.
+
+────────────────────────────────────────
+
+4. ŞİFRELEME VE SIFIR BİLGİ MİMARİSİ
+
+KeyCord, sıfır bilgi (zero-knowledge) mimarisi üzerine kurulmuştur:
+
+- Her oturum için benzersiz şifreleme anahtarları üretilir.
+- Şifreler dahil hiçbir kimlik bilgisi sunucularımızda açık metin olarak saklanmaz.
+- Mesaj içeriklerine teknik olarak erişimimiz yoktur; dolayısıyla herhangi bir talep üzerine dahi içerik sunmamız mümkün değildir.
+- Şifreli verilerin yetkisiz taraflarca elde edilmesi halinde dahi içerik okunamaz biçimdedir.
+
+Bu yapı, GDPR Recital 26 ve KVKK Madde 12 kapsamında "uygun teknik tedbirler" olarak değerlendirilmektedir.
+
+────────────────────────────────────────
+
+5. TRAFİK ANALİZİ KORUNMASI
+
+KeyCord, trafik analizine karşı ek koruma önlemleri uygular:
+
+- Paketler sabit boyuta getirilir; bu sayede iletişim örüntüleri dışarıdan analiz edilemez.
+- Mesaj iletiminde rastgele gecikmeler uygulanabilir; bu zamanlama korelasyon saldırılarını engeller.
+- Tor ağı üzerinden erişim desteklenmektedir; bu yöntem tam ağ anonimliği sağlar.
+
+────────────────────────────────────────
+
+6. ÜÇÜNCÜ TARAF VERİ PAYLAŞIMI
+
+Kullanıcı verileri hiçbir üçüncü tarafla satılmaz, kiralanmaz veya reklam amaçlı paylaşılmaz.
+
+Platform, Cloudflare altyapısını ağ koruması amacıyla kullanmaktadır. Cloudflare'in kendi gizlilik politikası geçerlidir; Cloudflare'e yalnızca ağ trafik verileri iletilmekte olup bu veriler kullanıcı kimliğiyle ilişkilendirilmemektedir.
+
+Yetkili makamların yasal taleplerine yanıt verme yükümlülüğümüz mevcuttur; ancak zero-knowledge mimarisi nedeniyle sunabileceğimiz içerik verisi teknik olarak mevcut değildir.
+
+────────────────────────────────────────
+
+7. VERİ SAKLAMA SÜRELERİ
+
+- Mesaj içerikleri: Sunucularımızda okunabilir biçimde saklanmaz.
+- Güvenlik amaçlı ağ verileri: Tespit amacı ortadan kalktıktan sonra silinir; en fazla 30 gün.
+- Hesap bilgileri: Şifreli ve anonim biçimde; kullanıcı hesabını silene kadar.
+
+────────────────────────────────────────
+
+8. KVKK VE GDPR KAPSAMINDAKİ HAKLARINIZ
+
+6698 sayılı KVKK'nın 11. Maddesi ve GDPR'ın 15-22. Maddeleri uyarınca aşağıdaki haklara sahipsiniz:
+
+- Kişisel verilerinizin işlenip işlenmediğini öğrenme hakkı
+- İşlenen verileriniz hakkında bilgi talep etme hakkı
+- Verilerin silinmesini veya anonim hale getirilmesini talep etme hakkı
+- Veri işlemeye itiraz etme hakkı
+- Yetkili kuruma şikayette bulunma hakkı
+  (Türkiye: Kişisel Verileri Koruma Kurumu — kvkk.gov.tr)
+  (AB: ilgili Veri Koruma Otoritesi)
+
+Bu haklarınızı kullanmak için: privacy@keycord.org
+
+Talepler, KVKK Madde 13 uyarınca en geç 30 gün içinde yanıtlanır.
+
+────────────────────────────────────────
+
+9. ÇEREZLER
+
+KeyCord, izleme veya analiz amaçlı çerez kullanmaz. Yalnızca oturum yönetimi için teknik olarak zorunlu olduğu durumlarda geçici oturum verileri kullanılabilir; bu veriler tarayıcı kapatıldığında silinir.
+
+────────────────────────────────────────
+
+10. TOR AĞI ÜZERİNDEN ERİŞİM
+
+KeyCord'a .onion adresi üzerinden erişim sağlandığında, ağ anonimliği tamamen Tor ağı tarafından güvence altına alınır. Bu durumda platformun herhangi bir bağlantı verisine erişimi yoktur.
+
+────────────────────────────────────────
+
+11. POLİTİKA DEĞİŞİKLİKLERİ
+
+Bu politika değiştirildiğinde, güncel versiyon bu sayfada yayımlanır ve güncelleme tarihi revize edilir. Önemli değişikliklerde kullanıcılar bilgilendirilir.
+
+────────────────────────────────────────
+
+12. İLETİŞİM
+
+Gizlilik ile ilgili tüm sorularınız için: privacy@keycord.org

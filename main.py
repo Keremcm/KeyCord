@@ -21,4 +21,4 @@ def favicon():
 if __name__ == "__main__":
     import os
     debug = os.environ.get('FLASK_DEBUG', 'false').lower() == 'true'
-    socketio.run(app, debug=debug, host='127.0.0.1', port=8005)
+    socketio.run(app, debug=debug, host='127.0.0.1', port=8005, allow_unsafe_werkzeug=True)

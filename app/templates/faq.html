@@ -25,7 +25,6 @@
     /* Başlık bloğu – daha sade */
     .faq-header {
         text-align: left;
-        /* sola dayalı, daha doğal */
         margin-bottom: 3.5rem;
         padding-left: 0.5rem;
     }
@@ -67,6 +66,32 @@
         border-top: 1px dashed var(--separator-color);
     }
 
+    .faq-category {
+        margin-top: 2.5rem;
+    }
+
+    .faq-category:first-child {
+        margin-top: 0;
+    }
+
+    .faq-category-title {
+        font-family: 'Caveat', cursive;
+        font-size: 1.5rem;
+        color: var(--muted-chalk);
+        margin: 1.5rem 0.5rem 1rem;
+        padding-top: 1rem;
+        border-top: 1px dashed var(--separator-color);
+        opacity: 0.7;
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+    }
+
+    .faq-category:first-child .faq-category-title {
+        border-top: none;
+        padding-top: 0;
+        margin-top: 0;
+    }
+
     /* Her soru bir satır gibi */
     .faq-item {
         position: relative;
@@ -99,7 +124,6 @@
         color: var(--chalk);
         margin: 0;
         pointer-events: none;
-        /* tıklama etikette */
         flex: 1;
     }
 
@@ -125,7 +149,6 @@
         transition: max-height 0.45s ease, padding 0.35s ease, opacity 0.3s ease;
         opacity: 0;
         padding: 0 0.5rem 0 3.5rem;
-        /* çözüm girintisi */
         color: var(--muted-chalk);
         font-family: 'Caveat', cursive;
         font-size: 1.15rem;
@@ -216,227 +239,558 @@
     </header>
 
     <div class="faq-list">
-        <!-- 1 -->
-        <div class="faq-item">
-            <label class="faq-label" for="q1-toggle">
-                <div class="faq-question">
-                    <span class="number">01</span> {{ _('KeyCord tam olarak nedir?') }}
+        <!-- GENEL -->
+        <div class="faq-category">
+            <h3 class="faq-category-title">{{ _('● GENEL') }}</h3>
+
+            <div class="faq-item">
+                <label class="faq-label" for="q1-toggle">
+                    <div class="faq-question">
+                        <span class="number">01</span> {{ _('KeyCord nedir?') }}
+                    </div>
+                    <span class="icon">+</span>
+                </label>
+                <input type="checkbox" id="q1-toggle" class="faq-toggle">
+                <div class="faq-answer">
+                    <p>{{ _('KeyCord, gizlilik odaklı, uçtan uca şifreli bir mesajlaşma platformudur. Sıfır bilgi (zero-knowledge) mimarisiyle tasarlanmıştır; mesajlarınıza bizim de erişimimiz yoktur.') }}</p>
                 </div>
-                <span class="icon">+</span>
-            </label>
-            <input type="checkbox" id="q1-toggle" class="faq-toggle">
-            <div class="faq-answer">
-                <p>{{ _('Signal benzeri güçlü uçtan uca şifrelemeyi, Tor ağı üzerinden zorunlu anonim bağlantıyla
-                    birleştiren bir mesajlaşma platformudur. Telefon numarası veya e‑posta gerektirmez; sadece bir rumuz
-                    yeterlidir.') }}</p>
+            </div>
+
+            <div class="faq-item">
+                <label class="faq-label" for="q2-toggle">
+                    <div class="faq-question">
+                        <span class="number">02</span> {{ _('KeyCord\'u kim geliştiriyor?') }}
+                    </div>
+                    <span class="icon">+</span>
+                </label>
+                <input type="checkbox" id="q2-toggle" class="faq-toggle">
+                <div class="faq-answer">
+                    <p>{{ _('KeyCord, bağımsız bir geliştirici tarafından inşa edilen ve aktif olarak geliştirilen açık kaynaklı bir projedir.') }}</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <label class="faq-label" for="q3-toggle">
+                    <div class="faq-question">
+                        <span class="number">03</span> {{ _('KeyCord ücretsiz mi?') }}
+                    </div>
+                    <span class="icon">+</span>
+                </label>
+                <input type="checkbox" id="q3-toggle" class="faq-toggle">
+                <div class="faq-answer">
+                    <p>{{ _('Evet, KeyCord şu an itibarıyla tamamen ücretsizdir.') }}</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <label class="faq-label" for="q4-toggle">
+                    <div class="faq-question">
+                        <span class="number">04</span> {{ _('KeyCord hangi cihazlarda çalışır?') }}
+                    </div>
+                    <span class="icon">+</span>
+                </label>
+                <input type="checkbox" id="q4-toggle" class="faq-toggle">
+                <div class="faq-answer">
+                    <p>{{ _('KeyCord web tabanlıdır; modern bir tarayıcısı olan her cihazda çalışır. Ayrıca Tor Browser üzerinden de erişilebilir.') }}</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <label class="faq-label" for="q5-toggle">
+                    <div class="faq-question">
+                        <span class="number">05</span> {{ _('KeyCord\'u indirmem gerekiyor mu?') }}
+                    </div>
+                    <span class="icon">+</span>
+                </label>
+                <input type="checkbox" id="q5-toggle" class="faq-toggle">
+                <div class="faq-answer">
+                    <p>{{ _('Hayır. KeyCord doğrudan tarayıcınız üzerinden kullanılır; herhangi bir uygulama indirmenize gerek yoktur.') }}</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <label class="faq-label" for="q6-toggle">
+                    <div class="faq-question">
+                        <span class="number">06</span> {{ _('KeyCord beta sürümünde mi?') }}
+                    </div>
+                    <span class="icon">+</span>
+                </label>
+                <input type="checkbox" id="q6-toggle" class="faq-toggle">
+                <div class="faq-answer">
+                    <p>{{ _('Evet, platform hâlâ beta aşamasındadır. Güvenlik yamaları ve güncellemeler düzenli olarak uygulanmaktadır.') }}</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <label class="faq-label" for="q7-toggle">
+                    <div class="faq-question">
+                        <span class="number">07</span> {{ _('KeyCord açık kaynak mı?') }}
+                    </div>
+                    <span class="icon">+</span>
+                </label>
+                <input type="checkbox" id="q7-toggle" class="faq-toggle">
+                <div class="faq-answer">
+                    <p>{{ _('Projenin açık kaynak bileşenleri mevcuttur. Detaylar için GitHub sayfamızı inceleyebilirsiniz.') }}</p>
+                </div>
             </div>
         </div>
 
-        <!-- 2 -->
-        <div class="faq-item">
-            <label class="faq-label" for="q2-toggle">
-                <div class="faq-question">
-                    <span class="number">02</span> {{ _('KeyCord ücretli mi? Nasıl sürdürülüyor?') }}
+        <!-- GİZLİLİK VE VERİ -->
+        <div class="faq-category">
+            <h3 class="faq-category-title">{{ _('● GİZLİLİK VE VERİ') }}</h3>
+
+            <div class="faq-item">
+                <label class="faq-label" for="q8-toggle">
+                    <div class="faq-question">
+                        <span class="number">08</span> {{ _('KeyCord hangi verilerimi topluyor?') }}
+                    </div>
+                    <span class="icon">+</span>
+                </label>
+                <input type="checkbox" id="q8-toggle" class="faq-toggle">
+                <div class="faq-answer">
+                    <p>{{ _('Normal kullanımda hiçbir kişisel veri toplanmaz. IP adresiniz, mesaj içerikleriniz, cihaz bilginiz veya kullanım alışkanlıklarınız kaydedilmez.') }}</p>
                 </div>
-                <span class="icon">+</span>
-            </label>
-            <input type="checkbox" id="q2-toggle" class="faq-toggle">
-            <div class="faq-answer">
-                <p>{{ _('Temel özellikler her zaman ücretsizdir. Sürdürülebilirlik, şeffaf bağışlar ve isteğe bağlı
-                    topluluk desteği ile sağlanır. Verilerinizi asla satmaz veya reklam göstermeyiz.') }}</p>
+            </div>
+
+            <div class="faq-item">
+                <label class="faq-label" for="q9-toggle">
+                    <div class="faq-question">
+                        <span class="number">09</span> {{ _('Mesajlarımı siz okuyabilir misiniz?') }}
+                    </div>
+                    <span class="icon">+</span>
+                </label>
+                <input type="checkbox" id="q9-toggle" class="faq-toggle">
+                <div class="faq-answer">
+                    <p>{{ _('Hayır. Uçtan uca şifreleme ve zero-knowledge mimarisi nedeniyle mesaj içeriklerine teknik olarak erişimimiz yoktur.') }}</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <label class="faq-label" for="q10-toggle">
+                    <div class="faq-question">
+                        <span class="number">10</span> {{ _('Şifremi biliyor musunuz?') }}
+                    </div>
+                    <span class="icon">+</span>
+                </label>
+                <input type="checkbox" id="q10-toggle" class="faq-toggle">
+                <div class="faq-answer">
+                    <p>{{ _('Hayır. Şifreler sunucularımıza hiçbir zaman açık metin olarak iletilmez veya saklanmaz. Şifrenizi kaybetmeniz durumunda sıfırlama imkânı bulunmayabilir.') }}</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <label class="faq-label" for="q11-toggle">
+                    <div class="faq-question">
+                        <span class="number">11</span> {{ _('IP adresim kaydediliyor mu?') }}
+                    </div>
+                    <span class="icon">+</span>
+                </label>
+                <input type="checkbox" id="q11-toggle" class="faq-toggle">
+                <div class="faq-answer">
+                    <p>{{ _('Hayır. Cloudflare Tunnel altyapısı sayesinde gerçek sunucu IP\'miz gizlidir; aynı zamanda kullanıcı IP adresleri de platformumuz tarafından loglanmaz.') }}</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <label class="faq-label" for="q12-toggle">
+                    <div class="faq-question">
+                        <span class="number">12</span> {{ _('Verilerimi üçüncü taraflarla paylaşıyor musunuz?') }}
+                    </div>
+                    <span class="icon">+</span>
+                </label>
+                <input type="checkbox" id="q12-toggle" class="faq-toggle">
+                <div class="faq-answer">
+                    <p>{{ _('Hayır. Kullanıcı verisi hiçbir üçüncü tarafla satılmaz, kiralanmaz veya reklam amaçlı paylaşılmaz.') }}</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <label class="faq-label" for="q13-toggle">
+                    <div class="faq-question">
+                        <span class="number">13</span> {{ _('Çerez (cookie) kullanıyor musunuz?') }}
+                    </div>
+                    <span class="icon">+</span>
+                </label>
+                <input type="checkbox" id="q13-toggle" class="faq-toggle">
+                <div class="faq-answer">
+                    <p>{{ _('İzleme veya analiz amaçlı çerez kullanılmaz. Yalnızca oturumunuzu açık tutmak için zorunlu geçici veriler kullanılır; bunlar tarayıcı kapatıldığında silinir.') }}</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <label class="faq-label" for="q14-toggle">
+                    <div class="faq-question">
+                        <span class="number">14</span> {{ _('Hükümet talebi gelirse ne olur?') }}
+                    </div>
+                    <span class="icon">+</span>
+                </label>
+                <input type="checkbox" id="q14-toggle" class="faq-toggle">
+                <div class="faq-answer">
+                    <p>{{ _('Yasal yükümlülüklerimiz çerçevesinde taleplere yanıt verme zorunluluğumuz olabilir; ancak zero-knowledge mimarisi nedeniyle sunabileceğimiz okunabilir içerik verisi teknik olarak mevcut değildir.') }}</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <label class="faq-label" for="q15-toggle">
+                    <div class="faq-question">
+                        <span class="number">15</span> {{ _('Verilerimin silinmesini talep edebilir miyim?') }}
+                    </div>
+                    <span class="icon">+</span>
+                </label>
+                <input type="checkbox" id="q15-toggle" class="faq-toggle">
+                <div class="faq-answer">
+                    <p>{{ _('Evet. Profil sayfanızdan kendiniz hesabınızı silebilirsiniz. Bu silme işlemi kalıcıdır ve geri dönüşü yoktur. privacy@keycord.org adresine başvurabilirsiniz.') }}</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <label class="faq-label" for="q16-toggle">
+                    <div class="faq-question">
+                        <span class="number">16</span> {{ _('KVKK ve GDPR\'a uyumlu musunuz?') }}
+                    </div>
+                    <span class="icon">+</span>
+                </label>
+                <input type="checkbox" id="q16-toggle" class="faq-toggle">
+                <div class="faq-answer">
+                    <p>{{ _('Evet. KeyCord, 6698 sayılı KVKK ve AB GDPR kapsamındaki yükümlülüklere uygun şekilde tasarlanmıştır. Detaylı bilgi için Gizlilik Politikamızı inceleyebilirsiniz.') }}</p>
+                </div>
             </div>
         </div>
 
-        <!-- 3 -->
-        <div class="faq-item">
-            <label class="faq-label" for="q3-toggle">
-                <div class="faq-question">
-                    <span class="number">03</span> {{ _('Telefon numarası ya da e‑posta gerekli mi?') }}
+        <!-- GÜVENLİK VE ŞİFRELEME -->
+        <div class="faq-category">
+            <h3 class="faq-category-title">{{ _('● GÜVENLİK VE ŞİFRELEME') }}</h3>
+
+            <div class="faq-item">
+                <label class="faq-label" for="q17-toggle">
+                    <div class="faq-question">
+                        <span class="number">17</span> {{ _('Şifreleme nasıl çalışıyor?') }}
+                    </div>
+                    <span class="icon">+</span>
+                </label>
+                <input type="checkbox" id="q17-toggle" class="faq-toggle">
+                <div class="faq-answer">
+                    <p>{{ _('Her oturum için benzersiz şifreleme anahtarları üretilir. Mesajlar yalnızca konuşmaya dahil olan tarafların cihazlarında çözülebilir; sunucu bu anahtarlara sahip değildir.') }}</p>
                 </div>
-                <span class="icon">+</span>
-            </label>
-            <input type="checkbox" id="q3-toggle" class="faq-toggle">
-            <div class="faq-answer">
-                <p>{{ _('Hayır. “Sıfır Bilgi” (Zero‑Knowledge) ilkesiyle çalışırız; hiçbir gerçek kimlik bilgisi
-                    istenmez.') }}</p>
+            </div>
+
+            <div class="faq-item">
+                <label class="faq-label" for="q18-toggle">
+                    <div class="faq-question">
+                        <span class="number">18</span> {{ _('Zero-knowledge mimarisi ne anlama geliyor?') }}
+                    </div>
+                    <span class="icon">+</span>
+                </label>
+                <input type="checkbox" id="q18-toggle" class="faq-toggle">
+                <div class="faq-answer">
+                    <p>{{ _('Sıfır bilgi mimarisi, platformun kullanıcı şifrelerine ve mesaj içeriklerine hiçbir şekilde erişemeyeceği anlamına gelir. Teknik olarak "bilmiyoruz" çünkü bilmek için gereken anahtarlar bizde yok.') }}</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <label class="faq-label" for="q19-toggle">
+                    <div class="faq-question">
+                        <span class="number">19</span> {{ _('Trafik analizinden korunuyor muyum?') }}
+                    </div>
+                    <span class="icon">+</span>
+                </label>
+                <input type="checkbox" id="q19-toggle" class="faq-toggle">
+                <div class="faq-answer">
+                    <p>{{ _('Evet. KeyCord sabit boyutlu paketler kullanır ve mesaj iletiminde rastgele gecikmeler uygulayabilir. Bu sayede dışarıdan iletişim örüntünüzü analiz etmek güçleşir.') }}</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <label class="faq-label" for="q20-toggle">
+                    <div class="faq-question">
+                        <span class="number">20</span> {{ _('Sunucunuz ele geçirilse ne olur?') }}
+                    </div>
+                    <span class="icon">+</span>
+                </label>
+                <input type="checkbox" id="q20-toggle" class="faq-toggle">
+                <div class="faq-answer">
+                    <p>{{ _('Sunucuda yalnızca şifreli, okunamaz veri bulunur. Anahtarlar sunucuda tutulmadığından, ele geçirme durumunda mesaj içeriklerine ulaşmak teknik olarak mümkün değildir.') }}</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <label class="faq-label" for="q21-toggle">
+                    <div class="faq-question">
+                        <span class="number">21</span> {{ _('Man-in-the-middle saldırılarına karşı korumalı mı?') }}
+                    </div>
+                    <span class="icon">+</span>
+                </label>
+                <input type="checkbox" id="q21-toggle" class="faq-toggle">
+                <div class="faq-answer">
+                    <p>{{ _('Evet. Uçtan uca şifreleme, araya girme saldırılarına karşı temel koruma sağlar. Bağlantılar TLS ile de güvence altına alınmaktadır.') }}</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <label class="faq-label" for="q22-toggle">
+                    <div class="faq-question">
+                        <span class="number">22</span> {{ _('Oturum anahtarları ne kadar süre geçerli?') }}
+                    </div>
+                    <span class="icon">+</span>
+                </label>
+                <input type="checkbox" id="q22-toggle" class="faq-toggle">
+                <div class="faq-answer">
+                    <p>{{ _('Anahtarlar oturuma özeldir. Her yeni oturumda yeni anahtarlar üretilir; bu sayede geçmiş oturumlara ait veriler, anahtar ele geçirilse dahi korunmaya devam eder (forward secrecy).') }}</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <label class="faq-label" for="q23-toggle">
+                    <div class="faq-question">
+                        <span class="number">23</span> {{ _('Sunucunun gerçek IP adresi gizli mi?') }}
+                    </div>
+                    <span class="icon">+</span>
+                </label>
+                <input type="checkbox" id="q23-toggle" class="faq-toggle">
+                <div class="faq-answer">
+                    <p>{{ _('Evet. Cloudflare Tunnel kullanımı sayesinde sunucunun gerçek IP adresi dışarıya açık değildir. Bu durum Shodan ve benzeri tarama araçlarıyla doğrulanmıştır.') }}</p>
+                </div>
             </div>
         </div>
 
-        <!-- 4 -->
-        <div class="faq-item">
-            <label class="faq-label" for="q4-toggle">
-                <div class="faq-question">
-                    <span class="number">04</span> {{ _('Mesajlarımı kimse okuyabilir mi?') }}
+        <!-- TOR VE ANONİMLİK -->
+        <div class="faq-category">
+            <h3 class="faq-category-title">{{ _('● TOR VE ANONİMLİK') }}</h3>
+
+            <div class="faq-item">
+                <label class="faq-label" for="q24-toggle">
+                    <div class="faq-question">
+                        <span class="number">24</span> {{ _('Tor üzerinden KeyCord\'a erişebilir miyim?') }}
+                    </div>
+                    <span class="icon">+</span>
+                </label>
+                <input type="checkbox" id="q24-toggle" class="faq-toggle">
+                <div class="faq-answer">
+                    <p>{{ _('Evet. KeyCord, .onion adresi üzerinden Tor ağıyla erişimi destekler. Bu yöntem tam ağ anonimliği sağlar.') }}</p>
                 </div>
-                <span class="icon">+</span>
-            </label>
-            <input type="checkbox" id="q4-toggle" class="faq-toggle">
-            <div class="faq-answer">
-                <p>{{ _('Mesajlarınız uçtan uca şifrelenir; şifre çözme anahtarları yalnızca cihazınızda saklanır.
-                    KeyCord sunucuları dahi içeriğe erişemez.') }}</p>
+            </div>
+
+            <div class="faq-item">
+                <label class="faq-label" for="q25-toggle">
+                    <div class="faq-question">
+                        <span class="number">25</span> {{ _('Normal web ile Tor erişimi arasındaki fark nedir?') }}
+                    </div>
+                    <span class="icon">+</span>
+                </label>
+                <input type="checkbox" id="q25-toggle" class="faq-toggle">
+                <div class="faq-answer">
+                    <p>{{ _('Normal web erişiminde Cloudflare bağlantı verilerini görebilir (kullanıcı IP\'si platformumuza ulaşmaz). Tor üzerinden erişimde ise ağ katmanında tam anonimlik sağlanır; platformun herhangi bir bağlantı verisine erişimi olmaz.') }}</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <label class="faq-label" for="q26-toggle">
+                    <div class="faq-question">
+                        <span class="number">26</span> {{ _('Tor kullanmak zorunda mıyım?') }}
+                    </div>
+                    <span class="icon">+</span>
+                </label>
+                <input type="checkbox" id="q26-toggle" class="faq-toggle">
+                <div class="faq-answer">
+                    <p>{{ _('Hayır. Normal tarayıcı ile de erişebilirsiniz. Ancak maksimum anonimlik istiyorsanız Tor önerilir.') }}</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <label class="faq-label" for="q27-toggle">
+                    <div class="faq-question">
+                        <span class="number">27</span> {{ _('Tor üzerinde performans nasıl?') }}
+                    </div>
+                    <span class="icon">+</span>
+                </label>
+                <input type="checkbox" id="q27-toggle" class="faq-toggle">
+                <div class="faq-answer">
+                    <p>{{ _('Tor\'un yapısı gereği bağlantı hızı normal web\'e kıyasla daha yavaş olabilir. Bu KeyCord\'a özgü bir durum değil; Tor ağının genel bir özelliğidir.') }}</p>
+                </div>
             </div>
         </div>
 
-        <!-- 5 -->
-        <div class="faq-item">
-            <label class="faq-label" for="q5-toggle">
-                <div class="faq-question">
-                    <span class="number">05</span> {{ _('Neden Tor kullanılıyor?') }}
+        <!-- HESAP VE KULLANIM -->
+        <div class="faq-category">
+            <h3 class="faq-category-title">{{ _('● HESAP VE KULLANIM') }}</h3>
+
+            <div class="faq-item">
+                <label class="faq-label" for="q28-toggle">
+                    <div class="faq-question">
+                        <span class="number">28</span> {{ _('Kayıt olmak için e-posta gerekiyor mu?') }}
+                    </div>
+                    <span class="icon">+</span>
+                </label>
+                <input type="checkbox" id="q28-toggle" class="faq-toggle">
+                <div class="faq-answer">
+                    <p>{{ _('Hayır. KeyCord, kimlik doğrulama için e-posta veya telefon numarası gibi kişisel veri talep etmez.') }}</p>
                 </div>
-                <span class="icon">+</span>
-            </label>
-            <input type="checkbox" id="q5-toggle" class="faq-toggle">
-            <div class="faq-answer">
-                <p>{{ _('Tor, IP adresinizi ve konumunuzu gizleyerek sansürü aşmanıza olanak tanır. KeyCord’da
-                    bağlantılar varsayılan olarak Tor üzerinden kurulur.') }}</p>
+            </div>
+
+            <div class="faq-item">
+                <label class="faq-label" for="q29-toggle">
+                    <div class="faq-question">
+                        <span class="number">29</span> {{ _('Şifremi unutursam ne olur?') }}
+                    </div>
+                    <span class="icon">+</span>
+                </label>
+                <input type="checkbox" id="q29-toggle" class="faq-toggle">
+                <div class="faq-answer">
+                    <p>{{ _('Sıfır bilgi mimarisi nedeniyle şifre sıfırlama geleneksel yöntemlerle mümkün olmayabilir. Şifrenizi güvenli bir yerde saklamanızı öneririz.') }}</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <label class="faq-label" for="q30-toggle">
+                    <div class="faq-question">
+                        <span class="number">30</span> {{ _('Birden fazla hesap açabilir miyim?') }}
+                    </div>
+                    <span class="icon">+</span>
+                </label>
+                <input type="checkbox" id="q30-toggle" class="faq-toggle">
+                <div class="faq-answer">
+                    <p>{{ _('Platform bunu teknik olarak engellemez; ancak her hesabın güvenliğinin ayrı ayrı sağlanması kullanıcının sorumluluğundadır.') }}</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <label class="faq-label" for="q31-toggle">
+                    <div class="faq-question">
+                        <span class="number">31</span> {{ _('Hesabımı nasıl silerim?') }}
+                    </div>
+                    <span class="icon">+</span>
+                </label>
+                <input type="checkbox" id="q31-toggle" class="faq-toggle">
+                <div class="faq-answer">
+                    <p>{{ _('Hesap silmek için profil sayfanızdan işleminizi gerçekleştirebilirsiniz. privacy@keycord.org adresine başvurabilirsiniz.') }}</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <label class="faq-label" for="q32-toggle">
+                    <div class="faq-question">
+                        <span class="number">32</span> {{ _('Grup mesajlaşması destekleniyor mu?') }}
+                    </div>
+                    <span class="icon">+</span>
+                </label>
+                <input type="checkbox" id="q32-toggle" class="faq-toggle">
+                <div class="faq-answer">
+                    <p>{{ _('Mevcut geliştirme sürecinde bu özellik hakkında güncel bilgi için keycord.org adresini takip edin.') }}</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <label class="faq-label" for="q33-toggle">
+                    <div class="faq-question">
+                        <span class="number">33</span> {{ _('Dosya veya medya gönderilebiliyor mu?') }}
+                    </div>
+                    <span class="icon">+</span>
+                </label>
+                <input type="checkbox" id="q33-toggle" class="faq-toggle">
+                <div class="faq-answer">
+                    <p>{{ _('Mevcut özellikler ve yol haritası için keycord.org adresini takip edin.') }}</p>
+                </div>
             </div>
         </div>
 
-        <!-- 6 -->
-        <div class="faq-item">
-            <label class="faq-label" for="q6-toggle">
-                <div class="faq-question">
-                    <span class="number">06</span> {{ _('Şifremi unutursam ne olur?') }}
+        <!-- TEKNİK ALTYAPI -->
+        <div class="faq-category">
+            <h3 class="faq-category-title">{{ _('● TEKNİK ALTYAPI') }}</h3>
+
+            <div class="faq-item">
+                <label class="faq-label" for="q34-toggle">
+                    <div class="faq-question">
+                        <span class="number">34</span> {{ _('KeyCord hangi altyapı üzerinde çalışıyor?') }}
+                    </div>
+                    <span class="icon">+</span>
+                </label>
+                <input type="checkbox" id="q34-toggle" class="faq-toggle">
+                <div class="faq-answer">
+                    <p>{{ _('KeyCord, Cloudflare Tunnel ile korunan ve gerçek IP\'si gizli bir sunucu üzerinde çalışmaktadır.') }}</p>
                 </div>
-                <span class="icon">+</span>
-            </label>
-            <input type="checkbox" id="q6-toggle" class="faq-toggle">
-            <div class="faq-answer">
-                <p>{{ _('Şifreniz verilerinizin tek anahtarıdır. Biz şifrenizi bilmediğimiz için kurtarma imkânı yoktur;
-                    kaybederseniz hesabınız kalıcı olarak kapanır.') }}</p>
+            </div>
+
+            <div class="faq-item">
+                <label class="faq-label" for="q35-toggle">
+                    <div class="faq-question">
+                        <span class="number">35</span> {{ _('Verilerim hangi ülkede saklanıyor?') }}
+                    </div>
+                    <span class="icon">+</span>
+                </label>
+                <input type="checkbox" id="q35-toggle" class="faq-toggle">
+                <div class="faq-answer">
+                    <p>{{ _('Sunucu fiziksel olarak Türkiye\'de bulunmaktadır. Veriler herhangi bir şahsa, kuruma ve kuruluşa aktarılmamaktadır.') }}</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <label class="faq-label" for="q36-toggle">
+                    <div class="faq-question">
+                        <span class="number">36</span> {{ _('Hizmet kesintisi yaşanırsa ne olur?') }}
+                    </div>
+                    <span class="icon">+</span>
+                </label>
+                <input type="checkbox" id="q36-toggle" class="faq-toggle">
+                <div class="faq-answer">
+                    <p>{{ _('Platform beta aşamasında olduğundan zaman zaman bakım ve yama süreçleri nedeniyle kısa süreli kesintiler yaşanabilir. Güncel durum için keycord.org adresini takip edebilirsiniz.') }}</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <label class="faq-label" for="q37-toggle">
+                    <div class="faq-question">
+                        <span class="number">37</span> {{ _('Cloudflare\'in verilerime erişimi var mı?') }}
+                    </div>
+                    <span class="icon">+</span>
+                </label>
+                <input type="checkbox" id="q37-toggle" class="faq-toggle">
+                <div class="faq-answer">
+                    <p>{{ _('Cloudflare, ağ trafiğini görür; ancak mesaj içerikleri uçtan uca şifreli olduğundan Cloudflare de dahil hiçbir aracı tarafından okunamaz.') }}</p>
+                </div>
             </div>
         </div>
 
-        <!-- 7 -->
-        <div class="faq-item">
-            <label class="faq-label" for="q7-toggle">
-                <div class="faq-question">
-                    <span class="number">07</span> {{ _('Verilerim nerede saklanıyor?') }}
-                </div>
-                <span class="icon">+</span>
-            </label>
-            <input type="checkbox" id="q7-toggle" class="faq-toggle">
-            <div class="faq-answer">
-                <p>{{ _('Şifreli mesajlar sunucularımızda tutulur; ancak onları açacak anahtarlar yalnızca sizin
-                    cihazınızdadır, sunucuya asla iletilmez.') }}</p>
-            </div>
-        </div>
+        <!-- İLETİŞİM VE GERİ BİLDİRİM -->
+        <div class="faq-category">
+            <h3 class="faq-category-title">{{ _('● İLETİŞİM VE GERİ BİLDİRİM') }}</h3>
 
-        <!-- 8 -->
-        <div class="faq-item">
-            <label class="faq-label" for="q8-toggle">
-                <div class="faq-question">
-                    <span class="number">08</span> {{ _('Hesabımı silebilir miyim?') }}
+            <div class="faq-item">
+                <label class="faq-label" for="q38-toggle">
+                    <div class="faq-question">
+                        <span class="number">38</span> {{ _('Bir güvenlik açığı bulursam ne yapmalıyım?') }}
+                    </div>
+                    <span class="icon">+</span>
+                </label>
+                <input type="checkbox" id="q38-toggle" class="faq-toggle">
+                <div class="faq-answer">
+                    <p>{{ _('Lütfen bulguyu sorumlu ifşa (responsible disclosure) ilkesiyle privacy@keycord.org adresine bildirin. Güvenlik raporları öncelikli olarak değerlendirilir.') }}</p>
                 </div>
-                <span class="icon">+</span>
-            </label>
-            <input type="checkbox" id="q8-toggle" class="faq-toggle">
-            <div class="faq-answer">
-                <p>{{ _('Evet, profil ayarlarınızdan tüm verilerinizle birlikte hesabınızı anında ve geri alınamaz
-                    şekilde silebilirsiniz.') }}</p>
             </div>
-        </div>
 
-        <!-- 9 -->
-        <div class="faq-item">
-            <label class="faq-label" for="q9-toggle">
-                <div class="faq-question">
-                    <span class="number">09</span> {{ _('KeyCord açık kaynaklı mı?') }}
+            <div class="faq-item">
+                <label class="faq-label" for="q39-toggle">
+                    <div class="faq-question">
+                        <span class="number">39</span> {{ _('Önerim veya şikayetim varsa nasıl iletebilirim?') }}
+                    </div>
+                    <span class="icon">+</span>
+                </label>
+                <input type="checkbox" id="q39-toggle" class="faq-toggle">
+                <div class="faq-answer">
+                    <p>{{ _('privacy@keycord.org adresine yazabilirsiniz. Her geri bildirim dikkate alınır.') }}</p>
                 </div>
-                <span class="icon">+</span>
-            </label>
-            <input type="checkbox" id="q9-toggle" class="faq-toggle">
-            <div class="faq-answer">
-                <p>{{ _('Evet, güvenliğin denetlenebilir olması şarttır. Kodlarımız GitHub’da herkese açıktır.') }}</p>
             </div>
-        </div>
 
-        <!-- 10 -->
-        <div class="faq-item">
-            <label class="faq-label" for="q10-toggle">
-                <div class="faq-question">
-                    <span class="number">10</span> {{ _('Grup sohbetleri de güvenli mi?') }}
+            <div class="faq-item">
+                <label class="faq-label" for="q40-toggle">
+                    <div class="faq-question">
+                        <span class="number">40</span> {{ _('KeyCord\'u nasıl destekleyebilirim?') }}
+                    </div>
+                    <span class="icon">+</span>
+                </label>
+                <input type="checkbox" id="q40-toggle" class="faq-toggle">
+                <div class="faq-answer">
+                    <p>{{ _('Platformu çevrenizle paylaşarak, hata bildirerek veya güvenlik testine katkıda bulunarak destek olabilirsiniz. Detaylar için keycord.org adresini ziyaret edin.') }}</p>
                 </div>
-                <span class="icon">+</span>
-            </label>
-            <input type="checkbox" id="q10-toggle" class="faq-toggle">
-            <div class="faq-answer">
-                <p>{{ _('Evet, grup mesajları da uçtan uca şifrelenir; her katılımcı için ayrı anahtar değişimi
-                    yapılır.') }}</p>
-            </div>
-        </div>
-
-        <!-- 11 -->
-        <div class="faq-item">
-            <label class="faq-label" for="q11-toggle">
-                <div class="faq-question">
-                    <span class="number">11</span> {{ _('Dosya / medya gönderebilir miyim?') }}
-                </div>
-                <span class="icon">+</span>
-            </label>
-            <input type="checkbox" id="q11-toggle" class="faq-toggle">
-            <div class="faq-answer">
-                <p>{{ _('Profil resmi ve görsel paylaşımı şu an destekleniyor; büyük dosya transferi yakında
-                    eklenecek.') }}</p>
-            </div>
-        </div>
-
-        <!-- 12 -->
-        <div class="faq-item">
-            <label class="faq-label" for="q12-toggle">
-                <div class="faq-question">
-                    <span class="number">12</span> {{ _('Hangi cihazlarda çalışır?') }}
-                </div>
-                <span class="icon">+</span>
-            </label>
-            <input type="checkbox" id="q12-toggle" class="faq-toggle">
-            <div class="faq-answer">
-                <p>{{ _('KeyCord web tabanlıdır; Tor Browser dâhil tüm modern tarayıcılarda masaüstü ve mobilde sorunsuz
-                    çalışır.') }}</p>
-            </div>
-        </div>
-
-        <!-- 13 -->
-        <div class="faq-item">
-            <label class="faq-label" for="q13-toggle">
-                <div class="faq-question">
-                    <span class="number">13</span> {{ _('IP adresim görünür mü?') }}
-                </div>
-                <span class="icon">+</span>
-            </label>
-            <input type="checkbox" id="q13-toggle" class="faq-toggle">
-            <div class="faq-answer">
-                <p>{{ _('Tor etkinken sunucu yalnızca Tor çıkış düğümünün IP’sini görür; gerçek IP’niz tamamen
-                    gizlidir.') }}</p>
-            </div>
-        </div>
-
-        <!-- 14 -->
-        <div class="faq-item">
-            <label class="faq-label" for="q14-toggle">
-                <div class="faq-question">
-                    <span class="number">14</span> {{ _('Reklam ya da veri satışı var mı?') }}
-                </div>
-                <span class="icon">+</span>
-            </label>
-            <input type="checkbox" id="q14-toggle" class="faq-toggle">
-            <div class="faq-answer">
-                <p>{{ _('Asla. KeyCord reklam içermez, verilerinizi üçüncü taraflarla paylaşmaz.') }}</p>
-            </div>
-        </div>
-
-        <!-- 15 -->
-        <div class="faq-item">
-            <label class="faq-label" for="q15-toggle">
-                <div class="faq-question">
-                    <span class="number">15</span> {{ _('KeyCord’u farklı kılan ne?') }}
-                </div>
-                <span class="icon">+</span>
-            </label>
-            <input type="checkbox" id="q15-toggle" class="faq-toggle">
-            <div class="faq-answer">
-                <p>{{ _('Gerçek anonimlik: telefon numarası yok, IP gizli, şifreleme anahtarları sunucuya asla ulaşmaz.
-                    Signal güvenliği ile Tor özgürlüğünü aynı çatıda sunan tek platform.') }}</p>
             </div>
         </div>
     </div>
@@ -461,10 +815,6 @@
 
     toggles.forEach(toggle => {
         toggle.addEventListener('change', function (e) {
-            // İsteğe bağlı: aynı anda yalnızca bir soru açık kalsın (yorumu kaldırın)
-            // if (this.checked) {
-            //     toggles.forEach(t => { if (t !== this) t.checked = false; });
-            // }
             updateOpenState();
         });
     });

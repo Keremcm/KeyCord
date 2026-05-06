@@ -4,7 +4,6 @@
 
 {% block extra_css %}
 <style>
-    /* Isolated Scrollbar & Global Layout Fixes */
     *,
     *::before,
     *::after {
@@ -23,201 +22,283 @@
         margin: 0;
     }
 
-    /* Privacy Policy Specific Styles */
     .policy-container {
         max-width: 900px;
         margin: 0 auto;
         padding: clamp(1rem, 5vw, 2rem);
+        color: var(--muted-chalk);
     }
 
     .policy-header {
         text-align: center;
-        margin-bottom: 4rem;
+        margin-bottom: 3rem;
+    }
+
+    .policy-header h1 {
+        font-family: 'Caveat', sans-serif;
+        font-size: clamp(2.75rem, 8vw, 4rem);
+        margin: 0 0 0.75rem;
+        color: var(--chalk);
+    }
+
+    .policy-header p {
+        font-family: 'Inter', sans-serif;
+        font-size: 1.05rem;
+        color: #999;
+        margin: 0;
     }
 
     .policy-section {
-        margin-bottom: 2rem;
-        padding: clamp(1rem, 5vw, 2rem);
-        position: relative;
-    }
-
-    .policy-section:hover {
-        background: rgba(255, 255, 255, 0.01);
-    }
-
-    .section-icon {
-        font-family: 'Reenie Beanie';
-        font-size: 2.5rem;
-        color: var(--chalk);
-        display: inline-block;
-        margin-right: 10px;
+        margin-bottom: 2.5rem;
+        padding: 1.75rem;
+        background: rgba(255, 255, 255, 0.03);
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
     }
 
     .section-title {
-        font-family: 'Reenie Beanie';
-        font-size: clamp(1.8rem, 6vw, 2.2rem);
-        margin-bottom: 1.5rem;
+        font-family: 'Caveat', sans-serif;
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin: 0 0 1rem;
         color: var(--chalk);
-        border-bottom: 2px dashed rgba(255, 255, 255, 0.1);
-        padding-bottom: 0.5rem;
-        display: flex;
-        align-items: center;
-        line-height: 1.1;
     }
 
     .policy-content {
-        font-family: 'Caveat';
-        font-size: 1.3rem;
+        font-family: 'Inter', sans-serif;
+        font-size: 1.15rem;
+        line-height: 1.8;
         color: var(--muted-chalk);
-        line-height: 1.6;
+        text-align: justify;
+    }
+
+    .policy-content p {
+        margin: 1rem 0;
+    }
+
+    .policy-content ul {
+        padding-left: 1.5rem;
+        margin: 1rem 0;
+    }
+
+    .policy-content li {
+        margin-bottom: 0.9rem;
+        line-height: 1.7;
     }
 
     .highlight-box {
-        background: rgba(255, 255, 255, 0.03);
-        border: 2px dashed rgba(255, 255, 255, 0.1);
-        padding: 1rem;
-        border-radius: 12px;
-        margin: 1rem 0;
-        transform: rotate(-0.5deg);
+        background: rgba(255, 255, 255, 0.04);
+        border-left: 4px solid rgba(255, 255, 255, 0.25);
+        padding: 1rem 1.1rem;
+        margin: 1.5rem 0;
+        border-radius: 10px;
+        font-size: 1rem;
+        line-height: 1.7;
     }
 
-    .key-point {
-        display: flex;
-        gap: 1rem;
-        margin-bottom: 1rem;
-        align-items: flex-start;
+    a.contact-link {
+        color: var(--chalk);
+        text-decoration: underline;
     }
 
-    .point-marker {
-        font-family: 'Reenie Beanie';
-        font-size: 1.5rem;
-        color: var(--brand-blue);
-        line-height: 1;
+    .back-link {
+        position: fixed;
+        top: 2rem;
+        left: 2rem;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        padding: 0.65rem 1rem;
+        z-index: 100;
+        background: #000;
+        color: #fff;
+        text-decoration: none;
+        font-family: 'Inter', sans-serif;
+        font-size: 1rem;
+        transition: all 0.25s ease;
+    }
+
+    .back-link:hover {
+        border-color: var(--chalk);
+        color: var(--chalk);
+    }
+
+    .footer-note {
+        margin-top: 3rem;
+        text-align: center;
+        color: #888;
+        font-size: 0.95rem;
+        border-top: 1px dashed rgba(255, 255, 255, 0.12);
+        padding-top: 2rem;
+    }
+
+    @media (max-width: 600px) {
+        .policy-container {
+            padding: 3rem 1rem 2rem;
+        }
+
+        .back-link {
+            position: static;
+            display: inline-block;
+            margin-bottom: 1.5rem;
+        }
+
+        .policy-section {
+            padding: 1.25rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+        }
+
+        .policy-header h1 {
+            font-size: 2.75rem;
+        }
     }
 </style>
 {% endblock %}
 
+{% block footer %}{% endblock %}
+
 {% block content %}
 <div class="container policy-container">
 
-    <!-- Back Button -->
-    <a href="{{ url_for('auth.home') if not current_user.is_authenticated else url_for('auth.dashboard') }}" class="btn"
-        style="position: fixed; top: 2rem; left: 2rem; border-style: dashed; padding: 0.5rem 1rem; z-index: 100;">
-        ← Geri
+    <a href="{{ url_for('auth.home') if not current_user.is_authenticated else url_for('auth.dashboard') }}" class="back-link">
+        ← {{ _('Geri') }}
     </a>
 
-    <!-- Header -->
     <div class="policy-header">
-        <h1
-            style="font-family: 'Reenie Beanie'; font-size: clamp(2.5rem, 10vw, 4.5rem); margin-bottom: 1rem; transform: rotate(-1deg); line-height: 1;">
-            Gizlilik Politikamız
-        </h1>
-        <p style="font-family: 'Caveat'; font-size: clamp(1.2rem, 5vw, 1.6rem); color: var(--muted-chalk);">
-            Verileriniz bizim değil, <u>sizin</u> kontrolünüzde.
-        </p>
+        <h1>{{ _('Gizlilik Politikası') }}</h1>
+        <p>{{ _('KeyCord, kullanıcı verilerini en az düzeyde tutmayı amaçlayan gizlilik odaklı bir mesajlaşma platformudur.') }}</p>
     </div>
 
-    <!-- Section 1: Core Philosophy -->
-    <div class="policy-section sketch-box" style="transform: rotate(0.5deg);">
-        <h2 class="section-title">
-            <span class="section-icon">⌘</span>
-            Temel Felsefemiz
-        </h2>
+    <div class="policy-section">
+        <h2 class="section-title">{{ _('1. Genel Bakış') }}</h2>
         <div class="policy-content">
-            <p>KeyCord, "Sıfır Bilgi" (Zero Knowledge) prensibi üzerine inşa edilmiştir. Bu, verilerinizin şifresini
-                çözebilecek anahtarların sunucularımızda değil, <strong>sadece sizin cihazınızda</strong> (istemci
-                tarafında) saklandığı anlamına gelir. Biz bile mesajlarınızı okuyamayız.</p>
+            <p>{{ _('Bu gizlilik politikası, KeyCord platformunun ("KeyCord", "biz", "platform") kişisel verilerinizi nasıl işlediğini ve koruduğunu açıklar. KeyCord, 6698 sayılı Kişisel Verilerin Korunması Kanunu (KVKK) ve Avrupa Birliği Genel Veri Koruma Tüzüğü (GDPR) kapsamındaki yükümlülüklerine uymayı taahhüt eder.') }}</p>
+            <p><strong>{{ _('KeyCord’un temel tasarım ilkesi: Sizi tanımamak. Platform, kullanıcı verisi toplamayı minimuma indirecek şekilde tasarlanmıştır.') }}</strong></p>
         </div>
     </div>
 
-    <!-- Section 2: Tor & Anonymity -->
-    <div class="policy-section sketch-box" style="transform: rotate(-0.5deg);">
-        <h2 class="section-title">
-            <span class="section-icon">❄</span>
-            Tor Tabanlı Güvenlik Ağı
-        </h2>
+    <div class="policy-section">
+        <h2 class="section-title">{{ _('2. Veri Sorumlusu') }}</h2>
         <div class="policy-content">
-            <p>Sistemimiz, iletişim trafiğini anonimleştirmek için <strong>Tor tabanlı bir yönlendirme katmanı</strong>
-                kullanır.</p>
-            <div class="highlight-box">
-                <div class="key-point">
-                    <span class="point-marker">➤</span>
-                    <div>
-                        <strong>Geçici Bağlantı Logları:</strong> Sadece siber saldırıları (DDoS, Brute Force) tespit
-                        etmek ve sistem bütünlüğünü korumak amacıyla, bağlantı verileri (IP, zaman damgası) şifrelenmiş
-                        belleklerde <u>çok kısa bir süre için</u> geçici olarak tutulur.
-                    </div>
-                </div>
-                <div class="key-point">
-                    <span class="point-marker">➤</span>
-                    <div>
-                        <strong>Otomatik Silme:</strong> Bu geçici veriler, analiz edildikten hemen sonra (genellikle
-                        birkaç dakika içinde) kalıcı olarak silinir. Hiçbir zaman disk üzerine yazılmaz.
-                    </div>
-                </div>
-            </div>
+            <p>{{ _('<strong>Veri sorumlusu:</strong> KeyCord') }}</p>
+            <p>{{ _('<strong>İletişim:</strong> <a href="mailto:privacy@keycord.org" class="contact-link">privacy@keycord.org</a>') }}</p>
         </div>
     </div>
 
-    <!-- Section 3: Encryption -->
-    <div class="policy-section sketch-box" style="transform: rotate(0.8deg);">
-        <h2 class="section-title">
-            <span class="section-icon">⚕</span>
-            Uçtan Uca Şifreleme (E2EE)
-        </h2>
+    <div class="policy-section">
+        <h2 class="section-title">{{ _('3. Hangi Verileri Topluyoruz?') }}</h2>
         <div class="policy-content">
-            <p>Mesajlarınız cihazınızdan çıkmadan önce şifrelenir ve sadece alıcının cihazında çözülür.</p>
-            <ul style="list-style: none; padding: 0; margin-top: 1rem;">
-                <li class="key-point">
-                    <span class="point-marker">✎</span>
-                    <span>Anlık mesajlaşmalar AES-256 ile şifrelenir.</span>
-                </li>
-                <li class="key-point">
-                    <span class="point-marker">✎</span>
-                    <span>Şifreleme anahtarları (Private Keys) asla sunucularımıza gönderilmez.</span>
-                </li>
-                <li class="key-point">
-                    <span class="point-marker">✎</span>
-                    <span>Sesli görüşmeler P2P (Eşten Eşe) bağlantı üzerinden, DTLS-SRTP ile korunur.</span>
-                </li>
+            <p>{{ _('KeyCord, normal kullanım sırasında kullanıcılardan kişisel veri toplamaz. Aşağıdaki veriler kaydedilmez veya saklanmaz:') }}</p>
+            <ul>
+                <li>{{ _('Kullanıcı adı, e-posta adresi veya telefon numarası gibi herhangi bir kişisel veri') }}</li>
+                <li>{{ _('IP adresi (Cloudflare altyapısı gerçek sunucu IP’sini kullanıcıdan gizler; IP platformumuzda loglanmaz)') }}</li>
+                <li>{{ _('Mesaj içeriği (uçtan uca şifreleme nedeniyle teknik erişim yoktur)') }}</li>
+                <li>{{ _('Konum bilgisi') }}</li>
+                <li>{{ _('Cihaz bilgisi') }}</li>
+                <li>{{ _('Kullanım alışkanlıkları veya davranışsal veri') }}</li>
+                <li>{{ _('Çerez (cookie) veya izleme teknolojileri') }}</li>
+            </ul>
+            <p>{{ _('<strong>Tek işlenen veri:</strong> Ağ güvenliğini tehdit eden saldırıları tespit etmek ve engellemek amacıyla kötü niyetli bağlantı verileri işlenebilir. Bu veriler kullanıcı profiliyle ilişkilendirilmez ve yalnızca hizmet güvenliği için gerekli olduğu sürece tutulur, akabinde silinir.') }}</p>
+        </div>
+    </div>
+
+    <div class="policy-section">
+        <h2 class="section-title">{{ _('4. Şifreleme ve Sıfır Bilgi Mimarisi') }}</h2>
+        <div class="policy-content">
+            <p>{{ _('KeyCord, sıfır bilgi (zero-knowledge) mimarisi kullanır:') }}</p>
+            <ul>
+                <li>{{ _('Her oturum için benzersiz şifreleme anahtarları üretilir.') }}</li>
+                <li>{{ _('Şifreler dahil hiçbir kimlik bilgisi sunucularımızda açık metin olarak saklanmaz.') }}</li>
+                <li>{{ _('Mesaj içeriklerine teknik olarak erişimimiz yoktur; bu nedenle içerik sunmamız mümkün değildir.') }}</li>
+                <li>{{ _('Şifreli veriler yetkisiz taraflarca ele geçirilse bile okunamaz durumdadır.') }}</li>
+            </ul>
+            <p>{{ _('Bu yapı, GDPR Recital 26 ve KVKK Madde 12 kapsamında uygun teknik tedbirler olarak değerlendirilir.') }}</p>
+        </div>
+    </div>
+
+    <div class="policy-section">
+        <h2 class="section-title">{{ _('5. Trafik Analizi Korunması') }}</h2>
+        <div class="policy-content">
+            <p>{{ _('KeyCord, trafik analizine karşı ek koruma önlemleri uygular:') }}</p>
+            <ul>
+                <li>{{ _('Paketler sabit boyuta getirilir ve iletişim örüntüleri dışarıdan analiz edilmez.') }}</li>
+                <li>{{ _('Mesaj iletiminde rastgele gecikmeler uygulanabilir; bu, zamanlama korelasyon saldırılarını azaltır.') }}</li>
+                <li>{{ _('Tor ağı üzerinden erişim desteklenebilir; bu, ağ anonimliğini güçlendirir.') }}</li>
             </ul>
         </div>
     </div>
 
-    <!-- Section 4: Data Storage -->
-    <div class="policy-section sketch-box" style="transform: rotate(-0.3deg);">
-        <h2 class="section-title">
-            <span class="section-icon">▤</span>
-            Veri Depolama
-        </h2>
+    <div class="policy-section">
+        <h2 class="section-title">{{ _('6. Üçüncü Taraf Veri Paylaşımı') }}</h2>
         <div class="policy-content">
-            <p>Kullanıcı verilerinin kontrolü tamamen sizdedir.</p>
-            <div
-                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin-top: 1rem;">
-                <div class="highlight-box" style="text-align: center;">
-                    <h3 style="font-family: 'Reenie Beanie'; margin-bottom: 0.5rem; font-size: 1.8rem;">Sunucuda
-                        Tutanlar</h3>
-                    <p style="font-size: 1.1rem;">Şifrelenmiş Mesaj "Blob"ları (Çözülemez)<br>Genel Profil Bilgileri
-                        (İsteğe Bağlı)<br>Arkadaş Listesi (Hashlenmiş)</p>
-                </div>
-                <div class="highlight-box" style="text-align: center; border-color: var(--brand-blue);">
-                    <h3 style="font-family: 'Reenie Beanie'; margin-bottom: 0.5rem; font-size: 1.8rem;">Cihazda Tutanlar
-                    </h3>
-                    <p style="font-size: 1.1rem;">Şifre Çözme Anahtarları<br>Özel Sohbet Geçmişi<br>Medya Önizlemeleri
-                    </p>
-                </div>
-            </div>
+            <p>{{ _('Kullanıcı verileri hiçbir üçüncü tarafla satılmaz, kiralanmaz veya reklam amaçlı paylaşılmaz.') }}</p>
+            <p>{{ _('Platform, ağ koruması için Cloudflare altyapısı kullanır. Cloudflare’in kendi gizlilik politikası geçerlidir; Cloudflare’e yalnızca ağ trafik verileri iletilir ve bu veriler kullanıcı kimliğiyle ilişkilendirilmez.') }}</p>
+            <p>{{ _('Yetkili makamların yasal taleplerine yanıt verme yükümlülüğümüz vardır; ancak sıfır bilgi mimarisi nedeniyle sağlanabilecek içerik verisi teknik olarak mevcut değildir.') }}</p>
         </div>
     </div>
 
-    <!-- Contact & Updates -->
-    <div style="margin-top: 4rem; text-align: center; font-family: 'Caveat'; color: var(--muted-chalk);">
-        <p style="font-size: 1.4rem;">
-            Bu politika en son <strong>Bugün</strong> güncellendi. <br>
-            Sorularınız için: <a href="mailto:info@keycord.org"
-                style="text-decoration: underline; text-decoration-style: dashed;">info@keycord.org</a>
-        </p>
+    <div class="policy-section">
+        <h2 class="section-title">{{ _('7. Veri Saklama Süreleri') }}</h2>
+        <div class="policy-content">
+            <ul>
+                <li>{{ _('<strong>Mesaj içerikleri:</strong> Sunucularımızda okunabilir biçimde saklanmaz.') }}</li>
+                <li>{{ _('<strong>Güvenlik amaçlı ağ verileri:</strong> Tespit amacını yitirdikten sonra silinir; en fazla 30 gün.') }}</li>
+                <li>{{ _('<strong>Hesap bilgileri:</strong> Şifreli ve anonim biçimde, kullanıcı hesabı silinene kadar saklanabilir.') }}</li>
+            </ul>
+        </div>
     </div>
 
+    <div class="policy-section">
+        <h2 class="section-title">{{ _('8. KVKK ve GDPR Kapsamındaki Haklarınız') }}</h2>
+        <div class="policy-content">
+            <p>{{ _('6698 sayılı KVKK’nın 11. Maddesi ve GDPR’ın 15-22. Maddeleri kapsamında aşağıdaki haklara sahipsiniz:') }}</p>
+            <ul>
+                <li>{{ _('Kişisel verilerinizin işlenip işlenmediğini öğrenme hakkı') }}</li>
+                <li>{{ _('İşlenen verileriniz hakkında bilgi talep etme hakkı') }}</li>
+                <li>{{ _('Verilerin silinmesini veya anonim hale getirilmesini talep etme hakkı') }}</li>
+                <li>{{ _('Veri işlemeye itiraz etme hakkı') }}</li>
+                <li>{{ _('Yetkili kuruma şikayette bulunma hakkı') }}</li>
+            </ul>
+            <div class="highlight-box">
+                <p>{{ _('<strong>Yetkili Kurumlar:</strong> Türkiye: Kişisel Verileri Koruma Kurumu — kvkk.gov.tr; Avrupa Birliği: ilgili veri koruma otoritesi.') }}</p>
+            </div>
+            <p>{{ _('<strong>Bu hakları kullanmak için:</strong> <a href="mailto:privacy@keycord.org" class="contact-link">privacy@keycord.org</a>') }}</p>
+            <p>{{ _('Talepler, KVKK Madde 13 uyarınca en geç 30 gün içinde yanıtlanır.') }}</p>
+        </div>
+    </div>
+
+    <div class="policy-section">
+        <h2 class="section-title">{{ _('9. Çerezler') }}</h2>
+        <div class="policy-content">
+            <p>{{ _('KeyCord, izleme veya analiz amaçlı çerez kullanmaz. Yalnızca oturum yönetimi için teknik olarak zorunlu olduğunda geçici oturum verileri kullanılabilir; bu veriler tarayıcı kapatıldığında silinir.') }}</p>
+        </div>
+    </div>
+
+    <div class="policy-section">
+        <h2 class="section-title">{{ _('10. Tor Ağı Üzerinden Erişim') }}</h2>
+        <div class="policy-content">
+            <p>{{ _('KeyCord’a .onion adresi üzerinden erişildiğinde, ağ anonimliği Tor ağı tarafından güvence altına alınır. Bu durumda platformun bağlantı verilerine erişimi yoktur.') }}</p>
+        </div>
+    </div>
+
+    <div class="policy-section">
+        <h2 class="section-title">{{ _('11. Politika Değişiklikleri') }}</h2>
+        <div class="policy-content">
+            <p>{{ _('Bu politika değiştirildiğinde güncel versiyon bu sayfada yayınlanır ve güncelleme tarihi güncellenir. Önemli değişikliklerde kullanıcılar bilgilendirilir.') }}</p>
+        </div>
+    </div>
+
+    <div class="policy-section">
+        <h2 class="section-title">{{ _('12. İletişim') }}</h2>
+        <div class="policy-content">
+            <p>{{ _('Gizlilikle ilgili tüm sorularınız için:') }}</p>
+            <p><a href="mailto:privacy@keycord.org" class="contact-link">privacy@keycord.org</a></p>
+        </div>
+    </div>
+
+    <div class="footer-note">
+        <p>{{ _('KeyCord © 2026 - Gizlilik Odaklı Şifreli Mesajlaşma Platformu') }}</p>
+    </div>
 </div>
 {% endblock %}

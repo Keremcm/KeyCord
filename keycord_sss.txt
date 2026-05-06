@@ -1,0 +1,154 @@
+SIK SORULAN SORULAR (SSS)
+KeyCord — Gizlilik Öncelikli Şifreli Mesajlaşma Platformu
+
+────────────────────────────────────────
+GENEL
+────────────────────────────────────────
+
+S1. KeyCord nedir?
+KeyCord, gizlilik odaklı, uçtan uca şifreli bir mesajlaşma platformudur. Sıfır bilgi (zero-knowledge) mimarisiyle tasarlanmıştır; mesajlarınıza bizim de erişimimiz yoktur.
+
+S2. KeyCord'u kim geliştiriyor?
+KeyCord, bağımsız bir geliştirici tarafından inşa edilen ve aktif olarak geliştirilen açık kaynaklı bir projedir.
+
+S3. KeyCord ücretsiz mi?
+Evet, KeyCord şu an itibarıyla tamamen ücretsizdir.
+
+S4. KeyCord hangi cihazlarda çalışır?
+KeyCord web tabanlıdır; modern bir tarayıcısı olan her cihazda çalışır. Ayrıca Tor Browser üzerinden de erişilebilir.
+
+S5. KeyCord'u indirmem gerekiyor mu?
+Hayır. KeyCord doğrudan tarayıcınız üzerinden kullanılır; herhangi bir uygulama indirmenize gerek yoktur.
+
+S6. KeyCord beta sürümünde mi?
+Evet, platform hâlâ beta aşamasındadır. Güvenlik yamaları ve güncellemeler düzenli olarak uygulanmaktadır.
+
+S7. KeyCord açık kaynak mı?
+Projenin açık kaynak bileşenleri mevcuttur. Detaylar için GitHub sayfamızı inceleyebilirsiniz.
+
+────────────────────────────────────────
+GİZLİLİK VE VERİ
+────────────────────────────────────────
+
+S8. KeyCord hangi verilerimi topluyor?
+Normal kullanımda hiçbir kişisel veri toplanmaz. IP adresiniz, mesaj içerikleriniz, cihaz bilginiz veya kullanım alışkanlıklarınız kaydedilmez.
+
+S9. Mesajlarımı siz okuyabilir misiniz?
+Hayır. Uçtan uca şifreleme ve zero-knowledge mimarisi nedeniyle mesaj içeriklerine teknik olarak erişimimiz yoktur.
+
+S10. Şifremi biliyor musunuz?
+Hayır. Şifreler sunucularımıza hiçbir zaman açık metin olarak iletilmez veya saklanmaz. Şifrenizi kaybetmeniz durumunda sıfırlama imkânı bulunmayabilir.
+
+S11. IP adresim kaydediliyor mu?
+Hayır. Cloudflare Tunnel altyapısı sayesinde gerçek sunucu IP'miz gizlidir; aynı zamanda kullanıcı IP adresleri de platformumuz tarafından loglanmaz.
+
+S12. Verilerimi üçüncü taraflarla paylaşıyor musunuz?
+Hayır. Kullanıcı verisi hiçbir üçüncü tarafla satılmaz, kiralanmaz veya reklam amaçlı paylaşılmaz.
+
+S13. Çerez (cookie) kullanıyor musunuz?
+İzleme veya analiz amaçlı çerez kullanılmaz. Yalnızca oturumunuzu açık tutmak için zorunlu geçici veriler kullanılır; bunlar tarayıcı kapatıldığında silinir.
+
+S14. Hükümet talebi gelirse ne olur?
+Yasal yükümlülüklerimiz çerçevesinde taleplere yanıt verme zorunluluğumuz olabilir; ancak zero-knowledge mimarisi nedeniyle sunabileceğimiz okunabilir içerik verisi teknik olarak mevcut değildir.
+
+S15. Verilerimin silinmesini talep edebilir miyim?
+Evet. Profil sayfanızdan kendiniz hesabınızı silebilirsiniz. Bu silme işlemi kalıcıdır ve geri dönüşü yoktur. privacy@keycord.org adresine başvurabilirsiniz.
+
+S16. KVKK ve GDPR'a uyumlu musunuz?
+Evet. KeyCord, 6698 sayılı KVKK ve AB GDPR kapsamındaki yükümlülüklere uygun şekilde tasarlanmıştır. Detaylı bilgi için Gizlilik Politikamızı inceleyebilirsiniz.
+
+────────────────────────────────────────
+GÜVENLİK VE ŞİFRELEME
+────────────────────────────────────────
+
+S17. Şifreleme nasıl çalışıyor?
+Her oturum için benzersiz şifreleme anahtarları üretilir. Mesajlar yalnızca konuşmaya dahil olan tarafların cihazlarında çözülebilir; sunucu bu anahtarlara sahip değildir.
+
+S18. Zero-knowledge mimarisi ne anlama geliyor?
+Sıfır bilgi mimarisi, platformun kullanıcı şifrelerine ve mesaj içeriklerine hiçbir şekilde erişemeyeceği anlamına gelir. Teknik olarak "bilmiyoruz" çünkü bilmek için gereken anahtarlar bizde yok.
+
+S19. Trafik analizinden korunuyor muyum?
+Evet. KeyCord sabit boyutlu paketler kullanır ve mesaj iletiminde rastgele gecikmeler uygulayabilir. Bu sayede dışarıdan iletişim örüntünüzü analiz etmek güçleşir.
+
+S20. Sunucunuz ele geçirilse ne olur?
+Sunucuda yalnızca şifreli, okunamaz veri bulunur. Anahtarlar sunucuda tutulmadığından, ele geçirme durumunda mesaj içeriklerine ulaşmak teknik olarak mümkün değildir.
+
+S21. Man-in-the-middle saldırılarına karşı korumalı mı?
+Evet. Uçtan uca şifreleme, araya girme saldırılarına karşı temel koruma sağlar. Bağlantılar TLS ile de güvence altına alınmaktadır.
+
+S22. Oturum anahtarları ne kadar süre geçerli?
+Anahtarlar oturuma özeldir. Her yeni oturumda yeni anahtarlar üretilir; bu sayede geçmiş oturumlara ait veriler, anahtar ele geçirilse dahi korunmaya devam eder (forward secrecy).
+
+S23. Sunucunun gerçek IP adresi gizli mi?
+Evet. Cloudflare Tunnel kullanımı sayesinde sunucunun gerçek IP adresi dışarıya açık değildir. Bu durum Shodan ve benzeri tarama araçlarıyla doğrulanmıştır.
+
+────────────────────────────────────────
+TOR VE ANONİMLİK
+────────────────────────────────────────
+
+S24. Tor üzerinden KeyCord'a erişebilir miyim?
+Evet. KeyCord, .onion adresi üzerinden Tor ağıyla erişimi destekler. Bu yöntem tam ağ anonimliği sağlar.
+
+S25. Normal web ile Tor erişimi arasındaki fark nedir?
+Normal web erişiminde Cloudflare bağlantı verilerini görebilir (kullanıcı IP'si platformumuza ulaşmaz). Tor üzerinden erişimde ise ağ katmanında tam anonimlik sağlanır; platformun herhangi bir bağlantı verisine erişimi olmaz.
+
+S26. Tor kullanmak zorunda mıyım?
+Hayır. Normal tarayıcı ile de erişebilirsiniz. Ancak maksimum anonimlik istiyorsanız Tor önerilir.
+
+S27. Tor üzerinde performans nasıl?
+Tor'un yapısı gereği bağlantı hızı normal web'e kıyasla daha yavaş olabilir. Bu KeyCord'a özgü bir durum değil; Tor ağının genel bir özelliğidir.
+
+────────────────────────────────────────
+HESAP VE KULLANIM
+────────────────────────────────────────
+
+S28. Kayıt olmak için e-posta gerekiyor mu?
+Hayır. KeyCord, kimlik doğrulama için e-posta veya telefon numarası gibi kişisel veri talep etmez.
+
+S29. Şifremi unutursam ne olur?
+Sıfır bilgi mimarisi nedeniyle şifre sıfırlama geleneksel yöntemlerle mümkün olmayabilir. Şifrenizi güvenli bir yerde saklamanızı öneririz.
+
+S30. Birden fazla hesap açabilir miyim?
+Platform bunu teknik olarak engellemez; ancak her hesabın güvenliğinin ayrı ayrı sağlanması kullanıcının sorumluluğundadır.
+
+S31. Hesabımı nasıl silerim?
+Hesap silmek için profil sayfanızdan işleminizi gerçekleştirebilirsiniz. privacy@keycord.org adresine başvurabilirsiniz.
+
+S32. Grup mesajlaşması destekleniyor mu?
+Mevcut geliştirme sürecinde bu özellik hakkında güncel bilgi için keycord.org adresini takip edin.
+
+S33. Dosya veya medya gönderilebiliyor mu?
+Mevcut özellikler ve yol haritası için keycord.org adresini takip edin.
+
+────────────────────────────────────────
+TEKNİK ALTYAPI
+────────────────────────────────────────
+
+S34. KeyCord hangi altyapı üzerinde çalışıyor?
+KeyCord, Cloudflare Tunnel ile korunan ve gerçek IP'si gizli bir sunucu üzerinde çalışmaktadır.
+
+S35. Verilerim hangi ülkede saklanıyor?
+Sunucu fiziksel olarak Türkiye'de bulunmaktadır. Veriler herhangi bir şahsa, kuruma ve kuruluşa aktarılmamaktadır.
+
+S36. Hizmet kesintisi yaşanırsa ne olur?
+Platform beta aşamasında olduğundan zaman zaman bakım ve yama süreçleri nedeniyle kısa süreli kesintiler yaşanabilir. Güncel durum için keycord.org adresini takip edebilirsiniz.
+
+S37. Cloudflare'in verilerime erişimi var mı?
+Cloudflare, ağ trafiğini görür; ancak mesaj içerikleri uçtan uca şifreli olduğundan Cloudflare de dahil hiçbir aracı tarafından okunamaz.
+
+────────────────────────────────────────
+İLETİŞİM VE GERİ BİLDİRİM
+────────────────────────────────────────
+
+S38. Bir güvenlik açığı bulursam ne yapmalıyım?
+Lütfen bulguyu sorumlu ifşa (responsible disclosure) ilkesiyle privacy@keycord.org adresine bildirin. Güvenlik raporları öncelikli olarak değerlendirilir.
+
+S39. Önerim veya şikayetim varsa nasıl iletebilirim?
+privacy@keycord.org adresine yazabilirsiniz. Her geri bildirim dikkate alınır.
+
+S40. KeyCord'u nasıl destekleyebilirim?
+Platformu çevrenizle paylaşarak, hata bildirerek veya güvenlik testine katkıda bulunarak destek olabilirsiniz. Detaylar için keycord.org adresini ziyaret edin.
+
+────────────────────────────────────────
+İletişim: contact@keycord.org
+Web: keycord.org
