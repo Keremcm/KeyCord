@@ -279,10 +279,14 @@ def block_bad_ips():
 # Local Avatar Generator Route
 @auth_bp.route('/avatar/<name>')
 def generate_avatar(name):
-    """Generate SVG avatar locally instead of using ui-avatars.com"""
-    from .avatar_generator import avatar_response
-    size = request.args.get('size', 128, type=int)
-    return avatar_response(name, size)
+    """Pick a random avatar from the 12 default PNGs"""
+    avatars = [f'e{i}.png' for i in range(1, 7)] + [f'k{i}.png' for i in range(1, 7)]
+    avatar = random.choice(avatars)
+    return send_from_directory(
+        os.path.join(current_app.static_folder, 'profile_images'), 
+        avatar,
+        max_age=0
+    )
 
 
 @auth_bp.route('/register', methods=['GET', 'POST'])
@@ -2489,8 +2493,14 @@ def serve_profile_picture(username):
                 max_age=0
             )
     
-    # Default avatar public olduğu için cache'lenmesinde sakınca yok
-    return send_from_directory(current_app.static_folder, 'default.png')
+    # No custom pic or no access -> serve a random default avatar
+    avatars = [f'e{i}.png' for i in range(1, 7)] + [f'k{i}.png' for i in range(1, 7)]
+    avatar = random.choice(avatars)
+    return send_from_directory(
+        os.path.join(current_app.static_folder, 'profile_images'), 
+        avatar,
+        max_age=0
+    )
 
 @auth_bp.route('/faq')
 def faq():

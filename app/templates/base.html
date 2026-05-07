@@ -64,8 +64,9 @@
                     <a href="{{ url_for('auth.welcome') }}" class="nav-link">{{ _('Ana Sayfa') }}</a>
                     <a href="{{ url_for('auth.faq') }}" class="nav-link">{{ _('SSS') }}</a>
                     <a href="{{ url_for('auth.privacy_policy') }}" class="nav-link">{{ _('Güvenlik') }}</a>
-                    <a href="{{ url_for('auth.help_center') }}" class="nav-link">{{ _('Yardım') }}</a>
+                    <a href="{{ url_for('auth.terms_of_service') }}" class="nav-link">{{ _('Şartlar') }}</a>
                     <a href="{{ url_for('auth.contact') }}" class="nav-link">{{ _('İletişim') }}</a>
+                    <a href="{{ url_for('auth.help_center') }}" class="nav-link">{{ _('Yardım') }}</a>
                 </nav>
                 <div class="nav-auth">
 
@@ -192,12 +193,14 @@
             .mobile-menu-btn {
                 display: block;
                 position: relative;
-                z-index: 1001; /* Stay above overlay */
+                z-index: 1001;
+                /* Stay above overlay */
             }
-            
+
             .nav-logo {
                 position: relative;
-                z-index: 1001; /* Stay above overlay */
+                z-index: 1001;
+                /* Stay above overlay */
             }
 
             .nav-menu {
@@ -218,12 +221,14 @@
                 border-radius: 0;
                 box-shadow: none;
                 padding: 20px;
-                padding-top: 100px; /* Push content under the header */
+                padding-top: 100px;
+                /* Push content under the header */
                 box-sizing: border-box;
-                
+
                 visibility: hidden;
                 opacity: 0;
-                clip-path: circle(0% at 100% 0); /* Cool circular reveal animation */
+                clip-path: circle(0% at 100% 0);
+                /* Cool circular reveal animation */
                 transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
                 align-items: center;
                 justify-content: flex-start;
@@ -262,6 +267,7 @@
                 border-bottom: none;
                 transform: none;
             }
+
             .nav-link:hover {
                 transform: scale(1.05);
                 color: var(--chalk);

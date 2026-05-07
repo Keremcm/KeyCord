@@ -12,7 +12,7 @@ class Group(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), nullable=False)
     owner_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    photo = db.Column(db.String(255), default='default.png')
+    photo = db.Column(db.String(255), nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.datetime.utcnow)
 
     owner = db.relationship('User', backref='owned_groups')
@@ -23,7 +23,7 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     password = db.Column(db.String(200), nullable=False)  # password_hash yerine password
-    profile_pic = db.Column(db.String(255), default='default.png')
+    profile_pic = db.Column(db.String(255), nullable=True)
     profile_frame = db.Column(db.String(20), default='none')  # Profil çerçevesi
     about = db.Column(db.Text, default='')
     games = db.Column(db.String(255), default='')
@@ -112,7 +112,7 @@ class Community(db.Model):
     name = db.Column(db.String(120), nullable=False)
     description = db.Column(db.Text, default='')
     owner_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    avatar = db.Column(db.String(255), default='default.png')
+    avatar = db.Column(db.String(255), nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.datetime.utcnow)
     members = db.Column(db.JSON, default=list)  # Üye id'leri listesi (JSON — PickleType'dan dönüştürüldü, RCE riski ortadan kaldırıldı)
     admins = db.Column(db.JSON, default=list)   # Yönetici id'leri listesi (JSON)

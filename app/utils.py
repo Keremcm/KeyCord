@@ -188,7 +188,7 @@ def get_group_messages(group_id):
             'id': msg.id,
             'sender_id': msg.sender_id,
             'sender_username': sender.username if sender else "Unknown",
-            'sender_profile_pic': sender.profile_pic if sender else "default.png",
+            'sender_profile_pic': sender.profile_pic if sender else None,
             'content': msg.content,
             'timestamp': msg.timestamp.strftime("%H:%M"),
             'encrypted_keys_json': msg.encrypted_keys_json,

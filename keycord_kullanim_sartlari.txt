@@ -1,0 +1,97 @@
+KULLANIM ŞARTLARI
+KeyCord — Gizlilik Öncelikli Şifreli Mesajlaşma Platformu
+Son güncelleme: Mayıs 2026
+
+────────────────────────────────────────
+
+1. KABUL
+
+KeyCord platformunu ("KeyCord", "platform") kullanarak bu kullanım şartlarını okuduğunuzu, anladığınızı ve kabul ettiğinizi beyan etmiş olursunuz. Bu şartları kabul etmiyorsanız platformu kullanmayınız.
+
+────────────────────────────────────────
+
+2. HİZMETİN TANIMI
+
+KeyCord, uçtan uca şifreli, gizlilik odaklı bir mesajlaşma platformudur. Platform, sıfır bilgi (zero-knowledge) mimarisiyle çalışmaktadır; bu nedenle KeyCord'un mesaj içeriklerine teknik olarak erişimi bulunmamaktadır.
+
+Platform beta aşamasında sunulmaktadır. Hizmet kesintileri, güncellemeler veya özellik değişiklikleri önceden bildirim yapılmaksızın gerçekleşebilir.
+
+────────────────────────────────────────
+
+3. KULLANICI YÜKÜMLÜLÜKLERİ
+
+Platformu kullanırken aşağıdaki kurallara uymayı kabul edersiniz:
+
+a) Yasalara uygunluk
+Platform yalnızca yasal amaçlarla kullanılabilir. Yürürlükteki Türk hukuku ve uluslararası hukuka aykırı hiçbir amaçla platform kullanılamaz.
+
+b) Yasaklı kullanımlar
+Aşağıdaki amaçlarla platformun kullanılması kesinlikle yasaktır:
+
+- Çocuk istismarı veya çocukların korunmasına yönelik yasal düzenlemeleri ihlal eden içerik iletimi
+- Terör, şiddet veya nefret söylemi içeren içerik paylaşımı
+- Başkalarının kişisel verilerinin izinsiz ele geçirilmesi veya paylaşılması
+- Dolandırıcılık, kimlik hırsızlığı veya siber suç faaliyetleri
+- Kötü amaçlı yazılım, virüs veya zararlı kod dağıtımı
+- Platformun güvenlik altyapısına yönelik saldırı veya test girişimleri
+- Spam veya toplu istenmeyen mesaj iletimi
+- Fikri mülkiyet haklarını ihlal eden içerik paylaşımı
+
+c) Hesap güvenliği
+Hesap bilgilerinizin ve şifrenizin gizliliğinin korunması tamamen kullanıcının sorumluluğundadır. Sıfır bilgi mimarisi nedeniyle şifre kurtarma her zaman mümkün olmayabilir.
+
+────────────────────────────────────────
+
+4. SORUMLULUK REDDİ
+
+a) İçerik sorumluluğu
+KeyCord, uçtan uca şifreleme ve sıfır bilgi mimarisi nedeniyle kullanıcılar arasında iletilen mesaj içeriklerine teknik olarak erişememektedir. Bu nedenle KeyCord, kullanıcılar tarafından iletilen içeriklerden hukuki olarak sorumlu tutulamaz.
+
+b) Hizmet sürekliliği
+KeyCord, hizmetin kesintisiz veya hatasız çalışacağını garanti etmez. Platform beta aşamasında sunulmakta olup teknik aksaklıklar yaşanabilir.
+
+c) Veri kaybı
+Şifre kaybı durumunda hesap içeriklerine erişim mümkün olmayabilir. KeyCord bu durumdan doğan kayıplardan sorumlu değildir.
+
+d) Üçüncü taraf bağlantıları
+Platform üzerinden paylaşılan üçüncü taraf bağlantı veya içeriklerden KeyCord sorumlu değildir.
+
+e) Tor ağı
+Tor ağı üzerinden erişimde yaşanan bağlantı sorunları, gecikme veya kesintilerden KeyCord sorumlu değildir. Tor ağının işleyişi tamamen bağımsız bir altyapıya dayanmaktadır.
+
+────────────────────────────────────────
+
+5. FİKRİ MÜLKİYET
+
+KeyCord platformunun adı, logosu, tasarımı ve yazılım altyapısı KeyCord'a aittir. Kullanıcılar bu unsurları izinsiz kopyalayamaz, çoğaltamaz veya ticari amaçla kullanamaz.
+
+────────────────────────────────────────
+
+6. HİZMETİN SONLANDIRILMASI
+
+KeyCord, aşağıdaki durumlarda kullanıcının hesabını askıya alma veya sonlandırma hakkını saklı tutar:
+
+- Bu kullanım şartlarının ihlali
+- Yasadışı faaliyet şüphesi
+- Platformun güvenliğini tehdit eden davranışlar
+
+Kullanıcılar da hesaplarını istedikleri zaman silebilir.
+
+────────────────────────────────────────
+
+7. DEĞİŞİKLİKLER
+
+KeyCord bu kullanım şartlarını önceden bildirim yaparak veya yapmaksızın güncelleyebilir. Güncel versiyon her zaman keycord.org adresinde yayımlanır. Platformu kullanmaya devam etmek, güncel şartları kabul etmek anlamına gelir.
+
+────────────────────────────────────────
+
+8. UYGULANACAK HUKUK
+
+Bu kullanım şartları Türk hukukuna tabidir. Uyuşmazlıklarda Türkiye mahkemeleri yetkilidir.
+
+────────────────────────────────────────
+
+9. İLETİŞİM
+
+Kullanım şartlarına ilişkin sorularınız için: privacy@keycord.org
+Web: keycord.org

@@ -60,7 +60,7 @@
                     " < <!-- User Info -->
                 <div style="display: flex; align-items: center; gap: 1rem;">
                     <img src="{{ url_for('auth.serve_profile_picture', username=from_users[req.id].username) }}"
-                        style="width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--chalk);"
+                        style="width: 50px; height: 50px; border-radius: 10px; border: 2px solid var(--chalk);"
                         onerror="this.src='{{ from_users[req.id].username|avatar_url }}'">
                     <div>
                         <div style="font-family: 'Caveat'; font-size: 1.5rem; line-height: 1;">{{
@@ -75,13 +75,13 @@
                     <input type="hidden" name="request_id" value="{{ req.id }}">
 
                     <button type="submit" name="action" value="accept" class="btn"
-                        style="width: 40px; height: 40px; padding: 0; display: flex; align-items: center; justify-content: center; border-radius: 50%; border: 2px solid var(--chalk); color: var(--chalk);"
+                        style="width: 40px; height: 40px; padding: 0; display: flex; align-items: center; justify-content: center; border-radius: 8px; border: 2px solid var(--chalk); color: var(--chalk);"
                         title="{{ _('Kabul Et') }}">
                         <i class="icon icon-check" style="background-color: currentColor;"></i>
                     </button>
 
                     <button type="submit" name="action" value="reject" class="btn"
-                        style="width: 40px; height: 40px; padding: 0; display: flex; align-items: center; justify-content: center; border-radius: 50%; border: 2px dashed var(--muted-chalk); color: var(--muted-chalk);"
+                        style="width: 40px; height: 40px; padding: 0; display: flex; align-items: center; justify-content: center; border-radius: 8px; border: 2px dashed var(--muted-chalk); color: var(--muted-chalk);"
                         title="{{ _('Reddet') }}">
                         <i class="icon icon-times" style="background-color: currentColor;"></i>
                     </button>

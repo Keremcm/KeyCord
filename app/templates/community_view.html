@@ -106,7 +106,7 @@
     <div class="comm-header"
         style="padding: 1.5rem; border-bottom: 2px dashed rgba(255,255,255,0.1); display: flex; align-items: center; gap: 1.5rem; background: rgba(0,0,0,0.2);">
         <img src="{{ url_for('static', filename=community.avatar) if community.avatar and not community.avatar.startswith('http') else community.avatar or (community.name|replace(' ', '+')|avatar_url) }}"
-            style="width: 60px; height: 60px; border-radius: 50%; border: 2px solid var(--chalk); transform: rotate(-2deg);"
+            style="width: 60px; height: 60px; border-radius: 10px; border: 2px solid var(--chalk); transform: rotate(-2deg);"
             onerror="this.src='{{ community.name|avatar_url }}'">
         <div>
             <h1
@@ -131,7 +131,7 @@
             <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
                 {% if msg.user_id != user.id %}
                 <img src="{{ url_for('auth.serve_profile_picture', username=sender.username) }}"
-                    style="width: 24px; height: 24px; border-radius: 50%; border: 1px solid var(--muted-chalk);">
+                    style="width: 24px; height: 24px; border-radius: 5px; border: 1px solid var(--muted-chalk);">
                 <span style="font-size: 0.9rem; font-weight: bold; color: var(--chalk);">{{ sender.username }}</span>
                 {% endif %}
             </div>

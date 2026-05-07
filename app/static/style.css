@@ -171,6 +171,6 @@ a:hover {
 .friend-pic {
     width: 32px;
     height: 32px;
-    border-radius: 50%;
+    border-radius: 6px;
     object-fit: cover;
 }

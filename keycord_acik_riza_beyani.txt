@@ -1,0 +1,33 @@
+
+Açık Rıza Beyanı
+
+KeyCord Uçtan Uca Şifreleme ve Veri İmhası Hakkında
+
+KeyCord platformu, kullanıcı mahremiyetini en üst düzeyde tutmak amacıyla Uçtan Uca Şifreleme (E2EE - End-to-End Encryption) ve Sıfır Bilgi (Zero-Knowledge) mimarisi üzerine inşa edilmiştir. Bu mimari, verilerinizin güvenliğini sağlarken aynı zamanda verilerin imhası ve erişilebilirliği konusunda belirli teknik kısıtları da beraberinde getirmektedir.
+1. Şifreleme Mimarisi ve Veri Erişimi
+
+KeyCord platformunda yapılan mesajlaşmalar ve paylaşılan içerikler, gönderici ve alıcının cihazlarında oluşturulan benzersiz şifreleme anahtarları ile korunmaktadır.
+
+    Sıfır Bilgi: KeyCord sunucuları, şifrelenmiş mesaj içeriklerini (ciphertext) saklasa dahi, bu mesajları çözecek özel anahtarlara (Private Key) erişimi yoktur. Özel anahtarınız, yalnızca sizin belirlediğiniz şifre ile şifrelenmiş olarak saklanır ve şifreniz sunucularımıza düz metin olarak asla gönderilmez.
+    Yerel Çözümleme: Mesajlar yalnızca ilgili tarafların (gönderici ve alıcı) cihazlarında, yerel olarak çözümlenebilir.
+
+2. Hesap Silme ve Veri İmhası
+
+Hesabınızı kalıcı olarak silmeniz durumunda aşağıdaki işlemler geri döndürülemez şekilde uygulanır:
+
+    Şifreleme Anahtarları: Hesabınıza ait Public Key ve şifrelenmiş Private Key veritabanından kalıcı olarak silinir. Anahtarların silinmesi, hesabınızla ilişkilendirilmiş tüm geçmiş şifreli verilerin matematiksel olarak çözülemez hale gelmesini sağlar.
+    Hesap Bilgileri: Kullanıcı adı, e-posta adresi ve profil detaylarınız (metadata) sistemden tamamen kaldırılır.
+    Sunucu Verileri: Sunucularımızda saklanan ve size ait olan teslim edilmemiş geçici mesaj paketleri silinir.
+
+3. Teknik Sınırlar ve Kullanıcı Beyanı
+
+Önemli Uyarı: Uçtan uca şifreleme ve dağıtık yapı gereği, gönderdiğiniz mesajlar alıcının cihazına ulaştıktan sonra KeyCord'un teknik kontrol alanından çıkmaktadır.
+
+Bu kapsamda, KeyCord platformuna üye olarak ve hizmetlerini kullanarak;
+
+    Hesabımı silmem veya verilerimin imhasını talep etmem halinde; sunucu tarafındaki tüm verilerimin ve şifreleme anahtarlarımın geri alınamaz şekilde silineceğini,
+    Bu işlem sonucunda, diğer kullanıcıların cihazlarına (bilgisayar, telefon vb.) daha önce iletilmiş olan mesaj kopyalarının, önbellek verilerinin veya ekran görüntülerinin KeyCord’un teknik kontrolü dışında olduğunu,
+    KeyCord'un diğer kullanıcıların cihazlarına fiziksel veya uzaktan müdahale yetkisi bulunmadığından, bu yerel kopyalar üzerinde tek taraflı silme işlemi uygulayamayabileceğini,
+    Hesap silme işleminin, şifreleme anahtarlarının yok edilmesi nedeniyle kesinlikle geri alınamayacağını ve verilerin kurtarılamayacağını
+
+bildiğimi, anladığımı ve hür irademle kabul ettiğimi beyan ederim.
