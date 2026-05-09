@@ -1,0 +1,17 @@
+# KeyCord Security Disclosure Policy
+# ---------------------------------------------------------------------------
+# KeyCord takes security seriously. If you have found a vulnerability, 
+# please report it responsibly through the contact information below.
+# ---------------------------------------------------------------------------
+
+Contact: mailto: contact@keycord.org
+Expires: 2027-05-09T00:00:00.000Z
+Preferred-Languages: en, tr
+Canonical: https://keycord.app/.well-known/security.txt
+Policy: https://keycord.app/privacy-policy
+
+# Hiring
+Hiring: https://keycord.app/careers
+
+# Acknowledgments
+Acknowledgments: https://keycord.app/hall-of-fame

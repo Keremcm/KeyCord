@@ -1,0 +1,158 @@
+{% extends "base.html" %}
+
+{% block title %}KeyCord - Onur Listesi{% endblock %}
+
+{% block extra_css %}
+<style>
+    *,
+    *::before,
+    *::after {
+        box-sizing: border-box;
+    }
+
+    html {
+        height: auto;
+        scroll-behavior: smooth;
+    }
+
+    body {
+        min-height: 100vh;
+        overflow-x: hidden;
+        position: relative;
+        margin: 0;
+    }
+
+    .hof-container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: clamp(1rem, 5vw, 2rem);
+        color: var(--muted-chalk);
+    }
+
+    .hof-header {
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+
+    .hof-header h1 {
+        font-family: 'Caveat', sans-serif;
+        font-size: clamp(2.75rem, 8vw, 4rem);
+        margin: 0 0 0.75rem;
+        color: var(--chalk);
+    }
+
+    .hof-header p {
+        font-family: 'Inter', sans-serif;
+        font-size: 1.05rem;
+        color: #999;
+        margin: 0;
+    }
+
+    .hof-section {
+        margin-bottom: 2.5rem;
+        padding: 1.75rem;
+        background: rgba(255, 255, 255, 0.03);
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .section-title {
+        font-family: 'Caveat', sans-serif;
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin: 0 0 1rem;
+        color: var(--chalk);
+    }
+
+    .hof-content {
+        font-family: 'Inter', sans-serif;
+        font-size: 1.15rem;
+        line-height: 1.8;
+        color: var(--muted-chalk);
+        text-align: center;
+    }
+
+    .hall-of-fame-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 1.5rem;
+        margin-top: 2rem;
+    }
+
+    .hof-item {
+        padding: 1.5rem;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 15px;
+        border: 1.5px dashed rgba(255, 255, 255, 0.1);
+        transition: all 0.3s;
+    }
+
+    .hof-item:hover {
+        transform: translateY(-5px);
+        border-color: var(--chalk);
+        background: rgba(255, 255, 255, 0.08);
+    }
+
+    .researcher-name {
+        font-family: 'Caveat', cursive;
+        font-size: 1.8rem;
+        color: var(--chalk);
+        margin-bottom: 0.25rem;
+    }
+
+    .researcher-date {
+        font-size: 0.85rem;
+        color: #777;
+    }
+
+    .hof-badge {
+        display: inline-block;
+        padding: 2px 8px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 4px;
+        font-size: 0.75rem;
+        color: #aaa;
+        margin-top: 0.5rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="hof-container">
+    <div class="hof-header">
+        <h1>{{ _('Onur Listesi') }}</h1>
+        <p>{{ _('KeyCord\'u daha güvenli kılan tüm araştırmacılara teşekkür ederiz.') }}</p>
+    </div>
+
+    <div class="hof-section">
+        <h2 class="section-title">{{ _('Güvenlik Kahramanları') }}</h2>
+        <div class="hof-content">
+            <p>{{ _('Aşağıdaki isimler, KeyCord\'un güvenlik standartlarını geliştirmemize yardımcı olan değerli araştırmacılardır.') }}</p>
+            
+            <div class="hall-of-fame-list">
+                <div class="hof-item" style="border-style: solid; border-color: var(--chalk); background: rgba(255, 255, 255, 0.1);">
+                    <a href="https://github.com/Keremcm" target="_blank" style="text-decoration: none; color: inherit;">
+                        <div class="researcher-name">Keremcm</div>
+                        <div class="researcher-date">Founder</div>
+                        <div class="hof-badge" style="background: var(--chalk); color: #000;">{{ _('KeyCord Founder') }}</div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="hof-section" style="text-align: center;">
+        <h2 class="section-title">{{ _('Siz de Katkıda Bulunun') }}</h2>
+        <div class="hof-content">
+            <p>{{ _('Bir güvenlik açığı mı buldunuz? Lütfen bizimle contact@keycord.org üzerinden iletişime geçin.
+                Doğrulanan açıklar için sizi bu listeye eklemekten ve (açığın önemine göre) ödüllendirmekten mutluluk
+                duyarız.') }}</p>
+            <a href="mailto:contact@keycord.org"
+                style="color: var(--chalk); font-family: 'Caveat', cursive; font-size: 1.5rem; text-decoration: underline;">{{
+                _('Bize Bildirin') }}</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

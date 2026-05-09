@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+
+{% block title %}KeyCord - {{ _('Katkıda Bulun') }}{% endblock %}
+
+{% block extra_css %}
+<style>
+    *,
+    *::before,
+    *::after {
+        box-sizing: border-box;
+    }
+
+    html {
+        height: auto;
+        scroll-behavior: smooth;
+    }
+
+    body {
+        min-height: 100vh;
+        overflow-x: hidden;
+        position: relative;
+        margin: 0;
+    }
+
+    .careers-container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: clamp(1rem, 5vw, 2rem);
+        color: var(--muted-chalk);
+    }
+
+    .careers-header {
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+
+    .careers-header h1 {
+        font-family: 'Caveat', sans-serif;
+        font-size: clamp(2.75rem, 8vw, 4rem);
+        margin: 0 0 0.75rem;
+        color: var(--chalk);
+    }
+
+    .careers-header p {
+        font-family: 'Inter', sans-serif;
+        font-size: 1.05rem;
+        color: #999;
+        margin: 0;
+    }
+
+    .careers-section {
+        margin-bottom: 2.5rem;
+        padding: 1.75rem;
+        background: rgba(255, 255, 255, 0.03);
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .section-title {
+        font-family: 'Caveat', sans-serif;
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin: 0 0 1rem;
+        color: var(--chalk);
+    }
+
+    .careers-content {
+        font-family: 'Inter', sans-serif;
+        font-size: 1.15rem;
+        line-height: 1.8;
+        color: var(--muted-chalk);
+    }
+
+    .github-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 1.5rem;
+        padding: 0.75rem 2rem;
+        background: var(--chalk);
+        color: #000;
+        border: none;
+        border-radius: 12px;
+        text-decoration: none;
+        transition: all 0.3s;
+        font-family: 'Caveat', cursive;
+        font-size: 1.6rem;
+        font-weight: bold;
+    }
+
+    .github-btn:hover {
+        background: #fff;
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+    }
+
+    .github-btn i {
+        font-size: 1.4rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="careers-container">
+    <div class="careers-header">
+        <h1>{{ _('KeyCord\'u Birlikte Geliştirelim') }}</h1>
+        <p>{{ _('Geleceğin gizlilik odaklı iletişim platformuna senin de katkın olsun.') }}</p>
+    </div>
+
+    <div class="careers-section">
+        <h2 class="section-title">{{ _('Açık Kaynak Ruhu') }}</h2>
+        <div class="careers-content">
+            <p>{{ _('KeyCord, tamamen şeffaflık ve topluluk odaklı bir projedir. Şu anda aktif bir işe alım sürecimiz bulunmamakla birlikte, projenin kodları tüm dünyaya açıktır.') }}</p>
+            <p>{{ _('Eğer sen de internetin daha güvenli ve özgür bir yer olması gerektiğine inanıyorsan, GitHub üzerinden projemize destek olabilir, yeni özellikler ekleyebilir veya hataları düzeltebilirsin.') }}</p>
+            
+            <div style="text-align: center;">
+                <a href="https://github.com/Keremcm/KeyCord" target="_blank" class="github-btn">
+                    <i class="icon icon-github" style="background-color: currentColor;"></i>
+                    {{ _('GitHub\'da Katkıda Bulun') }}
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="careers-section">
+        <h2 class="section-title">{{ _('Neler Yapabilirsin?') }}</h2>
+        <div class="careers-content">
+            <ul style="padding-left: 1.5rem;">
+                <li>{{ _('Backend mimarimizi (Flask/Python) optimize edebilirsin.') }}</li>
+                <li>{{ _('Frontend arayüzündeki UI/UX hatalarını giderebilirsin.') }}</li>
+                <li>{{ _('Güvenlik açıklarını bulup düzelterek projenin "Zero-Knowledge" yapısını güçlendirebilirsin.') }}</li>
+                <li>{{ _('Yeni özellikler için fikirler sunabilir veya mevcutları geliştirebilirsin.') }}</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="careers-section" style="text-align: center;">
+        <h2 class="section-title">{{ _('Bize Ulaşın') }}</h2>
+        <div class="careers-content">
+            <p>{{ _('Soruların veya önerilerin için her zaman contact@keycord.org adresinden bize yazabilirsin.') }}</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

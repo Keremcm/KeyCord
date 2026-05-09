@@ -2526,6 +2526,19 @@ def serve_robots():
 def serve_sitemap():
     return send_from_directory(os.path.join(current_app.root_path, '..'), 'sitemap.xml')
 
+@main_bp.route('/security.txt')
+@main_bp.route('/.well-known/security.txt')
+def serve_security_txt():
+    return send_from_directory(os.path.join(current_app.root_path, '..'), 'security.txt')
+
+@main_bp.route('/careers')
+def careers():
+    return render_template('careers.html')
+
+@main_bp.route('/hall-of-fame')
+def hall_of_fame():
+    return render_template('hall_of_fame.html')
+
 
 # ================================
 # GÜVENLİK VE HESAP YÖNETİMİ
