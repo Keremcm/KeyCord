@@ -9,12 +9,14 @@ with app.app_context():
 # Ana sayfa rotasını welcome'a yönlendir
 @app.route('/')
 def index():
+    # pyrefly: ignore [missing-import]
     from flask import redirect, url_for
     return redirect(url_for('auth.welcome'))
 
 # Favicon route
 @app.route('/favicon.ico')
 def favicon():
+    # pyrefly: ignore [missing-import]
     from flask import send_from_directory
     return send_from_directory(app.static_folder, 'logo.png')
 

@@ -71,7 +71,9 @@
                 <div class="nav-auth">
 
                     {% if current_user %}
-                    <a href="{{ url_for('auth.home') }}" class="btn">{{ _('Uygulamaya Git') }}</a>
+                    <a href="{{ url_for('auth.home') }}" class="btn">
+                        {{ _('Giriş') if request.endpoint in ['main.careers', 'main.hall_of_fame'] else _('Uygulamaya Git') }}
+                    </a>
                     {% else %}
                     <a href="{{ url_for('auth.login_page') }}" class="btn">{{ _('Giriş') }}</a>
                     {% endif %}
