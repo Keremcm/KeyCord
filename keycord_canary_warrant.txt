@@ -1,0 +1,49 @@
+CANARY WARRANT
+KeyCord — Gizlilik Öncelikli Şifreli Mesajlaşma Platformu
+Son güncelleme: Mayıs 2026
+
+────────────────────────────────────────
+
+Bu belge, KeyCord platformunun şeffaflık taahhüdünün bir parçasıdır.
+Her ay düzenli olarak güncellenir.
+
+────────────────────────────────────────
+
+BEYAN
+
+KeyCord olarak aşağıdakileri beyan ederiz:
+
+1. Bu tarihe kadar hiçbir hükümet kurumu, yargı mercii veya üçüncü taraftan
+   kullanıcı verisi teslim etmemizi zorunlu kılan bir talep, mahkeme kararı
+   veya yasal zorunluluk almadık.
+
+2. Bu tarihe kadar platform altyapısına yetkisiz erişim sağlandığına dair
+   doğrulanmış bir bilgimiz bulunmamaktadır.
+
+3. Bu tarihe kadar kullanıcıların gizliliğini tehlikeye atacak herhangi bir
+   gizli emir veya kısıtlama altına girmedik.
+
+4. KeyCord'un zero-knowledge mimarisi bu tarih itibarıyla değiştirilmemiştir.
+   Mesaj içeriklerine teknik erişimimiz bulunmamaktadır.
+
+────────────────────────────────────────
+
+CANARY NASIL ÇALIŞIR?
+
+Bu belge her ay güncellenir. Eğer bu belge 45 günden uzun süre
+güncellenmezse, yukarıdaki beyanlardan birinin artık geçerli olmadığı
+anlamına gelebilir.
+
+Bu, yasal olarak açıklamamız engellendiğinde kullanıcıları sessizce
+bilgilendirme yöntemimizdir.
+
+────────────────────────────────────────
+
+GEÇMİŞ GÜNCELLEMELER
+
+- Mayıs 2026: İlk yayın. Tüm beyanlar geçerlidir.
+
+────────────────────────────────────────
+
+İletişim: privacy@keycord.org
+Web: keycord.org/canary

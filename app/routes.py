@@ -2539,6 +2539,10 @@ def careers():
 def hall_of_fame():
     return render_template('hall_of_fame.html')
 
+@main_bp.route('/canary')
+def canary():
+    return render_template('canary.html')
+
 
 # ================================
 # GÜVENLİK VE HESAP YÖNETİMİ

@@ -1,0 +1,299 @@
+{% extends "base.html" %}
+
+{% block title %}KeyCord - Canary Warrant{% endblock %}
+
+{% block extra_css %}
+<style>
+    *,
+    *::before,
+    *::after {
+        box-sizing: border-box;
+    }
+
+    html {
+        height: auto;
+        scroll-behavior: smooth;
+    }
+
+    body {
+        min-height: 100vh;
+        overflow-x: hidden;
+        position: relative;
+        margin: 0;
+    }
+
+    .policy-container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: clamp(1rem, 5vw, 2rem);
+        color: var(--muted-chalk);
+    }
+
+    .policy-header {
+        text-align: center;
+        margin-bottom: 4rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        padding-bottom: 2rem;
+    }
+
+    .policy-header h1 {
+        font-family: 'Caveat', cursive;
+        font-size: clamp(2.5rem, 8vw, 4rem);
+        color: var(--chalk);
+        margin: 0 0 0.5rem;
+        text-transform: uppercase;
+    }
+
+    .policy-header .meta {
+        font-size: 1rem;
+        color: #888;
+    }
+
+    .policy-section {
+        margin-bottom: 3rem;
+        padding: 1.75rem;
+        background: rgba(255, 255, 255, 0.02);
+        border-radius: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .section-number {
+        display: inline-block;
+        font-family: 'Reenie Beanie', cursive;
+        font-size: 2rem;
+        color: var(--brand-white);
+        opacity: 0.8;
+        margin-right: 0.5rem;
+    }
+
+    .section-title {
+        font-family: 'Caveat', cursive;
+        font-size: 1.85rem;
+        font-weight: 600;
+        margin: 0 0 1rem;
+        color: var(--chalk);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .policy-content {
+        font-family: 'Inter', sans-serif;
+        font-size: 1.2rem;
+        line-height: 1.85;
+        color: var(--muted-chalk);
+        text-align: justify;
+    }
+
+    .policy-content p {
+        margin: 1rem 0;
+    }
+
+    .legal-list {
+        list-style-type: decimal;
+        padding-left: 1.75rem;
+        margin-top: 1.2rem;
+        margin-bottom: 1.2rem;
+        font-size: 1.15rem;
+    }
+
+    .legal-list li {
+        margin-bottom: 1rem;
+        line-height: 1.75;
+    }
+
+    .legal-list-bullet {
+        list-style-type: disc;
+        padding-left: 1.75rem;
+        margin-top: 1.2rem;
+        margin-bottom: 1.2rem;
+        font-size: 1.15rem;
+    }
+
+    .legal-list-bullet li {
+        margin-bottom: 1rem;
+        line-height: 1.75;
+    }
+
+    .highlight-box {
+        background: rgba(255, 255, 255, 0.03);
+        border-left: 3px solid #666;
+        padding: 1.2rem;
+        margin: 1.25rem 0;
+        font-style: italic;
+        font-size: 1.1rem;
+        line-height: 1.6;
+    }
+
+    .canary-status {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        background: rgba(255, 255, 255, 0.05);
+        padding: 1rem 1.5rem;
+        border-radius: 8px;
+        margin-top: 2rem;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .status-dot {
+        width: 12px;
+        height: 12px;
+        background: #fff;
+        border-radius: 50%;
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    }
+
+    .status-text {
+        font-family: 'JetBrains Mono', monospace;
+        font-weight: 700;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--chalk);
+    }
+
+    strong {
+        color: var(--chalk);
+    }
+
+    a.contact-link {
+        color: var(--chalk);
+        text-decoration: underline;
+    }
+
+    .back-link {
+        position: fixed;
+        top: 2rem;
+        left: 2rem;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        padding: 0.65rem 1.1rem;
+        z-index: 100;
+        background: #000;
+        color: #fff;
+        text-decoration: none;
+        font-family: 'Caveat', cursive;
+        font-size: 1.05rem;
+        transition: all 0.3s;
+    }
+
+    .back-link:hover {
+        border-color: var(--chalk);
+        color: var(--chalk);
+    }
+
+    .footer-note {
+        margin-top: 3rem;
+        text-align: center;
+        color: #888;
+        font-size: 0.85rem;
+        border-top: 1px dashed rgba(255, 255, 255, 0.1);
+        padding-top: 2rem;
+    }
+
+    .main-footer {
+        display: none;
+    }
+
+    @media (max-width: 860px) {
+        .back-link {
+            position: static;
+            margin-bottom: 2rem;
+            display: inline-block;
+        }
+    }
+
+    @media (max-width: 600px) {
+        .policy-container {
+            padding: 4rem 1rem 2rem;
+        }
+
+        .policy-header {
+            margin-bottom: 2rem;
+        }
+
+        .policy-section {
+            padding: 1rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block footer %}{% endblock %}
+
+{% block content %}
+<div class="container policy-container">
+
+    <a href="{{ url_for('auth.welcome') if not current_user.is_authenticated else url_for('auth.dashboard') }}" class="back-link">
+        ← {{ _('Geri') }}
+    </a>
+
+    <div class="policy-header">
+        <h1>CANARY WARRANT</h1>
+        <div class="meta">
+            <p>KeyCord — Gizlilik Öncelikli Şifreli Mesajlaşma Platformu</p>
+            <p>{{ _('Son güncelleme: Mayıs 2026') }}</p>
+        </div>
+    </div>
+
+    <!-- 1. BEYAN -->
+    <div class="policy-section">
+        <h2 class="section-title">
+            <span class="section-number">1</span> {{ _('Beyanlarımız') }}
+        </h2>
+        <div class="policy-content">
+            <p>
+                {{ _('KeyCord olarak, kullanıcılarımızın güvenliğini ve gizliliğini her şeyin üzerinde tutuyoruz. Bu kapsamda aşağıdaki durumların gerçekleşmediğini beyan ederiz:') }}
+            </p>
+            <ul class="legal-list">
+                <li>{{ _('Bu tarihe kadar hiçbir hükümet kurumu, yargı mercii veya üçüncü taraftan kullanıcı verisi teslim etmemizi zorunlu kılan bir talep, mahkeme kararı veya yasal zorunluluk almadık.') }}</li>
+                <li>{{ _('Platform altyapısına yetkisiz erişim sağlandığına veya herhangi bir "arka kapı" (backdoor) yerleştirildiğine dair doğrulanmış bir bilgimiz bulunmamaktadır.') }}</li>
+                <li>{{ _('Kullanıcıların gizliliğini tehlikeye atacak herhangi bir gizli emir veya kısıtlama (gag order) altına girmedik.') }}</li>
+                <li>{{ _('KeyCord\'un zero-knowledge mimarisi bu tarih itibarıyla değiştirilmemiştir. Teknik olarak mesaj içeriklerine erişimimiz bulunmamaktadır.') }}</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 2. ÇALIŞMA PRENSİBİ -->
+    <div class="policy-section">
+        <h2 class="section-title">
+            <span class="section-number">2</span> {{ _('Canary Nasıl Çalışır?') }}
+        </h2>
+        <div class="policy-content">
+            <p>
+                {{ _('Bu belge her ay düzenli olarak güncellenir. Eğer bu belge 45 günden uzun süre güncellenmezse, yukarıdaki beyanlardan birinin artık geçerli olmadığı anlamına gelebilir.') }}
+            </p>
+            <div class="highlight-box">
+                {{ _('Bu, yasal olarak açıklama yapmamız engellendiğinde kullanıcılarımızı sessizce bilgilendirme yöntemimizdir.') }}
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. DURUM -->
+    <div class="policy-section">
+        <h2 class="section-title">
+            <span class="section-number">3</span> {{ _('Güncel Durum') }}
+        </h2>
+        <div class="policy-content">
+            <div class="canary-status">
+                <div class="status-dot"></div>
+                <div class="status-text">{{ _('SİSTEM GÜVENLİ VE MÜDAHALESİZ') }}</div>
+            </div>
+            <p style="margin-top: 1.5rem; font-size: 1rem; color: #888;">
+                {{ _('Geçmiş Güncellemeler:') }}<br>
+                - Mayıs 2026: İlk yayın. Tüm beyanlar geçerlidir.
+            </p>
+        </div>
+    </div>
+
+    <div class="footer-note">
+        <p>{{ _('Gizlilik ile ilgili tüm sorularınız için:') }} <a href="mailto:privacy@keycord.org" class="contact-link">privacy@keycord.org</a></p>
+        <p style="margin-top: 1rem;">KeyCord © 2026</p>
+    </div>
+
+</div>
+{% endblock %}
