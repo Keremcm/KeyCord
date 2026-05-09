@@ -122,7 +122,7 @@
   }
 
   .reg-feat-text {
-    font-size: 1.3rem;
+    font-size: 1.1rem;
     color: var(--muted-chalk);
     line-height: 1.7;
   }
@@ -166,7 +166,7 @@
   }
 
   .reg-form-sub {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     color: var(--muted-chalk);
   }
 
@@ -176,12 +176,6 @@
     flex-direction: column;
     gap: 1.2rem;
     margin-bottom: 1.8rem;
-  }
-
-  .field-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
   }
 
   .field-item {
@@ -217,6 +211,12 @@
 
   .field-item input::placeholder {
     color: rgba(255, 255, 255, 0.2);
+  }
+
+  .field-hint {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.3);
+    margin-top: 0.2rem;
   }
 
   /* password wrapper */
@@ -307,7 +307,7 @@
   .reg-links {
     margin-top: 1.5rem;
     text-align: center;
-    font-size: 1.2rem;
+    font-size: 1rem;
     color: var(--muted-chalk);
     line-height: 1.7;
   }
@@ -324,7 +324,7 @@
 
   .reg-links .tos {
     margin-top: 1.8rem;
-    font-size: 1rem;
+    font-size: 0.85rem;
     color: rgba(200, 200, 200, 0.8);
   }
 
@@ -379,10 +379,6 @@
   }
 
   @media(max-width: 480px) {
-    .field-row {
-      grid-template-columns: 1fr;
-    }
-
     .reg-left {
       padding: 2rem 1.5rem;
     }
@@ -391,20 +387,20 @@
       padding: 1.5rem;
     }
   }
-
-
+</style>
 {% endblock %}
 
 {% block content %}
 <div class="reg-page">
-
   <!-- ── LEFT ── -->
   <div class="reg-left">
     <a href="{{ url_for('auth.welcome') }}" class="reg-logo">← KeyCord</a>
-
-    <h1 class="reg-left-title">{{ _('Gizlilik bir tercih değil,\nbir haktır.') }}</h1>
-    <p class="reg-left-desc">{{ _('Hesabınız oluşturulurken şifreleme anahtarları yalnızca sizin cihazınızda üretilir.
-      Sunucumuz hiçbir zaman özel anahtarınızı görmez.') }}</p>
+    <h1 class="reg-left-title">
+      {{ _('Gizlilik bir tercih değil, bir haktır.') }}
+    </h1>
+    <p class="reg-left-desc">
+      {{ _('Hesabınız oluşturulurken şifreleme anahtarları yalnızca sizin cihazınızda üretilir. Sunucumuz hiçbir zaman özel anahtarınızı görmez.') }}
+    </p>
 
     <div class="reg-features">
       <div class="reg-feat">
@@ -461,37 +457,29 @@
 
     <form method="POST" id="authRegisterForm" novalidate>
       <input type="hidden" name="csrf_token" value="{{ csrf_token }}" />
-
       <div class="field-group">
-
-          <div class="field-item">
-            <label for="username">{{ _('Anonim İsim') }}</label>
-            <input type="text" id="username" name="username" placeholder="anonim_kullanici" required
-              autocomplete="username" />
-          </div>
+        <div class="field-item">
+          <label for="username">{{ _('Anonim İsim') }}</label>
+          <input type="text" id="username" name="username" placeholder="anonim_kullanici" required autocomplete="username" />
+        </div>
 
         <div class="field-item">
           <label for="invite_code">{{ _('Davet Kodu') }}</label>
-          <input type="text" id="invite_code" name="invite_code" placeholder="{{ _('Arkadaşınızdan aldığınız kod') }}"
-            autocomplete="off" />
+          <input type="text" id="invite_code" name="invite_code" placeholder="{{ _('Arkadaşınızdan aldığınız kod') }}" autocomplete="off" />
           <span class="field-hint">{{ _('Yeni hesap açmak için bu kodu arkadaşınızdan almalısınız.') }}</span>
         </div>
 
         <div class="field-item">
           <label for="password">{{ _('Şifre') }}</label>
           <div class="pw-wrap">
-            <input type="password" id="password" name="password" placeholder="{{ _('En az 8 karakter') }}" required
-              autocomplete="new-password" />
+            <input type="password" id="password" name="password" placeholder="{{ _('En az 8 karakter') }}" required autocomplete="new-password" />
             <button type="button" class="toggle-password" data-target="password" aria-label="{{ _('Şifreyi göster') }}">
-              <svg class="eye-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round">
+              <svg class="eye-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
                 <circle cx="12" cy="12" r="3" />
               </svg>
-              <svg class="eye-off-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round" style="display:none;">
-                <path
-                  d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
+              <svg class="eye-off-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
+                <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
                 <line x1="1" y1="1" x2="23" y2="23" />
               </svg>
             </button>
@@ -507,35 +495,29 @@
         <div class="field-item">
           <label for="confirm">{{ _('Şifreyi Onayla') }}</label>
           <div class="pw-wrap">
-            <input type="password" id="confirm" name="confirm_password" placeholder="{{ _('Tekrar giriniz') }}" required
-              autocomplete="new-password" />
+            <input type="password" id="confirm" name="confirm_password" placeholder="{{ _('Tekrar giriniz') }}" required autocomplete="new-password" />
             <button type="button" class="toggle-password" data-target="confirm" aria-label="{{ _('Şifreyi göster') }}">
-              <svg class="eye-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round">
+              <svg class="eye-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
                 <circle cx="12" cy="12" r="3" />
               </svg>
-              <svg class="eye-off-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round" style="display:none;">
-                <path
-                  d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
+              <svg class="eye-off-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
+                <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
                 <line x1="1" y1="1" x2="23" y2="23" />
               </svg>
             </button>
           </div>
         </div>
-
       </div>
 
       <div class="key-notice">
         <svg viewBox="0 0 24 24">
           <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
         </svg>
-        <div class="key-notice-text">{{ _('Kayıt sırasında şifreleme anahtarlarınız yalnızca bu cihazda oluşturulur. Bu
-          işlem birkaç saniye sürebilir.') }}</div>
+        <div class="key-notice-text">
+          {{ _('Kayıt sırasında şifreleme anahtarlarınız yalnızca bu cihazda oluşturulur. Bu işlem birkaç saniye sürebilir.') }}
+        </div>
       </div>
-
-
 
       <button type="submit" class="reg-submit" id="submitBtn">{{ _('Hesap Oluştur') }}</button>
     </form>
@@ -545,13 +527,11 @@
       <a href="{{ url_for('auth.login_page') }}">{{ _('Giriş Yap') }}</a>
       <div class="tos">
         {{ _('Devam ederek') }}
-        <a href="{{ url_for('auth.explicit_consent') }}" target="_blank" style="color:rgba(255,255,255,0.35);">{{
-          _('Açık Rıza Beyanını') }}</a>
+        <a href="{{ url_for('auth.explicit_consent') }}" target="_blank" style="color:rgba(255,255,255,0.35);">{{ _('Açık Rıza Beyanını') }}</a>
         {{ _('kabul etmiş sayılırsınız.') }}
       </div>
     </div>
   </div>
-
 </div>
 {% endblock %}
 
@@ -567,9 +547,13 @@
   if (pw) {
     pw.addEventListener('input', () => {
       const v = pw.value;
-      if (!v) { pwBox.style.display = 'none'; fill.style.width = '0'; return; }
-      pwBox.style.display = 'block';
+      if (!v) {
+        pwBox.style.display = 'none';
+        fill.style.width = '0';
+        return;
+      }
 
+      pwBox.style.display = 'block';
       let s = 0;
       if (v.length >= 8) s += 30;
       if (v.length >= 12) s += 10;
@@ -580,15 +564,23 @@
       s = Math.min(100, s);
 
       fill.style.width = s + '%';
-      if (s < 40) { txt.textContent = '{{ _("Zayıf şifre") }}'; fill.style.background = '#ff4f4f'; }
-      else if (s < 70) { txt.textContent = '{{ _("Orta güvenlik") }}'; fill.style.background = '#ffd700'; }
-      else { txt.textContent = '{{ _("Güçlü şifre") }}'; fill.style.background = '#7fff7f'; }
+
+      if (s < 40) {
+        txt.textContent = '{{ _("Zayıf şifre") }}';
+        fill.style.background = '#ff4f4f';
+      } else if (s < 70) {
+        txt.textContent = '{{ _("Orta güvenlik") }}';
+        fill.style.background = '#ffd700';
+      } else {
+        txt.textContent = '{{ _("Güçlü şifre") }}';
+        fill.style.background = '#7fff7f';
+      }
     });
   }
 
   /* ── Şifre göster/gizle ── */
   document.querySelectorAll('.toggle-password').forEach(btn => {
-    btn.addEventListener('click', function () {
+    btn.addEventListener('click', function() {
       const input = document.getElementById(this.dataset.target);
       const isHidden = input.type === 'password';
       input.type = isHidden ? 'text' : 'password';
@@ -604,7 +596,11 @@
   if (form && submitBtn) {
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      if (!form.checkValidity()) { form.reportValidity(); return; }
+
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
 
       const pwd = document.getElementById('password').value;
       const confirm = document.getElementById('confirm').value;
@@ -629,13 +625,14 @@
 
         [['public_key', keys.publicKey], ['encrypted_private_key', encryptedPrivKey], ['salt', salt]].forEach(([n, v]) => {
           const inp = document.createElement('input');
-          inp.type = 'hidden'; inp.name = n; inp.value = v;
+          inp.type = 'hidden';
+          inp.name = n;
+          inp.value = v;
           form.appendChild(inp);
         });
 
         submitBtn.textContent = '{{ _("Tamamlanıyor...") }}';
         form.submit();
-
       } catch (err) {
         console.error(err);
         alert('{{ _("Anahtar oluşturma hatası: ") }}' + err.message);
@@ -648,13 +645,13 @@
 
 <script nonce="{{ csp_nonce }}" type="application/ld+json">
 {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    "name": "{{ _('Kayıt Ol') }} - KeyCord",
-    "description": "{{ _('Yeni bir KeyCord hesabı oluşturun. Tamamen anonim, log tutmayan ve güvenli iletişim dünyasına katılın.') }}",
-    "url": "{{ url_for('auth.register', _external=True) }}",
-    "inLanguage": "{{ get_locale() }}",
-    "keywords": ["KeyCord Kayıt","Yeni Hesap Oluştur","Anonim Mesajlaşma","Güvenli Chat"]
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "{{ _('Kayıt Ol') }} - KeyCord",
+  "description": "{{ _('Yeni bir KeyCord hesabı oluşturun. Tamamen anonim, log tutmayan ve güvenli iletişim dünyasına katılın.') }}",
+  "url": "{{ url_for('auth.register', _external=True) }}",
+  "inLanguage": "{{ get_locale() }}",
+  "keywords": ["KeyCord Kayıt", "Yeni Hesap Oluştur", "Anonim Mesajlaşma", "Güvenli Chat"]
 }
 </script>
 {% endblock %}
