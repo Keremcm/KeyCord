@@ -1,4 +1,3 @@
-
 Flask
 Flask-Login
 Flask-SQLAlchemy
@@ -15,3 +14,4 @@ Flask-Migrate
 Flask-Babel
 sqlcipher3-binary
 python-magic
+faker

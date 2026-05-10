@@ -1,5 +1,7 @@
 import os
 import base64
+import string
+from faker import Faker
 import datetime
 import re
 import secrets
@@ -90,7 +92,8 @@ from .security import (
     rate_limit_check, validate_user_input, sanitize_message_content,
     validate_friendship, get_remote_addr,
     is_malicious_request, check_ban_cookie,
-    load_banned_ips, save_banned_ip
+    load_banned_ips, save_banned_ip,
+    save_honeytoken_cred, is_honeytoken_cred
 )
 import time
 import json
@@ -734,6 +737,14 @@ def login_page():
             password = LoginRSA.decrypt(raw_password)
             remember = request.form.get('remember') == 'on'
         
+        # Giriş yapılan veriler bir Honeytoken mı? (KRİTİK IDS KONTROLÜ)
+        if is_honeytoken_cred(username, password):
+            if ip not in BLOCKED_IPS:
+                BLOCKED_IPS.add(ip)
+                save_banned_ip(ip)
+            log_security_event('HONEYTOKEN_USAGE_PERMANENT_BAN', f'User: {username}, IP: {ip}')
+            abort(403, "Kritik güvenlik ihlali tespit edildi.")
+
         # Input validasyonu
         if not username or not password:
             record_failed_login(ip)
@@ -1488,6 +1499,7 @@ def logout_all():
 HONEYPOT_COUNT = {}
 HONEYPOT_LIMIT = 20
 HONEYPOT_WINDOW = 600  # 10 dakika
+fake = Faker(['tr_TR', 'en_US'])
 
 @auth_bp.app_errorhandler(404)
 def fake_404_handler(e):
@@ -1495,6 +1507,14 @@ def fake_404_handler(e):
     path = request.path
     now = time.time()
     
+    # Botlar genellikle bu uzantıları tarar
+    suspicious_patterns = ['.php', '.asp', '.aspx', '.env', '/wp-', '/admin', '/config', '/backup', '.sql', '.git', 'etc/passwd']
+    is_suspicious = any(pattern in path.lower() for pattern in suspicious_patterns)
+    
+    if not is_suspicious:
+        # Gerçek kullanıcılar için şık 404 sayfası
+        return render_template('404.html'), 404
+
     # Honeypot logu ve geciktirme
     log_action("HONEYPOT_FAKE_PAGE", user=None, ip=ip, extra=f"tried_path={path}")
     time.sleep(random.uniform(1, 3))
@@ -1514,17 +1534,96 @@ def fake_404_handler(e):
         TEMP_BLOCKED_IPS[ip] = time.time() + 1800
         log_action("HONEYPOT_TEMP_BAN", user=None, ip=ip, extra=f"Hız sınırlama: {path}")
         
+    # Eğer bu bir POST isteği ise, form verilerini Honeytoken olarak kaydet
+    if request.method == 'POST':
+        honey_user = request.form.get('honey_user') or request.form.get('username')
+        honey_pass = request.form.get('honey_pass') or request.form.get('password')
+        if honey_user or honey_pass:
+            log_security_event("HONEYTOKEN_CREDENTIAL_CAPTURED", 
+                               f"User: {honey_user}, IP: {ip}", 
+                               ip_address=ip)
+            save_honeytoken_cred(honey_user, honey_pass)
+
     # Sahte bir sayfa döndür ve "banned" çerezi ekle
-    response = make_response(random_fake_page())
+    response = generate_honeypot_response(path)
     # Çerez her durumda eklenir, tarayıcıyı işaretlemek için
     response.set_cookie('kcord_status', 'banned', max_age=31536000, httponly=True, samesite='Strict')
     return response, 200
 
-def random_fake_page():
-    # Rastgele sahte başlık ve içerik üret
-    title = ''.join(random.choices(string.ascii_letters + string.digits, k=12))
-    content = ''.join(random.choices(string.ascii_letters + string.digits + " ", k=100))
-    return f"<html><head><title>{title}</title></head><body><h1>{title}</h1><p>{content}</p></body></html>"
+def generate_honeypot_response(path):
+    path_lower = path.lower()
+    
+    # 1. Environment / Config Files
+    if any(x in path_lower for x in ['.env', 'config', 'settings', 'web.config']):
+        content = (
+            f"APP_ENV=production\n"
+            f"APP_DEBUG=false\n"
+            f"APP_KEY=base64:{base64.b64encode(fake.password(length=32).encode()).decode()}\n"
+            f"DB_CONNECTION=mysql\n"
+            f"DB_HOST={fake.ipv4()}\n"
+            f"DB_PORT=3306\n"
+            f"DB_DATABASE={fake.word()}_prod\n"
+            f"DB_USERNAME={fake.user_name()}\n"
+            f"DB_PASSWORD={fake.password(length=16)}\n"
+            f"AWS_ACCESS_KEY_ID={fake.bothify(text='AKIA################')}\n"
+            f"AWS_SECRET_ACCESS_KEY={fake.password(length=40)}\n"
+            f"STRIPE_KEY=sk_live_{fake.password(length=24)}\n"
+            f"JWT_SECRET={fake.sha256()}\n"
+        )
+        return make_response(content, 200, {'Content-Type': 'text/plain'})
+
+    # 2. Git Config
+    if '.git/config' in path_lower:
+        content = (
+            f"[core]\n\trepositoryformatversion = 0\n\tfilemode = true\n\tbare = false\n\tlogallrefupdates = true\n"
+            f"[remote \"origin\"]\n\turl = https://github.com/{fake.user_name()}/{fake.word()}.git\n"
+            f"\tfetch = +refs/heads/*:refs/remotes/origin/*\n"
+            f"[branch \"main\"]\n\tremote = origin\n\tmerge = refs/heads/main\n"
+        )
+        return make_response(content, 200, {'Content-Type': 'text/plain'})
+
+    # 3. /etc/passwd
+    if 'etc/passwd' in path_lower:
+        users = []
+        for _ in range(10):
+            uname = fake.user_name()
+            uid = fake.random_int(min=1000, max=2000)
+            users.append(f"{uname}:x:{uid}:{uid}:{fake.name()}:/home/{uname}:/bin/bash")
+        content = "root:x:0:0:root:/root:/bin/bash\n" + "\n".join(users)
+        return make_response(content, 200, {'Content-Type': 'text/plain'})
+
+    # 4. WordPress / Admin / Secrets
+    if any(x in path_lower for x in ['wp-login', 'wp-admin', 'admin', 'login', 'secrets']):
+        title = "Giriş Yap - " + fake.company()
+        html = f"""
+        <html><head><title>{title}</title><style>body{{font-family:sans-serif;background:#f0f2f1;display:flex;justify-content:center;align-items:center;height:100vh;}} .login-box{{background:#fff;padding:20px;border-radius:5px;box-shadow:0 2px 10px rgba(0,0,0,0.1);width:320px;}} input{{width:100%;margin:10px 0;padding:10px;box-sizing:border-box;}} button{{width:100%;padding:10px;background:#007cba;color:#fff;border:none;cursor:pointer;}}</style></head>
+        <body><div class="login-box"><h2>{fake.word().capitalize()} Panel</h2>
+        <form method="POST">
+        <input type="text" name="honey_user" placeholder="Kullanıcı Adı">
+        <input type="password" name="honey_pass" placeholder="Şifre">
+        <button type="submit">Giriş</button>
+        </form>
+        </div></body></html>
+        """
+        return make_response(html, 200, {'Content-Type': 'text/html'})
+
+    # 5. SQL / Backup
+    if any(path_lower.endswith(ext) for ext in ['.sql', '.bak', '.dump']):
+        content = f"-- Database dump by MySQL\n-- Host: {fake.ipv4()}  Database: {fake.word()}\n"
+        content += f"CREATE TABLE `users` (`id` int(11), `username` varchar(255), `email` varchar(255), `password` varchar(255));\n"
+        for _ in range(5):
+            content += f"INSERT INTO `users` VALUES ({fake.random_int()}, '{fake.user_name()}', '{fake.email()}', '{fake.sha256()}');\n"
+        return make_response(content, 200, {'Content-Type': 'text/plain'})
+
+    # Varsayılan: Rastgele HTML sayfası
+    title = fake.sentence(nb_words=3)
+    body = fake.paragraph(nb_sentences=5)
+    author = fake.name()
+    html = f"""
+    <html><head><title>{title}</title></head>
+    <body><h1>{title}</h1><p>{body}</p><hr><small>Yazar: {author}</small></body></html>
+    """
+    return make_response(html, 200, {'Content-Type': 'text/html'})
 
 @auth_bp.before_app_request
 def refresh_session():
@@ -2665,17 +2764,3 @@ def delete_account():
         flash("Hesap silinirken bir hata oluştu.", "error")
         return redirect(url_for('auth.profile'))
 
-# --- KEYCORD SMART 404 HANDLER ---
-@auth_bp.app_errorhandler(404)
-def smart_404_handler(e):
-    path = request.path
-    # Botlar genellikle bu uzantıları tarar
-    suspicious_patterns = ['.php', '.asp', '.aspx', '.env', '/wp-', '/admin', '/config', '/backup', '.sql', '.git']
-    if any(pattern in path.lower() for pattern in suspicious_patterns):
-        try:
-            return random_fake_page(), 200, {'Content-Type': 'text/html'}
-        except:
-            return "Bot Detected", 200
-    
-    # Gerçek kullanıcılar için şık 404 sayfası
-    return render_template('404.html'), 404

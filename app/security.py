@@ -205,6 +205,61 @@ def save_banned_ip(ip):
     except Exception:
         pass
 
+HONEYTOKEN_CREDS_FILE = 'honeytoken_creds.json'
+
+def save_honeytoken_cred(username, password):
+    """Saldırganın honeypot formuna girdiği verileri şifreli olarak kaydeder."""
+    import json
+    import os
+    import time
+    from cryptography.fernet import Fernet
+    
+    encryption_key = current_app.config.get('LOG_ENCRYPTION_KEY')
+    if not encryption_key: return
+    
+    f = Fernet(encryption_key.encode())
+    
+    creds = []
+    if os.path.exists(HONEYTOKEN_CREDS_FILE):
+        try:
+            with open(HONEYTOKEN_CREDS_FILE, 'rb') as file:
+                decrypted_data = f.decrypt(file.read()).decode()
+                creds = json.loads(decrypted_data)
+        except:
+            creds = []
+            
+    creds.append({'u': username, 'p': password, 'ts': time.time()})
+    creds = creds[-100:] # Limit
+    
+    encrypted_data = f.encrypt(json.dumps(creds).encode())
+    with open(HONEYTOKEN_CREDS_FILE, 'wb') as file:
+        file.write(encrypted_data)
+
+def is_honeytoken_cred(username, password):
+    """Giriş yapılan verilerin bir honeytoken olup olmadığını kontrol eder."""
+    import json
+    import os
+    from cryptography.fernet import Fernet
+    
+    encryption_key = current_app.config.get('LOG_ENCRYPTION_KEY')
+    if not encryption_key or not os.path.exists(HONEYTOKEN_CREDS_FILE):
+        return False
+        
+    f = Fernet(encryption_key.encode())
+    
+    try:
+        with open(HONEYTOKEN_CREDS_FILE, 'rb') as file:
+            decrypted_data = f.decrypt(file.read()).decode()
+            creds = json.loads(decrypted_data)
+            
+        for c in creds:
+            # Şifre veya Kullanıcı Adı tam eşleşiyorsa (Saldırgan yemi yemiş demektir)
+            if (username and c['u'] == username) or (password and c['p'] == password):
+                return True
+    except:
+        pass
+    return False
+
 def rate_limit_check(identifier, max_requests=None, window=None, request_type='general'):
     """Veritabanı tabanlı ve şifreli rate limiting kontrolü"""
     from .models import RateLimit
