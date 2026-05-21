@@ -183,17 +183,59 @@ def check_ban_cookie():
     """Banned çerezi kontrolü"""
     return request.cookies.get('kcord_status') == 'banned'
 
+class DynamicBlockedIPs(set):
+    """Dosya değişimini (mtime) izleyen ve güncellendiğinde kendini otomatik yenileyen dinamik IP listesi"""
+    def __init__(self):
+        super().__init__()
+        import os
+        self._filepath = os.path.join(os.getcwd(), 'banned_ips.txt')
+        self._last_mtime = 0
+        self._reload_if_modified()
+
+    def _reload_if_modified(self):
+        import os
+        if not os.path.exists(self._filepath):
+            if len(self) > 0:
+                super().clear()
+                self._last_mtime = 0
+            return
+        try:
+            mtime = os.path.getmtime(self._filepath)
+            if mtime > self._last_mtime:
+                with open(self._filepath, 'r') as f:
+                    ips = set(line.strip() for line in f if line.strip())
+                super().clear()
+                super().update(ips)
+                self._last_mtime = mtime
+        except Exception:
+            pass
+
+    def __contains__(self, item):
+        self._reload_if_modified()
+        return super().__contains__(item)
+
+    def add(self, element):
+        self._reload_if_modified()
+        super().add(element)
+        import os
+        try:
+            if os.path.exists(self._filepath):
+                self._last_mtime = os.path.getmtime(self._filepath)
+        except Exception:
+            pass
+
+    def __iter__(self):
+        self._reload_if_modified()
+        return super().__iter__()
+
+    def __len__(self):
+        self._reload_if_modified()
+        return super().__len__()
+
 def load_banned_ips():
-    """Dosyadan yasaklı IP'leri yükle"""
-    import os
-    banned_file = os.path.join(os.getcwd(), 'banned_ips.txt')
-    if not os.path.exists(banned_file):
-        return set()
-    try:
-        with open(banned_file, 'r') as f:
-            return set(line.strip() for line in f if line.strip())
-    except Exception:
-        return set()
+    """Dosyadan yasaklı IP'leri dinamik ve otomatik güncellenen bir şekilde yükle"""
+    return DynamicBlockedIPs()
+
 
 def save_banned_ip(ip):
     """IP'yi dosyaya kalıcı olarak kaydet"""

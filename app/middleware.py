@@ -81,6 +81,12 @@ def login_security_middleware(app):
                 log_security_event('LOGIN_LOCKOUT', f'IP: {identifier}')
                 return {'error': 'Çok fazla başarısız giriş denemesi. Lütfen 5 dakika bekleyin.'}, 429
 
+EXCLUDED_FIELDS = {
+    'password', 'password_confirm', 'confirm_password', 'token', 
+    'encrypted_aes_key', 'encrypted_aes_key_sender', 'encrypted_keys_json', 
+    'iv', 'public_key', 'encrypted_private_key', 'raw_password', 'csrf_token'
+}
+
 def input_sanitization_middleware(app):
     """Input sanitization middleware'i"""
     
@@ -89,14 +95,19 @@ def input_sanitization_middleware(app):
         if request.method in ['POST', 'PUT']:
             # Form data sanitization (verify-human hariç)
             if request.form and request.path != '/api/verify-human':
+                from werkzeug.datastructures import MultiDict
+                new_form = MultiDict()
                 for key, value in request.form.items():
-                    if isinstance(value, str):
+                    if isinstance(value, str) and key not in EXCLUDED_FIELDS:
                         sanitized = sanitize_input(value)
                         if sanitized is None:
                             print(f"DEBUG: input_sanitization_middleware form sanitization FAILED for {key}")
                             log_security_event('MALICIOUS_INPUT', f'Field: {key}, Value: {value[:50]}')
                             return {'error': 'Geçersiz input tespit edildi.'}, 400
-                        # request.form[key] = sanitized  # Bu satırı kaldırdık
+                        new_form[key] = sanitized
+                    else:
+                        new_form[key] = value
+                request.form = new_form
             
             # JSON data sanitization
             if request.is_json and request.path != '/api/verify-human':
@@ -107,7 +118,7 @@ def input_sanitization_middleware(app):
                         print(f"DEBUG: input_sanitization_middleware JSON sanitization FAILED")
                         log_security_event('MALICIOUS_JSON', f'Data: {str(data)[:100]}')
                         return {'error': 'Geçersiz JSON data tespit edildi.'}, 400
-                    # request._json = sanitized_data  # Bu satırı da kaldırdık
+                    request._cached_json = (sanitized_data, sanitized_data)
 
 def sanitize_json_data(data):
     """JSON data sanitization"""
@@ -115,10 +126,13 @@ def sanitize_json_data(data):
         sanitized = {}
         for key, value in data.items():
             if isinstance(value, str):
-                sanitized_value = sanitize_input(value)
-                if sanitized_value is None:
-                    return None
-                sanitized[key] = sanitized_value
+                if key in EXCLUDED_FIELDS:
+                    sanitized[key] = value
+                else:
+                    sanitized_value = sanitize_input(value)
+                    if sanitized_value is None:
+                        return None
+                    sanitized[key] = sanitized_value
             elif isinstance(value, (dict, list)):
                 sanitized_value = sanitize_json_data(value)
                 if sanitized_value is None:
