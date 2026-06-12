@@ -11,6 +11,7 @@ bin/
 lib/
 include/
 share/
+geodetect/
 
 # Flask/Database
 instance/
