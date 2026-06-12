@@ -25,7 +25,6 @@ app/logs/
 
 # Sensitive data
 .env
-banned_ips.txt
 honeytoken_creds.json
 fim_hashes.json
 admin_backup_secrets.txt
