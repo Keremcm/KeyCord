@@ -607,7 +607,14 @@ def welcome():
             session['user_id'] = user_id
             return redirect(url_for('auth.dashboard'))
     
-    return render_template('welcome.html')
+    # Engellenen IP sayısını hesapla
+    try:
+        with open('banned_ips.txt', 'r') as f:
+            banned_count = sum(1 for line in f if line.strip())
+    except FileNotFoundError:
+        banned_count = 0
+    
+    return render_template('welcome.html', banned_count=banned_count)
 
 @auth_bp.route('/dashboard')
 def dashboard():
