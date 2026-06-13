@@ -347,7 +347,6 @@
         to { transform: scaleY(1); }
     }
 
-    /* Artan sıralı yükseklikler ve opaklık – rastgele değil, trend hissi */
     .threat-bar:nth-child(1)  { height: 12%; opacity: 0.15; animation-delay: 0.05s; }
     .threat-bar:nth-child(2)  { height: 18%; opacity: 0.22; animation-delay: 0.10s; }
     .threat-bar:nth-child(3)  { height: 25%; opacity: 0.30; animation-delay: 0.15s; }
@@ -359,19 +358,20 @@
     .threat-bar:nth-child(9)  { height: 75%; opacity: 0.78; animation-delay: 0.45s; }
     .threat-bar:nth-child(10) { height: 88%; opacity: 0.90; animation-delay: 0.50s; }
 
-    /* ── PROOF SECTION (GÜÇLÜ İDDİA) ── */
+    /* ── PROOF SECTION ── */
     .proof-header {
         text-align: center;
         margin-bottom: 3rem;
     }
 
     .proof-title {
-        font-family: 'Reenie Beanie', cursive;
+        font-family: 'Syne', sans-serif;
         font-size: clamp(3.5rem, 8vw, 5.5rem);
+        font-weight: 900;
         color: var(--chalk);
         margin-bottom: 1rem;
-        line-height: 1;
-        letter-spacing: -0.02em;
+        line-height: 0.95;
+        letter-spacing: -0.04em;
     }
 
     .proof-desc {
@@ -504,7 +504,7 @@
         transform: translateX(5px);
     }
 
-    /* ── 3D WORKFLOW KARTLARI (DAHA ETKİLEYİCİ) ── */
+    /* ── 3D WORKFLOW KARTLARI ── */
     .workflow-3d {
         perspective: 1200px;
         margin-top: 4rem;
@@ -629,7 +629,7 @@
         opacity: 1;
     }
 
-    /* ── DOWNLOAD CARDS (İKONLAR EKLENDİ) ── */
+    /* ── DOWNLOAD CARDS ── */
     .dl-grid {
         display: flex;
         gap: 1.5rem;
@@ -796,7 +796,7 @@
         <p class="proof-desc">{{ _('Gizliliğinizi koruduğumuzu sadece iddia etmiyoruz. Bunu bağımsız güvenlik testleri ve tamamen açık kaynak kodumuzla kanıtlıyoruz.') }}</p>
     </div>
 
-    <!-- TEHDİT İSTATİSTİKLERİ (monochrome, artan grafik) -->
+    <!-- TEHDİT İSTATİSTİKLERİ -->
     <div class="threat-stats">
         <div class="threat-panel">
             <div class="threat-info">
