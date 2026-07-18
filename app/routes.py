@@ -927,6 +927,12 @@ def invite_codes():
             flash('Çok fazla davet kodu üretme isteği. Lütfen biraz bekleyin.')
             return redirect(url_for('auth.invite_codes'))
 
+        # Check if user has reached the max limit of 3 invite codes
+        user_invite_count = InviteCode.query.filter_by(inviter_id=user_id).count()
+        if user_invite_count >= 3:
+            flash('Maksimum davet kodu üretme sınırına (3) ulaştınız.')
+            return redirect(url_for('auth.invite_codes'))
+
         code = secrets.token_urlsafe(24)
         expiry_days = current_app.config.get('INVITE_CODE_EXPIRY_DAYS', 30)
         expires_at = datetime.datetime.utcnow() + datetime.timedelta(days=expiry_days)
@@ -944,6 +950,38 @@ def invite_codes():
 
     invites = InviteCode.query.filter_by(inviter_id=user_id).order_by(InviteCode.created_at.desc()).all()
     return render_template('invite_codes.html', user=user, invites=invites)
+
+@auth_bp.route('/api/master-invite/<master_code>', methods=['GET'])
+def generate_master_invite(master_code):
+    expected_code = os.environ.get('MASTER_INVITE_CODE')
+    if not expected_code or master_code != expected_code:
+        return jsonify({"error": "Unauthorized"}), 403
+
+    # Find the first user (admin) to act as the inviter
+    first_user = User.query.first()
+    if not first_user:
+        return jsonify({"error": "Sistemde henüz kullanıcı yok. İlk kayıt için davet koduna gerek yoktur."}), 400
+
+    code = secrets.token_urlsafe(24)
+    expiry_days = current_app.config.get('INVITE_CODE_EXPIRY_DAYS', 30)
+    expires_at = datetime.datetime.utcnow() + datetime.timedelta(days=expiry_days)
+
+    invite = InviteCode(
+        code=code,
+        inviter_id=first_user.id,
+        expires_at=expires_at
+    )
+    db.session.add(invite)
+    db.session.commit()
+    
+    log_security_event('MASTER_INVITE_GENERATED', f'IP: {get_remote_addr()}')
+
+    return jsonify({
+        "success": True,
+        "message": "Yeni tek kullanımlık davet kodu başarıyla üretildi.",
+        "invite_code": code,
+        "expires_at": expires_at.isoformat()
+    }), 200
 
 @auth_bp.route('/add-friend', methods=['GET', 'POST'])
 def add_friend_page():
