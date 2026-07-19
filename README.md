@@ -96,7 +96,7 @@ Bu lisans, projenin gizlilik ve güvenlik özelliklerini denetime açık şekild
 ## 🤝 İletişim
 - **Proje Bağlantısı:** [https://github.com/Keremcm/KeyCord](https://github.com/Keremcm/KeyCord)
 - **Web Sitesi:** [https://keycord.org](https://keycord.org)
-- **Tor Erişimi:** `46iblsrblve4hnsl6567lwgehwh5mrony3hbfcgkenaxqphzczlb3mid.onion`
+- **Tor Erişimi:** `vwu5wjocds3kpxwjpc7gy772zkwam7rtqhysumjx5t7rgizbr4mravqd.onion`
 - **Instagram:** [@keycord_official](https://www.instagram.com/keycord_official)
 - **E-posta:** contact@keycord.org
 
