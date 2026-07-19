@@ -101,4 +101,4 @@ Bu lisans, projenin gizlilik ve güvenlik özelliklerini denetime açık şekild
 - **E-posta:** contact@keycord.org
 
 ---
-*Gizlilik ve özgürlük için ❤️ ile geliştirildi.*
+*Gizlilik ve özgürlük için geliştirildi.*
