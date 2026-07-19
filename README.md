@@ -4,30 +4,52 @@
 
 > **Veri Sende Kalır. Özgürce Konuş.** — KeyCord; hiçbir bilgi istemeyen bir özgürlük alanıdır.
 
-**Gizlilik temelli değil, gizliliği inşaa eden platform.** — Burada gizlilik bir hak değil, özgürlüktür. Her mesajınız, her bağlantınız özgürlüğünüzü inşa eder.
+**Gizlilik temelli değil, gizliliği inşa eden platform.** — Burada gizlilik bir hak değil, özgürlüktür. Her mesajınız, her bağlantınız özgürlüğünüzü inşa eder.
 
 ---
 
 ## 🔒 Güvenlik & Doğrulama
 
-**Güven değil, ispat.** — Gizliliğinizi koruduğumuzu sadece iddia etmiyoruz. Bunu bağımsız güvenlik testleri ve tamamen açık kaynak kodumuzla kanıtlıyoruz.
+**Güven değil, ispat.** — Gizliliğinizi koruduğumuzu sadece iddia etmiyoruz. Bunu bağımsız güvenlik testleri ve denetlenebilir açık kaynak kodumuzla kanıtlıyoruz.
 
 - **Mozilla Observatory:** 120/100 puan (kusursuz yapılandırma) — [Raporu İncele](https://developer.mozilla.org/en-US/observatory/analyze?host=keycord.org)
 - **Security Headers:** A+ sınıfı (tam HTTP güvenlik başlıkları) — [Raporu İncele](https://securityheaders.com/?q=keycord.org&followRedirects=on)
-- **GitHub Açık Kaynak:** %100 denetlenebilir kod — [Kodları İncele](https://github.com/Keremcm/KeyCord)
+- **GitHub Açık Kaynak:** Şifreleme motoru ve uygulama mantığı denetlenebilir — [Kodları İncele](https://github.com/Keremcm/KeyCord)
 
 ### 🛡️ Gizlilik & Güvenlik Özellikleri
 - **Zero-Knowledge Mimarisi:** Özel anahtarlarınız cihazınızda oluşturulur ve saklanır. Sunucu hiçbir zaman şifrenizi veya özel anahtarlarınızı görmez.
 - **Client-Side Şifreleme:** Tüm mesajlar gönderilmeden önce tarayıcıda **RSA-OAEP** kullanılarak şifrelenir.
 - **Tor Ağında Doğal:** IP'nizi ve meta verilerinizi korumak için `.onion` adresleri için tam destek.
 - **Kişisel Veri Yok:** Telefon numarası veya gerçek isim gerekli değil. Kayıt tamamen anonim.
-- **Log Tutmama:** Sunucu hiçbir mesajı veya meta veriyi saklamaz.
+- **Log Tutmama:** Sunucu mesaj içeriğini veya meta veriyi saklamaz.
 - **Reklam Yok, İzleyici Yok:** Tamamen erişilebilir ve özgür.
 
 ### 🔐 Uçtan Uca Şifreleme (E2EE)
 - **RSA + AES-GCM:** Mesajlar RSA-OAEP ile AES anahtarları şifrelenir, içerik AES-GCM ile korunur.
 - **Grup Şifreleme:** Grup mesajları için çoklu alıcı anahtar yönetimi.
-- **İstemci Taraflı:** Şifreleme/decryption tamamen tarayıcıda gerçekleşir.
+- **İstemci Taraflı:** Şifreleme/decryption tamamen tarayıcıda gerçekleşir, sunucu düz metne hiç erişemez.
+
+---
+
+## 📖 Bu Repoda Ne Var, Ne Yok?
+
+KeyCord'un güç iddiası "koduma güven" değil "kodumu doğrula" üzerine kurulu. Bu yüzden **güveninizi doğrudan etkileyen her şey** — şifreleme motoru, mesajlaşma mantığı, uygulama mimarisi — burada, açık ve denetlenebilir.
+
+Buna karşılık, **saldırı yüzeyini genişleten operasyonel savunma katmanları** bilinçli olarak bu repo dışında tutuluyor. Bunun nedeni gizlemek değil — bir güvenlik duvarının kural setini herkese açık yayınlamamakla aynı mantık: açıklanması sistemi zayıflatan bilgiyi, sistemi güçlendiren bilgiden ayırıyoruz.
+
+**Açık (bu repoda):**
+- Client-side şifreleme motoru (`app/static/js/crypto.js`, `security.js`, RSA-OAEP/AES-GCM implementasyonu)
+- Backend uygulama mantığı (routes, models, sockets, blueprints)
+- Arayüz, şablonlar, çeviri dosyaları
+- Genel mimari ve protokol akışı
+
+**Kapalı (repo dışında, operasyonel nedenlerle):**
+- Saldırı tespit / engelleme sistemleri ve eşik değerleri
+- İzleme ve uyarı mekanizmalarının iç mantığı
+- Sunucuya özgü dağıtım ve altyapı yapılandırması
+- Sunucu tarafı gizli anahtarlar, oturum verileri, kullanıcı veritabanı (zaten hiçbir zaman herhangi bir repoda yer almaz)
+
+Bu ayrım, "her şeyi görebilirsiniz ama her şeyi ifşa etmeyiz" prensibiyle çalışır — şifrelemenize güvenmeniz için doğrulama imkânınız var, ama bu doğrulama imkânı savunma sistemlerimizi de ifşa etmiyor.
 
 ---
 
@@ -67,7 +89,7 @@
 ## 📄 Lisans
 Bu proje **sadece görüntüleme ve inceleme amaçlıdır**. Kodların kullanımı, değiştirilmesi, dağıtılması veya herhangi bir şekilde ticari/sosyal amaçla kullanılması **yasaktır**. Tüm hakları saklıdır.
 
-Bu lisans, projenin gizlilik ve güvenlik özelliklerini sergilemek için GitHub'da paylaşılmasını sağlar, ancak herhangi bir kullanım izni vermez.
+Bu lisans, projenin gizlilik ve güvenlik özelliklerini denetime açık şekilde sergilemek için GitHub'da paylaşılmasını sağlar, ancak herhangi bir kullanım izni vermez.
 
 ---
 
