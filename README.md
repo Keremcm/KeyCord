@@ -158,26 +158,6 @@ Bu ayrım, "her şeyi görebilirsiniz ama her şeyi ifşa etmeyiz" prensibiyle �
 
 ---
 
-## 🚀 Çalıştırma
-
-```bash
-# Bağımlılıkları kur
-pip install -r requirements.txt
-
-# Ortam değişkenlerini tanımla (.env)
-# SECRET_KEYS, LOG_ENCRYPTION_KEY, MASTER_INVITE_CODE, ALLOWED_ORIGINS...
-
-# Geliştirme sunucusu (port 8005)
-python main.py
-
-# Üretim (önerilen)
-gunicorn -k eventlet -w 1 wsgi:app
-
-# Ayrı landing page sunucusu (port 8006)
-cd landing_page && python app.py
-```
-
----
 
 ## 📄 Lisans
 Bu proje **sadece görüntüleme ve inceleme amaçlıdır**. Kodların kullanımı, değiştirilmesi, dağıtılması veya herhangi bir şekilde ticari/sosyal amaçla kullanılması **yasaktır**. Tüm hakları saklıdır.
