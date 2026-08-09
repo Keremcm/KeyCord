@@ -214,7 +214,7 @@
             font-size: 0.9em;
             cursor: pointer;
             box-shadow: 0 2px 8px #00c3ff44;
-            transition: all 0.3s;
+            transition: background 0.3s ease, transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
         .header-actions button:hover {
@@ -237,7 +237,7 @@
             margin-bottom: 16px;
             border: 1px solid #333;
             box-shadow: 0 2px 12px #0003;
-            transition: all 0.3s;
+            transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
             animation: fadeInUp 0.5s ease-out;
         }
 
@@ -327,7 +327,7 @@
             padding: 6px 12px;
             font-size: 0.8em;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: background 0.3s ease, transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
         .delete-btn:hover {
@@ -459,7 +459,7 @@
                 justify-content: center;
                 box-shadow: 0 2px 8px #00c3ff44;
                 cursor: pointer;
-                transition: all 0.3s;
+                transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
             }
 
             .back-btn:active {
@@ -556,14 +556,6 @@
                     data-onerror-src="{{ user.username|avatar_url }}" onerror="this.src = this.dataset.onerrorSrc;" />
                 <div class="profile-info">
                     <div class="username">{{ user.username }}</div>
-                    <div class="status">
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px;">
-                            <circle cx="12" cy="12" r="10"></circle>
-                            <path d="M9 12l2 2 4-4"></path>
-                        </svg>
-                        {{ _('Çevrimiçi') }}
-                    </div>
                 </div>
                 <div class="sidebar-actions">
                     <button title="{{ _('Ana Sayfa') }}" data-url="{{ url_for('auth.home') }}"
@@ -659,7 +651,7 @@
                 <div class="announcements-list">
                     {% if announcements %}
                     {% for announcement in announcements %}
-                    <div class="announcement-item{% if announcement.is_important %} important{% endif %}">
+                    <div class="announcement-item{% if announcement.is_important %} important{% endif %}" data-reveal>
                         <div class="announcement-header-item">
                             <h3 class="announcement-title">{{ announcement.title }}</h3>
                             <div class="announcement-meta">

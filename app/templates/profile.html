@@ -31,7 +31,7 @@
     .profile-header {
         position: relative;
         padding: 3rem 2.5rem 0;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         background: rgba(255, 255, 255, 0.01);
     }
 
@@ -41,21 +41,22 @@
         display: flex;
         align-items: flex-end;
         gap: 1.8rem;
-        padding-bottom: 1.8rem;
+        padding-bottom: 1.6rem;
     }
 
     /* avatar */
     .avatar-wrap {
         position: relative;
         flex-shrink: 0;
+        transform: rotate(-1deg);
     }
 
     .avatar-wrap img {
         width: 120px;
         height: 120px;
-        border-radius: 12px;
+        border-radius: 14px;
         object-fit: cover;
-        border: 3px solid rgba(255, 255, 255, 0.18);
+        border: 3px solid rgba(255, 255, 255, 0.25);
         display: block;
         box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
     }
@@ -66,25 +67,26 @@
         right: 0;
         width: 28px;
         height: 28px;
-        border-radius: 8px;
-        background: rgba(20, 20, 20, 0.95);
-        border: 1.5px solid rgba(255, 255, 255, 0.18);
+        border-radius: 9px;
+        background: rgba(10, 10, 10, 0.95);
+        border: 2px dashed rgba(255, 255, 255, 0.45);
         display: flex;
         align-items: center;
         justify-content: center;
         cursor: pointer;
-        transition: border-color 0.15s, transform 0.15s;
+        transition: border-color 0.15s, transform 0.15s, background 0.15s;
     }
 
     .avatar-edit-btn:hover {
-        border-color: rgba(255, 255, 255, 0.45);
+        border-color: var(--chalk);
+        background: rgba(255, 255, 255, 0.08);
         transform: scale(1.1);
     }
 
     .avatar-edit-btn svg {
         width: 12px;
         height: 12px;
-        stroke: rgba(255, 255, 255, 0.6);
+        stroke: rgba(255, 255, 255, 0.7);
         fill: none;
         stroke-width: 2;
         stroke-linecap: round;
@@ -98,18 +100,21 @@
     }
 
     .profile-meta-name {
-        font-size: 2.8rem;
-        font-weight: 800;
+        font-family: 'Reenie Beanie', cursive;
+        font-size: 4rem;
+        font-weight: 400;
         color: var(--chalk);
-        margin: 0 0 0.4rem;
-        letter-spacing: -0.02em;
+        margin: 0 0 0.3rem;
+        line-height: 0.95;
+        transform: rotate(-0.8deg);
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
     }
 
     .profile-meta-about {
-        font-size: 1.3rem;
+        font-family: 'Caveat', cursive;
+        font-size: 1.4rem;
         color: rgba(255, 255, 255, 0.55);
         font-style: italic;
         margin: 0;
@@ -122,25 +127,33 @@
         display: inline-flex;
         align-items: center;
         gap: 0.4rem;
-        font-size: 0.72rem;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.66rem;
         letter-spacing: 0.1em;
         text-transform: uppercase;
-        color: rgba(255, 255, 255, 0.6);
-        border: 1px solid rgba(255, 255, 255, 0.18);
+        color: var(--muted-chalk);
+        border: 2px dashed rgba(255, 255, 255, 0.3);
         border-radius: 99px;
-        padding: 0.25rem 0.75rem;
-        background: rgba(255, 255, 255, 0.05);
+        padding: 0.3rem 0.8rem;
+        background: rgba(255, 255, 255, 0.03);
         flex-shrink: 0;
         align-self: flex-start;
         margin-top: 0.3rem;
+        transform: rotate(1deg);
     }
 
     .privacy-badge-dot {
-        width: 5px;
-        height: 5px;
+        width: 6px;
+        height: 6px;
         border-radius: 50%;
-        background: #ffffff;
-        box-shadow: 0 0 4px #ffffff;
+        background: var(--chalk);
+        box-shadow: 0 0 8px rgba(255, 255, 255, 0.7);
+        animation: pulse-dot 2.4s infinite;
+    }
+
+    @keyframes pulse-dot {
+        0%, 100% { opacity: 1; transform: scale(1); }
+        50% { opacity: 0.4; transform: scale(1.3); }
     }
 
     /* tabs */
@@ -149,20 +162,20 @@
         margin: 0 auto;
         display: flex;
         gap: 1.9rem;
-        border-top: 1px solid rgba(255, 255, 255, 0.05);
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
         margin-top: 0.5rem;
     }
 
     .profile-tab {
-        padding: 0.75rem 1.2rem;
-        font-size: 1.7rem;
-        font-weight: 600;
+        padding: 0.7rem 1.1rem;
+        font-family: 'Caveat', cursive;
+        font-size: 1.6rem;
+        font-weight: 700;
         letter-spacing: 0.04em;
         color: var(--muted-chalk);
         cursor: pointer;
-        border-bottom: 2px solid transparent;
+        border-bottom: 2px dashed transparent;
         transition: color 0.15s, border-color 0.15s;
-        text-transform: uppercase;
         user-select: none;
     }
 
@@ -172,7 +185,7 @@
 
     .profile-tab.active {
         color: var(--chalk);
-        border-bottom-color: var(--chalk);
+        border-bottom-color: rgba(255, 255, 255, 0.6);
     }
 
     /* ── BODY ── */
@@ -182,7 +195,6 @@
         padding: 2.5rem 2.5rem 4rem;
     }
 
-    /* tab panels */
     .tab-panel {
         display: none;
     }
@@ -194,14 +206,15 @@
     /* ── SECTION BLOCKS ── */
     .prof-section {
         margin-bottom: 2rem;
-        border: 1px solid rgba(255, 255, 255, 0.07);
-        border-radius: 14px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 16px;
         overflow: hidden;
+        background: rgba(255, 255, 255, 0.015);
     }
 
     .prof-section-head {
         padding: 1rem 1.4rem;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
         background: rgba(255, 255, 255, 0.02);
         display: flex;
         align-items: center;
@@ -209,12 +222,13 @@
     }
 
     .prof-section-title {
-        font-size: 1.8rem;
-        font-weight: 600;
-        letter-spacing: 0.1em;
-        text-transform: uppercase;
-        color: var(--muted-chalk);
+        font-family: 'Reenie Beanie', cursive;
+        font-size: 2rem;
+        font-weight: 400;
+        letter-spacing: 0.02em;
+        color: var(--chalk);
         margin: 0;
+        transform: rotate(-0.6deg);
     }
 
     .prof-section-body {
@@ -225,7 +239,7 @@
     .field-item {
         display: flex;
         flex-direction: column;
-        gap: 0.45rem;
+        gap: 0.4rem;
         margin-bottom: 1.2rem;
     }
 
@@ -234,36 +248,34 @@
     }
 
     .field-item label {
-        font-size: 1.5rem;
-        font-weight: 600;
-        letter-spacing: 0.07em;
-        text-transform: uppercase;
+        font-family: 'Caveat', cursive;
+        font-size: 1.25rem;
         color: var(--muted-chalk);
     }
 
     .field-item input,
     .field-item textarea {
         width: 100%;
-        padding: 0.75rem 1rem;
-        font-size: 1rem;
-        background: rgba(255, 255, 255, 0.04);
-        border: 1px solid rgba(255, 255, 255, 0.09);
-        border-radius: 9px;
+        padding: 0.7rem 1rem;
+        font-family: 'Caveat', cursive;
+        font-size: 1.2rem;
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        border-radius: 10px;
         color: var(--chalk);
         outline: none;
         transition: border-color 0.2s, background 0.2s;
-        font-family: inherit;
     }
 
     .field-item input:focus,
     .field-item textarea:focus {
         border-color: rgba(255, 255, 255, 0.8);
-        background: rgba(255, 255, 255, 0.06);
+        background: rgba(255, 255, 255, 0.04);
     }
 
     .field-item input::placeholder,
     .field-item textarea::placeholder {
-        color: rgba(255, 255, 255, 0.18);
+        color: rgba(255, 255, 255, 0.2);
     }
 
     .field-item textarea {
@@ -271,14 +283,13 @@
         min-height: 80px;
     }
 
-    /* field hint */
     .field-hint {
-        font-size: 0.75rem;
-        color: rgba(255, 255, 255, 0.25);
+        font-family: 'Caveat', cursive;
+        font-size: 1.05rem;
+        color: rgba(255, 255, 255, 0.35);
         line-height: 1.4;
     }
 
-    /* field row */
     .field-row {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -290,20 +301,19 @@
         display: inline-flex;
         align-items: center;
         gap: 0.45rem;
-        padding: 0.65rem 1.3rem;
-        border-radius: 9px;
-        font-size: 0.88rem;
-        font-weight: 600;
+        padding: 0.6rem 1.2rem;
+        border-radius: 11px;
+        font-family: 'Caveat', cursive;
+        font-size: 1.3rem;
+        font-weight: 700;
         cursor: pointer;
         border: none;
-        transition: opacity 0.15s, background 0.15s;
-        letter-spacing: 0.01em;
-        font-family: inherit;
+        transition: opacity 0.15s, background 0.15s, transform 0.15s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
     .prof-btn svg {
-        width: 14px;
-        height: 14px;
+        width: 15px;
+        height: 15px;
         stroke: currentColor;
         fill: none;
         stroke-width: 2;
@@ -311,13 +321,18 @@
         stroke-linejoin: round;
     }
 
+    .prof-btn:active {
+        transform: scale(0.96);
+        transition: transform 90ms ease-out;
+    }
+
     .prof-btn-primary {
         background: var(--chalk);
-        color: var(--paper-black, #0d0d0d);
+        color: var(--paper-black);
     }
 
     .prof-btn-primary:hover {
-        opacity: 0.85;
+        opacity: 0.88;
     }
 
     .prof-btn-primary:disabled {
@@ -326,23 +341,25 @@
     }
 
     .prof-btn-ghost {
-        background: rgba(255, 255, 255, 0.05);
+        background: transparent;
         color: var(--chalk);
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.22);
     }
 
     .prof-btn-ghost:hover {
-        background: rgba(255, 255, 255, 0.09);
+        background: rgba(255, 255, 255, 0.06);
+        border-color: var(--chalk);
     }
 
     .prof-btn-danger {
-        background: rgba(220, 53, 69, 0.08);
-        color: #ff6b6b;
-        border: 1px solid rgba(220, 53, 69, 0.2);
+        background: transparent;
+        color: var(--chalk);
+        border: 2px solid var(--chalk);
     }
 
     .prof-btn-danger:hover {
-        background: rgba(220, 53, 69, 0.15);
+        background: var(--chalk);
+        color: var(--paper-black);
     }
 
     /* ── FLASH MESSAGES ── */
@@ -355,23 +372,24 @@
 
     .flash-item {
         padding: 0.7rem 1rem;
-        border-radius: 9px;
-        font-size: 0.88rem;
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        background: rgba(255, 255, 255, 0.04);
+        border-radius: 10px;
+        font-family: 'Caveat', cursive;
+        font-size: 1.2rem;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        background: rgba(255, 255, 255, 0.03);
         color: var(--chalk);
     }
 
     .flash-item.success {
-        border-color: rgba(255, 255, 255, 0.8);
-        background: rgba(255, 255, 255, 0.6);
-        color: rgba(255, 255, 255, 0.8);
+        background: var(--chalk);
+        border-color: var(--chalk);
+        color: var(--paper-black);
     }
 
     .flash-item.error {
-        border-color: rgba(255, 80, 80, 0.2);
-        background: rgba(255, 80, 80, 0.06);
-        color: rgba(255, 100, 100, 0.8);
+        border-color: rgba(255, 255, 255, 0.6);
+        background: rgba(255, 255, 255, 0.06);
+        color: var(--chalk);
     }
 
     /* ── PRIVACY INFO ROW ── */
@@ -380,28 +398,29 @@
         align-items: flex-start;
         gap: 0.8rem;
         padding: 1rem;
-        border-radius: 10px;
+        border-radius: 12px;
         border: 1px solid rgba(255, 255, 255, 0.1);
-        background: rgba(255, 255, 255, 0.03);
-        margin-bottom: 1.2rem;
+        background: rgba(255, 255, 255, 0.02);
+        margin-bottom: 1rem;
     }
 
     .privacy-row-icon {
         width: 32px;
         height: 32px;
-        border-radius: 8px;
-        border: 1px solid rgba(255, 255, 255, 0.15);
-        background: rgba(255, 255, 255, 0.06);
+        border-radius: 9px;
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        background: rgba(255, 255, 255, 0.05);
         display: flex;
         align-items: center;
         justify-content: center;
         flex-shrink: 0;
+        transform: rotate(-2deg);
     }
 
     .privacy-row-icon svg {
         width: 14px;
         height: 14px;
-        stroke: rgba(255, 255, 255, 0.6);
+        stroke: var(--chalk);
         fill: none;
         stroke-width: 1.8;
         stroke-linecap: round;
@@ -409,35 +428,33 @@
     }
 
     .privacy-row-text {
+        font-family: 'Caveat', cursive;
         font-size: 1.2rem;
-        color: rgba(255, 255, 255, 0.35);
+        color: rgba(255, 255, 255, 0.5);
         line-height: 1.5;
     }
 
     .privacy-row-text strong {
         display: block;
-        color: rgba(255, 255, 255, 0.55);
-        font-size: 0.78rem;
-        margin-bottom: 0.15rem;
-        font-weight: 600;
+        font-family: 'Caveat', cursive;
+        font-size: 1.3rem;
+        color: var(--chalk);
+        margin-bottom: 0.1rem;
     }
 
     /* ── DANGER ZONE ── */
     .danger-zone {
-        border-color: rgba(220, 53, 69, 0.18);
+        border-color: rgba(255, 255, 255, 0.25);
     }
 
     .danger-zone .prof-section-head {
-        border-bottom-color: rgba(220, 53, 69, 0.1);
-        background: rgba(220, 53, 69, 0.03);
-    }
-
-    .danger-zone .prof-section-title {
-        color: rgba(255, 100, 100, 0.6);
+        border-bottom-color: rgba(255, 255, 255, 0.14);
+        background: rgba(255, 255, 255, 0.03);
     }
 
     .danger-desc {
-        font-size: 1.85rem;
+        font-family: 'Caveat', cursive;
+        font-size: 1.35rem;
         color: var(--muted-chalk);
         line-height: 1.6;
         margin-bottom: 1.2rem;
@@ -461,8 +478,8 @@
     }
 
     .modal-box {
-        background: rgba(12, 12, 12, 0.98);
-        border: 1px solid rgba(220, 53, 69, 0.25);
+        background: rgba(10, 10, 10, 0.98);
+        border: 2px dashed rgba(255, 255, 255, 0.4);
         border-radius: 16px;
         padding: 2rem;
         max-width: 420px;
@@ -483,14 +500,16 @@
     }
 
     .modal-title {
-        font-size: 1.1rem;
-        font-weight: 700;
-        color: #ff6b6b;
-        margin: 0 0 0.5rem;
+        font-family: 'Reenie Beanie', cursive;
+        font-size: 2.2rem;
+        color: var(--chalk);
+        margin: 0 0 0.4rem;
+        transform: rotate(-1deg);
     }
 
     .modal-desc {
-        font-size: 0.88rem;
+        font-family: 'Caveat', cursive;
+        font-size: 1.2rem;
         color: var(--muted-chalk);
         line-height: 1.6;
         margin-bottom: 1.5rem;
@@ -508,7 +527,7 @@
         }
 
         .profile-page {
-            padding-top: 60px; /* Safe area for mobile menu */
+            padding-top: 60px;
         }
 
         .profile-header-inner {
@@ -532,6 +551,32 @@
         .privacy-badge {
             display: none;
         }
+
+        .avatar-edit-btn {
+            width: 44px;
+            height: 44px;
+        }
+
+        .avatar-edit-btn svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .profile-meta-name {
+            font-size: 2.8rem;
+        }
+
+        .prof-section-title {
+            font-size: 1.6rem;
+        }
+
+        .profile-tab {
+            font-size: 1.3rem;
+        }
+
+        .danger-desc {
+            font-size: 1.2rem;
+        }
     }
 </style>
 
@@ -540,7 +585,7 @@
 
     <!-- ── HEADER ── -->
     <div class="profile-header">
-        <div class="profile-header-inner">
+        <div class="profile-header-inner" data-reveal>
             <!-- Avatar -->
             <div class="avatar-wrap">
                 <img id="profile-preview"
@@ -563,6 +608,11 @@
                 {% if current_user.about %}
                 <p class="profile-meta-about">"{{ current_user.about }}"</p>
                 {% endif %}
+            </div>
+
+            <div class="privacy-badge">
+                <span class="privacy-badge-dot"></span>
+                {{ _('Korumalı') }}
             </div>
         </div>
 
@@ -594,17 +644,16 @@
                 <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
 
                 <!-- Profil bilgileri -->
-                <div class="prof-section">
+                <div class="prof-section" data-reveal>
                     <div class="prof-section-head">
                         <span class="prof-section-title">{{ _('Profil Bilgileri') }}</span>
                     </div>
                     <div class="prof-section-body">
 
-
                         <div class="field-item">
                             <label for="username">{{ _('Kullanıcı Adı') }}</label>
                             <input type="text" id="username" value="{{ current_user.username }}" readonly
-                                style="background: rgba(255,255,255,0.02); color: rgba(255,255,255,0.4); cursor: not-allowed; border-color: rgba(255,255,255,0.05);">
+                                style="background: rgba(255,255,255,0.02); color: rgba(255,255,255,0.4); cursor: not-allowed; border-color: rgba(255,255,255,0.06);">
                             <span class="field-hint">{{ _('Güvenlik nedeniyle kullanıcı adları değiştirilemez.')
                                 }}</span>
                         </div>
@@ -627,7 +676,7 @@
                     </div>
                 </div>
 
-                <div style="display:flex; justify-content:flex-end;">
+                <div style="display:flex; justify-content:flex-end;" data-reveal>
                     <button type="submit" class="prof-btn prof-btn-primary" id="save-btn">
                         <svg viewBox="0 0 24 24">
                             <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" />
@@ -642,7 +691,7 @@
 
         <!-- ══ TAB: PRIVACY ══ -->
         <div class="tab-panel" id="tab-privacy">
-            <div class="prof-section">
+            <div class="prof-section" data-reveal>
                 <div class="prof-section-head">
                     <span class="prof-section-title">{{ _('Şifreleme Durumu') }}</span>
                 </div>
@@ -656,8 +705,7 @@
                         </div>
                         <div class="privacy-row-text">
                             <strong>{{ _('Uçtan Uca Şifreleme') }}</strong>
-                            {{ _('Mesajlarınız yalnızca alıcının cihazında çözülebilir. Sunucu hiçbir zaman düz metin
-                            görmez.') }}
+                            {{ _('Mesajlarınız X25519 ve ML-KEM-768 kuantum sonrası hibrit şifrelemeyle korunur; yalnızca alıcının cihazında çözülebilir. Sunucu hiçbir zaman düz metin görmez.') }}
                         </div>
                     </div>
 
@@ -669,8 +717,21 @@
                         </div>
                         <div class="privacy-row-text">
                             <strong>{{ _('İstemci Tarafı Anahtar') }}</strong>
-                            {{ _('Özel anahtarınız cihazınızda şifreli saklanır ve yalnızca parolanızla açılır. Sunucuya
-                            hiç iletilmez.') }}
+                            {{ _('Özel anahtarınız cihazınızda şifreli saklanır ve yalnızca parolanızla açılır. Sunucuya hiç iletilmez.') }}
+                        </div>
+                    </div>
+
+                    <div class="privacy-row">
+                        <div class="privacy-row-icon">
+                            <svg viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="4" />
+                                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                                <path d="M2 12h20M12 2a15.3 15.3 0 0 0 4 10M12 22a15.3 15.3 0 0 0 4-10" />
+                            </svg>
+                        </div>
+                        <div class="privacy-row-text">
+                            <strong>{{ _('Kuantum Sonrası (Post-Quantum)') }}</strong>
+                            {{ _('Anahtar değişimi X25519 ve ML-KEM-768 hibrit algoritmalarıyla yapılır; gelecekteki kuantum bilgisayar saldırılarına karşı dayanıklıdır.') }}
                         </div>
                     </div>
 
@@ -679,31 +740,13 @@
                             <svg viewBox="0 0 24 24">
                                 <circle cx="12" cy="12" r="10" />
                                 <line x1="2" y1="12" x2="22" y2="12" />
-                                <path
-                                    d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
                             </svg>
                         </div>
                         <div class="privacy-row-text">
                             <strong>{{ _('Tor Desteği') }}</strong>
-                            {{ _('Tor Browser ile .onion adresimiz üzerinden bağlanarak IP adresinizi tamamen
-                            gizleyebilirsiniz.') }}
+                            {{ _('Tor Browser ile .onion adresimiz üzerinden bağlanarak IP adresinizi tamamen gizleyebilirsiniz.') }}
                         </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="prof-section">
-                <div class="prof-section-head">
-                    <span class="prof-section-title">{{ _('Açık Anahtarınız') }}</span>
-                </div>
-                <div class="prof-section-body">
-                    <p class="field-hint" style="margin-bottom:0.8rem;">{{ _('Bu anahtarı paylaşabilirsiniz. Başkaları
-                        size şifreli mesaj göndermek için kullanır.') }}</p>
-                    <div class="field-item" style="margin-bottom:0;">
-                        <input type="text"
-                            value="{{ current_user.public_key[:48] ~ '...' if current_user.public_key else _('Anahtar bulunamadı') }}"
-                            readonly
-                            style="font-family:monospace; font-size:0.78rem; color:rgba(255,255,255,0.4); cursor:default;">
                     </div>
                 </div>
             </div>
@@ -711,15 +754,13 @@
 
         <!-- ══ TAB: DANGER ══ -->
         <div class="tab-panel" id="tab-danger">
-            <div class="prof-section danger-zone">
+            <div class="prof-section danger-zone" data-reveal>
                 <div class="prof-section-head">
                     <span class="prof-section-title">{{ _('Tehlikeli Bölge') }}</span>
                 </div>
                 <div class="prof-section-body">
                     <p class="danger-desc">
-                        {{ _('Hesabınızı sildiğinizde tüm arkadaşlıklarınız, mesajlarınız ve profil bilgileriniz kalıcı
-                        olarak silinir. Şifreleme anahtarlarınız dahil hiçbir veri kurtarılamaz. Bu işlem geri
-                        alınamaz.') }}
+                        {{ _('Hesabınızı sildiğinizde tüm arkadaşlıklarınız, mesajlarınız ve profil bilgileriniz kalıcı olarak silinir. Şifreleme anahtarlarınız dahil hiçbir veri kurtarılamaz. Bu işlem geri alınamaz.') }}
                     </p>
                     <button class="prof-btn prof-btn-danger" id="open-delete-modal-btn">
                         <svg viewBox="0 0 24 24">

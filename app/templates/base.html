@@ -3,15 +3,19 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content">
     <title>{% block title %}KeyCord{% endblock %}</title>
     <meta name="description"
-        content="{% block meta_description %}KeyCord - Gizlilik odaklı, Tor tabanlı ve sansürsüz mesajlaşma platformu.{% endblock %}">
+        content="{% block meta_description %}KeyCord - Türkiye merkezli, açık kaynak kodlu, gizlilik odaklı ve Tor destekli bir mesajlaşma platformudur. Kuantum sonrası (post-quantum) uçtan uca şifreli ve sansürsüz.{% endblock %}">
 
     <link rel="icon" type="image/png" href="{{ url_for('static', filename='logo.png') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/icons.css') }}">
 
     <!-- Paper Fonts (Local) -->
+    <link rel="preload" as="font" type="font/ttf" crossorigin
+        href="{{ url_for('static', filename='fonts/WnznHAc5bAfYB2QRah7pcpNvOx-pjcB9SII.ttf') }}">
+    <link rel="preload" as="font" type="font/ttf" crossorigin
+        href="{{ url_for('static', filename='fonts/WnznHAc5bAfYB2QRah7pcpNvOx-pjRV6SII.ttf') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='fonts/fonts.css') }}">
 
     <!-- Paper CSS -->
@@ -21,6 +25,45 @@
     {% block canonical %}
     <link rel="canonical" href="{{ request.base_url }}" />
     {% endblock %}
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='logo.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='logo.png') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='logo.png') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='logo.ico') }}">
+
+    <!-- Open Graph / Facebook -->
+    {% block og_tags %}
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ request.base_url }}">
+    <meta property="og:title" content="{% block og_title %}KeyCord — Özgürce Konuş{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}KeyCord, Tor ağı ve kuantum bilgisayarlara dayanıklı (X25519 + ML-KEM-768) uçtan uca şifreleme ile çalışan gizlilik odaklı mesajlaşma platformu.{% endblock %}">
+    <meta property="og:image" content="{% block og_image %}https://keycord.org{{ url_for('static', filename='logo.png') }}{% endblock %}">
+    <meta property="og:site_name" content="KeyCord">
+    <meta property="og:locale" content="{{ get_locale() }}">
+    {% endblock %}
+
+    <!-- Twitter / X -->
+    {% block twitter_tags %}
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="{{ request.base_url }}">
+    <meta name="twitter:title" content="{% block twitter_title %}KeyCord — Özgürce Konuş{% endblock %}">
+    <meta name="twitter:description" content="{% block twitter_description %}KeyCord, Tor ağı ve kuantum bilgisayarlara dayanıklı (X25519 + ML-KEM-768) uçtan uca şifreleme ile çalışan gizlilik odaklı mesajlaşma platformu.{% endblock %}">
+    <meta name="twitter:image" content="{% block twitter_image %}https://keycord.org{{ url_for('static', filename='logo.png') }}{% endblock %}">
+    {% endblock %}
+
+    <!-- Hreflang (Çok Dilli) -->
+    <link rel="alternate" hreflang="tr" href="https://keycord.org{{ request.path }}">
+    <link rel="alternate" hreflang="en" href="https://keycord.org{{ request.path }}">
+    <link rel="alternate" hreflang="de" href="https://keycord.org{{ request.path }}">
+    <link rel="alternate" hreflang="x-default" href="https://keycord.org{{ request.path }}">
+
+    <!-- Meta -->
+    <meta name="author" content="KeyCord">
+    <meta name="publisher" content="KeyCord">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#050607">
+    <meta name="csrf-token" content="{{ csrf_token }}">
 
     {% block extra_css %}{% endblock %}
 
@@ -33,24 +76,143 @@
             background-color: transparent !important;
             margin: 0;
             padding: 0;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-text-size-adjust: 100%;
         }
 
-        body::before {
-            content: "" !important;
-            position: fixed !important;
-            top: 0 !important;
-            left: 0 !important;
-            width: 100% !important;
-            height: 100% !important;
-            background-image: radial-gradient(rgba(255, 255, 255, 0.3) 1.5px, transparent 1.5px) !important;
-            background-size: 30px 30px !important;
-            z-index: -1 !important;
-            pointer-events: none !important;
+        #dot-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        button,
+        a,
+        input,
+        select,
+        textarea {
+            touch-action: manipulation;
+        }
+
+        button,
+        a,
+        [role="button"] {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        @media (max-width: 768px) {
+            html {
+                overscroll-behavior-y: none;
+            }
         }
     </style>
 </head>
 
 <body>
+
+<div id="load-banner" class="load-banner load-{{ load_state }}" role="alert" data-load-state="{{ load_state }}"{% if load_state == 'ok' %} style="display: none;"{% endif %}>
+    <span class="load-banner-dot"></span>
+    <span class="load-banner-text">{{ _('Şu an ağ yükü arttı. Sizi gizlemek ve korumak için bekletiyoruz. Korsanların şansı yok.') }}</span>
+</div>
+<style>
+    .load-banner {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 99999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.6rem;
+        padding: 0.6rem 1.2rem;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.75rem;
+        letter-spacing: 0.04em;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(8px);
+        color: #ffffff;
+    }
+
+    .load-banner.load-warning {
+        background: rgba(30, 25, 10, 0.92);
+    }
+
+    .load-banner.load-throttled {
+        background: rgba(40, 12, 12, 0.94);
+        animation: loadBannerPulse 2s ease-in-out infinite;
+    }
+
+    .load-banner-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #fbbf24;
+        box-shadow: 0 0 8px rgba(251, 191, 36, 0.6);
+        flex-shrink: 0;
+    }
+
+    .load-throttled .load-banner-dot {
+        background: #f87171;
+        box-shadow: 0 0 8px rgba(248, 113, 113, 0.7);
+    }
+
+    .load-banner-text {
+        text-align: center;
+    }
+
+    @keyframes loadBannerPulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.85; }
+    }
+</style>
+
+<canvas id="dot-canvas"></canvas>
+
+<script nonce="{{ csp_nonce }}">
+(function(){
+  var c=document.getElementById('dot-canvas'),x=c.getContext('2d'),
+      S=30,dots=[],timer=null,R=1.5;
+  var isMobile = window.matchMedia&&window.matchMedia('(max-width: 768px)').matches;
+  if (isMobile){ S=44; R=2.0; }
+  function init(){
+    c.width=innerWidth;c.height=innerHeight;dots.length=0;
+    for(var px=S/2;px<c.width;px+=S)
+      for(var py=S/2;py<c.height;py+=S)
+        dots.push({x:px,y:py,ph:Math.random()*6.28,sp:0.8+Math.random()*0.4});
+  }
+  function draw(){
+    x.clearRect(0,0,c.width,c.height);
+    var t=Date.now()/3000;
+    for(var i=0;i<dots.length;i++){
+      var d=dots[i],
+          p=Math.sin(t*d.sp+d.ph),
+          o=0.35+0.5*(p*0.5+0.5),
+          r=R*(1+0.06*(1-(p*0.5+0.5)));
+      x.globalAlpha=o;
+      x.beginPath();
+      x.arc(d.x,d.y,r,0,6.28);
+      x.fillStyle='#fff';
+      x.fill();
+    }
+  }
+  function start(){if(!timer)timer=setInterval(draw,66);}
+  function stop(){if(timer){clearInterval(timer);timer=null;}}
+  function redraw(){ if(reduceMotion||isMobile) draw(); }
+  init();
+  var reduceMotion=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(reduceMotion||isMobile){draw();}else{start();}
+  addEventListener('resize',function(){ init(); redraw(); });
+  document.addEventListener('visibilitychange',function(){
+    if(reduceMotion||isMobile) return;
+    document.hidden?stop():start();
+  });
+})();
+</script>
 
     {% block header %}
     <header class="main-header">
@@ -93,6 +255,7 @@
             border-bottom: 2px dashed rgba(255, 255, 255, 0.08);
             /* Signal + Paper */
             padding: 10px 0;
+            padding-top: calc(10px + env(safe-area-inset-top));
             z-index: 1000;
         }
 
@@ -110,7 +273,7 @@
             font-size: 2.7rem;
             color: #fff;
             transform: rotate(-2deg);
-            transition: all 0.2s;
+            transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1);
             text-decoration: none;
             display: inline-block;
         }
@@ -141,7 +304,7 @@
             text-decoration: none;
             position: relative;
             padding: 4px 8px;
-            transition: 0.2s;
+            transition: color 0.2s ease, transform 0.2s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
         .nav-link::after {
@@ -223,15 +386,18 @@
                 border-radius: 0;
                 box-shadow: none;
                 padding: 20px;
-                padding-top: 100px;
+                padding-top: calc(100px + env(safe-area-inset-top));
                 /* Push content under the header */
                 box-sizing: border-box;
+                overscroll-behavior: contain;
 
                 visibility: hidden;
                 opacity: 0;
                 clip-path: circle(0% at 100% 0);
                 /* Cool circular reveal animation */
-                transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                transition: clip-path 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+                            opacity 0.4s ease,
+                            visibility 0.4s;
                 align-items: center;
                 justify-content: flex-start;
                 z-index: 1000;
@@ -275,6 +441,11 @@
                 color: var(--chalk);
             }
 
+            .nav-link:active {
+                transform: scale(0.96);
+                transition: transform 0.1s cubic-bezier(0.22, 1, 0.36, 1);
+            }
+
             .nav-link::after {
                 display: none;
             }
@@ -294,17 +465,29 @@
             const menuBtn = document.querySelector('.mobile-menu-btn');
             const navWrapper = document.querySelector('.nav-wrapper');
 
+            function setMenu(open) {
+                if (!navWrapper) return;
+                navWrapper.classList.toggle('active', open);
+                document.body.style.overflow = open ? 'hidden' : '';
+                if (menuBtn) menuBtn.textContent = open ? '✕' : '☰';
+            }
+
             if (menuBtn) {
                 menuBtn.addEventListener('click', function () {
-                    navWrapper.classList.toggle('active');
-                    this.textContent = navWrapper.classList.contains('active') ? '✕' : '☰';
+                    setMenu(!navWrapper.classList.contains('active'));
                 });
             }
+
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' && navWrapper && navWrapper.classList.contains('active')) {
+                    setMenu(false);
+                }
+            });
         });
     </script>
     {% endblock %}
 
-    <div class="container" style="padding-top: 100px; min-height: calc(100vh - 100px);">
+    <div class="container" style="padding-top: calc(100px + env(safe-area-inset-top)); min-height: calc(100vh - 100px);">
         {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
         <ul class="flash-messages" style="max-width: 1150px; margin: 0 auto 1rem auto; padding: 0 1rem;">
@@ -334,7 +517,7 @@
                 <a href="{{ url_for('main.canary') }}">{{ _('Canary') }}</a>
                 <a href="{{ url_for('auth.contact') }}">{{ _('İletişim') }}</a>
             </div>
-            <a href="https://www.instagram.com/keycord_official/" target="_blank" rel="noopener noreferrer"
+            <a href="https://www.instagram.com/keycord_official/" target="_blank" rel="noopener noreferrer nofollow"
                 style="display:none;">Instagram</a>
         </div>
     </footer>
@@ -342,9 +525,62 @@
 
     <!-- Forge JS (Pure JS Crypto for Offline/HTTP Support) -->
     <script nonce="{{ csp_nonce }}" src="{{ url_for('static', filename='js/forge.min.js') }}"></script>
+    <!-- ML-KEM-768 (Post-Quantum KEM) -->
+    <script nonce="{{ csp_nonce }}" src="{{ url_for('static', filename='js/mlkem-loader.js') }}"></script>
+    <!-- X25519 (Pure JS, Firefox/Tor uyumlu) -->
+    <script nonce="{{ csp_nonce }}" src="{{ url_for('static', filename='js/x25519.js') }}"></script>
     <!-- Security Script -->
     <script nonce="{{ csp_nonce }}" src="{{ url_for('static', filename='js/security.js') }}"></script>
+
+    <!-- Canlı yük banner güncellemesi: 5 sn'de bir hafif poll, kalıcı bağlantı yok -->
+    <script nonce="{{ csp_nonce }}">
+    (function () {
+        var banner = document.getElementById('load-banner');
+        if (!banner) return;
+        var last = banner.getAttribute('data-load-state') || 'ok';
+
+        function apply(state) {
+            if (state === last) return;
+            last = state;
+            banner.classList.toggle('load-warning', state === 'warning');
+            banner.classList.toggle('load-throttled', state === 'throttled');
+            banner.style.display = (state === 'ok') ? 'none' : '';
+        }
+
+        function poll() {
+            if (document.hidden) return;
+            fetch('/load-status', { headers: { 'Accept': 'application/json' } })
+                .then(function (r) { return r.json(); })
+                .then(function (d) { if (d && d.state) apply(d.state); })
+                .catch(function () {});
+        }
+
+        setInterval(poll, 5000);
+    })();
+    </script>
+
+    <!-- Scroll reveal: [data-reveal] öğelerini görünür alana girince göster -->
+    <script nonce="{{ csp_nonce }}">
+    (function () {
+        var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var canObserve = 'IntersectionObserver' in window;
+        if (reduceMotion || !canObserve) return;
+        var targets = document.querySelectorAll('[data-reveal]');
+        if (!targets.length) return;
+        targets.forEach(function (el) { el.classList.add('reveal'); });
+        var io = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    io.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
+        targets.forEach(function (el) { io.observe(el); });
+    })();
+    </script>
     {% block scripts %}{% endblock %}
+    {% block schema %}{% endblock %}
 </body>
 
 </html>

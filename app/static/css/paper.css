@@ -32,12 +32,13 @@ h5,
 h6 {
     margin: 0 0 1rem 0;
     font-weight: 700;
+    font-optical-sizing: auto;
 }
 
 a {
     color: var(--chalk);
     text-decoration: none;
-    transition: all 0.2s;
+    transition: color 0.2s ease, transform 0.2s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.2s ease, border-color 0.2s ease, background 0.2s ease;
 }
 
 /* Utilities */
@@ -85,15 +86,18 @@ a {
     cursor: pointer;
     font-size: 1.3rem;
     color: var(--chalk);
-    transform: rotate(-2deg);
+    transform: rotate(0deg);
     font-family: 'Caveat', cursive, sans-serif;
     text-align: center;
-    transition: 0.2s;
+    transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1),
+                border-color 0.2s ease,
+                background 0.2s ease,
+                color 0.2s ease;
 }
 
 .btn:hover {
     border-color: rgba(255, 255, 255, 0.28);
-    transform: translateY(-3px) rotate(-1deg);
+    transform: translateY(-3px);
     color: #fff;
 }
 
@@ -128,15 +132,15 @@ input[type="password"] {
     color: var(--chalk);
     font-size: 1.2rem;
     font-family: 'Caveat', cursive, sans-serif;
-    transition: all 0.2s;
+    transition: border-color 0.2s ease, transform 0.2s ease;
     box-sizing: border-box;
-    transform: rotate(0.5deg);
+    transform: rotate(0deg);
 }
 
 input:focus {
     outline: none;
     border-color: var(--chalk);
-    transform: rotate(0deg) scale(1.01);
+    transform: scale(1.01);
 }
 
 label {
@@ -151,7 +155,7 @@ label {
     padding: 1.5rem;
     border: 3px dashed rgba(255, 255, 255, 0.12);
     border-radius: 16px;
-    transform: rotate(-1deg);
+    transform: rotate(0deg);
     background: rgba(255, 255, 255, 0.02);
 }
 
@@ -168,7 +172,7 @@ label {
     background: rgba(255, 255, 255, 0.05);
     border-radius: 12px;
     margin-bottom: 0.5rem;
-    transform: rotate(-0.5deg);
+    transform: rotate(0deg);
 }
 
 /* Header */
@@ -224,7 +228,7 @@ label {
 .footer-links a {
     color: var(--muted-chalk);
     font-size: 1.2rem;
-    transition: all 0.2s;
+    transition: color 0.2s ease, transform 0.2s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .footer-links a:hover {
@@ -277,4 +281,253 @@ label {
     position: absolute;
     top: -10px;
     right: -10px;
+}
+
+/* ============================================
+   MOBILE FIXES — All below are mobile-only
+   ============================================ */
+
+/* Touch feedback for all interactive elements */
+button:active,
+a:active,
+.list-item:active,
+.btn:active {
+    transform: scale(0.96);
+    transition: transform 0.1s;
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+
+    .reveal {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+/* Scroll reveal — shared utility */
+.reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal.visible {
+    opacity: 1;
+    transform: none;
+}
+
+/* Reduced transparency preference */
+@media (prefers-reduced-transparency: reduce) {
+    .main-header,
+    .mobile-header,
+    .sidebar,
+    .sidebar-footer {
+        background: var(--paper-black);
+        backdrop-filter: none;
+    }
+
+    .load-banner {
+        background: #1e190a;
+        backdrop-filter: none;
+    }
+
+    #recovery-modal {
+        background: rgba(0, 0, 0, 0.97);
+        backdrop-filter: none;
+    }
+
+    #lock-screen {
+        background: rgba(0, 0, 0, 0.97);
+        backdrop-filter: none;
+    }
+}
+
+/* High contrast preference */
+@media (prefers-contrast: more) {
+    .btn {
+        border-color: rgba(255, 255, 255, 0.5);
+    }
+
+    .nav-link,
+    .footer-links a {
+        color: var(--chalk);
+    }
+
+    .sketch-box,
+    .flash-message,
+    .scribble-border {
+        border-color: rgba(255, 255, 255, 0.35);
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+        border-color: rgba(255, 255, 255, 0.4);
+    }
+}
+
+@media (max-width: 768px) {
+    /* Touch target minimums — 44px */
+    button,
+    .btn,
+    .add-friend-btn,
+    .send-btn,
+    .header-action-btn,
+    .notif-read-btn,
+    .list-item {
+        min-height: 44px;
+        min-width: 44px;
+    }
+
+    /* Friend list items — bigger touch targets */
+    .friend-item {
+        padding: 12px 8px;
+        min-height: 48px;
+    }
+
+    /* Friend pics — slightly larger on mobile */
+    .friend-pic {
+        width: 40px;
+        height: 40px;
+    }
+
+    /* Fix too-small fonts */
+    .kc-tor-hint,
+    .kc-tor-badge,
+    .kc-status-pill,
+    .kc-security-text,
+    .threat-label,
+    .threat-sub,
+    .notif-read-btn {
+        font-size: 0.75rem !important;
+    }
+
+    /* Fix too-large fonts on mobile */
+    .profile-meta-name {
+        font-size: 2rem !important;
+    }
+
+    .prof-section-title {
+        font-size: 1.4rem !important;
+    }
+
+    .field-item label {
+        font-size: 1.1rem !important;
+    }
+
+    .profile-tab {
+        font-size: 1.2rem !important;
+    }
+
+    .danger-desc {
+        font-size: 1.2rem !important;
+    }
+
+    /* Message bubble — slightly smaller on mobile to save space */
+    .bubble {
+        font-size: 1rem !important;
+    }
+
+    /* Accept/reject buttons — ensure 44px */
+    .friend-req-actions .btn {
+        min-width: 44px;
+        min-height: 44px;
+    }
+
+    /* Fix scribble-border overflow on mobile */
+    .scribble-border::after,
+    .scribble-border::before {
+        display: none;
+    }
+}
+
+/* Extra small screens */
+@media (max-width: 480px) {
+    body {
+        font-size: 15px;
+    }
+
+    h2 {
+        font-size: 1.4rem;
+        margin-top: 24px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+        padding: 12px;
+        font-size: 16px; /* Prevents iOS zoom on focus */
+    }
+
+    button {
+        padding: 14px 24px;
+    }
+}
+
+/* ============================================
+   MOBILE FOUNDATION — scroll containment & touch
+   ============================================ */
+@media (max-width: 768px) {
+    body {
+        overflow-x: clip;
+    }
+
+    img,
+    video {
+        max-width: 100%;
+        height: auto;
+    }
+
+    pre,
+    code {
+        white-space: pre-wrap;
+        word-break: break-word;
+    }
+
+    table {
+        display: block;
+        max-width: 100%;
+        overflow-x: auto;
+    }
+
+    .sidebar-scroll,
+    .nav-wrapper,
+    .messages-area,
+    .notif-list,
+    .threat-panel,
+    .kc-canvas {
+        overscroll-behavior: contain;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="search"],
+    textarea,
+    select {
+        font-size: 16px;
+    }
+
+    button,
+    .btn,
+    a,
+    .list-item,
+    .friend-item,
+    .member-item,
+    .bubble,
+    .kc-btn,
+    .kc-tor-card,
+    .kc-dl-card,
+    .kc-stat {
+        -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation;
+    }
 }

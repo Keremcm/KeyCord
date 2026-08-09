@@ -130,7 +130,8 @@
                                     <div class="arch-number">01</div>
                                     <h3 class="arch-title">İSTEMCİ TARAFLI ANAHTARLAMA</h3>
                                     <p class="arch-desc">
-                                        Tarayıcınızda RSA-2048 anahtar çifti oluşturulur.
+                                        Tarayıcınızda X25519 + ML-KEM-768 kuantum bilgisayarlara dayanıklı anahtar
+                                        çifti oluşturulur.
                                         Özel anahtarınız (Private Key) cihazınızdan ASLA çıkmaz.
                                     </p>
                                 </div>
@@ -139,8 +140,9 @@
                                     <div class="arch-number">02</div>
                                     <h3 class="arch-title">HİBRİT ŞİFRELEME</h3>
                                     <p class="arch-desc">
-                                        Mesajlar önce AES-256 ile simetrik şifrelenir, ardından anahtar
-                                        alıcının Açık Anahtarı (Public Key) ile mühürlenir.
+                                        Mesajlar önce AES-256-GCM ile simetrik şifrelenir, ardından anahtar
+                                        alıcının Açık Anahtarı (Public Key) ile X25519 + ML-KEM-768 hibrit
+                                        algoritmalarıyla mühürlenir.
                                     </p>
                                 </div>
 

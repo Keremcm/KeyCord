@@ -51,7 +51,10 @@
         flex-shrink: 0;
         position: relative;
         z-index: 1010;
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+                    opacity 0.4s ease,
+                    clip-path 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+                    background 0.2s ease;
         box-sizing: border-box;
     }
 
@@ -134,7 +137,9 @@
         margin-bottom: 8px;
         border-radius: 12px;
         border: 2px solid transparent;
-        transition: 0.2s;
+        transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1),
+                    border-color 0.2s ease,
+                    background 0.2s ease;
         cursor: pointer;
     }
 
@@ -151,10 +156,12 @@
         top: 0;
         left: 0;
         right: 0;
-        height: 60px;
+        min-height: 60px;
         background: transparent;
         border-bottom: 2px dashed rgba(255, 255, 255, 0.1);
         padding: 0 20px;
+        padding-top: env(safe-area-inset-top);
+        box-sizing: border-box;
         z-index: 1000;
         align-items: center;
         justify-content: space-between;
@@ -164,26 +171,31 @@
         background: transparent;
         border: 2px dashed rgba(255, 255, 255, 0.3);
         color: var(--chalk);
-        padding: 6px 12px;
+        padding: 10px 16px;
         border-radius: 8px;
         cursor: pointer;
         font-size: 1rem;
+        min-height: 44px;
+        min-width: 44px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
     }
 
     @media (max-width: 768px) {
         .mobile-header {
-            display: flex !important;
-            z-index: 999999 !important;
-            pointer-events: all !important;
+            display: flex;
+            z-index: 1500;
+            pointer-events: all;
             background: rgba(5, 6, 7, 0.95);
             /* Ensure visibility */
             backdrop-filter: blur(10px);
         }
 
         .mobile-menu-btn {
-            position: relative !important;
-            z-index: 1000000 !important;
-            pointer-events: all !important;
+            position: relative;
+            z-index: 1501;
+            pointer-events: all;
         }
 
         .sidebar-overlay {
@@ -199,20 +211,20 @@
         }
 
         .profile-page {
-            padding-top: 60px;
+            padding-top: calc(60px + env(safe-area-inset-top));
             /* Safe area for mobile menu */
         }
 
         .main-panel {
-            padding-top: 60px;
+            padding-top: calc(60px + env(safe-area-inset-top));
             /* Prevent header overlap */
         }
 
         .sidebar-close-btn {
             display: block;
-            top: 15px;
-            right: 20px;
-            /* Move close button inward for mobile overlay */
+            top: calc(70px + env(safe-area-inset-top));
+            left: 20px;
+            /* Solda, menü içeriğinin yanında */
         }
 
         .sidebar {
@@ -225,13 +237,16 @@
             background: rgba(5, 6, 7, 0.45);
             backdrop-filter: blur(25px);
             border: none;
+            overscroll-behavior: contain;
 
             visibility: hidden;
             opacity: 0;
             clip-path: circle(0% at 0 0);
             /* Reveals from top left */
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            padding-top: 60px;
+            transition: clip-path 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+                        opacity 0.4s ease,
+                        visibility 0.4s;
+            padding-top: calc(60px + env(safe-area-inset-top));
             /* Space for the header */
         }
 
@@ -253,6 +268,10 @@
 
         .profile-box:hover {
             background: transparent;
+        }
+
+        .profile-box:active {
+            background: rgba(255, 255, 255, 0.04);
         }
 
         .profile-pic {
@@ -281,8 +300,8 @@
         position: absolute;
         top: 15px;
         right: -45px;
-        width: 35px;
-        height: 35px;
+        width: 44px;
+        height: 44px;
         background: #050607;
         border: 2px dashed var(--chalk);
         color: var(--chalk);
@@ -321,6 +340,60 @@
         text-align: center;
         box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
     }
+
+    /* Lock Screen */
+    #lock-screen {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.92);
+        backdrop-filter: blur(12px);
+        z-index: 10000;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    }
+    .lock-card {
+        background: #0a0b0c;
+        border: 2px solid rgba(255,255,255,.12);
+        border-radius: 20px;
+        padding: 2.5rem 2rem;
+        max-width: 380px;
+        width: 100%;
+        text-align: center;
+    }
+    .lock-card h2 {
+        font-family: 'Reenie Beanie';
+        font-size: 2.2rem;
+        margin: 0 0 .5rem;
+        color: #e5e5e5;
+    }
+    .lock-card p {
+        font-family: 'Caveat';
+        font-size: 1.1rem;
+        color: rgba(255,255,255,.45);
+        margin: 0 0 1.5rem;
+    }
+    .lock-card input[type="password"] {
+        width: 100%;
+        background: transparent;
+        border: 2px solid rgba(255,255,255,.15);
+        border-radius: 12px;
+        color: #e5e5e5;
+        padding: 12px;
+        font-family: 'Caveat';
+        font-size: 1.2rem;
+        margin-bottom: 1.5rem;
+        outline: none;
+        box-sizing: border-box;
+    }
+    .lock-card input:focus { border-color: rgba(255,255,255,.35); }
+    .lock-card .lock-error {
+        color: #ef4444;
+        font-size: .85rem;
+        margin-bottom: 1rem;
+        display: none;
+    }
 </style>
 <div id="recovery-modal">
     <div class="recovery-card">
@@ -339,6 +412,20 @@
         </div>
     </div>
 </div>
+
+<div id="lock-screen">
+    <div class="lock-card">
+        <h2>{{ _('Oturum Kilitli') }}</h2>
+        <p>{{ _('Devam etmek için şifrenizi girin.') }}</p>
+        <div class="lock-error" id="lock-error-msg"></div>
+        <input type="password" id="lock-password" placeholder="{{ _('Hesap Şifreniz') }}">
+        <div style="display: flex; gap: 10px;">
+            <button class="btn" style="flex:1; border-style:solid;" id="lock-unlock-btn">{{ _('Kilidi Aç') }}</button>
+            <a href="{{ url_for('auth.logout') }}" class="btn" style="flex:1; border-style:dashed; opacity:.6; text-decoration:none; display:flex; align-items:center; justify-content:center;">{{ _('Çıkış') }}</a>
+        </div>
+    </div>
+</div>
+
 {% endblock %}
 
 {% block header %}{% endblock %}
@@ -367,7 +454,6 @@
                 onerror="this.src = this.dataset.onerrorSrc;">
             <div class="profile-info">
                 <h3>{{ current_user.username if current_user else _('Misafir') }}</h3>
-                <span>{{ _('Çevrimiçi') }}</span>
             </div>
         </a>
 
@@ -424,12 +510,55 @@
     document.getElementById('sidebar-close-btn')?.addEventListener('click', toggleSidebar);
     document.getElementById('sidebar-overlay')?.addEventListener('click', toggleSidebar);
 
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            const sidebar = document.querySelector('.sidebar');
+            if (sidebar && sidebar.classList.contains('open')) toggleSidebar();
+        }
+    });
+
+    /* ── Keyboard: keep chat composer above the on-screen keyboard ── */
+    (function () {
+        const composer = document.querySelector('.chat-input-area.mobile-fixed') ||
+                         document.querySelector('.chat-input-area');
+        const messages = document.querySelector('.messages-area');
+        if (!composer || !window.visualViewport || window.innerWidth > 768) return;
+        const KB_THRESHOLD = 80;
+        const apply = () => {
+            const vv = window.visualViewport;
+            const diff = Math.max(0, window.innerHeight - vv.height);
+            const open = diff > KB_THRESHOLD;
+            if (open) {
+                composer.style.bottom = diff + 'px';
+                composer.style.transition = 'none';
+                if (messages) {
+                    if (messages.dataset.padBase === undefined) {
+                        messages.dataset.padBase = getComputedStyle(messages).paddingBottom;
+                    }
+                    messages.style.paddingBottom =
+                        'calc(' + messages.dataset.padBase + ' + ' + diff + 'px)';
+                }
+            } else {
+                composer.style.bottom = '';
+                composer.style.transition = 'bottom 0.2s cubic-bezier(0.22, 1, 0.36, 1)';
+                if (messages) messages.style.paddingBottom = messages.dataset.padBase || '';
+            }
+        };
+        window.visualViewport.addEventListener('resize', apply);
+        window.visualViewport.addEventListener('scroll', apply);
+        apply();
+    })();
+
     // KEYCORD RECOVERY MODULE
     const KEYCORD_RECOVERY = {
         metadata: {
             encryptedPrivateKey: "{{ current_user.encrypted_private_key }}",
             salt: "{{ current_user.salt }}",
-            publicKey: "{{ current_user.public_key }}"
+            publicKey: "{{ current_user.public_key }}",
+            encryptedPrivateKeyX25519: "{{ current_user.encrypted_private_key_x25519 }}",
+            publicKeyX25519: "{{ current_user.public_key_x25519 }}",
+            encryptedPrivateKeyMlkem: "{{ current_user.encrypted_private_key_mlkem }}",
+            publicKeyMlkem: "{{ current_user.public_key_mlkem }}"
         },
         show: function () {
             document.getElementById('recovery-modal').style.display = 'flex';
@@ -457,6 +586,25 @@
                 sessionStorage.setItem('keycord_private_key', privateKey);
                 sessionStorage.setItem('keycord_public_key', this.metadata.publicKey);
 
+                if (this.metadata.encryptedPrivateKeyX25519 && this.metadata.encryptedPrivateKeyX25519 !== 'None') {
+                    const xPriv = await KEYCORD_CRYPTO.decryptPrivateKey(
+                        this.metadata.encryptedPrivateKeyX25519,
+                        pwd,
+                        this.metadata.salt
+                    );
+                    sessionStorage.setItem('kc_x25519_priv', xPriv);
+                    sessionStorage.setItem('kc_x25519_pub', this.metadata.publicKeyX25519 || '');
+                }
+                if (this.metadata.encryptedPrivateKeyMlkem && this.metadata.encryptedPrivateKeyMlkem !== 'None') {
+                    const mPriv = await KEYCORD_CRYPTO.decryptPrivateKey(
+                        this.metadata.encryptedPrivateKeyMlkem,
+                        pwd,
+                        this.metadata.salt
+                    );
+                    sessionStorage.setItem('kc_mlkem_priv', mPriv);
+                    sessionStorage.setItem('kc_mlkem_pub', this.metadata.publicKeyMlkem || '');
+                }
+
                 this.hide();
 
                 // Force reload with clear intent
@@ -482,5 +630,75 @@
     document.getElementById('recovery_password')?.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') KEYCORD_RECOVERY.perform();
     });
+
+    /* ── Session Lock (idle timeout) ── */
+    (function () {
+        const LOCK_TIMEOUT = {{ config.get('SESSION_LOCK_TIMEOUT', 300) }} * 1000;
+        let idleTimer = null;
+        const lockScreen = document.getElementById('lock-screen');
+        const lockInput = document.getElementById('lock-password');
+        const lockBtn = document.getElementById('lock-unlock-btn');
+        const lockError = document.getElementById('lock-error-msg');
+        const events = ['mousedown', 'keydown', 'touchstart', 'scroll'];
+
+        function resetIdle() {
+            clearTimeout(idleTimer);
+            idleTimer = setTimeout(lockScreen_, LOCK_TIMEOUT);
+        }
+
+        function lockScreen_() {
+            if (!lockScreen) return;
+            lockScreen.style.display = 'flex';
+            if (lockInput) { lockInput.value = ''; lockInput.focus(); }
+        }
+
+        events.forEach(ev => document.addEventListener(ev, () => {
+            if (!lockScreen || lockScreen.style.display !== 'flex') resetIdle();
+        }, { passive: true }));
+
+        document.addEventListener('visibilitychange', () => {
+            if (!document.hidden) resetIdle();
+        });
+
+        resetIdle();
+
+        async function doUnlock() {
+            if (!lockInput || !lockInput.value.trim()) return;
+            lockError.style.display = 'none';
+            lockBtn.disabled = true;
+            lockBtn.textContent = '{{ _("Kontrol ediliyor...") }}';
+            try {
+                const csrfMeta = document.querySelector('meta[name="csrf-token"]');
+                const resp = await fetch('/unlock-session', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-Token': csrfMeta ? csrfMeta.getAttribute('content') : ''
+                    },
+                    body: JSON.stringify({ password: lockInput.value })
+                });
+                const data = await resp.json();
+                if (resp.ok) {
+                    lockScreen.style.display = 'none';
+                    lockInput.value = '';
+                    resetIdle();
+                } else {
+                    lockError.textContent = data.error || '{{ _("Şifre hatalı.") }}';
+                    lockError.style.display = 'block';
+                    lockInput.value = '';
+                    lockInput.focus();
+                }
+            } catch (e) {
+                lockError.textContent = '{{ _("Bağlantı hatası.") }}';
+                lockError.style.display = 'block';
+            } finally {
+                lockBtn.disabled = false;
+                lockBtn.textContent = '{{ _("Kilidi Aç") }}';
+            }
+        }
+
+        if (lockBtn) lockBtn.addEventListener('click', doUnlock);
+        if (lockInput) lockInput.addEventListener('keydown', e => { if (e.key === 'Enter') doUnlock(); });
+    })();
 </script>
 {% endblock %}

@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 
-{% block title %}KeyCord SSS | {{ _('Anonim & Güvenli Mesajlaşma') }}{% endblock %}
+{% block title %}KeyCord | Açık Kaynak, Tor Destekli Kuantum Sonrası Şifreli Mesajlaşma{% endblock %}
 
 {% block meta_description %}
-{{ _('KeyCord sık sorulan sorular: Tor, uçtan uca şifreleme, sürdürülebilirlik ve sıfır bilgi mimarisi.') }}
+{{ _('KeyCord, Türkiye merkezli açık kaynak kodlu, kuantum bilgisayarlara dayanıklı (X25519 + ML-KEM-768) uçtan uca şifreli mesajlaşma platformu. Tor ağı üzerinden .onion erişimi ve sıfır bilgi mimarisiyle gizliliğinizi korur.') }}
 {% endblock %}
 
 {% block extra_css %}
@@ -32,6 +32,7 @@
     .faq-header h1 {
         font-family: 'Reenie Beanie', cursive;
         font-size: clamp(3.5rem, 12vw, 5.5rem);
+        font-optical-sizing: auto;
         color: var(--chalk);
         margin: 0 0 0.75rem;
         line-height: 1.1;
@@ -121,6 +122,7 @@
         gap: 1rem;
         font-family: 'Caveat', cursive;
         font-size: clamp(1.8rem, 5vw, 2.2rem);
+        font-optical-sizing: auto;
         color: var(--chalk);
         margin: 0;
         pointer-events: none;
@@ -240,7 +242,7 @@
 
     <div class="faq-list">
         <!-- GENEL -->
-        <div class="faq-category">
+        <div class="faq-category" data-reveal>
             <h3 class="faq-category-title">{{ _('● GENEL') }}</h3>
 
             <div class="faq-item">
@@ -330,13 +332,13 @@
                 </label>
                 <input type="checkbox" id="q7-toggle" class="faq-toggle">
                 <div class="faq-answer">
-                    <p>{{ _('Projenin açık kaynak bileşenleri mevcuttur. Detaylar için GitHub sayfamızı inceleyebilirsiniz.') }}</p>
+                    <p>{{ _('Evet, KeyCord tamamen açık kaynaktır. Kaynak koduna GitHub üzerinden erişebilir, inceleyebilir ve katkı sağlayabilirsiniz.') }}</p>
                 </div>
             </div>
         </div>
 
         <!-- GİZLİLİK VE VERİ -->
-        <div class="faq-category">
+        <div class="faq-category" data-reveal>
             <h3 class="faq-category-title">{{ _('● GİZLİLİK VE VERİ') }}</h3>
 
             <div class="faq-item">
@@ -458,7 +460,7 @@
         </div>
 
         <!-- GÜVENLİK VE ŞİFRELEME -->
-        <div class="faq-category">
+        <div class="faq-category" data-reveal>
             <h3 class="faq-category-title">{{ _('● GÜVENLİK VE ŞİFRELEME') }}</h3>
 
             <div class="faq-item">
@@ -470,7 +472,7 @@
                 </label>
                 <input type="checkbox" id="q17-toggle" class="faq-toggle">
                 <div class="faq-answer">
-                    <p>{{ _('Her oturum için benzersiz şifreleme anahtarları üretilir. Mesajlar yalnızca konuşmaya dahil olan tarafların cihazlarında çözülebilir; sunucu bu anahtarlara sahip değildir.') }}</p>
+                    <p>{{ _('Her oturum için benzersiz şifreleme anahtarları üretilir. Anahtar değişimi X25519 ve ML-KEM-768 kuantum sonrası (post-quantum) algoritmalarıyla yapılır. Mesajlar yalnızca konuşmaya dahil olan tarafların cihazlarında çözülebilir; sunucu bu anahtarlara sahip değildir.') }}</p>
                 </div>
             </div>
 
@@ -554,7 +556,7 @@
         </div>
 
         <!-- TOR VE ANONİMLİK -->
-        <div class="faq-category">
+        <div class="faq-category" data-reveal>
             <h3 class="faq-category-title">{{ _('● TOR VE ANONİMLİK') }}</h3>
 
             <div class="faq-item">
@@ -611,7 +613,7 @@
         </div>
 
         <!-- HESAP VE KULLANIM -->
-        <div class="faq-category">
+        <div class="faq-category" data-reveal>
             <h3 class="faq-category-title">{{ _('● HESAP VE KULLANIM') }}</h3>
 
             <div class="faq-item">
@@ -694,7 +696,7 @@
         </div>
 
         <!-- TEKNİK ALTYAPI -->
-        <div class="faq-category">
+        <div class="faq-category" data-reveal>
             <h3 class="faq-category-title">{{ _('● TEKNİK ALTYAPI') }}</h3>
 
             <div class="faq-item">
@@ -751,7 +753,7 @@
         </div>
 
         <!-- İLETİŞİM VE GERİ BİLDİRİM -->
-        <div class="faq-category">
+        <div class="faq-category" data-reveal>
             <h3 class="faq-category-title">{{ _('● İLETİŞİM VE GERİ BİLDİRİM') }}</h3>
 
             <div class="faq-item">
@@ -795,6 +797,51 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block schema %}
+<script nonce="{{ csp_nonce }}" type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+        { "@type": "Question", "name": "{{ _('KeyCord nedir?') }}", "acceptedAnswer": { "@type": "Answer", "text": "{{ _('KeyCord, gizlilik odaklı, uçtan uca şifreli bir mesajlaşma platformudur. Sıfır bilgi (zero-knowledge) mimarisiyle tasarlanmıştır; mesajlarınıza bizim de erişimimiz yoktur.') }}" } },
+        { "@type": "Question", "name": "{{ _('KeyCord\'u kim geliştiriyor?') }}", "acceptedAnswer": { "@type": "Answer", "text": "{{ _('KeyCord, bağımsız bir geliştirici tarafından inşa edilen ve aktif olarak geliştirilen açık kaynaklı bir projedir.') }}" } },
+        { "@type": "Question", "name": "{{ _('KeyCord ücretsiz mi?') }}", "acceptedAnswer": { "@type": "Answer", "text": "{{ _('Evet, KeyCord şu an itibarıyla tamamen ücretsizdir.') }}" } },
+        { "@type": "Question", "name": "{{ _('KeyCord hangi cihazlarda çalışır?') }}", "acceptedAnswer": { "@type": "Answer", "text": "{{ _('KeyCord web tabanlıdır; modern bir tarayıcısı olan her cihazda çalışır. Ayrıca Tor Browser üzerinden de erişilebilir.') }}" } },
+        { "@type": "Question", "name": "{{ _('KeyCord\'u indirmem gerekiyor mu?') }}", "acceptedAnswer": { "@type": "Answer", "text": "{{ _('Hayır. KeyCord doğrudan tarayıcınız üzerinden kullanılır; herhangi bir uygulama indirmenize gerek yoktur.') }}" } },
+        { "@type": "Question", "name": "{{ _('KeyCord beta sürümünde mi?') }}", "acceptedAnswer": { "@type": "Answer", "text": "{{ _('Evet, platform hâlâ beta aşamasındadır. Güvenlik yamaları ve güncellemeler düzenli olarak uygulanmaktadır.') }}" } },
+        { "@type": "Question", "name": "{{ _('KeyCord açık kaynak mı?') }}", "acceptedAnswer": { "@type": "Answer", "text": "{{ _('Evet, KeyCord tamamen açık kaynaktır. Kaynak koduna GitHub üzerinden erişebilir, inceleyebilir ve katkı sağlayabilirsiniz.') }}" } },
+        { "@type": "Question", "name": "{{ _('KeyCord hangi verilerimi topluyor?') }}", "acceptedAnswer": { "@type": "Answer", "text": "{{ _('Normal kullanımda hiçbir kişisel veri toplanmaz. IP adresiniz, mesaj içerikleriniz, cihaz bilginiz veya kullanım alışkanlıklarınız kaydedilmez.') }}" } },
+        { "@type": "Question", "name": "{{ _('Mesajlarımı siz okuyabilir misiniz?') }}", "acceptedAnswer": { "@type": "Answer", "text": "{{ _('Hayır. Uçtan uca şifreleme ve zero-knowledge mimarisi nedeniyle mesaj içeriklerine teknik olarak erişimimiz yoktur.') }}" } },
+        { "@type": "Question", "name": "{{ _('Şifremi biliyor musunuz?') }}", "acceptedAnswer": { "@type": "Answer", "text": "{{ _('Hayır. Şifreler sunucularımıza hiçbir zaman açık metin olarak iletilmez veya saklanmaz. Şifrenizi kaybetmeniz durumunda sıfırlama imkânı bulunmayabilir.') }}" } },
+        { "@type": "Question", "name": "{{ _('IP adresim kaydediliyor mu?') }}", "acceptedAnswer": { "@type": "Answer", "text": "{{ _('Hayır. Cloudflare Tunnel altyapısı sayesinde gerçek sunucu IP\'miz gizlidir; aynı zamanda kullanıcı IP adresleri de platformumuz tarafından loglanmaz.') }}" } },
+        { "@type": "Question", "name": "{{ _('Verilerimi üçüncü taraflarla paylaşıyor musunuz?') }}", "acceptedAnswer": { "@type": "Answer", "text": "{{ _('Hayır. Kullanıcı verisi hiçbir üçüncü tarafla satılmaz, kiralanmaz veya reklam amaçlı paylaşılmaz.') }}" } },
+        { "@type": "Question", "name": "{{ _('Çerez (cookie) kullanıyor musunuz?') }}", "acceptedAnswer": { "@type": "Answer", "text": "{{ _('İzleme veya analiz amaçlı çerez kullanılmaz. Yalnızca oturumunuzu açık tutmak için zorunlu geçici veriler kullanılır; bunlar tarayıcı kapatıldığında silinir.') }}" } },
+        { "@type": "Question", "name": "{{ _('Hükümet talebi gelirse ne olur?') }}", "acceptedAnswer": { "@type": "Answer", "text": "{{ _('Yasal yükümlülüklerimiz çerçevesinde taleplere yanıt verme zorunluluğumuz olabilir; ancak zero-knowledge mimarisi nedeniyle sunabileceğimiz okunabilir içerik verisi teknik olarak mevcut değildir.') }}" } },
+        { "@type": "Question", "name": "{{ _('Verilerimin silinmesini talep edebilir miyim?') }}", "acceptedAnswer": { "@type": "Answer", "text": "{{ _('Evet. Profil sayfanızdan kendiniz hesabınızı silebilirsiniz. Bu silme işlemi kalıcıdır ve geri dönüşü yoktur.') }}" } },
+        { "@type": "Question", "name": "{{ _('KVKK ve GDPR\'a uyumlu musunuz?') }}", "acceptedAnswer": { "@type": "Answer", "text": "{{ _('Evet. KeyCord, 6698 sayılı KVKK ve AB GDPR kapsamındaki yükümlülüklere uygun şekilde tasarlanmıştır.') }}" } },
+        { "@type": "Question", "name": "{{ _('Şifreleme nasıl çalışıyor?') }}", "acceptedAnswer": { "@type": "Answer", "text": "{{ _('Her oturum için benzersiz şifreleme anahtarları üretilir. Anahtar değişimi X25519 ve ML-KEM-768 kuantum sonrası (post-quantum) algoritmalarıyla yapılır. Mesajlar yalnızca konuşmaya dahil olan tarafların cihazlarında çözülebilir; sunucu bu anahtarlara sahip değildir.') }}" } },
+        { "@type": "Question", "name": "{{ _('Zero-knowledge mimarisi ne anlama geliyor?') }}", "acceptedAnswer": { "@type": "Answer", "text": "{{ _('Sıfır bilgi mimarisi, platformun kullanıcı şifrelerine ve mesaj içeriklerine hiçbir şekilde erişemeyeceği anlamına gelir.') }}" } },
+        { "@type": "Question", "name": "{{ _('Trafik analizinden korunuyor muyum?') }}", "acceptedAnswer": { "@type": "Answer", "text": "{{ _('Evet. KeyCord sabit boyutlu paketler kullanır ve mesaj iletiminde rastgele gecikmeler uygulayabilir.') }}" } },
+        { "@type": "Question", "name": "{{ _('Sunucunuz ele geçirilse ne olur?') }}", "acceptedAnswer": { "@type": "Answer", "text": "{{ _('Sunucuda yalnızca şifreli, okunamaz veri bulunur. Anahtarlar sunucuda tutulmadığından, ele geçirme durumunda mesaj içeriklerine ulaşmak teknik olarak mümkün değildir.') }}" } },
+        { "@type": "Question", "name": "{{ _('Man-in-the-middle saldırılarına karşı korumalı mı?') }}", "acceptedAnswer": { "@type": "Answer", "text": "{{ _('Evet. Uçtan uca şifreleme, araya girme saldırılarına karşı temel koruma sağlar. Bağlantılar TLS ile de güvence altına alınmaktadır.') }}" } },
+        { "@type": "Question", "name": "{{ _('Oturum anahtarları ne kadar süre geçerli?') }}", "acceptedAnswer": { "@type": "Answer", "text": "{{ _('Anahtarlar oturuma özeldir. Her yeni oturumda yeni anahtarlar üretilir; bu sayede forward secrecy sağlanır.') }}" } },
+        { "@type": "Question", "name": "{{ _('Sunucunun gerçek IP adresi gizli mi?') }}", "acceptedAnswer": { "@type": "Answer", "text": "{{ _('Evet. Cloudflare Tunnel kullanımı sayesinde sunucunun gerçek IP adresi dışarıya açık değildir.') }}" } },
+        { "@type": "Question", "name": "{{ _('Tor üzerinden KeyCord\'a erişebilir miyim?') }}", "acceptedAnswer": { "@type": "Answer", "text": "{{ _('Evet. KeyCord, .onion adresi üzerinden Tor ağıyla erişimi destekler. Bu yöntem tam ağ anonimliği sağlar.') }}" } },
+        { "@type": "Question", "name": "{{ _('Normal web ile Tor erişimi arasındaki fark nedir?') }}", "acceptedAnswer": { "@type": "Answer", "text": "{{ _('Normal web erişiminde Cloudflare bağlantı verilerini görebilir. Tor üzerinden erişimde ise ağ katmanında tam anonimlik sağlanır.') }}" } },
+        { "@type": "Question", "name": "{{ _('Tor kullanmak zorunda mıyım?') }}", "acceptedAnswer": { "@type": "Answer", "text": "{{ _('Hayır. Normal tarayıcı ile de erişebilirsiniz. Ancak maksimum anonimlik istiyorsanız Tor önerilir.') }}" } },
+        { "@type": "Question", "name": "{{ _('Tor üzerinde performans nasıl?') }}", "acceptedAnswer": { "@type": "Answer", "text": "{{ _('Tor\'un yapısı gereği bağlantı hızı normal web\'e kıyasla daha yavaş olabilir. Bu Tor ağının genel bir özelliğidir.') }}" } },
+        { "@type": "Question", "name": "{{ _('Kayıt olmak için e-posta gerekiyor mu?') }}", "acceptedAnswer": { "@type": "Answer", "text": "{{ _('Hayır. KeyCord, kimlik doğrulama için e-posta veya telefon numarası gibi kişisel veri talep etmez.') }}" } },
+        { "@type": "Question", "name": "{{ _('Şifremi unutursam ne olur?') }}", "acceptedAnswer": { "@type": "Answer", "text": "{{ _('Sıfır bilgi mimarisi nedeniyle şifre sıfırlama geleneksel yöntemlerle mümkün olmayabilir.') }}" } },
+        { "@type": "Question", "name": "{{ _('Hesabımı nasıl silerim?') }}", "acceptedAnswer": { "@type": "Answer", "text": "{{ _('Hesap silmek için profil sayfanızdan işleminizi gerçekleştirebilirsiniz.') }}" } },
+        { "@type": "Question", "name": "{{ _('KeyCord hangi altyapı üzerinde çalışıyor?') }}", "acceptedAnswer": { "@type": "Answer", "text": "{{ _('KeyCord, Cloudflare Tunnel ile korunan ve gerçek IP\'si gizli bir sunucu üzerinde çalışmaktadır.') }}" } },
+        { "@type": "Question", "name": "{{ _('Verilerim hangi ülkede saklanıyor?') }}", "acceptedAnswer": { "@type": "Answer", "text": "{{ _('Sunucu fiziksel olarak Türkiye\'de bulunmaktadır. Veriler herhangi bir şahsa, kuruma ve kuruluşa aktarılmamaktadır.') }}" } },
+        { "@type": "Question", "name": "{{ _('Cloudflare\'in verilerime erişimi var mı?') }}", "acceptedAnswer": { "@type": "Answer", "text": "{{ _('Cloudflare, ağ trafiğini görür; ancak mesaj içerikleri uçtan uca şifreli olduğundan Cloudflare de dahil hiçbir aracı tarafından okunamaz.') }}" } },
+        { "@type": "Question", "name": "{{ _('Bir güvenlik açığı bulursam ne yapmalıyım?') }}", "acceptedAnswer": { "@type": "Answer", "text": "{{ _('Lütfen bulguyu sorumlu ifşa ilkesiyle privacy@keycord.org adresine bildirin. Güvenlik raporları öncelikli olarak değerlendirilir.') }}" } }
+    ]
+}
+</script>
 {% endblock %}
 
 {% block scripts %}

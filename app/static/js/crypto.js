@@ -9,7 +9,7 @@ const KEYCORD_CRYPTO = {
     AES_KEY_SIZE: 32, // 256 bits
     IV_SIZE: 12,      // 96 bits for GCM
     TAG_SIZE: 16,     // 128 bits authentication tag
-    PADDING_SIZE: 128, // 1024 bits (Fixed packet size)
+    PADDING_SIZE: 4096, // 32768 bits (Fixed packet size)
 
     // Bridge Detection
     getBridge: () => {
@@ -28,22 +28,31 @@ const KEYCORD_CRYPTO = {
         bufferToUtf8: (buf) => buf.toString('utf8'),
         randomBytes: (length) => forge.random.getBytesSync(length),
         randomSalt: () => window.btoa(forge.random.getBytesSync(16)),
+        strToBytes: (str) => Uint8Array.from(str, c => c.charCodeAt(0)),
+        bytesToStr: (bytes) => String.fromCharCode(...bytes),
+        b64ToBytes: (b64) => Uint8Array.from(window.atob(b64), c => c.charCodeAt(0)),
+        bytesToB64: (bytes) => window.btoa(String.fromCharCode(...bytes)),
         padMessage: (text) => {
             const buf = forge.util.createBuffer(text, 'utf8');
             const data = buf.getBytes();
             const len = data.length;
-            if (len > (KEYCORD_CRYPTO.PADDING_SIZE - 2)) {
-                console.warn("Message too long for 1024-bit patch size.");
+            const maxLen = KEYCORD_CRYPTO.PADDING_SIZE - 2;
+            if (len > maxLen) {
+                throw new Error("Mesaj çok uzun. Maksimum " + maxLen + " byte.");
             }
             const header = String.fromCharCode((len >> 8) & 0xFF, len & 0xFF);
             const padded = header + data;
             const remaining = KEYCORD_CRYPTO.PADDING_SIZE - padded.length;
-            if (remaining > 0) return padded + forge.random.getBytesSync(remaining);
-            return padded;
+            return padded + forge.random.getBytesSync(remaining);
         },
         unpadMessage: (padded) => {
             const len = (padded.charCodeAt(0) << 8) | padded.charCodeAt(1);
-            return padded.substring(2, 2 + len);
+            const bytes = padded.substring(2, 2 + len);
+            const uint8 = new Uint8Array(bytes.length);
+            for (let i = 0; i < bytes.length; i++) {
+                uint8[i] = bytes.charCodeAt(i);
+            }
+            return new TextDecoder('utf-8').decode(uint8);
         }
     },
 
@@ -146,28 +155,27 @@ const KEYCORD_CRYPTO = {
                 const myX25519PrivB64 = localStorage.getItem('kc_x25519_priv');
                 if (myX25519PrivB64 && recipientPublicKeyBase64) {
                     const encryptX25519 = async () => {
-                        const privKeyBuf = Uint8Array.from(atob(myX25519PrivB64), c => c.charCodeAt(0)).buffer;
-                        const pubKeyBuf = Uint8Array.from(atob(recipientPublicKeyBase64), c => c.charCodeAt(0)).buffer;
+                        const privKeyBytes = Uint8Array.from(atob(myX25519PrivB64), c => c.charCodeAt(0));
+                        const pubKeyBytes = Uint8Array.from(atob(recipientPublicKeyBase64), c => c.charCodeAt(0));
 
-                        const importedPriv = await crypto.subtle.importKey("raw", privKeyBuf, { name: "X25519" }, false, ["deriveBits"]);
-                        const importedPub = await crypto.subtle.importKey("raw", pubKeyBuf, { name: "X25519" }, false, []);
-
-                        const sharedSecret = await crypto.subtle.deriveBits({ name: "X25519", public: importedPub }, importedPriv, 256);
+                        const sharedSecret = window.X25519.sharedSecret(privKeyBytes, pubKeyBytes);
                         const aesKey = await crypto.subtle.importKey("raw", sharedSecret.slice(0, 32), { name: "AES-GCM" }, false, ["encrypt"]);
 
                         const nonce = crypto.getRandomValues(new Uint8Array(12));
 
-                        // Padding (128 bytes)
+                        // Padding (Fixed packet size)
                         const encoder = new TextEncoder();
                         const data = encoder.encode(messageText);
                         const msgLen = data.length;
-                        const padded = new Uint8Array(128);
+                        const maxLen = KEYCORD_CRYPTO.PADDING_SIZE - 2;
+                        if (msgLen > maxLen) {
+                            throw new Error("Mesaj çok uzun. Maksimum " + maxLen + " byte.");
+                        }
+                        const padded = new Uint8Array(KEYCORD_CRYPTO.PADDING_SIZE);
                         padded[0] = (msgLen >> 8) & 0xFF;
                         padded[1] = msgLen & 0xFF;
                         padded.set(data, 2);
-                        if (msgLen < 126) {
-                            crypto.getRandomValues(padded.subarray(2 + msgLen));
-                        }
+                        crypto.getRandomValues(padded.subarray(2 + msgLen));
 
                         const encrypted = await crypto.subtle.encrypt({ name: "AES-GCM", iv: nonce }, aesKey, padded);
                         return {
@@ -226,13 +234,10 @@ const KEYCORD_CRYPTO = {
                 // This requires myPrivateKeyBase64 to be an X25519 private key (raw bytes base64)
                 // and senderPublicKeyBase64 to be an X25519 public key.
                 const decryptX25519 = async () => {
-                    const privKeyBuf = Uint8Array.from(atob(myPrivateKeyBase64), c => c.charCodeAt(0)).buffer;
-                    const pubKeyBuf = Uint8Array.from(atob(peerPublicKeyBase64), c => c.charCodeAt(0)).buffer;
+                    const privKeyBytes = Uint8Array.from(atob(myPrivateKeyBase64), c => c.charCodeAt(0));
+                    const pubKeyBytes = Uint8Array.from(atob(peerPublicKeyBase64), c => c.charCodeAt(0));
 
-                    const importedPriv = await crypto.subtle.importKey("raw", privKeyBuf, { name: "X25519" }, false, ["deriveBits"]);
-                    const importedPub = await crypto.subtle.importKey("raw", pubKeyBuf, { name: "X25519" }, false, []);
-
-                    const sharedSecret = await crypto.subtle.deriveBits({ name: "X25519", public: importedPub }, importedPriv, 256);
+                    const sharedSecret = window.X25519.sharedSecret(privKeyBytes, pubKeyBytes);
 
                     // HKDF-like derivation (simplified to match native's Simple derivation if native doesn't use HKDF)
                     // Native (Android) currently uses first 32 bytes of shared secret.
@@ -265,6 +270,9 @@ const KEYCORD_CRYPTO = {
     },
 
     encryptGroupMessage: async (messageText, publicKeysMap) => {
+        if (KEYCORD_CRYPTO.hybrid.available()) {
+            return await KEYCORD_CRYPTO.encryptGroupMessageHybrid(messageText, publicKeysMap);
+        }
         const aesKey = KEYCORD_CRYPTO.utils.randomBytes(KEYCORD_CRYPTO.AES_KEY_SIZE);
         const iv = KEYCORD_CRYPTO.utils.randomBytes(KEYCORD_CRYPTO.IV_SIZE);
         const cipher = forge.cipher.createCipher('AES-GCM', aesKey);
@@ -272,7 +280,10 @@ const KEYCORD_CRYPTO = {
         cipher.update(forge.util.createBuffer(KEYCORD_CRYPTO.utils.padMessage(messageText)));
         cipher.finish();
         const encryptedKeysMap = {};
-        for (const [userId, pubKeyB64] of Object.entries(publicKeysMap)) {
+        const getRsa = (v) => typeof v === 'string' ? v : ((v && v.public_key) || null);
+        for (const [userId, value] of Object.entries(publicKeysMap)) {
+            const pubKeyB64 = getRsa(value);
+            if (!pubKeyB64) continue;
             try {
                 const encryptedKey = KEYCORD_CRYPTO.importPublicKey(pubKeyB64).encrypt(aesKey, 'RSA-OAEP', { md: forge.md.sha256.create() });
                 encryptedKeysMap[userId] = window.btoa(encryptedKey);
@@ -285,6 +296,199 @@ const KEYCORD_CRYPTO = {
         const keysMap = JSON.parse(encryptedKeysJson);
         const myEncryptedKeyBase64 = keysMap[String(myUserId)];
         if (!myEncryptedKeyBase64) throw new Error("No key found");
+        if (KEYCORD_CRYPTO.isHybridEnvelope(myEncryptedKeyBase64)) {
+            return await KEYCORD_CRYPTO.decryptMessageHybrid(encryptedContentBase64, myEncryptedKeyBase64, ivBase64);
+        }
         return await KEYCORD_CRYPTO.decryptMessage(encryptedContentBase64, myEncryptedKeyBase64, ivBase64, myPrivateKeyBase64);
+    },
+
+    isHybridEnvelope: (value) => {
+        if (!value || typeof value !== 'string') return false;
+        const t = value.trim();
+        return t.startsWith('{') && t.indexOf('"t":"hybrid"') !== -1;
+    },
+
+    encryptMessageHybrid: async (messageText, recipientKeys) => {
+        const aesKey = crypto.getRandomValues(new Uint8Array(KEYCORD_CRYPTO.AES_KEY_SIZE));
+        const iv = crypto.getRandomValues(new Uint8Array(KEYCORD_CRYPTO.IV_SIZE));
+        const aesKeyHandle = await crypto.subtle.importKey("raw", aesKey, { name: "AES-GCM" }, false, ["encrypt"]);
+        const padded = KEYCORD_CRYPTO.hybrid._pad(new TextEncoder().encode(messageText));
+        const encrypted = new Uint8Array(await crypto.subtle.encrypt({ name: "AES-GCM", iv }, aesKeyHandle, padded));
+
+        const eph = window.X25519.generateKeyPair();
+        const ephPubB64 = KEYCORD_CRYPTO.utils.bytesToB64(eph.publicKey);
+        const ephPrivB64 = KEYCORD_CRYPTO.utils.bytesToB64(eph.privateKey);
+
+        const recipEnvelope = await KEYCORD_CRYPTO.hybrid._wrapAesKey(aesKey, recipientKeys, ephPrivB64, ephPubB64);
+
+        const myX = sessionStorage.getItem('kc_x25519_pub');
+        const myM = sessionStorage.getItem('kc_mlkem_pub');
+        let senderEnvelope = null;
+        if (myX && myM) {
+            senderEnvelope = await KEYCORD_CRYPTO.hybrid._wrapAesKey(aesKey, { x25519: myX, mlkem: myM }, ephPrivB64, ephPubB64);
+        }
+
+        return {
+            content: KEYCORD_CRYPTO.utils.bytesToB64(encrypted),
+            iv: KEYCORD_CRYPTO.utils.bytesToB64(iv),
+            encrypted_aes_key: JSON.stringify(recipEnvelope),
+            encrypted_aes_key_sender: senderEnvelope ? JSON.stringify(senderEnvelope) : null,
+            key_type: 'HYBRID'
+        };
+    },
+
+    decryptMessageHybrid: async (encryptedContentBase64, envelopeJson, ivBase64) => {
+        const envelope = JSON.parse(envelopeJson);
+        const aesKey = await KEYCORD_CRYPTO.hybrid._unwrapAesKey(envelope);
+        const aesKeyHandle = await crypto.subtle.importKey("raw", aesKey, { name: "AES-GCM" }, false, ["decrypt"]);
+        const encryptedData = KEYCORD_CRYPTO.utils.b64ToBytes(encryptedContentBase64);
+        const decryptedPadded = new Uint8Array(await crypto.subtle.decrypt({ name: "AES-GCM", iv: KEYCORD_CRYPTO.utils.b64ToBytes(ivBase64) }, aesKeyHandle, encryptedData));
+        return KEYCORD_CRYPTO.hybrid._unpad(decryptedPadded);
+    },
+
+    encryptGroupMessageHybrid: async (messageText, publicKeysMap) => {
+        const aesKey = crypto.getRandomValues(new Uint8Array(KEYCORD_CRYPTO.AES_KEY_SIZE));
+        const iv = crypto.getRandomValues(new Uint8Array(KEYCORD_CRYPTO.IV_SIZE));
+        const aesKeyHandle = await crypto.subtle.importKey("raw", aesKey, { name: "AES-GCM" }, false, ["encrypt"]);
+        const padded = KEYCORD_CRYPTO.hybrid._pad(new TextEncoder().encode(messageText));
+        const encrypted = new Uint8Array(await crypto.subtle.encrypt({ name: "AES-GCM", iv }, aesKeyHandle, padded));
+
+        const eph = window.X25519.generateKeyPair();
+        const ephPubB64 = KEYCORD_CRYPTO.utils.bytesToB64(eph.publicKey);
+        const ephPrivB64 = KEYCORD_CRYPTO.utils.bytesToB64(eph.privateKey);
+
+        const encryptedKeysMap = {};
+        for (const [userId, value] of Object.entries(publicKeysMap)) {
+            try {
+                const member = (typeof value === 'string') ? { public_key: value } : (value || {});
+                if (member.x25519 && member.mlkem) {
+                    const env = await KEYCORD_CRYPTO.hybrid._wrapAesKey(aesKey, { x25519: member.x25519, mlkem: member.mlkem }, ephPrivB64, ephPubB64);
+                    encryptedKeysMap[userId] = JSON.stringify(env);
+                } else if (member.public_key) {
+                    const encryptedKey = KEYCORD_CRYPTO.importPublicKey(member.public_key).encrypt(KEYCORD_CRYPTO.utils.bytesToStr(aesKey), 'RSA-OAEP', { md: forge.md.sha256.create() });
+                    encryptedKeysMap[userId] = window.btoa(encryptedKey);
+                }
+            } catch (e) { console.error(e); }
+        }
+        return { content: KEYCORD_CRYPTO.utils.bytesToB64(encrypted), iv: KEYCORD_CRYPTO.utils.bytesToB64(iv), encrypted_keys_json: JSON.stringify(encryptedKeysMap), key_type: 'HYBRID' };
+    },
+
+    // ═══ Hibrit (X25519 + ML-KEM-768) Post-Quantum Altyapı ═══
+    hybrid: {
+        available: () => (typeof window !== 'undefined') && window.mlkem_ready === true && typeof window.X25519 !== 'undefined' && typeof crypto !== 'undefined' && !!crypto.subtle,
+
+        _concat: (...arrays) => {
+            const total = arrays.reduce((acc, a) => acc + a.length, 0);
+            const out = new Uint8Array(total);
+            let off = 0;
+            for (const a of arrays) { out.set(a, off); off += a.length; }
+            return out;
+        },
+
+        _pad: (dataBytes) => {
+            const msgLen = dataBytes.length;
+            const maxLen = KEYCORD_CRYPTO.PADDING_SIZE - 2;
+            if (msgLen > maxLen) throw new Error("Mesaj çok uzun. Maksimum " + maxLen + " byte.");
+            const padded = new Uint8Array(KEYCORD_CRYPTO.PADDING_SIZE);
+            padded[0] = (msgLen >> 8) & 0xFF;
+            padded[1] = msgLen & 0xFF;
+            padded.set(dataBytes, 2);
+            crypto.getRandomValues(padded.subarray(2 + msgLen));
+            return padded;
+        },
+
+        _unpad: (paddedBytes) => {
+            const len = (paddedBytes[0] << 8) | paddedBytes[1];
+            const slice = paddedBytes.slice(2, 2 + len);
+            return new TextDecoder('utf-8').decode(slice);
+        },
+
+        generateX25519KeyPair: async () => {
+            const { publicKey, privateKey } = window.X25519.generateKeyPair();
+            return {
+                x25519Public: KEYCORD_CRYPTO.utils.bytesToB64(publicKey),
+                x25519Private: KEYCORD_CRYPTO.utils.bytesToB64(privateKey)
+            };
+        },
+
+        generateMlkemKeyPair: async () => {
+            const { publicKey, privateKey } = await window.mlkem.generateKey("ML-KEM-768", true, ["encapsulateKey", "encapsulateBits", "decapsulateKey", "decapsulateBits"]);
+            const pub = new Uint8Array(await window.mlkem.exportKey("raw-public", publicKey));
+            const seed = new Uint8Array(await window.mlkem.exportKey("raw-seed", privateKey));
+            return {
+                mlkemPublic: KEYCORD_CRYPTO.utils.bytesToB64(pub),
+                mlkemPrivateSeed: KEYCORD_CRYPTO.utils.bytesToB64(seed)
+            };
+        },
+
+        generateKeyPair: async () => {
+            const x = await KEYCORD_CRYPTO.hybrid.generateX25519KeyPair();
+            const m = await KEYCORD_CRYPTO.hybrid.generateMlkemKeyPair();
+            return Object.assign({}, x, m, { keyType: 'HYBRID' });
+        },
+
+        _deriveWrapKey: async (ikmBytes, saltBytes) => {
+            const baseKey = await crypto.subtle.importKey("raw", ikmBytes, "HKDF", false, ["deriveKey"]);
+            return await crypto.subtle.deriveKey(
+                { name: "HKDF", hash: "SHA-256", salt: saltBytes, info: KEYCORD_CRYPTO.utils.strToBytes("KeyCord-hybrid-v1") },
+                baseKey,
+                { name: "AES-GCM", length: 256 },
+                false,
+                ["encrypt", "decrypt"]
+            );
+        },
+
+        _encapsulate: async (ephemeralPrivB64, recipientX25519B64, recipientMlkemB64) => {
+            const x25519Shared = window.X25519.sharedSecret(
+                KEYCORD_CRYPTO.utils.b64ToBytes(ephemeralPrivB64),
+                KEYCORD_CRYPTO.utils.b64ToBytes(recipientX25519B64)
+            );
+
+            const recipMlkemPub = await window.mlkem.importKey("raw-public", KEYCORD_CRYPTO.utils.b64ToBytes(recipientMlkemB64), "ML-KEM-768", true, ["encapsulateKey", "encapsulateBits"]);
+            const mlkem = await window.mlkem.encapsulateBits("ML-KEM-768", recipMlkemPub);
+
+            return {
+                x25519Shared: x25519Shared,
+                mlkemShared: new Uint8Array(mlkem.sharedKey),
+                ciphertext: new Uint8Array(mlkem.ciphertext)
+            };
+        },
+
+        _wrapAesKey: async (aesKeyBytes, recipientKeys, ephemeralPrivB64, ephPubB64) => {
+            const shared = await KEYCORD_CRYPTO.hybrid._encapsulate(ephemeralPrivB64, recipientKeys.x25519, recipientKeys.mlkem);
+            const ikm = KEYCORD_CRYPTO.hybrid._concat(shared.x25519Shared, shared.mlkemShared);
+            const wrapKey = await KEYCORD_CRYPTO.hybrid._deriveWrapKey(ikm, KEYCORD_CRYPTO.utils.b64ToBytes(ephPubB64));
+            const wiv = crypto.getRandomValues(new Uint8Array(KEYCORD_CRYPTO.IV_SIZE));
+            const wrapped = new Uint8Array(await crypto.subtle.encrypt({ name: "AES-GCM", iv: wiv }, wrapKey, aesKeyBytes));
+            return {
+                v: 1,
+                t: "hybrid",
+                epk: ephPubB64,
+                ct: KEYCORD_CRYPTO.utils.bytesToB64(shared.ciphertext),
+                wiv: KEYCORD_CRYPTO.utils.bytesToB64(wiv),
+                c: KEYCORD_CRYPTO.utils.bytesToB64(wrapped)
+            };
+        },
+
+        _unwrapAesKey: async (envelope) => {
+            const ephPubB64 = envelope.epk;
+            const myX25519PrivB64 = sessionStorage.getItem('kc_x25519_priv');
+            const myMlkemPrivB64 = sessionStorage.getItem('kc_mlkem_priv');
+            if (!myX25519PrivB64 || !myMlkemPrivB64) throw new Error("Hibrit özel anahtarlar oturumda yok.");
+
+            const x25519Shared = window.X25519.sharedSecret(
+                KEYCORD_CRYPTO.utils.b64ToBytes(myX25519PrivB64),
+                KEYCORD_CRYPTO.utils.b64ToBytes(ephPubB64)
+            );
+
+            const myMlkemPriv = await window.mlkem.importKey("raw-seed", KEYCORD_CRYPTO.utils.b64ToBytes(myMlkemPrivB64), "ML-KEM-768", true, ["decapsulateKey", "decapsulateBits"]);
+            const mlkemShared = new Uint8Array(await window.mlkem.decapsulateBits("ML-KEM-768", myMlkemPriv, KEYCORD_CRYPTO.utils.b64ToBytes(envelope.ct)));
+
+            const ikm = KEYCORD_CRYPTO.hybrid._concat(x25519Shared, mlkemShared);
+            const wrapKey = await KEYCORD_CRYPTO.hybrid._deriveWrapKey(ikm, KEYCORD_CRYPTO.utils.b64ToBytes(ephPubB64));
+            const wrapped = KEYCORD_CRYPTO.utils.b64ToBytes(envelope.c);
+            const aesKey = await crypto.subtle.decrypt({ name: "AES-GCM", iv: KEYCORD_CRYPTO.utils.b64ToBytes(envelope.wiv) }, wrapKey, wrapped);
+            return new Uint8Array(aesKey);
+        }
     }
 };

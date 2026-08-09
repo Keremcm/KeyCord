@@ -111,7 +111,8 @@
 
     <div class="policy-content" style="margin-bottom: 2rem;">
         <p>
-            {{ _('KeyCord platformu, kullanıcı mahremiyetini en üst düzeyde tutmak amacıyla <strong>Uçtan Uca Şifreleme
+            {{ _('KeyCord platformu, kullanıcı mahremiyetini en üst düzeyde tutmak amacıyla <strong>Kuantum Sonrası
+                (Post-Quantum) Uçtan Uca Şifreleme
                 (E2EE - End-to-End Encryption)</strong> ve <strong>Sıfır Bilgi (Zero-Knowledge)</strong> mimarisi
             üzerine inşa edilmiştir. Bu mimari, verilerinizin güvenliğini sağlarken aynı zamanda verilerin imhası ve
             erişilebilirliği konusunda belirli teknik kısıtları da beraberinde getirmektedir.') }}
@@ -119,12 +120,13 @@
     </div>
 
     <!-- 1. Şifreleme Mimarisi ve Erişim -->
-    <div class="policy-section">
+    <div class="policy-section" data-reveal>
         <h2 class="section-title">{{ _('1. Şifreleme Mimarisi ve Veri Erişimi') }}</h2>
         <div class="policy-content">
             <p>
                 {{ _('KeyCord platformunda yapılan mesajlaşmalar ve paylaşılan içerikler, gönderici ve alıcının
-                cihazlarında oluşturulan benzersiz şifreleme anahtarları ile korunmaktadır.') }}
+                cihazlarında oluşturulan benzersiz X25519 ve ML-KEM-768 kuantum sonrası hibrit şifreleme anahtarları
+                ile korunmaktadır.') }}
             </p>
             <ul class="legal-list-bullet">
                 <li>{{ _('<strong>Sıfır Bilgi:</strong> KeyCord sunucuları, şifrelenmiş mesaj içeriklerini (ciphertext)
@@ -138,7 +140,7 @@
     </div>
 
     <!-- 2. Hesap Silme ve Veri İmhası -->
-    <div class="policy-section">
+    <div class="policy-section" data-reveal>
         <h2 class="section-title">{{ _('2. Hesap Silme ve Veri İmhası') }}</h2>
         <div class="policy-content">
             <p>
@@ -160,7 +162,7 @@
     </div>
 
     <!-- 3. Teknik Sınırlar ve Beyan -->
-    <div class="policy-section">
+    <div class="policy-section" data-reveal>
         <h2 class="section-title">{{ _('3. Teknik Sınırlar ve Kullanıcı Beyanı') }}</h2>
         <div class="policy-content">
             <div class="highlight-box">

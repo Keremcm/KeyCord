@@ -3,6 +3,9 @@ import json
 import hashlib
 import secrets
 import time
+import os
+import threading
+import concurrent.futures
 import requests
 from functools import wraps
 from flask import request, jsonify, session, current_app, g, redirect, flash
@@ -18,6 +21,83 @@ from logging.handlers import RotatingFileHandler
 rate_limit_store = defaultdict(list)
 failed_login_attempts = defaultdict(int)
 failed_login_timestamps = defaultdict(list)
+
+
+# ── Hızlı In-Memory Per-IP Kapıları (DB yazmadan önce) ──────────────
+class MemoryRateLimiter:
+    """Sabit pencere bazlı, DB'ye hiç yazmayan per-IP hızlı kapı.
+
+    Amacı: normal trafikte DB'ye satır yazmadan istek akışını süzmek;
+    yalnızca pencere dolduğunda kalıcı DB kontrolüne (rate_limit_check)
+    geçmek. Böylece tek bir IP'nin flood'u tüm siteyi SQLite yazma
+    yarışına sokmaz; yavaşlayan yalnızca o IP olur.
+    """
+    MAX_KEYS = 100000  # Bellek güvenliği: aşırı benzersiz IP'de kovayı sıfırla
+
+    def __init__(self, max_requests, window_seconds):
+        self.max_requests = max_requests
+        self.window_seconds = window_seconds
+        self._records = defaultdict(list)
+        self._lock = threading.Lock()
+
+    def _prune(self, key, now):
+        bucket = self._records.get(key)
+        if bucket is None:
+            return []
+        alive = [t for t in bucket if now - t < self.window_seconds]
+        if alive:
+            self._records[key] = alive
+        else:
+            self._records.pop(key, None)
+        return alive
+
+    def allow(self, key):
+        now = time.time()
+        with self._lock:
+            if len(self._records) > self.MAX_KEYS:
+                self._records.clear()
+            bucket = self._prune(key, now)
+            if len(bucket) >= self.max_requests:
+                return False
+            bucket.append(now)
+            self._records[key] = bucket
+            return True
+
+    def peek(self, key):
+        now = time.time()
+        with self._lock:
+            bucket = self._prune(key, now)
+            return len(bucket) < self.max_requests
+
+    def reset(self, key):
+        with self._lock:
+            self._records.pop(key, None)
+
+
+# ── CPU-Yoğun İşlem Havuzu (eventlet döngüsünü bloklamamak için) ────
+_cpu_executor = None
+
+def run_cpu_bound(func, *args, **kwargs):
+    """CPU-yoğun işlemleri eventlet döngüsünden gerçek OS thread'ine taşır.
+
+    eventlet aktifken (monkey-patch yapılmışsa) döngüyü bloklamamak için
+    eventlet.tpool kullanılır; değilse concurrent.futures executor devreye
+    girer. PBKDF2 gibi işlemler tek thread'de koştuğunda tüm siteyi
+    dondurduğu için login/register akışında kullanılmalıdır.
+    """
+    global _cpu_executor
+    try:
+        import eventlet
+        if eventlet.patcher.original:
+            return eventlet.tpool.execute(func, *args, **kwargs)
+    except Exception:
+        pass
+
+    if _cpu_executor is None:
+        _cpu_executor = concurrent.futures.ThreadPoolExecutor(
+            max_workers=4, thread_name_prefix='cpu'
+        )
+    return _cpu_executor.submit(func, *args, **kwargs).result()
 
 # Güvenlik konfigürasyonu
 SECURITY_CONFIG = {
@@ -56,17 +136,69 @@ SECURITY_CONFIG = {
     ]
 }
 
+# Genel istek akışı için per-IP hızlı kapı (DB cap ile senkron, 400/dk)
+memory_global_limiter = MemoryRateLimiter(
+    max_requests=SECURITY_CONFIG['MAX_REQUESTS_PER_WINDOW'],
+    window_seconds=SECURITY_CONFIG['RATE_LIMIT_WINDOW']
+)
+# Login/register flood'unu DB'ye taşımadan durduran per-IP hızlı kapılar
+memory_login_limiter = MemoryRateLimiter(max_requests=15, window_seconds=60)
+memory_register_limiter = MemoryRateLimiter(max_requests=6, window_seconds=60)
+
+# ── AI Bot Whitelist ────────────────────────────────────────────────
+# User-Agent içinde bu stringlerden herhangi biri geçen istekler
+# public sayfalarda tüm güvenlik kontrollerinden (rate-limit, IP ban,
+# CSRF, session kontrolü) tamamen muaf tutulur.
+# Büyük/küçük harf duyarsız substring eşleşmesi yapılır.
+BOT_WHITELIST = [
+    'google', 'chatgpt', 'claude', 'anthropic',
+    'GPTBot', 'ChatGPT-User', 'OAI-SearchBot',
+    'ClaudeBot', 'Claude-Web', 'anthropic-ai',
+    'Gemini', 'Googlebot', 'Google-Read-Aloud', 'AdsBot-Google',
+    'DeepSeek', 'Bytespider', 'PerplexityBot',
+    'Amazonbot', 'Applebot',
+]
+
+PUBLIC_PATHS = frozenset({
+    '/', '/login', '/register', '/forgot-password',
+    '/help-center', '/faq', '/contact',
+    '/privacy-policy', '/terms-of-service', '/gdpr', '/kvkk',
+    '/canary', '/hall-of-fame', '/careers',
+    '/sitemap.xml', '/robots.txt', '/security.txt',
+})
+
+def is_allowed_bot(user_agent):
+    """User-Agent içindeki bot whitelist eşleşmesini kontrol eder (case-insensitive)."""
+    if not user_agent:
+        return False
+    ua_lower = user_agent.lower()
+    return any(bot.lower() in ua_lower for bot in BOT_WHITELIST)
+
+def is_bot_on_public_page():
+    """Whitelist'teki bir bot public sayfada mı diye kontrol eder."""
+    from flask import request
+    ua = request.headers.get('User-Agent', '')
+    path = request.path.rstrip('/') or '/'
+    if not is_allowed_bot(ua):
+        return False
+    if path in PUBLIC_PATHS:
+        return True
+    if path.startswith('/') and path.split('/')[0] in PUBLIC_PATHS:
+        return False
+    return path in PUBLIC_PATHS
+
 def setup_security_logging():
     """Güvenlik logları için özel logger kurulumu"""
     security_logger = logging.getLogger('security')
     security_logger.setLevel(logging.INFO)
+    security_logger.propagate = False  # Root logger'a (terminal) yansıma
     
     if not security_logger.handlers:
-        # 10MB boyuta ulaşınca rotasyon yap, en fazla 5 yedek tut
-        handler = RotatingFileHandler('security.log', maxBytes=10*1024*1024, backupCount=5)
-        formatter = logging.Formatter(
-            '%(asctime)s - %(levelname)s - %(message)s'
-        )
+        log_dir = os.path.join(os.path.dirname(__file__), "logs")
+        os.makedirs(log_dir, exist_ok=True)
+        log_path = os.path.join(log_dir, "security.log")
+        handler = RotatingFileHandler(log_path, maxBytes=10*1024*1024, backupCount=5, encoding="utf-8")
+        formatter = logging.Formatter('%(message)s')
         handler.setFormatter(formatter)
         security_logger.addHandler(handler)
     
@@ -183,6 +315,50 @@ def check_ban_cookie():
     """Banned çerezi kontrolü"""
     return request.cookies.get('kcord_status') == 'banned'
 
+def _parse_banned_line(line):
+    """banned_ips.txt satırını (ip, reason) olarak ayrıştırır. Geçersizse (None, None)."""
+    import ipaddress
+    line = line.strip()
+    if not line or line.startswith('#'):
+        return None, None
+    ip, sep, reason = line.partition('|')
+    ip = ip.strip()
+    try:
+        ipaddress.ip_address(ip)
+    except ValueError:
+        return None, None
+    return ip, (reason.strip() if sep else None)
+
+
+_banned_entries_cache = {"mtime": None, "entries": []}
+
+
+def load_banned_entries():
+    """banned_ips.txt içindeki (ip, reason) girdilerini listeler.
+
+    Dosyanın mtime'ı değişmediği sürece önbellekli döner; dosya değişirse
+    bir sonraki çağrıda taze olarak yeniden parse edilir (anlık güncel).
+    """
+    import os
+    banned_file = os.path.join(os.getcwd(), 'banned_ips.txt')
+    try:
+        mtime = os.path.getmtime(banned_file)
+    except OSError:
+        mtime = None
+    if _banned_entries_cache["mtime"] == mtime:
+        return _banned_entries_cache["entries"]
+    entries = []
+    if mtime is not None:
+        with open(banned_file, 'r') as f:
+            for line in f:
+                ip, reason = _parse_banned_line(line)
+                if ip:
+                    entries.append((ip, reason))
+    _banned_entries_cache["mtime"] = mtime
+    _banned_entries_cache["entries"] = entries
+    return entries
+
+
 class DynamicBlockedIPs(set):
     """Dosya değişimini (mtime) izleyen ve güncellendiğinde kendini otomatik yenileyen dinamik IP listesi"""
     def __init__(self):
@@ -202,8 +378,7 @@ class DynamicBlockedIPs(set):
         try:
             mtime = os.path.getmtime(self._filepath)
             if mtime > self._last_mtime:
-                with open(self._filepath, 'r') as f:
-                    ips = set(line.strip() for line in f if line.strip())
+                ips = {ip for ip, _ in load_banned_entries()}
                 super().clear()
                 super().update(ips)
                 self._last_mtime = mtime
@@ -237,13 +412,16 @@ def load_banned_ips():
     return DynamicBlockedIPs()
 
 
-def save_banned_ip(ip):
-    """IP'yi dosyaya kalıcı olarak kaydet"""
+def save_banned_ip(ip, reason=None):
+    """IP'yi dosyaya kalıcı olarak kaydet (opsiyonel sebeple: `IP | sebep`)"""
     import os
     banned_file = os.path.join(os.getcwd(), 'banned_ips.txt')
     try:
         with open(banned_file, 'a') as f:
-            f.write(f"{ip}\n")
+            if reason:
+                f.write(f"{ip} | {reason}\n")
+            else:
+                f.write(f"{ip}\n")
     except Exception:
         pass
 
@@ -349,7 +527,7 @@ def rate_limit_check(identifier, max_requests=None, window=None, request_type='g
         db.session.commit()
     except Exception as e:
         db.session.rollback()
-        print(f"RateLimit save error: {e}")
+        logging.error(f"RATE_LIMIT_SAVE_FAILED err={e}")
     
     return True
 
@@ -422,14 +600,16 @@ def generate_secure_token(user_id, additional_data=None):
         'additional_data': additional_data or {}
     }
     
-    secret = current_app.config['SECRET_KEY']
-    return jwt.encode(payload, secret, algorithm='HS256')
+    from .jwt_keys import load_private_key
+    key = load_private_key()
+    return jwt.encode(payload, key, algorithm='EdDSA')
 
 def verify_secure_token(token):
     """Güvenli token doğrulama (Versioning kontrolü dahil)"""
     try:
-        secret = current_app.config['SECRET_KEY']
-        payload = jwt.decode(token, secret, algorithms=['HS256'])
+        from .jwt_keys import load_public_key
+        key = load_public_key()
+        payload = jwt.decode(token, key, algorithms=['EdDSA'])
         
         user_id = payload.get('user_id')
         token_ver = payload.get('token_version')
@@ -572,11 +752,13 @@ def add_security_headers(response):
     response.headers['X-Content-Type-Options'] = 'nosniff'
     response.headers['X-Frame-Options'] = 'DENY'
     response.headers['X-XSS-Protection'] = '1; mode=block'
+    response.headers['Strict-Transport-Security'] = 'max-age=31536000; includeSubDomains'
     
     # CSP: Script'ler için nonce şart, Style'lar için 'unsafe-inline' (Görüntü için serbest)
+    # 'wasm-unsafe-eval': ML-KEM (hibrit X25519) WASM modülünün derlenmesi için gerekli
     csp = (
         f"default-src 'self'; "
-        f"script-src 'self' 'nonce-{nonce}'; "
+        f"script-src 'self' 'nonce-{nonce}' 'wasm-unsafe-eval'; "
         f"style-src 'self' 'unsafe-inline'; "
         f"font-src 'self' data:; "
         f"img-src 'self' data:; "
@@ -615,8 +797,8 @@ def sanitize_message_content(content):
     if not content or len(content.strip()) == 0:
         return None
     
-    # Maksimum mesaj uzunluğu
-    if len(content) > 1000:
+    # Maksimum mesaj uzunluğu (4096B sabit paket + GCM tag → base64 ≈ 5484)
+    if len(content) > 6000:
         return None
     
     # XSS ve injection temizleme

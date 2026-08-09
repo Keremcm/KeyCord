@@ -1,24 +1,85 @@
-from flask import request, g, session, current_app
+from flask import request, g, session, current_app, jsonify
 from functools import wraps
 import time
+import logging
 import magic
 from .security import (
     rate_limit_check, log_security_event, add_security_headers,
     generate_csrf_token, check_login_attempts, record_failed_login,
-    clear_failed_login_attempts, sanitize_input, get_remote_addr
+    clear_failed_login_attempts, sanitize_input, get_remote_addr,
+    is_allowed_bot, PUBLIC_PATHS,
+    memory_global_limiter, memory_login_limiter, memory_register_limiter,
 )
+from .load_manager import load_manager
+
+def load_throttle_middleware(app):
+    """Adaptif yük kısıtlama middleware'i (tıkanma koruması).
+
+    - Statik dosyalar, whitelist botlar ve /load-status muaftır.
+    - Sayfa gezintileri (GET, /api/* hariç) GECİKTİRİLMEZ: yeni ziyaretçi
+      uyarı banner'ını anında görsün; sayfanın yavaş açılması UX'i bozar.
+    - 'warning' → POST ve /api/* istekleri orantılı geciktirilir (banner şablonda).
+    - 'throttled' → gecikme maksimuma çıkar; /api/* istekleri 503 + Retry-After alır,
+      Socket.IO bağlantıları reddedilir.
+    """
+    @app.before_request
+    def throttle_under_load():
+        if request.path.startswith('/static/'):
+            g.load_state = 'ok'
+            return
+
+        # Canlı yük poll'u kısıtlamadan muaf: yük altında bile banner güncel kalır
+        if request.path == '/load-status':
+            return
+
+        ua = request.headers.get('User-Agent', '')
+        path = request.path.rstrip('/') or '/'
+        if path in PUBLIC_PATHS and is_allowed_bot(ua):
+            g.load_state = 'ok'
+            return
+
+        state = load_manager.state()
+        g.load_state = state
+        if state == 'ok':
+            return
+
+        # Sayfa gezintileri geciktirilmez — banner hemen gelsin
+        if request.method == 'GET' and not request.path.startswith('/api/'):
+            return
+
+        delay = load_manager.delay_seconds()
+        if delay > 0:
+            time.sleep(delay)
+
+        if state == 'throttled' and request.path.startswith('/api/'):
+            log_security_event('LOAD_THROTTLED',
+                               f'IP: {get_remote_addr()}, Path: {request.path}')
+            resp = jsonify({'error': 'Ağ yükü arttı, korumak için bekletiyoruz. Lütfen birkaç saniye sonra tekrar deneyin.'})
+            resp.status_code = 503
+            resp.headers['Retry-After'] = str(current_app.config.get('LOAD_API_RETRY_AFTER', 5))
+            return resp
 
 def security_middleware(app):
     """Ana güvenlik middleware'i"""
     
     @app.before_request
     def before_request():
-        # Rate limiting kontrolü
+        # Bot whitelist: public sayfalarda tüm güvenlik kontrollerinden muaf
+        ua = request.headers.get('User-Agent', '')
+        path = request.path.rstrip('/') or '/'
+        if path in PUBLIC_PATHS and is_allowed_bot(ua):
+            return
+        
+        # Rate limiting kontrolü (whitelist dışındakiler için)
         identifier = get_remote_addr()
-        if not rate_limit_check(identifier):
-            print(f"DEBUG: security_middleware rate_limit_check FAILED for {identifier}")
-            log_security_event('RATE_LIMIT_EXCEEDED', f'IP: {identifier}')
-            return {'error': 'Çok fazla istek. Lütfen bekleyin.'}, 429
+        # Hızlı in-memory kapı: normal trafikte DB'ye hiç yazmadan geçer.
+        # Pencere yalnızca doluysa (flood IP) kalıcı DB kontrolüne düşülür;
+        # böylece DB yazımı sadece saldıran IP için gerçekleşir.
+        if not memory_global_limiter.allow(identifier):
+            if not rate_limit_check(identifier):
+                logging.debug(f"RATE_LIMIT_FAILED ip={identifier}")
+                log_security_event('RATE_LIMIT_EXCEEDED', f'IP: {identifier}')
+                return {'error': 'Çok fazla istek. Lütfen bekleyin.'}, 429
         
         # CSRF token oluştur
         if 'csrf_token' not in session:
@@ -75,16 +136,37 @@ def login_security_middleware(app):
     def check_login_security():
         if request.endpoint in ['auth.login_page', 'auth.register']:
             identifier = get_remote_addr()
-            
-            # Login attempt kontrolü
-            if not check_login_attempts(identifier):
-                log_security_event('LOGIN_LOCKOUT', f'IP: {identifier}')
-                return {'error': 'Çok fazla başarısız giriş denemesi. Lütfen 5 dakika bekleyin.'}, 429
+
+            # Whitelist'teki botlar public sayfalarda hızlı kapıdan muaf
+            ua = request.headers.get('User-Agent', '')
+            path = request.path.rstrip('/') or '/'
+            if path in PUBLIC_PATHS and is_allowed_bot(ua):
+                return
+
+            # Yalnızca POST (pahalı yol: PBKDF2 + DB) için hızlı kapılar.
+            # GET istekleri ucuzdur ve yanlış 429 üretmesin diye sayılmaz;
+            # GET flood'u zaten global memory kapı (400/dk) ile sınırlı.
+            if request.method == 'POST':
+                # Hızlı in-memory kapı: login/register flood'u DB'ye taşınmadan durdurulur
+                if request.endpoint == 'auth.register':
+                    if not memory_register_limiter.allow(identifier):
+                        log_security_event('LOGIN_LOCKOUT', f'IP: {identifier}')
+                        return {'error': 'Çok fazla kayıt denemesi. Lütfen 5 dakika bekleyin.'}, 429
+                elif not memory_login_limiter.allow(identifier):
+                    log_security_event('LOGIN_LOCKOUT', f'IP: {identifier}')
+                    return {'error': 'Çok fazla başarısız giriş denemesi. Lütfen 5 dakika bekleyin.'}, 429
+
+                # Kalıcı DB kontrolü (ikinci kapı, yalnızca hızlı kapıdan geçenler için)
+                if not check_login_attempts(identifier):
+                    log_security_event('LOGIN_LOCKOUT', f'IP: {identifier}')
+                    return {'error': 'Çok fazla başarısız giriş denemesi. Lütfen 5 dakika bekleyin.'}, 429
 
 EXCLUDED_FIELDS = {
     'password', 'password_confirm', 'confirm_password', 'token', 
     'encrypted_aes_key', 'encrypted_aes_key_sender', 'encrypted_keys_json', 
-    'iv', 'public_key', 'encrypted_private_key', 'raw_password', 'csrf_token'
+    'iv', 'public_key', 'encrypted_private_key', 'raw_password', 'csrf_token',
+    'public_key_x25519', 'encrypted_private_key_x25519',
+    'public_key_mlkem', 'encrypted_private_key_mlkem'
 }
 
 def input_sanitization_middleware(app):
@@ -101,7 +183,7 @@ def input_sanitization_middleware(app):
                     if isinstance(value, str) and key not in EXCLUDED_FIELDS:
                         sanitized = sanitize_input(value)
                         if sanitized is None:
-                            print(f"DEBUG: input_sanitization_middleware form sanitization FAILED for {key}")
+                            logging.debug(f"INPUT_SANITIZE_FAILED field={key}")
                             log_security_event('MALICIOUS_INPUT', f'Field: {key}, Value: {value[:50]}')
                             return {'error': 'Geçersiz input tespit edildi.'}, 400
                         new_form[key] = sanitized
@@ -115,7 +197,7 @@ def input_sanitization_middleware(app):
                 if data:
                     sanitized_data = sanitize_json_data(data)
                     if sanitized_data is None:
-                        print(f"DEBUG: input_sanitization_middleware JSON sanitization FAILED")
+                        logging.debug("JSON_SANITIZE_FAILED")
                         log_security_event('MALICIOUS_JSON', f'Data: {str(data)[:100]}')
                         return {'error': 'Geçersiz JSON data tespit edildi.'}, 400
                     request._cached_json = (sanitized_data, sanitized_data)
@@ -262,6 +344,12 @@ def socket_security_middleware(socketio):
     
     @socketio.on('connect')
     def handle_connect():
+        # Adaptif yük koruması: aşırı yükte yeni bağlantıları reddet
+        if load_manager.state() == 'throttled':
+            client_ip = get_remote_addr()
+            log_security_event('LOAD_THROTTLED', f'Socket rejected IP: {client_ip}')
+            return False
+
         # Socket bağlantı güvenlik kontrolü
         client_ip = get_remote_addr()
         log_security_event('SOCKET_CONNECT', f'IP: {client_ip}')
@@ -279,6 +367,7 @@ def socket_security_middleware(socketio):
 
 def apply_all_middleware(app, socketio):
     """Tüm middleware'leri uygula"""
+    load_throttle_middleware(app)
     security_middleware(app)
     login_security_middleware(app)
     input_sanitization_middleware(app)

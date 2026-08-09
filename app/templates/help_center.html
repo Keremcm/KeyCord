@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}KeyCord - Yardım Merkezi{% endblock %}
+{% block title %}KeyCord - {{ _('Yardım Merkezi') }}{% endblock %}
 
 {% block extra_css %}
 <style>
@@ -42,7 +42,8 @@
 
     .category-card {
         padding: 1.5rem;
-        transition: transform 0.2s;
+        transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1),
+            opacity 0.7s ease;
         height: 100%;
         display: flex;
         flex-direction: column;
@@ -101,7 +102,8 @@
         padding: 1.5rem;
         text-align: center;
         cursor: pointer;
-        transition: all 0.2s;
+        transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1),
+            background 0.2s ease;
         text-decoration: none;
         color: var(--chalk);
         display: block;
@@ -155,7 +157,7 @@
         padding: 1.5rem;
         cursor: pointer;
         border: 2px solid rgba(255, 255, 255, 0.1);
-        transition: all 0.2s;
+        transition: background 0.2s ease, border-color 0.2s ease;
         background-color: #111;
         margin-bottom: 1rem;
         border-radius: 12px;
@@ -183,6 +185,10 @@
         font-family: 'Caveat', cursive;
         line-height: 1.4;
     }
+
+    /* Scroll reveal stagger for help category cards */
+    .help-grid [data-reveal]:nth-child(2) { transition-delay: 0.08s; }
+    .help-grid [data-reveal]:nth-child(3) { transition-delay: 0.16s; }
 </style>
 {% endblock %}
 
@@ -203,24 +209,23 @@
     <div style="text-align: center; margin: 4rem 0 3rem;">
         <h1
             style="font-family: 'Reenie Beanie', cursive; font-size: clamp(2.5rem, 10vw, 4.5rem); margin-bottom: 1rem; transform: rotate(-1deg); line-height: 1; color: var(--chalk);">
-            Yardım Merkezi
+            {{ _('Yardım Merkezi') }}
         </h1>
         <p style="font-family: 'Caveat', cursive; font-size: clamp(1.2rem, 5vw, 1.5rem); color: var(--muted-chalk);">
-            Takıldığın bir yer mi var? Hemen çözelim.
+            {{ _('Takıldığın bir yer mi var? Hemen çözelim.') }}
         </p>
     </div>
 
     <!-- Search Section -->
     <div class="search-container scribble-border" style="transform: rotate(0.5deg); background: transparent;">
-        <h2 style="font-family: 'Caveat', cursive; margin-bottom: 1.5rem; color: var(--chalk);">Nasıl yardımcı
-            olabiliriz?</h2>
+        <h2 style="font-family: 'Caveat', cursive; margin-bottom: 1.5rem; color: var(--chalk);">{{ _('Nasıl yardımcı olabiliriz?') }}</h2>
         <div style="position: relative; max-width: 600px; margin: 0 auto;">
             <div style="display: flex; gap: 10px;">
                 <input type="text" id="searchInput" class="search-input"
-                    placeholder="Örn: 'Şifre değiştirme', 'Grup kurma'..."
+                    placeholder="{{ _("Örn: 'Şifre değiştirme', 'Grup kurma'...") }}"
                     style="flex: 1; background: transparent; border: 2px dashed var(--chalk); border-radius: 12px; padding: 1.2rem; color: var(--chalk); font-family: 'Caveat', cursive; font-size: 1.4rem;">
                 <button id="searchBtn" class="btn search-btn"
-                    style="border-style: dashed; font-size: 1.4rem;">Ara</button>
+                    style="border-style: dashed; font-size: 1.4rem;">{{ _('Ara') }}</button>
             </div>
 
             <div id="searchResults"></div>
@@ -230,7 +235,7 @@
     <!-- Categories -->
     <div class="help-grid">
         {% for cat in categories %}
-        <div class="category-card sketch-box">
+        <div class="category-card sketch-box" data-reveal>
             <div class="category-icon" style="margin-bottom: 0.2rem; font-size: 1.2rem;"><i
                     class="icon {{ cat.icon }}"></i></div>
             <h3 style="font-family: 'Reenie Beanie'; font-size: 2rem; margin-bottom: 1rem; color: var(--chalk);">{{
@@ -250,36 +255,36 @@
     </div>
 
     <!-- Quick Actions -->
-    <h2 style="text-align: center; font-family: 'Reenie Beanie'; font-size: 3rem; margin-bottom: 2rem;">Hızlı İşlemler
+    <h2 data-reveal style="text-align: center; font-family: 'Reenie Beanie'; font-size: 3rem; margin-bottom: 2rem;">{{ _('Hızlı İşlemler') }}
     </h2>
-    <div class="actions-grid">
+    <div class="actions-grid" data-reveal>
         <a href="{{ url_for('auth.forgot_password') }}" class="action-card scribble-border"
             data-action="forgot-password">
             <div style="font-size: 1.2rem; margin-bottom: 0.5rem; font-family: 'Reenie Beanie';"><i
                     class="icon icon-lock"></i></div>
-            <h3 style="font-family: 'Caveat'; font-size: 1.3rem;">Şifremi Unuttum</h3>
+            <h3 style="font-family: 'Caveat'; font-size: 1.3rem;">{{ _('Şifremi Unuttum') }}</h3>
         </a>
         <a href="#" class="action-card scribble-border" data-action="export-data" style="transform: rotate(1deg);">
             <div style="font-size: 1.2rem; margin-bottom: 0.5rem; font-family: 'Reenie Beanie';"><i
                     class="icon icon-rocket"></i></div>
-            <h3 style="font-family: 'Caveat'; font-size: 1.3rem;">Verilerimi İndir</h3>
+            <h3 style="font-family: 'Caveat'; font-size: 1.3rem;">{{ _('Verilerimi İndir') }}</h3>
         </a>
         <a href="#" class="action-card scribble-border" data-action="report-issue" style="transform: rotate(-1deg);">
             <div style="font-size: 1.2rem; margin-bottom: 0.5rem; font-family: 'Reenie Beanie';"><i
                     class="icon icon-bolt"></i></div>
-            <h3 style="font-family: 'Caveat'; font-size: 1.3rem;">İhlal Bildir</h3>
+            <h3 style="font-family: 'Caveat'; font-size: 1.3rem;">{{ _('İhlal Bildir') }}</h3>
         </a>
     </div>
 
     <!-- Contact Section -->
     <div class="contact-container scribble-border">
-        <h2 style="font-family: 'Reenie Beanie'; font-size: 2.5rem; margin-bottom: 1rem;">Hala çözüm bulamadın mı?</h2>
+        <h2 style="font-family: 'Reenie Beanie'; font-size: 2.5rem; margin-bottom: 1rem;">{{ _('Hala çözüm bulamadın mı?') }}</h2>
         <p style="font-family: 'Caveat'; font-size: 1.4rem; color: var(--muted-chalk);">
-            Ekibimiz bir tık uzağında. Bize ulaşmaktan çekinme.
+            {{ _('Ekibimiz bir tık uzağında. Bize ulaşmaktan çekinme.') }}
         </p>
         <div class="contact-options">
-            <a href="mailto:support@keycord.org" class="btn" style="border-style: dotted;">✉ E-posta Gönder</a>
-            <button class="btn" style="border-style: dotted;"> Canlı Destek</button>
+            <a href="mailto:support@keycord.org" class="btn" style="border-style: dotted;">✉ {{ _('E-posta Gönder') }}</a>
+            <button class="btn" style="border-style: dotted;">{{ _('Canlı Destek') }}</button>
         </div>
     </div>
 
@@ -300,7 +305,7 @@
             empty.style.fontSize = '1.5rem';
             empty.style.fontFamily = "Caveat, cursive";
             empty.style.textAlign = 'center';
-            empty.textContent = 'Sonuç bulunamadı :(';
+            empty.textContent = '{{ _('Sonuç bulunamadı :(') }}';
             searchResults.appendChild(empty);
             searchResults.style.display = 'block';
             return;
@@ -312,7 +317,7 @@
 
             const title = document.createElement('div');
             title.className = 'search-title';
-            title.textContent = article.title || '(Başlıksız)';
+            title.textContent = article.title || '({{ _('Başlıksız') }})';
 
             const snippet = document.createElement('div');
             snippet.className = 'search-snippet';
@@ -340,7 +345,7 @@
                 if (!res.ok) {
                     // 401 veya 403 gibi durumlarda kullanıcıyı login sayfasına yönlendirmemeli;
                     // burada public endpoint bekliyoruz. Hata göster.
-                    throw new Error('Aramada bir hata oluştu: ' + res.status);
+                    throw new Error('{{ _('Aramada bir hata oluştu:') }} ' + res.status);
                 }
                 return res.json();
             })
@@ -350,7 +355,7 @@
             })
             .catch(err => {
                 console.error(err);
-                searchResults.innerHTML = '<div style="padding:2rem; color:#fff; text-align:center;">Arama sırasında hata oluştu.</div>';
+                searchResults.innerHTML = '<div style="padding:2rem; color:#fff; text-align:center;">{{ _('Arama sırasında hata oluştu.') }}</div>';
                 searchResults.style.display = 'block';
             });
     }

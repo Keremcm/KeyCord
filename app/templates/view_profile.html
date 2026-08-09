@@ -118,6 +118,7 @@
     .stat-value {
         font-family: 'Reenie Beanie', cursive;
         font-size: 2.5rem;
+        font-optical-sizing: auto;
         color: var(--chalk);
         line-height: 1;
     }
@@ -281,7 +282,7 @@
             {% else %}
             <div style="display: flex; gap: 10px; width: 100%; justify-content: center;">
                 {% if is_friend %}
-                <a href="{{ url_for('auth.messages') }}?with={{ profile_user.id }}" class="btn btn-primary"
+                <a href="{{ url_for('auth.messages') }}?with={{ profile_user.id }}" class="btn"
                     style="border-style: solid; flex: 1;">
                     {{ _('Mesaj Gönder') }}
                 </a>
@@ -297,8 +298,8 @@
 
                 <form action="{{ url_for('auth.block_user', user_id=profile_user.id) }}" method="POST">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
-                    <button type="submit" class="btn btn-danger"
-                        style="border-color: var(--brand-red); color: var(--brand-red); border-style: dashed;"
+                    <button type="submit" class="btn"
+                        style="border-color: var(--chalk); color: var(--chalk); border-style: dashed;"
                         onclick="return confirm('{{ _('Bu kullanıcıyı engellemek istediğinize emin misiniz?') }}')">
                         {{ _('Engelle') }}
                     </button>

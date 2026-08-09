@@ -15,7 +15,7 @@
     {{ _('İstekleri Yönet') }}
 </div>
 
-<a href="{{ url_for('auth.add_friend') }}" class="list-item">
+<a href="{{ url_for('auth.add_friend_page') }}" class="list-item">
     <i class="icon icon-lg icon-user-plus" style="background-color: var(--chalk);"></i>
     <span>{{ _('Arkadaş Ekle') }}</span>
 </a>
@@ -96,7 +96,7 @@
                 style="background-color: var(--muted-chalk); margin-bottom: 1rem; opacity: 0.5;"></i>
             <p style="font-family: 'Caveat'; font-size: 1.5rem;">{{ _('Henüz bekleyen arkadaşlık isteği yok.') }}</p>
             <div style="margin-top: 1.5rem;">
-                <a href="{{ url_for('auth.add_friend') }}" class="btn" style="transform: rotate(1deg);">
+                <a href="{{ url_for('auth.add_friend_page') }}" class="btn" style="transform: rotate(1deg);">
                     <i class="icon icon-user-plus" style="background-color: currentColor;"></i> {{ _('Arkadaş Ekle') }}
                 </a>
             </div>

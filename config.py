@@ -1,6 +1,7 @@
 import os
 import secrets
 from dotenv import load_dotenv
+from sqlalchemy.pool import NullPool
 
 # .env dosyasını yükle
 load_dotenv()
@@ -41,10 +42,15 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     
     # SQLCipher kaldırıldı (Standart SQLite)
-    # Thread-safety için check_same_thread=False kullanımı
+    # NullPool: eventlet greenlet'lerinde SingletonThreadPool bağlantı sızıntısı
+    # yaratıyordu; her işlem kendi bağlantısını açıp kapatır (SQLite için ucuz).
+    # check_same_thread=False: tpool/executor thread'lerinden erişim için şart.
+    # timeout=30: yoğun yazmada "database is locked" hatalarını azaltır.
     SQLALCHEMY_ENGINE_OPTIONS = {
+        "poolclass": NullPool,
         "connect_args": {
-            "check_same_thread": False
+            "check_same_thread": False,
+            "timeout": 30
         }
     }
     
@@ -70,17 +76,11 @@ class Config:
     RATELIMIT_ENABLED = True
     RATELIMIT_STORAGE_URL = "memory://"
     
-    # Güvenlik header'ları (HSTS aktif, CSP sıkılaştırıldı - Tor Ready)
-    SECURITY_HEADERS = {
-        'X-Content-Type-Options': 'nosniff',
-        'X-Frame-Options': 'DENY',
-        'X-XSS-Protection': '1; mode=block',
-        'Strict-Transport-Security': 'max-age=31536000; includeSubDomains',
-        'Content-Security-Policy': "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' ws://127.0.0.1:* wss://127.0.0.1:*; font-src 'self'; frame-src 'none'; child-src 'none';",
-        'Referrer-Policy': 'strict-origin-when-cross-origin',
-        'Permissions-Policy': 'geolocation=(), microphone=(), camera=()'
-    }
-    
+    # Güvenlik header'ları, app/middleware.py -> add_security_headers() tarafından
+    # tek kaynaktan uygulanır (nonce'lı CSP, HSTS, nosniff...). Burada tanımlanan
+    # eski SECURITY_HEADERS dict'i, middleware ile çakışan/ezilen çift CSP'ye yol
+    # açtığı için kaldırıldı.
+
     # Şifre politikası
     PASSWORD_MIN_LENGTH = 8
     PASSWORD_REQUIREMENTS = {
@@ -92,17 +92,33 @@ class Config:
     
     # Session güvenliği
     SESSION_TIMEOUT = 3600  # 1 saat
+    SESSION_LOCK_TIMEOUT = 300  # 5 dakika hareketsizlik → ekran kilidi
     SESSION_REFRESH_EACH_REQUEST = True
     
     # Token ayarları
     TOKEN_EXPIRY = 3600  # 1 saat
     REMEMBER_TOKEN_EXPIRY = 30 * 24 * 3600  # 30 gün
     INVITE_CODE_EXPIRY_DAYS = 30  # Davet kodları 30 gün sonra geçersiz olur
+    PUBLIC_INVITE_MONTHLY_LIMIT = 100  # Kayıt sayfasındaki açık kodla aylık maksimum kayıt
     
     # Rate limiting ayarları (routes.py/middleware.py ile senkronize)
     MAX_REQUESTS_PER_MINUTE = 400          # Global limit
     MAX_LOGIN_ATTEMPTS = 10                # 5 dakikada 10 deneme
     LOGIN_LOCKOUT_TIME = 300               # 5 dakika kilitlenme süresi
+
+    # Adaptif yük yönetimi (tıkanma koruması)
+    # Seviyeler YÜZDE CPU kullanımıdır (0-100). Ölçüt: max(process CPU,
+    # host CPU, normalize loadavg). loadavg tek başına yanıltıcı olduğundan
+    # (çok çekirdekli host + konteyner) esas sinyal process/host CPU'dur.
+    # 'warning' → istekler orantılı geciktirilir + banner gösterilir
+    # 'throttled' → gecikme maksimuma çıkar, /api/* istekleri 503 alır
+    LOAD_WARNING_LEVEL = float(os.environ.get('LOAD_WARNING_LEVEL', '70'))
+    LOAD_THROTTLE_LEVEL = float(os.environ.get('LOAD_THROTTLE_LEVEL', '90'))
+    LOAD_DELAY_MAX = float(os.environ.get('LOAD_DELAY_MAX', '1.0'))        # saniye
+    LOAD_SAMPLE_INTERVAL = float(os.environ.get('LOAD_SAMPLE_INTERVAL', '3.0'))  # saniye
+    LOAD_SMOOTHING = float(os.environ.get('LOAD_SMOOTHING', '0.4'))
+    LOAD_API_RETRY_AFTER = int(os.environ.get('LOAD_API_RETRY_AFTER', '5'))
+
 
     # CORS izin verilen kaynaklar — Wildcard '*' YASAK
     # Production için .env'de: ALLOWED_ORIGINS=https://keycord.org,https://www.keycord.org
@@ -144,6 +160,25 @@ class Config:
     # Honeypot ayarları
     HONEYPOT_LIMIT = 20  # 1000'den 20'ye düşürüldü
     HONEYPOT_WINDOW = 600  # 10 dakika
+
+    # İnsan doğrulama (PoW + Simon sıra hafızası) ayarları
+    HUMAN_VERIFY_DIFFICULTY_BITS = int(os.environ.get('HUMAN_VERIFY_DIFFICULTY_BITS', '14'))
+    HUMAN_VERIFY_MIN_HOLD = float(os.environ.get('HUMAN_VERIFY_MIN_HOLD', '3.0'))  # challenge sonrası min saniye
+    HUMAN_VERIFY_MAX_ATTEMPTS = int(os.environ.get('HUMAN_VERIFY_MAX_ATTEMPTS', '15'))
+    HUMAN_VERIFY_SEQ_LENGTH = int(os.environ.get('HUMAN_VERIFY_SEQ_LENGTH', '4'))  # Simon sıra uzunluğu
+    HUMAN_VERIFY_DOT_COUNT = int(os.environ.get('HUMAN_VERIFY_DOT_COUNT', '4'))  # Simon nokta sayısı
+    # Challenge süresi (saniye) — aşılınca sunucu yeni challenge üretir, eski PoW geçersiz.
+    HUMAN_VERIFY_CHALLENGE_TTL = int(os.environ.get('HUMAN_VERIFY_CHALLENGE_TTL', '120'))
+    # Tıklama ritmi doğrulaması (sunucu tarafı, client-time damgaları)
+    HUMAN_VERIFY_MIN_GAP = float(os.environ.get('HUMAN_VERIFY_MIN_GAP', '0.15'))  # ardışık tıklama min saniye
+    HUMAN_VERIFY_MAX_GAP = float(os.environ.get('HUMAN_VERIFY_MAX_GAP', '15.0'))  # ardışık tıklama max saniye
+    HUMAN_VERIFY_IDENTICAL_TOLERANCE_MS = float(os.environ.get('HUMAN_VERIFY_IDENTICAL_TOLERANCE_MS', '15'))  # script ritmi tespiti
+    # Kademeli PoW: başarısız denemede zorluk yükselir (fail başına +STEP, max EXTRA)
+    HUMAN_VERIFY_FAIL_STEP_BITS = int(os.environ.get('HUMAN_VERIFY_FAIL_STEP_BITS', '2'))
+    HUMAN_VERIFY_FAIL_MAX_EXTRA_BITS = int(os.environ.get('HUMAN_VERIFY_FAIL_MAX_EXTRA_BITS', '8'))
+    # GET /human-verification challenge üretim rate limit'i (IP başına)
+    HUMAN_VERIFY_CHALLENGE_LIMIT = int(os.environ.get('HUMAN_VERIFY_CHALLENGE_LIMIT', '30'))
+    HUMAN_VERIFY_CHALLENGE_WINDOW = int(os.environ.get('HUMAN_VERIFY_CHALLENGE_WINDOW', '300'))
 
     # Dil Ayarları
     LANGUAGES = ['tr', 'en', 'de']

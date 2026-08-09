@@ -8,32 +8,32 @@
 <style>
     @media (max-width: 768px) {
         .communities-wrapper {
-            padding: 1rem !important;
+            padding: 1rem;
         }
 
         .communities-header {
-            flex-direction: column !important;
-            align-items: flex-start !important;
-            gap: 1.5rem !important;
-            margin-bottom: 2rem !important;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
         }
 
         .communities-header h1 {
-            font-size: 3rem !important;
+            font-size: 3rem;
         }
 
         .search-box-wrapper {
-            max-width: 100% !important;
-            width: 100% !important;
+            max-width: 100%;
+            width: 100%;
         }
 
         .communities-grid {
-            grid-template-columns: 1fr !important;
-            gap: 1rem !important;
+            grid-template-columns: 1fr;
+            gap: 1rem;
         }
 
         .community-card {
-            padding: 1.25rem !important;
+            padding: 1.25rem;
         }
     }
 </style>
@@ -110,7 +110,7 @@
                         {{ c.name }}</h3>
 
                     <p
-                        style="font-family: 'Caveat'; font-size: 1.1rem; color: var(--muted-chalk); line-height: 1.4; margin-bottom: 1rem; display: -webkit-box; --webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">
+                        style="font-family: 'Caveat'; font-size: 1.1rem; color: var(--muted-chalk); line-height: 1.4; margin-bottom: 1rem; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">
                         {{ c.description or _("Açıklama yok.") }}
                     </p>
 

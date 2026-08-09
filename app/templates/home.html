@@ -18,8 +18,6 @@
 {% block app_content %}
 
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Syne:wght@400;600;700;800&display=swap');
-
     *,
     *::before,
     *::after {
@@ -30,326 +28,124 @@
 
     /* ── CANVAS ── */
     .kc-canvas {
-        display: grid;
-        grid-template-rows: 1fr;
+        position: relative;
         height: 100%;
         min-height: 100%;
         overflow: hidden auto;
-        position: relative;
         background: transparent;
-        font-family: 'Syne', sans-serif;
     }
 
-    /* Animated scanline overlay */
-    .kc-canvas::before {
-        content: '';
-        position: fixed;
-        inset: 0;
-        background: repeating-linear-gradient(0deg,
-                transparent,
-                transparent 2px,
-                rgba(255, 255, 255, 0.013) 2px,
-                rgba(255, 255, 255, 0.013) 4px);
-        pointer-events: none;
-        z-index: 0;
+    @keyframes pulse-dot {
+        0%, 100% { opacity: 1; transform: scale(1); }
+        50% { opacity: 0.4; transform: scale(1.3); }
     }
 
-    /* Noise grain overlay */
-    .kc-canvas::after {
-        content: '';
-        position: fixed;
-        inset: -50%;
-        width: 200%;
-        height: 200%;
-        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-        pointer-events: none;
-        z-index: 0;
-        opacity: 0.6;
-        animation: grainShift 0.5s steps(1) infinite;
-    }
-
-    @keyframes grainShift {
-        0% {
-            transform: translate(0, 0);
-        }
-
-        25% {
-            transform: translate(-2%, -3%);
-        }
-
-        50% {
-            transform: translate(3%, 1%);
-        }
-
-        75% {
-            transform: translate(-1%, 4%);
-        }
-
-        100% {
-            transform: translate(2%, -2%);
-        }
+    @keyframes grow-bar {
+        to { transform: scaleY(1); }
     }
 
     /* ── MAIN LAYOUT ── */
     .kc-inner {
         position: relative;
-        z-index: 1;
         display: grid;
-        grid-template-columns: 1fr 1fr;
-        grid-template-rows: auto auto;
-        gap: 0;
+        grid-template-columns: 1.05fr 1fr;
+        align-items: center;
+        gap: 2.5rem;
         height: 100%;
         min-height: 100%;
+        padding: 2.5rem 2.5rem 2.5rem 3rem;
     }
 
     /* ── LEFT PANEL: Identity ── */
     .kc-left {
-        grid-column: 1;
-        grid-row: 1 / 3;
         display: flex;
         flex-direction: column;
         justify-content: center;
-        padding: 3.5rem 3rem 3.5rem 3.5rem;
-        border-right: 1px solid rgba(255, 255, 255, 0.06);
-        position: relative;
-        min-height: 100%;
+        padding-right: 2.5rem;
+        border-right: 1px solid rgba(255, 255, 255, 0.1);
     }
 
-    .kc-left::after {
-        content: '';
-        position: absolute;
-        right: 0;
-        top: 15%;
-        bottom: 15%;
-        width: 1px;
-        background: linear-gradient(to bottom,
-                transparent,
-                rgba(255, 255, 255, 0.15) 30%,
-                rgba(255, 255, 255, 0.15) 70%,
-                transparent);
-    }
-
-    /* Terminal tag decoration */
-    .kc-terminal-tag {
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 1.5rem;
-        color: #ffffff;
-        font-weight: 600;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
-        margin-bottom: 2.5rem;
-        display: flex;
+    .kc-session-tag {
+        align-self: flex-start;
+        display: inline-flex;
         align-items: center;
-        gap: 0.6rem;
-    }
-
-    .kc-terminal-tag::before {
-        content: '';
-        display: inline-block;
-        width: 20px;
-        height: 1px;
-        background: rgba(255, 255, 255, 0.2);
-    }
-
-    /* Avatar container */
-    .kc-avatar-zone {
-        position: relative;
-        width: fit-content;
+        gap: 0.55rem;
+        font-family: 'Caveat', cursive;
+        font-size: 1.15rem;
+        color: var(--muted-chalk);
+        border: 2px dashed rgba(255, 255, 255, 0.28);
+        border-radius: 99px;
+        padding: 0.25rem 0.95rem;
+        transform: rotate(-1deg);
         margin-bottom: 2rem;
     }
 
-    .kc-avatar-frame {
-        position: relative;
-        width: 96px;
-        height: 96px;
-    }
-
-    /* Corner markers */
-    .kc-avatar-frame::before,
-    .kc-avatar-frame::after {
+    .kc-session-tag::before {
         content: '';
-        position: absolute;
-        width: 14px;
-        height: 14px;
-        z-index: 2;
-    }
-
-    .kc-avatar-frame::before {
-        top: -4px;
-        left: -4px;
-        border-top: 1.5px solid rgba(255, 255, 255, 0.4);
-        border-left: 1.5px solid rgba(255, 255, 255, 0.4);
-    }
-
-    .kc-avatar-frame::after {
-        bottom: -4px;
-        right: -4px;
-        border-bottom: 1.5px solid rgba(255, 255, 255, 0.4);
-        border-right: 1.5px solid rgba(255, 255, 255, 0.4);
-    }
-
-    .kc-avatar-corner-tr,
-    .kc-avatar-corner-bl {
-        position: absolute;
-        width: 14px;
-        height: 14px;
-        z-index: 2;
-    }
-
-    .kc-avatar-corner-tr {
-        top: -4px;
-        right: -4px;
-        border-top: 1.5px solid rgba(255, 255, 255, 0.4);
-        border-right: 1.5px solid rgba(255, 255, 255, 0.4);
-    }
-
-    .kc-avatar-corner-bl {
-        bottom: -4px;
-        left: -4px;
-        border-bottom: 1.5px solid rgba(255, 255, 255, 0.4);
-        border-left: 1.5px solid rgba(255, 255, 255, 0.4);
-    }
-
-    .kc-avatar-img {
-        width: 96px;
-        height: 96px;
-        border-radius: 10px;
-        object-fit: cover;
-        display: block;
-        filter: grayscale(15%);
-    }
-
-    .kc-status-row {
-        position: absolute;
-        bottom: -10px;
-        left: 0;
-        right: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .kc-status-pill {
-        background: rgba(10, 10, 10, 0.9);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 99px;
-        padding: 0.18rem 0.55rem;
-        display: flex;
-        align-items: center;
-        gap: 0.35rem;
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 0.62rem;
-        color: rgba(255, 255, 255, 0.45);
-        letter-spacing: 0.05em;
-        white-space: nowrap;
-    }
-
-    .kc-status-dot {
-        width: 5px;
-        height: 5px;
+        width: 7px;
+        height: 7px;
         border-radius: 50%;
-        background: #4ade80;
-        box-shadow: 0 0 5px rgba(74, 222, 128, 0.6);
-        flex-shrink: 0;
-        animation: pulse-green 2.5s ease-in-out infinite;
-    }
-
-    @keyframes pulse-green {
-
-        0%,
-        100% {
-            opacity: 1;
-            box-shadow: 0 0 5px rgba(74, 222, 128, 0.6);
-        }
-
-        50% {
-            opacity: 0.7;
-            box-shadow: 0 0 10px rgba(74, 222, 128, 0.3);
-        }
-    }
-
-    /* Greeting typography */
-    .kc-greeting {
-        margin-top: 1.8rem;
-        margin-bottom: 0.4rem;
+        background: var(--chalk);
+        box-shadow: 0 0 8px rgba(255, 255, 255, 0.7);
+        animation: pulse-dot 2s infinite;
     }
 
     .kc-greeting-label {
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 0.8rem;
-        color: rgba(255, 255, 255, 0.6);
-        letter-spacing: 0.15em;
-        text-transform: uppercase;
-        margin-bottom: 0.4rem;
+        font-family: 'Caveat', cursive;
+        font-size: 1.4rem;
+        color: var(--muted-chalk);
         display: block;
+        margin-bottom: 0.1rem;
     }
 
     .kc-name {
-        font-family: 'Syne', sans-serif;
-        font-size: 3.8rem;
-        font-weight: 800;
-        color: #ffffff;
+        font-family: 'Reenie Beanie', cursive;
+        font-size: 4.6rem;
         line-height: 0.95;
-        letter-spacing: -0.02em;
+        color: var(--chalk);
         word-break: break-word;
-        text-shadow: 0 0 15px rgba(255, 255, 255, 0.15);
+        transform: rotate(-1.2deg);
     }
 
     .kc-sub {
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 0.72rem;
-        color: rgba(255, 255, 255, 0.6);
-        letter-spacing: 0.04em;
-        margin-top: 1.2rem;
-        margin-bottom: 3rem;
-        line-height: 1.6;
-        padding-left: 1px;
+        font-family: 'Caveat', cursive;
+        font-size: 1.3rem;
+        color: rgba(255, 255, 255, 0.45);
+        margin-top: 1rem;
+        margin-bottom: 2.2rem;
     }
 
     /* ── QUICK ACTION BUTTONS ── */
     .kc-actions {
         display: flex;
         flex-direction: column;
-        gap: 0.55rem;
-        margin-bottom: 3rem;
+        gap: 0.6rem;
+        margin-bottom: 2.2rem;
     }
 
     .kc-btn {
         display: flex;
         align-items: center;
         gap: 0.9rem;
-        padding: 0.75rem 1.1rem;
-        border-radius: 8px;
+        padding: 0.7rem 1.1rem;
+        border-radius: 12px;
         text-decoration: none;
-        font-family: 'Syne', sans-serif;
-        font-size: 0.88rem;
-        font-weight: 600;
+        font-family: 'Caveat', cursive;
+        font-size: 1.45rem;
+        font-weight: 700;
         cursor: pointer;
-        border: 1px solid transparent;
-        transition: all 0.18s ease;
-        position: relative;
-        overflow: hidden;
+        transition: border-color 0.2s ease, background 0.2s ease, transform 0.15s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.15s ease;
     }
 
-    .kc-btn::before {
-        content: '';
-        position: absolute;
-        left: 0;
-        top: 0;
-        bottom: 0;
-        width: 0;
-        background: rgba(255, 255, 255, 0.04);
-        transition: width 0.2s ease;
-    }
-
-    .kc-btn:hover::before {
-        width: 100%;
+    .kc-btn:active {
+        transform: scale(0.97);
+        transition: transform 90ms ease-out;
     }
 
     .kc-btn-icon {
-        width: 32px;
-        height: 32px;
-        border-radius: 6px;
+        width: 34px;
+        height: 34px;
+        border-radius: 9px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -357,8 +153,8 @@
     }
 
     .kc-btn-icon svg {
-        width: 15px;
-        height: 15px;
+        width: 16px;
+        height: 16px;
         stroke: currentColor;
         fill: none;
         stroke-width: 2;
@@ -372,163 +168,147 @@
 
     .kc-btn-kbd {
         font-family: 'JetBrains Mono', monospace;
-        font-size: 0.6rem;
-        color: rgba(255, 255, 255, 0.2);
-        letter-spacing: 0.05em;
-        background: rgba(255, 255, 255, 0.04);
-        border: 1px solid rgba(255, 255, 255, 0.07);
-        padding: 0.1rem 0.4rem;
-        border-radius: 4px;
+        font-size: 0.62rem;
+        color: rgba(255, 255, 255, 0.3);
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 0.1rem 0.45rem;
+        border-radius: 5px;
     }
 
     .kc-btn-primary {
-        background: var(--chalk, #f0f0f0);
-        color: #0a0a0a;
-        border-color: transparent;
+        background: var(--chalk);
+        color: var(--paper-black);
+        border: 2px solid var(--chalk);
     }
 
     .kc-btn-primary .kc-btn-icon {
         background: rgba(0, 0, 0, 0.12);
-        color: #0a0a0a;
+        color: var(--paper-black);
     }
 
     .kc-btn-primary .kc-btn-kbd {
-        color: rgba(0, 0, 0, 0.35);
+        color: rgba(0, 0, 0, 0.4);
         background: rgba(0, 0, 0, 0.08);
         border-color: rgba(0, 0, 0, 0.1);
     }
 
     .kc-btn-primary:hover {
-        opacity: 0.9;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 18px rgba(255, 255, 255, 0.12);
     }
 
     .kc-btn-ghost {
-        background: rgba(255, 255, 255, 0.03);
-        color: var(--chalk, #f0f0f0);
-        border-color: rgba(255, 255, 255, 0.07);
+        background: transparent;
+        color: var(--chalk);
+        border: 1px solid rgba(255, 255, 255, 0.16);
     }
 
     .kc-btn-ghost .kc-btn-icon {
         background: rgba(255, 255, 255, 0.05);
-        color: rgba(255, 255, 255, 0.6);
+        color: var(--muted-chalk);
     }
 
     .kc-btn-ghost:hover {
-        border-color: rgba(255, 255, 255, 0.14);
-        background: rgba(255, 255, 255, 0.05);
+        border-color: var(--chalk);
+        background: rgba(255, 255, 255, 0.04);
+        transform: translateY(-2px);
     }
 
     /* ── STAT ROW ── */
     .kc-stats {
         display: flex;
-        gap: 0;
-        border: 1px solid rgba(255, 255, 255, 0.06);
-        border-radius: 10px;
-        overflow: hidden;
+        gap: 0.8rem;
     }
 
     .kc-stat {
         flex: 1;
-        padding: 0.9rem 0.6rem;
+        padding: 0.8rem 0.5rem;
         text-align: center;
-        position: relative;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 12px;
         background: rgba(255, 255, 255, 0.02);
-        transition: background 0.15s;
+        transition: border-color 0.2s ease, background 0.2s ease;
     }
 
     .kc-stat:hover {
+        border-color: rgba(255, 255, 255, 0.3);
         background: rgba(255, 255, 255, 0.04);
-    }
-
-    .kc-stat+.kc-stat {
-        border-left: 1px solid rgba(255, 255, 255, 0.06);
     }
 
     .kc-stat-val {
         font-family: 'JetBrains Mono', monospace;
         font-size: 1.5rem;
         font-weight: 700;
-        color: var(--chalk, #f0f0f0);
+        color: var(--chalk);
         line-height: 1;
         margin-bottom: 0.3rem;
         display: block;
     }
 
     .kc-stat-label {
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 0.98rem;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
-        color: rgba(255, 255, 255, 0.5);
+        font-family: 'Caveat', cursive;
+        font-size: 1.1rem;
+        color: var(--muted-chalk);
         display: block;
     }
 
     /* ── RIGHT PANEL: Info Cards ── */
     .kc-right {
-        grid-column: 2;
-        grid-row: 1 / 3;
         display: flex;
         flex-direction: column;
         justify-content: center;
-        padding: 3.5rem 3.5rem 3.5rem 3rem;
         gap: 1rem;
+        padding-left: 0.5rem;
     }
 
-    /* Section label */
     .kc-section-label {
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 1.1rem;
-        color: rgba(255, 255, 255, 0.8);
-        letter-spacing: 0.2em;
-        text-transform: uppercase;
-        margin-bottom: 0.8rem;
+        font-family: 'Reenie Beanie', cursive;
+        font-size: 2.6rem;
+        line-height: 1;
+        color: var(--chalk);
+        margin-bottom: 0.4rem;
+        transform: rotate(-0.8deg);
         display: flex;
         align-items: center;
-        gap: 0.5rem;
+        gap: 0.7rem;
     }
 
     .kc-section-label::after {
         content: '';
         flex: 1;
-        height: 1px;
-        background: rgba(255, 255, 255, 0.06);
+        height: 2px;
+        background: repeating-linear-gradient(90deg,
+                rgba(255, 255, 255, 0.25) 0 6px,
+                transparent 6px 10px);
     }
 
     /* Tor address card */
     .kc-tor-card {
-        background: rgba(255, 255, 255, 0.025);
-        border: 1px solid rgba(255, 255, 255, 0.07);
-        border-radius: 12px;
-        padding: 1.4rem;
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 16px;
+        padding: 1.2rem 1.4rem;
         cursor: pointer;
-        transition: all 0.2s ease;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .kc-tor-card::before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(135deg, rgba(255, 255, 255, 0.02) 0%, transparent 60%);
-        pointer-events: none;
+        transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
     .kc-tor-card:hover {
-        border-color: rgba(255, 255, 255, 0.14);
-        background: rgba(255, 255, 255, 0.045);
-        transform: translateY(-1px);
+        border-color: rgba(255, 255, 255, 0.35);
+        background: rgba(255, 255, 255, 0.04);
+        transform: translateY(-2px);
     }
 
     .kc-tor-card:active {
-        transform: translateY(0);
+        transform: scale(0.98);
+        transition: transform 90ms ease-out;
     }
 
     .kc-tor-header {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        margin-bottom: 0.9rem;
+        margin-bottom: 0.8rem;
     }
 
     .kc-tor-badge {
@@ -537,53 +317,41 @@
         gap: 0.45rem;
         font-family: 'JetBrains Mono', monospace;
         font-size: 0.62rem;
-        color: rgba(255, 255, 255, 0.5);
         letter-spacing: 0.1em;
         text-transform: uppercase;
+        color: var(--muted-chalk);
     }
 
     .kc-tor-dot {
         width: 6px;
         height: 6px;
         border-radius: 50%;
-        background: #a78bfa;
-        box-shadow: 0 0 6px rgba(167, 139, 250, 0.5);
-        animation: pulse-purple 3s ease-in-out infinite;
-    }
-
-    @keyframes pulse-purple {
-
-        0%,
-        100% {
-            opacity: 1;
-        }
-
-        50% {
-            opacity: 0.5;
-        }
+        background: var(--chalk);
+        box-shadow: 0 0 8px rgba(255, 255, 255, 0.7);
+        animation: pulse-dot 2.4s infinite;
     }
 
     .kc-copy-icon {
         width: 28px;
         height: 28px;
-        border-radius: 6px;
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1.5px solid rgba(255, 255, 255, 0.16);
         display: flex;
         align-items: center;
         justify-content: center;
-        transition: background 0.15s;
+        transition: background 0.15s, border-color 0.15s;
     }
 
     .kc-tor-card:hover .kc-copy-icon {
         background: rgba(255, 255, 255, 0.1);
-        border-color: rgba(255, 255, 255, 0.15);
+        border-color: rgba(255, 255, 255, 0.3);
     }
 
     .kc-copy-icon svg {
         width: 12px;
         height: 12px;
-        stroke: rgba(255, 255, 255, 0.4);
+        stroke: rgba(255, 255, 255, 0.5);
         fill: none;
         stroke-width: 2;
         stroke-linecap: round;
@@ -592,133 +360,158 @@
 
     .kc-tor-addr {
         font-family: 'JetBrains Mono', monospace;
-        font-size: 0.68rem;
-        color: rgba(255, 255, 255, 0.55);
+        font-size: 0.7rem;
+        color: var(--muted-chalk);
         line-height: 1.7;
         word-break: break-all;
         letter-spacing: 0.02em;
     }
 
     .kc-tor-hint {
-        margin-top: 0.7rem;
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 0.6rem;
-        color: rgba(255, 255, 255, 0.18);
-        letter-spacing: 0.06em;
+        margin-top: 0.6rem;
+        font-family: 'Caveat', cursive;
+        font-size: 1.05rem;
+        color: rgba(255, 255, 255, 0.35);
     }
 
-    /* Download card */
-    .kc-dl-card {
-        background: rgba(255, 255, 255, 0.025);
-        border: 1px solid rgba(255, 255, 255, 0.07);
-        border-radius: 12px;
-        padding: 1.4rem;
-        transition: all 0.2s ease;
+    /* Tehdit istatistikleri */
+    .threat-stats {
+        width: 100%;
         position: relative;
-        overflow: hidden;
     }
 
-    .kc-dl-card::before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(135deg, rgba(255, 255, 255, 0.02) 0%, transparent 60%);
-        pointer-events: none;
+    .threat-panel {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 16px;
+        padding: 1.2rem 1.4rem;
+        transition: border-color 0.2s ease, background 0.2s ease;
     }
 
-    .kc-dl-card:hover {
-        border-color: rgba(255, 255, 255, 0.14);
-        background: rgba(255, 255, 255, 0.045);
-        transform: translateY(-1px);
+    .threat-panel:hover {
+        border-color: rgba(255, 255, 255, 0.4);
+        background: rgba(255, 255, 255, 0.035);
     }
 
-    .kc-dl-header {
+    .threat-info {
         display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 1rem;
+        flex-direction: column;
+        gap: 0.5rem;
     }
 
-    .kc-dl-title {
-        font-family: 'Syne', sans-serif;
-        font-size: 0.9rem;
-        font-weight: 700;
-        color: var(--chalk, #f0f0f0);
-    }
-
-    .kc-dl-arrow {
-        font-size: 0.75rem;
-        color: rgba(255, 255, 255, 0.2);
-        font-family: 'JetBrains Mono', monospace;
-        letter-spacing: -0.05em;
-    }
-
-    .kc-dl-platforms {
-        display: flex;
-        gap: 0.6rem;
-    }
-
-    .kc-dl-platform {
-        flex: 1;
+    .threat-header {
         display: flex;
         align-items: center;
         gap: 0.5rem;
-        padding: 0.55rem 0.7rem;
-        background: rgba(255, 255, 255, 0.04);
-        border: 1px solid rgba(255, 255, 255, 0.06);
-        border-radius: 7px;
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 0.65rem;
-        color: rgba(255, 255, 255, 0.45);
-        letter-spacing: 0.04em;
-        transition: all 0.15s;
     }
 
-    .kc-dl-platform:hover {
-        background: rgba(255, 255, 255, 0.07);
-        color: rgba(255, 255, 255, 0.7);
-    }
-
-    .kc-dl-platform-dot {
-        width: 5px;
-        height: 5px;
+    .threat-dot {
+        width: 6px;
+        height: 6px;
         border-radius: 50%;
-        flex-shrink: 0;
+        background: var(--chalk);
+        box-shadow: 0 0 8px rgba(255, 255, 255, 0.7);
+        animation: pulse-dot 2s infinite;
     }
 
-    .kc-dl-platform-dot.android {
-        background: #4ade80;
+    .threat-label {
+        font-family: 'Caveat', cursive;
+        font-size: 1.15rem;
+        color: var(--muted-chalk);
     }
 
-    .kc-dl-platform-dot.windows {
-        background: #60a5fa;
+    .threat-count {
+        display: flex;
+        align-items: baseline;
+        gap: 0.4rem;
     }
 
-    /* Security info strip */
+    .threat-number {
+        font-family: 'Reenie Beanie', cursive;
+        font-size: 3rem;
+        line-height: 1;
+        color: var(--chalk);
+    }
+
+    .threat-unit {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.8rem;
+        color: var(--muted-chalk);
+    }
+
+    .threat-sub {
+        font-family: 'Caveat', cursive;
+        font-size: 1rem;
+        color: rgba(255, 255, 255, 0.4);
+    }
+
+    .threat-chart {
+        display: flex;
+        align-items: flex-end;
+        gap: 4px;
+        height: 44px;
+        width: 100%;
+        margin-top: 0.5rem;
+    }
+
+    .threat-bar {
+        flex: 1;
+        border-radius: 4px 4px 0 0;
+        background: rgba(255, 255, 255, 0.75);
+        animation: grow-bar 0.8s ease-out forwards;
+        transform-origin: bottom;
+        transform: scaleY(0);
+    }
+
+    .threat-bar:nth-child(1)  { height: 12%; opacity: 0.15; animation-delay: 0.05s; }
+    .threat-bar:nth-child(2)  { height: 18%; opacity: 0.22; animation-delay: 0.10s; }
+    .threat-bar:nth-child(3)  { height: 25%; opacity: 0.30; animation-delay: 0.15s; }
+    .threat-bar:nth-child(4)  { height: 32%; opacity: 0.38; animation-delay: 0.20s; }
+    .threat-bar:nth-child(5)  { height: 40%; opacity: 0.45; animation-delay: 0.25s; }
+    .threat-bar:nth-child(6)  { height: 48%; opacity: 0.52; animation-delay: 0.30s; }
+    .threat-bar:nth-child(7)  { height: 56%; opacity: 0.60; animation-delay: 0.35s; }
+    .threat-bar:nth-child(8)  { height: 64%; opacity: 0.68; animation-delay: 0.40s; }
+    .threat-bar:nth-child(9)  { height: 72%; opacity: 0.76; animation-delay: 0.45s; }
+    .threat-bar:nth-child(10) { height: 80%; opacity: 0.85; animation-delay: 0.50s; }
+
+    /* Mini güvenlik kanıtları */
     .kc-security-strip {
-        border: 1px solid rgba(255, 255, 255, 0.05);
-        border-radius: 10px;
-        padding: 1rem 1.2rem;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 16px;
+        padding: 1.1rem 1.3rem;
         background: rgba(255, 255, 255, 0.015);
+        transition: border-color 0.2s ease;
+    }
+
+    .kc-security-strip:hover {
+        border-color: rgba(255, 255, 255, 0.35);
     }
 
     .kc-security-items {
         display: flex;
-        gap: 1.5rem;
+        flex-wrap: wrap;
+        gap: 0.9rem;
+        justify-content: space-between;
     }
 
     .kc-security-item {
         display: flex;
         align-items: center;
-        gap: 0.5rem;
+        gap: 0.55rem;
+        text-decoration: none;
+        transition: opacity 0.2s ease;
+    }
+
+    .kc-security-item:hover {
+        opacity: 0.7;
     }
 
     .kc-security-icon {
-        width: 22px;
-        height: 22px;
-        border-radius: 5px;
+        width: 24px;
+        height: 24px;
+        border-radius: 7px;
         background: rgba(255, 255, 255, 0.04);
-        border: 1px solid rgba(255, 255, 255, 0.07);
+        border: 1.5px solid rgba(255, 255, 255, 0.14);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -726,9 +519,9 @@
     }
 
     .kc-security-icon svg {
-        width: 10px;
-        height: 10px;
-        stroke: rgba(255, 255, 255, 0.35);
+        width: 11px;
+        height: 11px;
+        stroke: var(--chalk);
         fill: none;
         stroke-width: 2;
         stroke-linecap: round;
@@ -737,10 +530,10 @@
 
     .kc-security-text {
         font-family: 'JetBrains Mono', monospace;
-        font-size: 0.62rem;
-        color: rgba(255, 255, 255, 0.28);
-        letter-spacing: 0.04em;
-        line-height: 1.4;
+        font-size: 0.66rem;
+        color: var(--chalk);
+        letter-spacing: 0.03em;
+        white-space: nowrap;
     }
 
     /* ── NOTIFICATION BELL ── */
@@ -761,37 +554,38 @@
     .bell-icon-wrap {
         width: 44px;
         height: 44px;
-        border-radius: 10px;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        background: rgba(255, 255, 255, 0.05);
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        background: rgba(255, 255, 255, 0.03);
         display: flex;
         align-items: center;
         justify-content: center;
         cursor: pointer;
         position: relative;
-        transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        transition: transform 0.15s cubic-bezier(0.22, 1, 0.36, 1), background 0.2s ease, border-color 0.2s ease;
         z-index: 2000;
-    }
-
-    .bell-icon-wrap:active {
-        transform: scale(0.9);
     }
 
     .bell-icon-wrap:hover {
         background: rgba(255, 255, 255, 0.06);
-        border-color: rgba(255, 255, 255, 0.12);
+        border-color: rgba(255, 255, 255, 0.35);
+    }
+
+    .bell-icon-wrap:active {
+        transform: scale(0.9);
+        transition: transform 90ms ease-out;
     }
 
     .notif-badge {
         position: absolute;
         top: -3px;
         right: -3px;
-        width: 7px;
-        height: 7px;
-        background: #ef4444;
+        width: 8px;
+        height: 8px;
+        background: var(--chalk);
         border-radius: 50%;
-        border: 1.5px solid var(--paper-black, #0d0d0d);
-        box-shadow: 0 0 6px rgba(239, 68, 68, 0.5);
+        border: 1.5px solid var(--paper-black);
+        box-shadow: 0 0 8px rgba(255, 255, 255, 0.7);
     }
 
     #notification-dropdown {
@@ -800,8 +594,8 @@
         top: 4.5rem;
         right: 1.4rem;
         width: clamp(300px, 90vw, 380px);
-        background: rgba(12, 12, 12, 0.98);
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: rgba(10, 10, 10, 0.98);
+        border: 1px solid rgba(255, 255, 255, 0.18);
         border-radius: 16px;
         padding: 1.2rem;
         z-index: 5000;
@@ -813,31 +607,28 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding-bottom: 0.75rem;
-        margin-bottom: 0.75rem;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        padding-bottom: 0.7rem;
+        margin-bottom: 0.7rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.12);
     }
 
     .notif-header h4 {
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 0.72rem;
-        font-weight: 600;
+        font-family: 'Caveat', cursive;
+        font-size: 1.3rem;
+        font-weight: 700;
         color: var(--chalk);
         margin: 0;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
     }
 
     .notif-read-btn {
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 0.62rem;
-        color: rgba(255, 255, 255, 0.3);
+        font-family: 'Caveat', cursive;
+        font-size: 1.05rem;
+        color: var(--muted-chalk);
         background: none;
         border: none;
         cursor: pointer;
         padding: 0;
         transition: color 0.15s;
-        letter-spacing: 0.04em;
     }
 
     .notif-read-btn:hover {
@@ -855,12 +646,13 @@
 
     .notif-item {
         padding: 0.55rem 0.7rem;
-        border-radius: 7px;
+        border-radius: 10px;
         background: rgba(255, 255, 255, 0.025);
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 0.72rem;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        font-family: 'Caveat', cursive;
+        font-size: 1.15rem;
         line-height: 1.5;
-        border: 1px solid rgba(255, 255, 255, 0.04);
+        color: var(--muted-chalk);
     }
 
     .notif-item a {
@@ -873,117 +665,15 @@
     }
 
     .notif-item span {
-        color: rgba(255, 255, 255, 0.45);
+        color: rgba(255, 255, 255, 0.5);
     }
 
     .notif-empty {
         text-align: center;
         padding: 1.5rem 0;
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 0.72rem;
-        color: rgba(255, 255, 255, 0.2);
-        letter-spacing: 0.06em;
-    }
-
-    /* ── DOWNLOAD OVERLAY ── */
-    .download-overlay {
-        position: fixed;
-        inset: 0;
-        background: rgba(0, 0, 0, 0.8);
-        backdrop-filter: blur(8px);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 10000;
-        opacity: 0;
-        visibility: hidden;
-        transition: opacity 0.2s, visibility 0.2s;
-    }
-
-    .download-overlay.show {
-        opacity: 1;
-        visibility: visible;
-    }
-
-    .download-menu {
-        background: rgba(12, 12, 12, 0.98);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 16px;
-        padding: 2rem;
-        max-width: 360px;
-        width: 90%;
-        text-align: center;
-        animation: popIn 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-
-    @keyframes popIn {
-        from {
-            transform: scale(0.9);
-            opacity: 0;
-        }
-
-        to {
-            transform: scale(1);
-            opacity: 1;
-        }
-    }
-
-    .dl-menu-title {
-        font-family: 'Syne', sans-serif;
-        font-size: 1rem;
-        font-weight: 700;
-        color: var(--chalk);
-        margin-bottom: 1.4rem;
-        letter-spacing: 0.02em;
-    }
-
-    .dl-options {
-        display: flex;
-        flex-direction: column;
-        gap: 0.6rem;
-    }
-
-    .dl-option {
-        display: flex;
-        align-items: center;
-        gap: 0.9rem;
-        padding: 0.85rem 1rem;
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        border-radius: 10px;
-        background: rgba(255, 255, 255, 0.03);
-        text-decoration: none;
-        color: var(--chalk);
-        font-family: 'Syne', sans-serif;
-        font-size: 0.9rem;
-        font-weight: 600;
-        transition: background 0.15s, border-color 0.15s;
-    }
-
-    .dl-option:hover {
-        background: rgba(255, 255, 255, 0.07);
-        border-color: rgba(255, 255, 255, 0.16);
-    }
-
-    .dl-option i {
-        font-size: 1.4rem;
-        background-color: var(--chalk);
-        flex-shrink: 0;
-    }
-
-    .dl-close {
-        margin-top: 1.2rem;
-        background: none;
-        border: none;
+        font-family: 'Caveat', cursive;
+        font-size: 1.15rem;
         color: rgba(255, 255, 255, 0.3);
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 0.72rem;
-        cursor: pointer;
-        letter-spacing: 0.06em;
-        transition: color 0.15s;
-    }
-
-    .dl-close:hover {
-        color: var(--chalk);
     }
 
     /* ── TOAST ── */
@@ -992,10 +682,10 @@
         bottom: 2rem;
         left: 50%;
         transform: translateX(-50%) translateY(6px);
-        background: var(--chalk, #f0f0f0);
-        color: #0a0a0a;
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 0.72rem;
+        background: var(--chalk);
+        color: var(--paper-black);
+        font-family: 'Caveat', cursive;
+        font-size: 1.2rem;
         font-weight: 700;
         padding: 0.5rem 1.1rem;
         border-radius: 99px;
@@ -1004,7 +694,6 @@
         transition: opacity 0.2s, transform 0.2s;
         z-index: 9999;
         white-space: nowrap;
-        letter-spacing: 0.06em;
     }
 
     .tor-toast.show {
@@ -1012,70 +701,13 @@
         transform: translateX(-50%) translateY(0);
     }
 
-    /* ── ENTRANCE ANIMATIONS ── */
-    .kc-left>* {
-        opacity: 0;
-        transform: translateY(10px);
-        animation: fadeUp 0.5s ease forwards;
-    }
-
-    .kc-terminal-tag {
-        animation-delay: 0.05s;
-    }
-
-    .kc-avatar-zone {
-        animation-delay: 0.12s;
-    }
-
-    .kc-greeting {
-        animation-delay: 0.18s;
-    }
-
-    .kc-sub {
-        animation-delay: 0.23s;
-    }
-
-    .kc-actions {
-        animation-delay: 0.28s;
-    }
-
-    .kc-stats {
-        animation-delay: 0.33s;
-    }
-
-    .kc-right>* {
-        opacity: 0;
-        transform: translateX(10px);
-        animation: fadeRight 0.5s ease forwards;
-    }
-
-    .kc-section-label {
-        animation-delay: 0.2s;
-    }
-
-    .kc-tor-card {
-        animation-delay: 0.28s;
-    }
-
-    .kc-dl-card {
-        animation-delay: 0.34s;
-    }
-
-    .kc-security-strip {
-        animation-delay: 0.4s;
-    }
-
-    @keyframes fadeUp {
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    @keyframes fadeRight {
-        to {
-            opacity: 1;
-            transform: translateX(0);
+    @media (prefers-reduced-transparency: reduce) {
+        .kc-tor-card,
+        .threat-panel,
+        .kc-security-strip,
+        .kc-stat,
+        .kc-btn-ghost {
+            background: transparent;
         }
     }
 
@@ -1083,32 +715,21 @@
     @media (max-width: 820px) {
         .kc-inner {
             grid-template-columns: 1fr;
-            grid-template-rows: auto auto;
             height: auto;
             min-height: 100%;
+            padding: 4.5rem 1.5rem 2rem;
+            gap: 1.8rem;
         }
 
         .kc-left {
-            grid-column: 1;
-            grid-row: 1;
+            padding-right: 0;
             border-right: none;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-            padding: 4.5rem 1.5rem 2rem;
-            min-height: unset;
-        }
-
-        .kc-left::after {
-            display: none;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 1.8rem;
         }
 
         .kc-right {
-            grid-column: 1;
-            grid-row: 2;
-            padding: 2rem 1.5rem 3rem;
-        }
-
-        .kc-right>* {
-            animation-name: fadeUp;
+            padding-left: 0;
         }
 
         .desktop-notif {
@@ -1129,47 +750,37 @@
         }
 
         .kc-name {
-            font-size: 2.6rem;
+            font-size: 3.2rem;
         }
 
-        .kc-security-items {
-            flex-direction: column;
-            gap: 0.8rem;
+        .kc-sub {
+            margin-bottom: 1.6rem;
         }
 
         .kc-tor-addr {
-            font-size: 0.62rem;
-        }
-
-        .kc-dl-platforms {
-            flex-direction: column;
+            font-size: 0.64rem;
         }
 
         .tor-toast {
             white-space: normal;
             max-width: 88%;
             text-align: center;
-            font-size: 0.68rem;
+            font-size: 1.05rem;
             bottom: 1rem;
         }
     }
 
     @media (max-width: 480px) {
-        .kc-left {
-            padding: 4rem 1.2rem 1.8rem;
-        }
-
-        .kc-right {
-            padding: 1.8rem 1.2rem 2.5rem;
+        .kc-inner {
+            padding: 4rem 1.2rem 2rem;
         }
 
         .kc-name {
-            font-size: 2rem;
+            font-size: 2.6rem;
         }
 
-        .kc-btn {
-            padding: 0.65rem 0.9rem;
-            font-size: 0.82rem;
+        .kc-stat-val {
+            font-size: 1.3rem;
         }
     }
 </style>
@@ -1179,7 +790,7 @@
     <!-- Desktop bell -->
     <div class="notif-container desktop-notif">
         <div class="bell-icon-wrap" id="sticky-bell-icon">
-            <i class="icon icon-bell" style="color: #ffffff; font-size: 1.1rem;"></i>
+            <i class="icon icon-bell" style="color: var(--chalk); font-size: 1.1rem;"></i>
             {% if notifications %}<div class="notif-badge"></div>{% endif %}
         </div>
     </div>
@@ -1222,16 +833,16 @@
     <div class="kc-inner">
 
         <!-- ═══ LEFT PANEL ═══ -->
-        <div class="kc-left">
+        <div class="kc-left" data-reveal>
 
-            <span class="kc-terminal-tag">KeyCord / session-active</span>
+            <span class="kc-session-tag">KeyCord · {{ _('oturum açık') }}</span>
 
             <div class="kc-greeting">
                 <span class="kc-greeting-label">{{ _('Merhaba') }}</span>
                 <div class="kc-name">{{ current_user.username }}</div>
             </div>
 
-            <div class="kc-sub">// {{ _('Bir sohbet seçin ya da') }}<br>// {{ _('yeni bağlantı başlatın.') }}</div>
+            <div class="kc-sub">{{ _('Bir sohbet seç ya da yeni bir bağlantı başlat.') }}</div>
 
             <div class="kc-actions">
                 <a href="{{ url_for('auth.add_friend_page') }}" class="kc-btn kc-btn-primary">
@@ -1244,7 +855,7 @@
                         </svg>
                     </div>
                     <span class="kc-btn-label">{{ _('Arkadaş Ekle') }}</span>
-                    <span class="kc-btn-kbd">⌘ N</span>
+                    <span class="kc-btn-kbd" data-shortcut="add-friend">⌘ A</span>
                 </a>
                 <a href="{{ url_for('auth.create_group_page') }}" class="kc-btn kc-btn-ghost">
                     <div class="kc-btn-icon">
@@ -1256,7 +867,7 @@
                         </svg>
                     </div>
                     <span class="kc-btn-label">{{ _('Grup Kur') }}</span>
-                    <span class="kc-btn-kbd">⌘ G</span>
+                    <span class="kc-btn-kbd" data-shortcut="create-group">⌘ G</span>
                 </a>
                 <a href="{{ url_for('auth.profile') }}" class="kc-btn kc-btn-ghost">
                     <div class="kc-btn-icon">
@@ -1266,7 +877,7 @@
                         </svg>
                     </div>
                     <span class="kc-btn-label">{{ _('Profil') }}</span>
-                    <span class="kc-btn-kbd">⌘ P</span>
+                    <span class="kc-btn-kbd" data-shortcut="profile">⌘ I</span>
                 </a>
             </div>
 
@@ -1288,7 +899,7 @@
         </div>
 
         <!-- ═══ RIGHT PANEL ═══ -->
-        <div class="kc-right">
+        <div class="kc-right" data-reveal>
 
             <div class="kc-section-label">{{ _('Ağ Bilgisi') }}</div>
 
@@ -1312,9 +923,69 @@
                     style="display:none;">vwu5wjocds3kpxwjpc7gy772zkwam7rtqhysumjx5t7rgizbr4mravqd.onion</span>
             </div>
 
+            <!-- Tehdit İstatistikleri -->
+            <div class="threat-stats">
+                <div class="threat-panel">
+                    <div class="threat-info">
+                        <div class="threat-header">
+                            <span class="threat-dot"></span>
+                            <span class="threat-label">{{ _('Gerçek Zamanlı Engelleme') }}</span>
+                        </div>
+                        <div class="threat-count">
+                            <span class="threat-number">{{ banned_count }}</span>
+                            <span class="threat-unit">{{ _('IP') }}</span>
+                        </div>
+                        <p class="threat-sub">{{ _('Kalıcı olarak engellenen kötü amaçlı IP') }}</p>
+                    </div>
+                    <div class="threat-chart">
+                        <div class="threat-bar"></div>
+                        <div class="threat-bar"></div>
+                        <div class="threat-bar"></div>
+                        <div class="threat-bar"></div>
+                        <div class="threat-bar"></div>
+                        <div class="threat-bar"></div>
+                        <div class="threat-bar"></div>
+                        <div class="threat-bar"></div>
+                        <div class="threat-bar"></div>
+                        <div class="threat-bar"></div>
+                    </div>
+                </div>
+            </div>
 
+            <!-- Mini Güvenlik Kanıtları -->
+            <div class="kc-security-strip">
+                <div class="kc-security-items">
 
+                    <a href="https://developer.mozilla.org/en-US/observatory/analyze?host=keycord.org" target="_blank" rel="noopener noreferrer" class="kc-security-item">
+                        <div class="kc-security-icon">
+                            <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                        </div>
+                        <div class="kc-security-text">120/100 Puan</div>
+                    </a>
 
+                    <a href="https://securityheaders.com/?q=keycord.org&followRedirects=on" target="_blank" rel="noopener noreferrer" class="kc-security-item">
+                        <div class="kc-security-icon">
+                            <svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                        </div>
+                        <div class="kc-security-text">A+ Sınıfı</div>
+                    </a>
+
+                    <a href="https://github.com/Keremcm/KeyCord" target="_blank" rel="noopener noreferrer" class="kc-security-item">
+                        <div class="kc-security-icon">
+                            <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                        </div>
+                        <div class="kc-security-text">Açık Kaynak</div>
+                    </a>
+
+                    <div class="kc-security-item" style="cursor: default;" title="{{ _('Kuantum sonrası hibrit uçtan uca şifreleme') }}">
+                        <div class="kc-security-icon">
+                            <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                        </div>
+                        <div class="kc-security-text">X25519 + ML-KEM-768</div>
+                    </div>
+
+                </div>
+            </div>
 
         </div>
 
@@ -1489,5 +1160,36 @@
     document.getElementById('top-bell-icon')?.addEventListener('click', toggleNotifications);
     document.getElementById('sticky-bell-icon')?.addEventListener('click', toggleNotifications);
     document.getElementById('mark-read-btn')?.addEventListener('click', markAllRead);
+
+    /* ── Keyboard Shortcuts ── */
+    const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+    const modKey = isMac ? '⌘' : 'Ctrl';
+    document.querySelectorAll('.kc-btn-kbd[data-shortcut]').forEach(el => {
+        el.textContent = el.textContent.replace('⌘', modKey);
+    });
+
+    const shortcuts = {
+        'add-friend': '{{ url_for("auth.add_friend_page") }}',
+        'create-group': '{{ url_for("auth.create_group_page") }}',
+        'profile': '{{ url_for("auth.profile") }}'
+    };
+
+    document.addEventListener('keydown', e => {
+        const mod = isMac ? e.metaKey : e.ctrlKey;
+        if (!mod) return;
+
+        const t = e.target;
+        if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.tagName === 'SELECT' || t.isContentEditable)) return;
+
+        let action = null;
+        if (e.key === 'a' || e.key === 'A') action = 'add-friend';
+        else if (e.key === 'g' || e.key === 'G') action = 'create-group';
+        else if (e.key === 'i' || e.key === 'I') action = 'profile';
+
+        if (action && shortcuts[action]) {
+            e.preventDefault();
+            window.location.href = shortcuts[action];
+        }
+    });
 </script>
 {% endblock %}

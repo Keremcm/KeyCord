@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 
-{% block title %}KeyCord - Canary Warrant{% endblock %}
+{% block title %}KeyCord Canary Warrant | Şeffaflık Beyanı{% endblock %}
+
+{% block meta_description %}
+{{ _('KeyCord\'un aylık güncellenen canary warrant belgesi: hükümet talebi, arka kapı ve zero-knowledge mimarisi durumuna dair güncel şeffaflık beyanı.') }}
+{% endblock %}
 
 {% block extra_css %}
 <style>
@@ -39,6 +43,7 @@
     .policy-header h1 {
         font-family: 'Caveat', cursive;
         font-size: clamp(2.5rem, 8vw, 4rem);
+        font-optical-sizing: auto;
         color: var(--chalk);
         margin: 0 0 0.5rem;
         text-transform: uppercase;
@@ -78,7 +83,7 @@
     }
 
     .policy-content {
-        font-family: 'Inter', sans-serif;
+        font-family: 'Space Grotesk', sans-serif;
         font-size: 1.2rem;
         line-height: 1.85;
         color: var(--muted-chalk);
@@ -174,7 +179,7 @@
         text-decoration: none;
         font-family: 'Caveat', cursive;
         font-size: 1.05rem;
-        transition: all 0.3s;
+        transition: border-color 0.3s ease, color 0.3s ease;
     }
 
     .back-link:hover {
@@ -223,6 +228,27 @@
 </style>
 {% endblock %}
 
+{% block schema %}
+<script nonce="{{ csp_nonce }}" type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "{{ _('KeyCord Canary Warrant — Şeffaflık Beyanı') }}",
+    "description": "{{ _('KeyCord\'un aldığı hükümet talepleri, arka kapı durumu ve zero-knowledge mimarisinin güncel durumuna dair aylık şeffaflık beyanı.') }}",
+    "author": { "@type": "Organization", "name": "KeyCord" },
+    "publisher": {
+        "@type": "Organization",
+        "name": "KeyCord",
+        "url": "https://keycord.org"
+    },
+    "datePublished": "2026-05-01",
+    "dateModified": "2026-08-01",
+    "inLanguage": "tr",
+    "mainEntityOfPage": "https://keycord.org/canary"
+}
+</script>
+{% endblock %}
+
 {% block footer %}{% endblock %}
 
 {% block content %}
@@ -236,12 +262,12 @@
         <h1>CANARY WARRANT</h1>
         <div class="meta">
             <p>KeyCord — Gizlilik Öncelikli Şifreli Mesajlaşma Platformu</p>
-            <p>{{ _('Son güncelleme: Temmuz 2026') }}</p>
+            <p>{{ _('Son güncelleme: Ağustos 2026') }}</p>
         </div>
     </div>
 
     <!-- 1. BEYAN -->
-    <div class="policy-section">
+    <div class="policy-section" data-reveal>
         <h2 class="section-title">
             <span class="section-number">1</span> {{ _('Beyanlarımız') }}
         </h2>
@@ -259,7 +285,7 @@
     </div>
 
     <!-- 2. ÇALIŞMA PRENSİBİ -->
-    <div class="policy-section">
+    <div class="policy-section" data-reveal>
         <h2 class="section-title">
             <span class="section-number">2</span> {{ _('Canary Nasıl Çalışır?') }}
         </h2>
@@ -274,7 +300,7 @@
     </div>
 
     <!-- 3. DURUM -->
-    <div class="policy-section">
+    <div class="policy-section" data-reveal>
         <h2 class="section-title">
             <span class="section-number">3</span> {{ _('Güncel Durum') }}
         </h2>
@@ -288,6 +314,7 @@
                 - Mayıs 2026: İlk yayın. Tüm beyanlar geçerlidir.
                 - Haziran 2026: Sistem güncellemesi yapıldı, tüm beyanlar geçerlidir.
                 - Temmuz 2026: Bu belge güncellendi, tüm beyanlar geçerlidir.
+                - Ağustos 2026: Bu belge 1.08.2026 tarihinde güncellendi, tüm beyanlar geçerlidir.
             </p>
         </div>
     </div>

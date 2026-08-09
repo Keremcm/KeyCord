@@ -8,24 +8,24 @@
 <style>
     @media (max-width: 768px) {
         .create-form-wrapper {
-            padding: 1rem !important;
+            padding: 1rem;
         }
 
         .create-form-header h1 {
-            font-size: 2.8rem !important;
+            font-size: 2.8rem;
         }
 
         .create-form-card {
-            padding: 1.5rem !important;
-            transform: none !important;
+            padding: 1.5rem;
+            transform: none;
         }
 
         .btn-stack {
-            flex-direction: column-reverse !important;
+            flex-direction: column-reverse;
         }
 
         .btn-stack .btn {
-            width: 100% !important;
+            width: 100%;
         }
     }
 </style>
@@ -92,7 +92,7 @@
                     style="display: block; font-family: 'Caveat'; font-size: 1.4rem; margin-bottom: 0.5rem; color: var(--chalk);">{{
                     _('Topluluk Resmi') }}</label>
 
-                <div style="position: relative; overflow: hidden; border: 2px dashed rgba(255,255,255,0.2); border-radius: 12px; padding: 2rem; text-align: center; cursor: pointer; transition: 0.2s;"
+                <div style="position: relative; overflow: hidden; border: 2px dashed rgba(255,255,255,0.2); border-radius: 12px; padding: 2rem; text-align: center; cursor: pointer; transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s cubic-bezier(0.22, 1, 0.36, 1);"
                     onmouseover="this.style.borderColor='var(--chalk)'"
                     onmouseout="this.style.borderColor='rgba(255,255,255,0.2)'">
                     <input type="file" name="avatar" accept="image/*" id="fileInput"

@@ -174,3 +174,124 @@ a:hover {
     border-radius: 6px;
     object-fit: cover;
 }
+
+/* ============================================
+   MOBILE FIXES — All below are mobile-only
+   ============================================ */
+
+/* Touch feedback for all interactive elements */
+button:active,
+a:active,
+.list-item:active,
+.btn:active {
+    transform: scale(0.96);
+    transition: transform 0.1s;
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+@media (max-width: 768px) {
+    /* Fix form min-width causing horizontal scroll */
+    form {
+        min-width: 0;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    /* Touch target minimums — 44px */
+    button,
+    .btn,
+    .add-friend-btn,
+    .send-btn,
+    .header-action-btn,
+    .notif-read-btn,
+    .list-item {
+        min-height: 44px;
+        min-width: 44px;
+    }
+
+    /* Friend list items — bigger touch targets */
+    .friend-item {
+        padding: 12px 8px;
+        min-height: 48px;
+    }
+
+    /* Friend pics — slightly larger on mobile */
+    .friend-pic {
+        width: 40px;
+        height: 40px;
+    }
+
+    /* Fix too-small fonts */
+    .kc-tor-hint,
+    .kc-tor-badge,
+    .kc-status-pill,
+    .kc-security-text,
+    .threat-label,
+    .threat-sub,
+    .notif-read-btn {
+        font-size: 0.75rem !important;
+    }
+
+    /* Fix too-large fonts on mobile */
+    .profile-meta-name {
+        font-size: 2rem !important;
+    }
+
+    .prof-section-title {
+        font-size: 1.4rem !important;
+    }
+
+    .field-item label {
+        font-size: 1.1rem !important;
+    }
+
+    .profile-tab {
+        font-size: 1.2rem !important;
+    }
+
+    .danger-desc {
+        font-size: 1.2rem !important;
+    }
+
+    /* Message bubble — slightly smaller on mobile to save space */
+    .bubble {
+        font-size: 1rem !important;
+    }
+
+    /* Accept/reject buttons — ensure 44px */
+    .friend-req-actions .btn {
+        min-width: 44px;
+        min-height: 44px;
+    }
+}
+
+/* Extra small screens */
+@media (max-width: 480px) {
+    body {
+        font-size: 15px;
+    }
+
+    h2 {
+        font-size: 1.4rem;
+        margin-top: 24px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+        padding: 12px;
+        font-size: 16px; /* Prevents iOS zoom on focus */
+    }
+
+    button {
+        padding: 14px 24px;
+    }
+}

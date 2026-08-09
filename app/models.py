@@ -36,6 +36,12 @@ class User(db.Model):
     encrypted_private_key = db.Column(db.Text, nullable=True)  # Kullanıcının şifresiyle şifrelenmiş RSA/X25519 Private Key
     salt = db.Column(db.String(64), nullable=True)  # Şifreden anahtar türetmek için tuz
 
+    # Hibrit (Post-Quantum) E2EE Keys — X25519 + ML-KEM-768
+    public_key_x25519 = db.Column(db.Text, nullable=True)  # X25519 Public Key (base64 raw)
+    encrypted_private_key_x25519 = db.Column(db.Text, nullable=True)  # Şifreyle şifrelenmiş X25519 Private Key (base64 raw)
+    public_key_mlkem = db.Column(db.Text, nullable=True)  # ML-KEM-768 Public Key (base64 raw)
+    encrypted_private_key_mlkem = db.Column(db.Text, nullable=True)  # Şifreyle şifrelenmiş ML-KEM-768 Private Key seed
+
     invited_by = db.relationship('User', remote_side=[id], foreign_keys=[invited_by_id], backref='invitees')
 
 class InviteCode(db.Model):
@@ -50,6 +56,20 @@ class InviteCode(db.Model):
 
     inviter = db.relationship('User', foreign_keys=[inviter_id], backref='sent_invites')
     used_by = db.relationship('User', foreign_keys=[used_by_id], backref='used_invites')
+
+
+class PublicInvite(db.Model):
+    """Kayıt sayfasında gösterilen, aylık dönen çok kullanımlı açık davet kodu.
+
+    Tek satırlık tablo (id=1). Her ay yeniden üretilir; use_count ay içinde
+    PUBLIC_INVITE_MONTHLY_LIMIT'e ulaşınca açık kayıt kontenjanı dolar.
+    """
+    id = db.Column(db.Integer, primary_key=True)
+    code = db.Column(db.String(64), nullable=False)
+    month = db.Column(db.String(7), nullable=False, index=True)
+    use_count = db.Column(db.Integer, nullable=False, default=0)
+    created_at = db.Column(db.DateTime, default=datetime.datetime.utcnow)
+    expires_at = db.Column(db.DateTime, nullable=True)
 
 class Friendship(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -79,6 +99,7 @@ class ChatMessage(db.Model):
     encrypted_aes_key_sender = db.Column(db.Text, nullable=True)  # Göndericinin public key'i ile şifrelenmiş AES anahtarı
     encrypted_keys_json = db.Column(db.Text, nullable=True) # GRUP İÇİN: {user_id: encrypted_key} haritası
     iv = db.Column(db.String(64), nullable=True)  # AES-GCM IV (Base64)
+    is_deleted = db.Column(db.Boolean, default=False)  # Soft-delete: gönderen silebilir
 
 class Notification(db.Model):
     id = db.Column(db.Integer, primary_key=True)

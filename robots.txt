@@ -11,7 +11,9 @@ Allow: /privacy-policy
 Allow: /terms-of-service
 Allow: /gdpr
 Allow: /kvkk
-
+Allow: /canary
+Allow: /hall-of-fame
+Allow: /careers
 # Disallow application areas and sensitive routes
 Disallow: /dashboard*
 Disallow: /messages*
@@ -24,32 +26,269 @@ Disallow: /logout
 Disallow: /admin*
 Disallow: /search*
 
-# Block AI and LLM Scrapers (Enhanced protection)
+# ── AI / LLM CRAWLERS ──────────────────────────────────────────────
+# Allowed on public pages, blocked from app & sensitive routes.
+# Cloudflare WAF rule must also permit these user-agents.
+# ────────────────────────────────────────────────────────────────────
+
 User-agent: GPTBot
-Disallow: /
+Allow: /
+Allow: /canary
+Disallow: /dashboard*
+Disallow: /messages*
+Disallow: /group*
+Disallow: /community*
+Disallow: /profile*
+Disallow: /settings*
+Disallow: /api*
+Disallow: /admin*
+Disallow: /search*
+Disallow: /logout
 
 User-agent: ChatGPT-User
-Disallow: /
+Allow: /
+Allow: /canary
+Disallow: /dashboard*
+Disallow: /messages*
+Disallow: /group*
+Disallow: /community*
+Disallow: /profile*
+Disallow: /settings*
+Disallow: /api*
+Disallow: /admin*
+Disallow: /search*
+Disallow: /logout
 
-User-agent: Google-Extended
-Disallow: /
+User-agent: OAI-SearchBot
+Allow: /
+Allow: /canary
+Disallow: /dashboard*
+Disallow: /messages*
+Disallow: /group*
+Disallow: /community*
+Disallow: /profile*
+Disallow: /settings*
+Disallow: /api*
+Disallow: /admin*
+Disallow: /search*
+Disallow: /logout
 
-User-agent: CCBot
-Disallow: /
+User-agent: ClaudeBot
+Allow: /
+Allow: /canary
+Disallow: /dashboard*
+Disallow: /messages*
+Disallow: /group*
+Disallow: /community*
+Disallow: /profile*
+Disallow: /settings*
+Disallow: /api*
+Disallow: /admin*
+Disallow: /search*
+Disallow: /logout
 
 User-agent: Claude-Web
-Disallow: /
+Allow: /
+Allow: /canary
+Disallow: /dashboard*
+Disallow: /messages*
+Disallow: /group*
+Disallow: /community*
+Disallow: /profile*
+Disallow: /settings*
+Disallow: /api*
+Disallow: /admin*
+Disallow: /search*
+Disallow: /logout
 
-User-agent: Anthropic-AI
-Disallow: /
+User-agent: anthropic-ai
+Allow: /
+Allow: /canary
+Disallow: /dashboard*
+Disallow: /messages*
+Disallow: /group*
+Disallow: /community*
+Disallow: /profile*
+Disallow: /settings*
+Disallow: /api*
+Disallow: /admin*
+Disallow: /search*
+Disallow: /logout
 
+User-agent: Gemini
+Allow: /
+Allow: /canary
+Disallow: /dashboard*
+Disallow: /messages*
+Disallow: /group*
+Disallow: /community*
+Disallow: /profile*
+Disallow: /settings*
+Disallow: /api*
+Disallow: /admin*
+Disallow: /search*
+Disallow: /logout
+
+User-agent: Googlebot
+Allow: /
+Allow: /canary
+Disallow: /dashboard*
+Disallow: /messages*
+Disallow: /group*
+Disallow: /community*
+Disallow: /profile*
+Disallow: /settings*
+Disallow: /api*
+Disallow: /admin*
+Disallow: /search*
+Disallow: /logout
+
+User-agent: Google-Read-Aloud
+Allow: /
+Allow: /canary
+Disallow: /dashboard*
+Disallow: /messages*
+Disallow: /group*
+Disallow: /community*
+Disallow: /profile*
+Disallow: /settings*
+Disallow: /api*
+Disallow: /admin*
+Disallow: /search*
+Disallow: /logout
+
+User-agent: AdsBot-Google
+Allow: /
+Allow: /canary
+Disallow: /dashboard*
+Disallow: /messages*
+Disallow: /group*
+Disallow: /community*
+Disallow: /profile*
+Disallow: /settings*
+Disallow: /api*
+Disallow: /admin*
+Disallow: /search*
+Disallow: /logout
+
+User-agent: DeepSeek
+Allow: /
+Allow: /canary
+Disallow: /dashboard*
+Disallow: /messages*
+Disallow: /group*
+Disallow: /community*
+Disallow: /profile*
+Disallow: /settings*
+Disallow: /api*
+Disallow: /admin*
+Disallow: /search*
+Disallow: /logout
+
+User-agent: Bytespider
+Allow: /
+Allow: /canary
+Disallow: /dashboard*
+Disallow: /messages*
+Disallow: /group*
+Disallow: /community*
+Disallow: /profile*
+Disallow: /settings*
+Disallow: /api*
+Disallow: /admin*
+Disallow: /search*
+Disallow: /logout
+
+User-agent: PerplexityBot
+Allow: /
+Allow: /canary
+Disallow: /dashboard*
+Disallow: /messages*
+Disallow: /group*
+Disallow: /community*
+Disallow: /profile*
+Disallow: /settings*
+Disallow: /api*
+Disallow: /admin*
+Disallow: /search*
+Disallow: /logout
+
+User-agent: Amazonbot
+Allow: /
+Allow: /canary
+Disallow: /dashboard*
+Disallow: /messages*
+Disallow: /group*
+Disallow: /community*
+Disallow: /profile*
+Disallow: /settings*
+Disallow: /api*
+Disallow: /admin*
+Disallow: /search*
+Disallow: /logout
+
+User-agent: Applebot
+Allow: /
+Allow: /canary
+Disallow: /dashboard*
+Disallow: /messages*
+Disallow: /group*
+Disallow: /community*
+Disallow: /profile*
+Disallow: /settings*
+Disallow: /api*
+Disallow: /admin*
+Disallow: /search*
+Disallow: /logout
+
+# Legacy / supplementary AI names — same rules as above
+User-agent: Google-Extended
+Allow: /
+Allow: /canary
+Disallow: /dashboard*
+Disallow: /messages*
+Disallow: /group*
+Disallow: /community*
+Disallow: /profile*
+Disallow: /settings*
+Disallow: /api*
+Disallow: /admin*
+Disallow: /search*
+Disallow: /logout
+
+User-agent: Claude-User
+Allow: /
+Allow: /canary
+Disallow: /dashboard*
+Disallow: /messages*
+Disallow: /group*
+Disallow: /community*
+Disallow: /profile*
+Disallow: /settings*
+Disallow: /api*
+Disallow: /admin*
+Disallow: /search*
+Disallow: /logout
+
+User-agent: CCBot
+Allow: /
+Allow: /canary
+Disallow: /dashboard*
+Disallow: /messages*
+Disallow: /group*
+Disallow: /community*
+Disallow: /profile*
+Disallow: /settings*
+Disallow: /api*
+Disallow: /admin*
+Disallow: /search*
+Disallow: /logout
+
+# ── BLOCKED SCRAPERS ───────────────────────────────────────────────
 User-agent: FacebookBot
 Disallow: /
 
 User-agent: Omgilibot
-Disallow: /
-
-User-agent: Bytespider
 Disallow: /
 
 # SECURITY NOTICE / GÜVENLİK UYARISI

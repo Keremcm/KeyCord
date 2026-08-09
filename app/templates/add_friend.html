@@ -7,30 +7,30 @@
 <style>
     @media (max-width: 768px) {
         .add-friend-wrapper {
-            padding: 1rem !important;
+            padding: 1rem;
         }
 
         .add-friend-header {
-            margin-bottom: 1.5rem !important;
-            padding: 1rem !important;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
         }
 
         .add-friend-header h1 {
-            font-size: 2.2rem !important;
+            font-size: 2.2rem;
         }
 
         .search-box {
-            padding: 1rem !important;
-            margin-bottom: 2rem !important;
+            padding: 1rem;
+            margin-bottom: 2rem;
         }
 
         .search-form {
-            gap: 10px !important;
+            gap: 10px;
         }
 
         .search-input {
-            padding: 10px !important;
-            font-size: 1.2rem !important;
+            padding: 10px;
+            font-size: 1.2rem;
         }
 
         .search-btn {
@@ -38,12 +38,12 @@
         }
 
         .results-grid {
-            grid-template-columns: 1fr !important;
-            gap: 1rem !important;
+            grid-template-columns: 1fr;
+            gap: 1rem;
         }
 
         .result-card {
-            padding: 1.2rem !important;
+            padding: 1.2rem;
         }
     }
 </style>
@@ -117,6 +117,7 @@
         font-family: 'Reenie Beanie', cursive;
         color: var(--chalk);
         font-size: 3.5rem;
+        font-optical-sizing: auto;
         margin: 0;
         line-height: 1.2;
     }
@@ -153,7 +154,7 @@
         font-family: 'Caveat', cursive;
         font-size: 1.4rem;
         outline: none;
-        transition: all 0.3s ease;
+        transition: border-color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
         text-align: center;
     }
 
@@ -185,7 +186,8 @@
         flex-direction: column;
         align-items: center;
         gap: 20px;
-        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+            border-color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
         border-color: rgba(255, 255, 255, 0.1);
         background: rgba(255, 255, 255, 0.01);
         height: 100%;
@@ -212,6 +214,7 @@
         margin: 0;
         font-family: 'Caveat', cursive;
         font-size: 2rem;
+        font-optical-sizing: auto;
         color: var(--chalk);
         margin-bottom: 5px;
     }
@@ -386,8 +389,8 @@
                         actionHtml = `<span class="btn status-btn self-user">${TRANSLATIONS.selfUser}</span>`;
                     } else {
                         actionHtml = `
-                        <form action="/add-friend" method="POST" class="add-btn-form">
-                            <input type="hidden" name="username" value="${user.username}">
+                        <form action="/send-friend-request" method="POST" class="add-btn-form">
+                            <input type="hidden" name="to_user_id" value="${user.id}">
                             <button type="submit" class="btn add-friend-btn">${TRANSLATIONS.addFriend}</button>
                         </form>`;
                     }

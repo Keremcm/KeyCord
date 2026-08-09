@@ -23,6 +23,7 @@
         color: var(--chalk);
         text-shadow: 3px 3px 0px rgba(0, 0, 0, 0.2);
         font-family: 'Indie Flower', 'Architects Daughter', cursive;
+        font-optical-sizing: auto;
         position: relative;
     }
 
@@ -73,7 +74,7 @@
         font-size: 1.2rem;
         color: var(--chalk);
         text-decoration: none;
-        transition: all 0.3s ease;
+        transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
     .btn-home:hover {

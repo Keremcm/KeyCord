@@ -37,6 +37,7 @@
     .contact-header h1 {
         font-family: 'Caveat', sans-serif;
         font-size: clamp(2.75rem, 8vw, 4rem);
+        font-optical-sizing: auto;
         margin: 0 0 0.75rem;
         color: var(--chalk);
     }
@@ -153,6 +154,11 @@
             grid-template-columns: 1fr;
         }
     }
+
+    /* Scroll reveal stagger for contact cards */
+    .contact-list [data-reveal]:nth-child(2) { transition-delay: 0.08s; }
+    .contact-list [data-reveal]:nth-child(3) { transition-delay: 0.16s; }
+    .contact-list [data-reveal]:nth-child(4) { transition-delay: 0.24s; }
 </style>
 {% endblock %}
 
@@ -169,32 +175,32 @@
     </div>
 
     <div class="contact-list">
-        <div class="contact-card">
+        <div class="contact-card" data-reveal>
             <h2>{{ _('Genel Destek') }}</h2>
             <p>{{ _('Her türlü soru, öneri veya teknik destek için bu e-posta adresini kullanabilirsiniz.') }}</p>
             <a href="mailto:contact@keycord.org" class="contact-button">contact@keycord.org</a>
         </div>
 
-        <div class="contact-card">
+        <div class="contact-card" data-reveal>
             <h2>{{ _('Güvenlik Bildirimi') }}</h2>
             <p>{{ _('Güvenlik, gizlilik veya kritik hata bildirimi için bu e-posta adresini kullanın.') }}</p>
             <a href="mailto:security@keycord.org" class="contact-button">security@keycord.org</a>
         </div>
 
-        <div class="contact-card">
+        <div class="contact-card" data-reveal>
             <h2>{{ _('Bilgi / Info') }}</h2>
             <p>{{ _('Hizmet ve genel bilgi talepleriniz için bu e-posta adresini kullanabilirsiniz.') }}</p>
             <a href="mailto:info@keycord.org" class="contact-button">info@keycord.org</a>
         </div>
 
-        <div class="contact-card">
+        <div class="contact-card" data-reveal>
             <h2>{{ _('Gizlilik / Privacy') }}</h2>
             <p>{{ _('Gizlilik politikası ve veri koruma soruları için bu e-posta adresini kullanın.') }}</p>
             <a href="mailto:privacy@keycord.org" class="contact-button">privacy@keycord.org</a>
         </div>
     </div>
 
-    <div class="social-section">
+    <div class="social-section" data-reveal>
         <h2>{{ _('Sosyal Medya') }}</h2>
         <a href="https://instagram.com/keycord_official" target="_blank" rel="noopener noreferrer" class="social-button">
             <span class="icon">IG</span>

@@ -8,35 +8,35 @@
 <style>
     @media (max-width: 768px) {
         .settings-wrapper {
-            padding: 1rem !important;
+            padding: 1rem;
         }
 
         .settings-header h1 {
-            font-size: 2.5rem !important;
+            font-size: 2.5rem;
         }
 
         .settings-form,
         .members-section {
-            padding: 1.5rem 1rem !important;
+            padding: 1.5rem 1rem;
         }
 
         .members-grid {
-            grid-template-columns: 1fr !important;
-            gap: 0.8rem !important;
+            grid-template-columns: 1fr;
+            gap: 0.8rem;
         }
 
         .member-card {
-            padding: 0.8rem !important;
-            display: flex !important;
-            align-items: center !important;
-            text-align: left !important;
-            gap: 1rem !important;
+            padding: 0.8rem;
+            display: flex;
+            align-items: center;
+            text-align: left;
+            gap: 1rem;
         }
 
         .member-card img {
-            width: 44px !important;
-            height: 44px !important;
-            margin-bottom: 0 !important;
+            width: 44px;
+            height: 44px;
+            margin-bottom: 0;
         }
 
         .member-info {
@@ -44,7 +44,7 @@
         }
 
         .member-actions {
-            justify-content: flex-start !important;
+            justify-content: flex-start;
             margin-top: 0.5rem;
         }
     }
@@ -170,7 +170,7 @@
                             action="{{ url_for('auth.toggle_community_admin', community_id=community.id, t_user_id=member.id) }}"
                             method="POST">
                             <button type="submit"
-                                style="background: transparent; border: 1px dashed var(--chalk); color: var(--chalk); padding: 4px 10px; border-radius: 8px; cursor: pointer; font-family: 'Caveat'; font-size: 1rem; transition: 0.2s;"
+                                style="background: transparent; border: 1px dashed var(--chalk); color: var(--chalk); padding: 4px 10px; border-radius: 8px; cursor: pointer; font-family: 'Caveat'; font-size: 1rem; transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s cubic-bezier(0.22, 1, 0.36, 1);"
                                 title="{{ _('Yöneticiliği Al') if community.admins and member.id in community.admins else _('Yönetici Yap') }}">
                                 {% if community.admins and member.id in community.admins %}
                                 ▼ {{ _('Üye Yap') }}
@@ -186,7 +186,7 @@
                             data-confirm-msg="{{ _('Bu üyeyi topluluktan çıkarmak istediğinize emin misiniz?') }}"
                             onsubmit="return confirm(this.dataset.confirmMsg);">
                             <button type="submit"
-                                style="background: transparent; border: 1px dashed var(--brand-red); color: var(--brand-red); padding: 4px 10px; border-radius: 8px; cursor: pointer; font-family: 'Caveat'; font-size: 1rem; transition: 0.2s;">
+                                style="background: transparent; border: 1px dashed var(--brand-red); color: var(--brand-red); padding: 4px 10px; border-radius: 8px; cursor: pointer; font-family: 'Caveat'; font-size: 1rem; transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s cubic-bezier(0.22, 1, 0.36, 1);">
                                 {{ _('Çıkar') }}
                             </button>
                         </form>

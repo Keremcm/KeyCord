@@ -213,9 +213,8 @@ msgid "Gizlilik"
 msgstr "Datenschutz"
 
 #: app/templates/base.html:82
-#, fuzzy
 msgid "Şartlar"
-msgstr "Einstellungen"
+msgstr "Bedingungen"
 
 #: app/templates/base.html:83
 msgid "KVKK / GDPR"
@@ -624,150 +623,6 @@ msgstr "Sieht aus, als hättest du noch keine Freunde..."
 #: app/templates/create_group.html:60
 msgid "Arkadaş Bul"
 msgstr "Freunde finden"
-
-#: app/templates/explicit_consent.html:3
-#: app/templates/explicit_consent.html:105 app/templates/login.html:227
-msgid "Açık Rıza Beyanı"
-msgstr ""
-
-#: app/templates/explicit_consent.html:108
-msgid "KeyCord Uçtan Uca Şifreleme ve Veri İmhası Hakkında"
-msgstr ""
-
-#: app/templates/explicit_consent.html:114
-msgid ""
-"KeyCord platformu, kullanıcı mahremiyetini en üst düzeyde tutmak amacıyla"
-" <strong>Uçtan Uca Şifreleme\n"
-"                (E2EE - End-to-End Encryption)</strong> ve <strong>Sıfır "
-"Bilgi (Zero-Knowledge)</strong> mimarisi\n"
-"            üzerine inşa edilmiştir. Bu mimari, verilerinizin güvenliğini"
-" sağlarken aynı zamanda verilerin imhası ve\n"
-"            erişilebilirliği konusunda belirli teknik kısıtları da "
-"beraberinde getirmektedir."
-msgstr ""
-
-#: app/templates/explicit_consent.html:123
-msgid "1. Şifreleme Mimarisi ve Veri Erişimi"
-msgstr ""
-
-#: app/templates/explicit_consent.html:126
-msgid ""
-"KeyCord platformunda yapılan mesajlaşmalar ve paylaşılan içerikler, "
-"gönderici ve alıcının\n"
-"                cihazlarında oluşturulan benzersiz şifreleme anahtarları "
-"ile korunmaktadır."
-msgstr ""
-
-#: app/templates/explicit_consent.html:130
-msgid ""
-"<strong>Sıfır Bilgi:</strong> KeyCord sunucuları, şifrelenmiş mesaj "
-"içeriklerini (ciphertext)\n"
-"                    saklasa dahi, bu mesajları çözecek özel anahtarlara "
-"(Private Key) erişimi yoktur. Özel anahtarınız,\n"
-"                    yalnızca sizin belirlediğiniz şifre ile şifrelenmiş "
-"olarak saklanır ve şifreniz sunucularımıza düz\n"
-"                    metin olarak asla gönderilmez."
-msgstr ""
-
-#: app/templates/explicit_consent.html:134
-msgid ""
-"<strong>Yerel Çözümleme:</strong> Mesajlar yalnızca ilgili tarafların "
-"(gönderici ve alıcı)\n"
-"                    cihazlarında, yerel olarak çözümlenebilir."
-msgstr ""
-
-#: app/templates/explicit_consent.html:142
-msgid "2. Hesap Silme ve Veri İmhası"
-msgstr ""
-
-#: app/templates/explicit_consent.html:145
-msgid ""
-"Hesabınızı kalıcı olarak silmeniz durumunda aşağıdaki işlemler geri "
-"döndürülemez şekilde\n"
-"                uygulanır:"
-msgstr ""
-
-#: app/templates/explicit_consent.html:149
-msgid ""
-"<strong>Şifreleme Anahtarları:</strong> Hesabınıza ait <code>Public "
-"Key</code> ve şifrelenmiş\n"
-"                    <code>Private Key</code> veritabanından kalıcı olarak"
-" silinir. Anahtarların silinmesi, hesabınızla\n"
-"                    ilişkilendirilmiş tüm geçmiş şifreli verilerin "
-"matematiksel olarak çözülemez hale gelmesini\n"
-"                    sağlar."
-msgstr ""
-
-#: app/templates/explicit_consent.html:153
-msgid ""
-"<strong>Hesap Bilgileri:</strong> Kullanıcı adı, e-posta adresi ve profil"
-" detaylarınız\n"
-"                    (metadata) sistemden tamamen kaldırılır."
-msgstr ""
-
-#: app/templates/explicit_consent.html:155
-msgid ""
-"<strong>Sunucu Verileri:</strong> Sunucularımızda saklanan ve size ait "
-"olan teslim edilmemiş\n"
-"                    geçici mesaj paketleri silinir."
-msgstr ""
-
-#: app/templates/explicit_consent.html:163
-msgid "3. Teknik Sınırlar ve Kullanıcı Beyanı"
-msgstr ""
-
-#: app/templates/explicit_consent.html:167
-msgid ""
-"<strong>Önemli Uyarı:</strong> Uçtan uca şifreleme ve dağıtık yapı "
-"gereği, gönderdiğiniz\n"
-"                    mesajlar alıcının cihazına ulaştıktan sonra "
-"KeyCord'un teknik kontrol alanından çıkmaktadır."
-msgstr ""
-
-#: app/templates/explicit_consent.html:172
-msgid "Bu kapsamda, KeyCord platformuna üye olarak ve hizmetlerini kullanarak;"
-msgstr ""
-
-#: app/templates/explicit_consent.html:175
-msgid ""
-"Hesabımı silmem veya verilerimin imhasını talep etmem halinde; sunucu "
-"tarafındaki tüm\n"
-"                    verilerimin ve şifreleme anahtarlarımın geri alınamaz"
-" şekilde silineceğini,"
-msgstr ""
-
-#: app/templates/explicit_consent.html:177
-msgid ""
-"Bu işlem sonucunda, <strong>diğer kullanıcıların cihazlarına (bilgisayar,"
-" telefon vb.) daha\n"
-"                        önce iletilmiş olan mesaj kopyalarının, önbellek "
-"verilerinin veya ekran görüntülerinin</strong>\n"
-"                    KeyCord’un teknik kontrolü dışında olduğunu,"
-msgstr ""
-
-#: app/templates/explicit_consent.html:180
-msgid ""
-"KeyCord'un diğer kullanıcıların cihazlarına fiziksel veya uzaktan "
-"müdahale yetkisi\n"
-"                    bulunmadığından, bu yerel kopyalar üzerinde tek "
-"taraflı silme işlemi uygulayamayabileceğini,"
-msgstr ""
-
-#: app/templates/explicit_consent.html:183
-msgid ""
-"Hesap silme işleminin, şifreleme anahtarlarının yok edilmesi nedeniyle "
-"<strong>kesinlikle geri\n"
-"                        alınamayacağını</strong> ve verilerin "
-"kurtarılamayacağını"
-msgstr ""
-
-#: app/templates/explicit_consent.html:187
-msgid "bildiğimi, anladığımı ve hür irademle kabul ettiğimi beyan ederim."
-msgstr ""
-
-#: app/templates/explicit_consent.html:193
-msgid "KeyCord Güvenlik Protokolü - Revizyon 1.0"
-msgstr ""
 
 #: app/templates/faq.html:3
 msgid "Anonim Sohbet, Güvenli Mesajlaşma ve Tor"
@@ -1506,7 +1361,6 @@ msgid "Bir hata oluştu"
 msgstr "Ein Fehler ist aufgetreten"
 
 #: app/templates/help_center.html:273
-#, fuzzy
 msgid "Yardım Merkezi"
 msgstr "Hilfe"
 
@@ -1514,7 +1368,7 @@ msgstr "Hilfe"
 msgid ""
 "KeyCord hakkında sıkça sorulan sorulara ve rehberlere ulaşın. Mesajlaşma,"
 " güvenlik ve hesap ayarları hakkında yardım alın."
-msgstr ""
+msgstr "Hier finden Sie Antworten auf häufig gestellte Fragen und Anleitungen zu KeyCord. Erhalten Sie Hilfe zu Nachrichten, Sicherheit und Kontoeinstellungen."
 
 #: app/templates/home.html:39
 msgid "Bildirimler"
@@ -2029,6 +1883,9 @@ msgid ""
 "bilgilendirme amacıyla gönderilmiştir."
 msgstr ""
 
+msgid "Örn: 'Şifre değiştirme', 'Grup kurma'..."
+msgstr "z. B. 'Passwort ändern', 'Gruppe erstellen'..."
+
 #~ msgid "şimdi"
 #~ msgstr "jetzt"
 
@@ -2102,3 +1959,1880 @@ msgstr ""
 #~ msgid "Email:"
 #~ msgstr ""
 
+#: app/templates/welcome.html
+msgid ""
+"Veri Sende Kalır"
+msgstr ""
+"Deine Daten bleiben bei dir"
+
+#: app/templates/welcome.html
+msgid ""
+"Özgürce Konuş, İz Bırakma."
+msgstr ""
+"Sprich frei, hinterlasse keine Spuren."
+
+#: app/templates/welcome.html:933
+msgid "KeyCord; Türkiye merkezli, Tor ağı ve kuantum bilgisayarlara dayanıklı (post-quantum) uçtan uca şifrelemeyle çalışan, hiçbir iz bırakmadan konuşabileceğiniz özgür bir mesajlaşma alanıdır. Kayıt olmak için telefon numarası ya da e-posta istemeyiz."
+msgstr "KeyCord ist ein in der Türkei ansässiger, freier Messenger-Bereich, der mit dem Tor-Netzwerk und quantencomputersicherer (Post-Quantum-)Ende-zu-Ende-Verschlüsselung funktioniert, in dem Sie ohne Spuren sprechen können. Für die Registrierung verlangen wir weder Telefonnummer noch E-Mail."
+
+#: app/templates/welcome.html
+msgid ""
+"KeyCord'a Katıl"
+msgstr ""
+"KeyCord beitreten"
+
+#: app/templates/welcome.html
+msgid ""
+"Reklam Yok"
+msgstr ""
+"Keine Werbung"
+
+#: app/templates/welcome.html
+msgid ""
+"İzleyici Yok"
+msgstr ""
+"Kein Tracking"
+
+#: app/templates/welcome.html
+msgid ""
+"Erişilebilir"
+msgstr ""
+"Barrierefrei"
+
+#: app/templates/welcome.html
+msgid ""
+"IP Engellendi"
+msgstr ""
+"IPs blockiert"
+
+#: app/templates/welcome.html
+msgid ""
+"GÜVEN DEĞİL, İSPAT."
+msgstr ""
+"KEIN VERTRAUEN, BEWEIS."
+
+#: app/templates/welcome.html
+msgid ""
+"Gizliliğinizi koruduğumuzu sadece iddia etmiyoruz. Bunu bağımsız güvenlik"
+"testleri ve tamamen açık kaynak kodumuzla kanıtlıyoruz."
+msgstr ""
+"Wir behaupten nicht nur, deine Privatsphäre zu schützen. Wir beweisen es mit"
+"unabhängigen Sicherheitstests und unserem vollständig quelloffenen Code."
+
+#: app/templates/welcome.html
+msgid ""
+"Gerçek Zamanlı Tehdit Engelleme"
+msgstr ""
+"Echtzeit-Bedrohungsblockierung"
+
+#: app/templates/welcome.html
+msgid ""
+"IP"
+msgstr ""
+"IP"
+
+#: app/templates/welcome.html
+msgid ""
+"Şu ana kadar kalıcı olarak engellenen kötü amaçlı IP adresi"
+msgstr ""
+"Bisher dauerhaft blockierte bösartige IP-Adressen"
+
+#: app/templates/welcome.html
+msgid ""
+"En sıkı web güvenlik standartlarını aşarak alınan mükemmel puan. Kusursuz"
+"yapılandırma."
+msgstr ""
+"Eine perfekte Punktzahl, die selbst die strengsten Web-Sicherheitsstandards"
+"übertrifft. Makellose Konfiguration."
+
+#: app/templates/welcome.html
+msgid ""
+"Raporu İncele"
+msgstr ""
+"Bericht ansehen"
+
+#: app/templates/welcome.html
+msgid ""
+"Tüm HTTP güvenlik başlıklarında tam koruma. Veri sızıntısına karşı maksimum"
+"direnç."
+msgstr ""
+"Voller Schutz über alle HTTP-Sicherheitsheader hinweg. Maximale"
+"Widerstandsfähigkeit gegen Datenlecks."
+
+#: app/templates/welcome.html
+msgid ""
+"Uygulamamızın her satırı denetlenebilir. Kapalı kapılar ardında sır yok,"
+"sadece kod var."
+msgstr ""
+"Jede Zeile unserer App ist überprüfbar. Keine Geheimnisse hinter"
+"verschlossenen Türen, nur Code."
+
+#: app/templates/welcome.html
+msgid ""
+"Kodları İncele"
+msgstr ""
+"Code ansehen"
+
+#: app/templates/welcome.html
+msgid ""
+"KeyCord Nedir?"
+msgstr ""
+"Was ist KeyCord?"
+
+#: app/templates/welcome.html
+msgid ""
+"Konuşmalarınız Yalnızca Size Ait Kalır."
+msgstr ""
+"Deine Gespräche gehören nur dir."
+
+#: app/templates/welcome.html
+msgid ""
+"KeyCord, Türkiye merkezli, açık kaynak kodlu ve gizlilik odaklı bir"
+"mesajlaşma platformudur. Klasik mesajlaşma uygulamalarının aksine telefon"
+"numarası, e-posta ya da kimlik bilgisi istemez; kayıt olurken sizden"
+"yalnızca bir kullanıcı adı ve şifre alır."
+msgstr ""
+"KeyCord ist eine in der Türkei ansässige, quelloffene und"
+"datenschutzorientierte Messaging-Plattform. Anders als herkömmliche"
+"Messaging-Apps verlangt sie keine Telefonnummer, E-Mail oder Ausweisdaten;"
+"bei der Registrierung nehmen wir nur einen Benutzernamen und ein Passwort"
+"entgegen."
+
+#: app/templates/welcome.html
+msgid ""
+"e-posta"
+msgstr ""
+"E-Mail"
+
+#: app/templates/welcome.html
+msgid ""
+"telefon"
+msgstr ""
+"Telefon"
+
+#: app/templates/welcome.html
+msgid ""
+"takip"
+msgstr ""
+"Tracking"
+
+#: app/templates/welcome.html
+msgid ""
+"açık kaynak"
+msgstr ""
+"Open Source"
+
+#: app/templates/welcome.html
+msgid ""
+"Sıfır Bilgi Mimarisi"
+msgstr ""
+"Zero-Knowledge-Architektur"
+
+#: app/templates/welcome.html
+msgid ""
+"Tor & İz Bırakmama"
+msgstr ""
+"Tor & Keine Spuren"
+
+#: app/templates/welcome.html
+msgid ""
+"KeyCord ayrıca Tor ağı üzerinden bir .onion adresiyle de erişilebilir; bu"
+"sayede ağ seviyesinde kimin kiminle konuştuğu bilgisi bile gizlenir. Reklam"
+"yok, üçüncü taraf analitik yok, takip kodu yok — sadece özgürce"
+"konuşabileceğiniz, iz bırakmayan bir alan."
+msgstr ""
+"KeyCord ist außerdem über eine .onion-Adresse im Tor-Netzwerk erreichbar,"
+"sodass selbst die Information, wer mit wem spricht, auf Netzwerkebene"
+"verborgen bleibt. Keine Werbung, keine Drittanbieter-Analytik, kein"
+"Tracking-Code — nur ein freier Raum, in dem du ohne Spuren sprechen kannst."
+
+#: app/templates/welcome.html
+msgid ""
+"Tor Erişimi"
+msgstr ""
+"Tor-Zugang"
+
+#: app/templates/welcome.html
+msgid ""
+"Tor Browser ile bağlanın"
+msgstr ""
+"Verbinde dich mit dem Tor Browser"
+
+#: app/templates/welcome.html
+msgid ""
+"Ağ düzeyinde gizlilik için .onion adresimizi kullanın."
+msgstr ""
+"Nutze unsere .onion-Adresse für Datenschutz auf Netzwerkebene."
+
+#: app/templates/welcome.html
+msgid ""
+"Tor, mesajınızı birden fazla katmanla şifreleyip farklı sunuculardan"
+"geçirir; böylece hangi IP adresinin hangi IP adresiyle konuştuğu bilgisi"
+"bile gizlenir. Bu, mesaj içeriğinin ötesinde, kiminle ne zaman iletişim"
+"kurduğunuza dair metadata düzeyinde bir koruma sağlar."
+msgstr ""
+"Tor verschlüsselt deine Nachricht in mehreren Schichten und leitet sie über"
+"verschiedene Server, sodass selbst verborgen bleibt, welche IP-Adresse mit"
+"welcher spricht. Über den Nachrichteninhalt hinaus bietet das Schutz auf"
+"Metadatenebene — also darüber, mit wem und wann du kommunizierst."
+
+#: app/templates/welcome.html
+msgid ""
+"Kopyalamak için tıkla"
+msgstr ""
+"Zum Kopieren klicken"
+
+#: app/templates/welcome.html
+msgid ""
+"Adrese tıklayarak kopyala"
+msgstr ""
+"Klicke auf die Adresse, um sie zu kopieren"
+
+#: app/templates/welcome.html
+msgid ""
+"✓ Kopyalandı"
+msgstr ""
+"✓ Kopiert"
+
+#: app/templates/welcome.html
+msgid ""
+"KeyCord, Türkiye merkezli, açık kaynaklı, Tor ağı destekli uçtan uca şifreli"
+"mesajlaşma platformudur. Sıfır bilgi mimarisi ile mesaj içeriklerine erişim"
+"sağlamaz."
+msgstr ""
+"KeyCord ist eine in der Türkei ansässige, quelloffene, Tor-fähige und Ende-"
+"zu-Ende-verschlüsselte Messaging-Plattform. Die Zero-Knowledge-Architektur"
+"gewährt niemals Zugriff auf Nachrichteninhalte."
+
+msgid "Tor ile Sansürsüz"
+msgstr "Zensurfrei dank Tor"
+
+msgid "Kariyer"
+msgstr "Karriere"
+
+msgid "Onur Listesi"
+msgstr "Hall of Fame"
+
+msgid "Canary"
+msgstr "Canary"
+
+msgid "Anahtar Kurtarma"
+msgstr "Schlüsselwiederherstellung"
+
+msgid "Bağlantı hatası."
+msgstr "Verbindungsfehler."
+
+msgid "Devam etmek için şifrenizi girin."
+msgstr "Geben Sie Ihr Passwort ein, um fortzufahren."
+
+msgid "Hesap Şifreniz"
+msgstr "Ihr Kontopasswort"
+
+msgid "Kilidi Aç"
+msgstr "Entsperren"
+
+msgid "Kontrol ediliyor..."
+msgstr "Wird überprüft..."
+
+msgid "Kurtar"
+msgstr "Wiederherstellen"
+
+msgid "Mesaj şifrelerinizi çözmek için lütfen hesap şifrenizi girin."
+msgstr "Bitte geben Sie Ihr Kontopasswort ein, um Ihre Nachrichtenschlüssel zu entschlüsseln."
+
+msgid "Oturum Kilitli"
+msgstr "Sitzung gesperrt"
+
+msgid "Çözülüyor..."
+msgstr "Entschlüsselung läuft..."
+
+msgid "Şifre hatalı veya bir hata oluştu."
+msgstr "Falsches Passwort oder ein Fehler ist aufgetreten."
+
+msgid "Şifre hatalı."
+msgstr "Falsches Passwort."
+
+msgid "Yeni Mesaj!"
+msgstr "Neue Nachricht!"
+
+msgid "Yeni mesajın var"
+msgstr "Du hast eine neue Nachricht"
+
+msgid ".onion adresimizi kullanarak IP adresinizi gizleyerek bağlanabilirsiniz."
+msgstr "Sie können sich über unsere .onion-Adresse verbinden und dabei Ihre IP-Adresse verbergen."
+
+msgid "Anonim İsim"
+msgstr "Anonymer Name"
+
+msgid "Beni hatırla"
+msgstr "Angemeldet bleiben"
+
+msgid "Giriş başarılı ancak şifreleme anahtarlarınız çözülemedi."
+msgstr "Anmeldung erfolgreich, aber Ihre Verschlüsselungsschlüssel konnten nicht entschlüsselt werden."
+
+msgid "Hesabınıza güvenli erişim."
+msgstr "Sicherer Zugriff auf Ihr Konto."
+
+msgid "KeyCord hesabınıza güvenli bir şekilde giriş yapın."
+msgstr "Melden Sie sich sicher bei Ihrem KeyCord-Konto an."
+
+msgid "Oturum anahtarları"
+msgstr "Sitzungsschlüssel"
+
+msgid "Parolanız ve anahtarlarınız hiçbir zaman sunucuya gönderilmez."
+msgstr "Ihr Passwort und Ihre Schlüssel werden niemals an den Server gesendet."
+
+msgid "Sunucu kör"
+msgstr "Blinder Server"
+
+msgid "Tor üzerinden giriş"
+msgstr "Anmeldung über Tor"
+
+#: app/templates/register.html:447
+msgid "Tüm kriptografik işlemler (X25519 + ML-KEM-768) tarayıcınızda, yerel olarak çalışır."
+msgstr "Alle kryptografischen Vorgänge (X25519 + ML-KEM-768) laufen lokal in Ihrem Browser ab."
+
+#: app/templates/home.html:1443
+msgid "Kuantum sonrası hibrit uçtan uca şifreleme"
+msgstr "Post-Quanten-Hybridverschlüsselung Ende-zu-Ende"
+
+#: app/templates/base.html
+msgid "Şu an ağ yükü arttı. Sizi gizlemek ve korumak için bekletiyoruz. Korsanların şansı yok."
+msgstr "Die Netzlast ist gerade gestiegen. Wir bremsen Sie aus, um Sie zu verbergen und zu schützen. Hacker haben keine Chance."
+
+msgid "Anahtar oluşturma hatası: "
+msgstr "Fehler bei der Schlüsselerstellung: "
+
+msgid "Anahtarlar oluşturuluyor..."
+msgstr "Schlüssel werden erstellt..."
+
+msgid "Arkadaşınızdan aldığınız kod"
+msgstr "Der Code, den Sie von einem Freund erhalten haben"
+
+msgid "Davet Kodu"
+msgstr "Einladungscode"
+
+msgid "Devam ederek"
+msgstr "Mit dem Fortfahren stimmen Sie der"
+
+msgid "En az 8 karakter"
+msgstr "Mindestens 8 Zeichen"
+
+msgid "Gizlilik bir tercih değil, bir haktır."
+msgstr "Datenschutz ist keine Präferenz, sondern ein Recht."
+
+msgid "Güçlü şifre"
+msgstr "Starkes Passwort"
+
+msgid "Hesap Oluştur"
+msgstr "Konto erstellen"
+
+msgid "Kayıt için gerçek kimlik bilgisi gerekmez."
+msgstr "Für die Registrierung ist keine echte Identität erforderlich."
+
+msgid "Onion adresi üzerinden bağlanarak IP adresinizi tamamen gizleyebilirsiniz."
+msgstr "Durch die Verbindung über unsere Onion-Adresse können Sie Ihre IP-Adresse vollständig verbergen."
+
+msgid "Orta güvenlik"
+msgstr "Mittlere Sicherheit"
+
+msgid "Sıfır log politikası"
+msgstr "Null-Log-Richtlinie"
+
+msgid "Tamamlanıyor..."
+msgstr "Wird abgeschlossen..."
+
+msgid "Tor ağı desteği"
+msgstr "Tor-Netzwerk-Unterstützung"
+
+msgid "Yeni hesap açmak için bu kodu arkadaşınızdan almalısınız."
+msgstr "Sie müssen diesen Code von einem Freund erhalten, um ein neues Konto zu erstellen."
+
+msgid "Zayıf şifre"
+msgstr "Schwaches Passwort"
+
+msgid "kabul etmiş sayılırsınız."
+msgstr "zu und gelten als einverstanden."
+
+#: app/templates/register.html:426
+msgid "Kuantum sonrası istemci tarafı şifreleme"
+msgstr "Post-Quantum-Clientsverschlüsselung"
+
+msgid "Şifreler uyuşmuyor!"
+msgstr "Passwörter stimmen nicht überein!"
+
+msgid "Şifreyi göster"
+msgstr "Passwort anzeigen"
+
+msgid "Bizde şifre yok = Bizim sistemi hackleseler bile mesajlarını okuyamazlar."
+msgstr "Wir haben kein Passwort = Selbst wenn sie unser System hacken würden, könnten sie deine Nachrichten nicht lesen."
+
+msgid "Ee... Geçmiş Olsun!"
+msgstr "Tja... Gute Besserung!"
+
+msgid "Geçmiş Olsun (Şifre Kurtarma)"
+msgstr "Gute Besserung (Passwort-Wiederherstellung)"
+
+msgid "Senin şifren = Senin özel şifreleme anahtarın."
+msgstr "Dein Passwort = Dein privater Verschlüsselungsschlüssel."
+
+msgid "Yardım Merkezine Dön"
+msgstr "Zurück zum Hilfecenter"
+
+msgid "Yeni Bir Hayat / Hesap Başlat"
+msgstr "Ein neues Leben / Konto starten"
+
+msgid "Şifreni mi unuttun? Gerçekten mi?"
+msgstr "Passwort vergessen? Wirklich?"
+
+msgid "Şimdi ciddi konuşalım:"
+msgstr "Jetzt reden wir ernst:"
+
+msgid "Anahtar bulunamadı"
+msgstr "Kein Schlüssel gefunden"
+
+msgid "Açık Anahtarınız"
+msgstr "Ihr öffentlicher Schlüssel"
+
+msgid "Bu işlem geri alınamaz. Devam etmek için şifrenizi girin."
+msgstr "Diese Aktion kann nicht rückgängig gemacht werden. Geben Sie Ihr Passwort ein, um fortzufahren."
+
+msgid "Davet Kodu Oluştur"
+msgstr "Einladungscode erstellen"
+
+msgid "Davet Sistemi"
+msgstr "Einladungssystem"
+
+msgid "Değişiklikleri Kaydet"
+msgstr "Änderungen speichern"
+
+msgid "Evet, sil"
+msgstr "Ja, löschen"
+
+msgid "Fotoğrafı değiştir"
+msgstr "Foto ändern"
+
+msgid "Güncelleniyor..."
+msgstr "Wird aktualisiert..."
+
+msgid "Güvenlik nedeniyle kullanıcı adları değiştirilemez."
+msgstr "Aus Sicherheitsgründen können Benutzernamen nicht geändert werden."
+
+msgid "Hesabı Sil"
+msgstr "Konto löschen"
+
+msgid "Hesap"
+msgstr "Konto"
+
+msgid "Hesap şifreniz"
+msgstr "Ihr Kontopasswort"
+
+msgid "Kendinizi kısaca tanıtın..."
+msgstr "Stellen Sie sich kurz vor..."
+
+msgid "Maksimum 200 karakter. Arkadaşlarınız görebilir."
+msgstr "Maximal 200 Zeichen. Für Ihre Freunde sichtbar."
+
+msgid "Profil Bilgileri"
+msgstr "Profilinformationen"
+
+msgid "Profil güncellenirken hata oluştu."
+msgstr "Beim Aktualisieren des Profils ist ein Fehler aufgetreten."
+
+msgid "Tor Desteği"
+msgstr "Tor-Unterstützung"
+
+msgid "Uçtan Uca Şifreleme"
+msgstr "Ende-zu-Ende-Verschlüsselung"
+
+msgid "İstemci Tarafı Anahtar"
+msgstr "Clientseitiger Schlüssel"
+
+msgid "Şifreleme Durumu"
+msgstr "Verschlüsselungsstatus"
+
+msgid "Anahtar yok — kurtar"
+msgstr "Kein Schlüssel — wiederherstellen"
+
+msgid "Bir sohbet seçin"
+msgstr "Wählen Sie eine Unterhaltung"
+
+msgid "Bu mesaj silindi."
+msgstr "Diese Nachricht wurde gelöscht."
+
+msgid "Bu mesajı silmek istediğinize emin misiniz? Karşı taraf da mesajı göremez."
+msgstr "Sind Sie sicher, dass Sie diese Nachricht löschen möchten? Die Gegenseite kann sie dann ebenfalls nicht mehr sehen."
+
+msgid "Gönder"
+msgstr "Senden"
+
+msgid "Mesajlar cihazınızda şifrelenir. Sunucu içeriği göremez."
+msgstr "Nachrichten werden auf Ihrem Gerät verschlüsselt. Der Server kann den Inhalt nicht sehen."
+
+msgid "Mesajı Sil"
+msgstr "Nachricht löschen"
+
+msgid "Soldaki listeden bir arkadaşını seç ya da yeni biri ekle."
+msgstr "Wählen Sie einen Freund aus der Liste links aus oder fügen Sie jemand Neuen hinzu."
+
+msgid "Sunucu mesaj içeriğini göremez"
+msgstr "Der Server kann den Nachrichteninhalt nicht sehen"
+
+msgid "Tor ile ağ düzeyinde gizlilik"
+msgstr "Datenschutz auf Netzwerkebene mit Tor"
+
+msgid "Tüm mesajlar uçtan uca şifreli"
+msgstr "Alle Nachrichten sind Ende-zu-Ende verschlüsselt"
+
+msgid "Vazgeç"
+msgstr "Abbrechen"
+
+msgid "Şifre çözülemedi"
+msgstr "Konnte nicht entschlüsselt werden"
+
+msgid "Şifreli mesaj yaz..."
+msgstr "Verschlüsselte Nachricht schreiben..."
+
+msgid "Ağ Bilgisi"
+msgstr "Netzwerkinformationen"
+
+msgid "Bildirim"
+msgstr "Benachrichtigung"
+
+msgid "Bir sohbet seçin ya da"
+msgstr "Wählen Sie eine Unterhaltung oder"
+
+msgid "Gerçek Zamanlı Engelleme"
+msgstr "Echtzeit-Blockierung"
+
+msgid "Grup"
+msgstr "Gruppe"
+
+msgid "Kalıcı olarak engellenen kötü amaçlı IP"
+msgstr "Dauerhaft blockierte bösartige IPs"
+
+msgid "Kopyalamak için tıklayın"
+msgstr "Zum Kopieren klicken"
+
+msgid "Tümünü okundu say"
+msgstr "Alle als gelesen markieren"
+
+msgid "Yeni bildirim yok."
+msgstr "Keine neuen Benachrichtigungen."
+
+msgid "Yeni mesaj."
+msgstr "Neue Nachricht."
+
+msgid "arkadaşlık isteği gönderdi."
+msgstr "hat Ihnen eine Freundschaftsanfrage gesendet."
+
+msgid "yeni bağlantı başlatın."
+msgstr "beginnen Sie eine neue Verbindung."
+
+msgid "Yeni insanlarla tanış, hikayelerini paylaş."
+msgstr "Lerne neue Leute kennen und teile deine Geschichten."
+
+msgid "sonuç bulundu"
+msgstr "Ergebnis(se) gefunden"
+
+msgid "Arkadaşlarını bir araya getir."
+msgstr "Bringen Sie Ihre Freunde zusammen."
+
+msgid "GRUP İSMİ"
+msgstr "GRUPPENNAME"
+
+msgid "Grubu Oluştur"
+msgstr "Gruppe erstellen"
+
+msgid "Grup Oluştur - KeyCord"
+msgstr "Gruppe erstellen - KeyCord"
+
+msgid "Grup kurmak için önce arkadaş eklemelisin."
+msgstr "Sie müssen zuerst Freunde hinzufügen, bevor Sie eine Gruppe erstellen können."
+
+msgid "Örn: Geyik Muhabbeti..."
+msgstr "Z. B. Small Talk..."
+
+msgid "Üyeleri Seç"
+msgstr "Mitglieder auswählen"
+
+msgid "Arkadaş Seç..."
+msgstr "Freund auswählen..."
+
+msgid "🔑 Anahtar yok (Kurtar)"
+msgstr "🔑 Kein Schlüssel (Wiederherstellen)"
+
+msgid "Bu üyeyi gruptan çıkarmak istediğinize emin misiniz?"
+msgstr "Sind Sie sicher, dass Sie dieses Mitglied aus der Gruppe entfernen möchten?"
+
+msgid "Hata:"
+msgstr "Fehler:"
+
+msgid "Aktif"
+msgstr "Aktiv"
+
+msgid "Davet Kodları"
+msgstr "Einladungscodes"
+
+msgid "Durum"
+msgstr "Status"
+
+msgid "Henüz kullanılmadı"
+msgstr "Noch nicht verwendet"
+
+msgid "Kod Listesi"
+msgstr "Code-Liste"
+
+msgid "Kullanan"
+msgstr "Verwendet von"
+
+msgid "Kullanıldı"
+msgstr "Verwendet"
+
+msgid "Oluşturan"
+msgstr "Erstellt von"
+
+msgid "Oluşturulan kodlar tek kullanımlıktır ve süresi dolduğunda geçersiz olur."
+msgstr "Generierte Codes sind nur einmal verwendbar und werden ungültig, sobald sie ablaufen."
+
+msgid "Oluşturuldu"
+msgstr "Erstellt"
+
+msgid "Son Kullanma"
+msgstr "Ablauf"
+
+msgid "Yeni Davet Kodu Üret"
+msgstr "Neuen Einladungscode erstellen"
+
+msgid "Açık Kaynak Ruhu"
+msgstr "Open-Source-Geist"
+
+msgid "Backend mimarimizi (Flask/Python) optimize edebilirsin."
+msgstr "Du kannst unsere Backend-Architektur (Flask/Python) optimieren."
+
+msgid "Frontend arayüzündeki UI/UX hatalarını giderebilirsin."
+msgstr "Du kannst UI/UX-Fehler in der Frontend-Oberfläche beheben."
+
+msgid "Geleceğin gizlilik odaklı iletişim platformuna senin de katkın olsun."
+msgstr "Lass auch du zur zukunftsorientierten, datenschutzfreundlichen Kommunikationsplattform beitragen."
+
+msgid "GitHub'da Katkıda Bulun"
+msgstr "Auf GitHub mitwirken"
+
+msgid "Katkıda Bulun"
+msgstr "Mitwirken"
+
+msgid "KeyCord'u Birlikte Geliştirelim"
+msgstr "Lass uns KeyCord gemeinsam entwickeln"
+
+msgid "Neler Yapabilirsin?"
+msgstr "Was kannst du tun?"
+
+msgid "Yeni özellikler için fikirler sunabilir veya mevcutları geliştirebilirsin."
+msgstr "Du kannst Ideen für neue Funktionen vorschlagen oder bestehende verbessern."
+
+msgid "Aşağıdaki e-posta adresleriyle doğrudan iletişime geçebilirsiniz."
+msgstr "Sie können uns direkt über die folgenden E-Mail-Adressen erreichen."
+
+msgid "Bilgi / Info"
+msgstr "Info / Informationen"
+
+msgid "Gizlilik / Privacy"
+msgstr "Datenschutz / Privatsphäre"
+
+msgid "Güvenlik Bildirimi"
+msgstr "Sicherheitsmeldung"
+
+msgid "Instagram / @keycord_official"
+msgstr "Instagram / @keycord_official"
+
+msgid "KeyCord © 2026 - Gizlilik ve Güvenliğe Öncelik Veren Mesajlaşma Uygulaması"
+msgstr "KeyCord © 2026 - Eine Messaging-App, die Datenschutz und Sicherheit priorisiert"
+
+msgid "Sosyal Medya"
+msgstr "Soziale Medien"
+
+msgid "Bize Bildirin"
+msgstr "Melden Sie es uns"
+
+msgid "Güvenlik Kahramanları"
+msgstr "Sicherheitshelden"
+
+msgid "KeyCord Founder"
+msgstr "KeyCord-Gründer"
+
+msgid "KeyCord'u daha güvenli kılan tüm araştırmacılara teşekkür ederiz."
+msgstr "Wir danken allen Forschern, die KeyCord sicherer machen."
+
+msgid "Siz de Katkıda Bulunun"
+msgstr "Auch Sie können mitwirken"
+
+msgid "Uygulamaya Dön"
+msgstr "Zurück zur App"
+
+msgid "Beyanlarımız"
+msgstr "Unsere Erklärungen"
+
+msgid "Canary Nasıl Çalışır?"
+msgstr "Wie funktioniert die Canary?"
+
+msgid "Geçmiş Güncellemeler:"
+msgstr "Vergangene Updates:"
+
+msgid "Gizlilik ile ilgili tüm sorularınız için:"
+msgstr "Für alle Ihre Fragen zum Datenschutz:"
+
+msgid "Güncel Durum"
+msgstr "Aktueller Status"
+
+msgid "KeyCord Canary Warrant — Şeffaflık Beyanı"
+msgstr "KeyCord-Canary-Warrant — Transparenzerklärung"
+
+msgid "Son güncelleme: Temmuz 2026"
+msgstr "Zuletzt aktualisiert: Juli 2026"
+
+msgid "SİSTEM GÜVENLİ VE MÜDAHALESİZ"
+msgstr "SYSTEM IST SICHER UND UNBEEINFLUSST"
+
+msgid "1. KABUL"
+msgstr "1. ANNAHME"
+
+msgid "2. HİZMETİN TANIMI"
+msgstr "2. BESCHREIBUNG DES DIENSTES"
+
+msgid "3. KULLANICI YÜKÜMLÜLÜKLERİ"
+msgstr "3. NUTZERPFLICHTEN"
+
+msgid "4. SORUMLULUK REDDİ"
+msgstr "4. HAFTUNGSAUSSCHLUSS"
+
+msgid "5. FİKRİ MÜLKİYET"
+msgstr "5. GEISTIGES EIGENTUM"
+
+msgid "6. HİZMETİN SONLANDIRILMASI"
+msgstr "6. BEENDIGUNG DES DIENSTES"
+
+msgid "7. DEĞİŞİKLİKLER"
+msgstr "7. ÄNDERUNGEN"
+
+msgid "8. UYGULANACAK HUKUK"
+msgstr "8. ANWENDBARES RECHT"
+
+msgid "9. İLETİŞİM"
+msgstr "9. KONTAKT"
+
+msgid "Aşağıdaki amaçlarla platformun kullanılması kesinlikle yasaktır:"
+msgstr "Die Nutzung der Plattform für die folgenden Zwecke ist ausdrücklich untersagt:"
+
+msgid "Başkalarının kişisel verilerinin izinsiz ele geçirilmesi veya paylaşılması"
+msgstr "Unbefugtes Erlangen oder Teilen persönlicher Daten anderer"
+
+msgid "Bu kullanım şartlarının ihlali"
+msgstr "Verstoß gegen diese Nutzungsbedingungen"
+
+msgid "Dolandırıcılık, kimlik hırsızlığı veya siber suç faaliyetleri"
+msgstr "Betrug, Identitätsdiebstahl oder Cyberkriminalität"
+
+msgid "Fikri mülkiyet haklarını ihlal eden içerik paylaşımı"
+msgstr "Teilen von Inhalten, die geistige Eigentumsrechte verletzen"
+
+#: app/templates/gdpr.html:425
+#: app/templates/privacy_policy.html:302
+#: app/templates/terms_of_service.html:313
+msgid "KeyCord © 2026 - Gizlilik Odaklı Kuantum Sonrası Şifreli Mesajlaşma Platformu"
+msgstr "KeyCord © 2026 - Datenschutzorientierte Post-Quantum-verschlüsselte Messaging-Plattform"
+
+msgid "KeyCord — Gizlilik Öncelikli Şifreli Mesajlaşma Platformu"
+msgstr "KeyCord — Eine verschlüsselte Messaging-Plattform mit Datenschutz an erster Stelle"
+
+msgid "Kullanıcılar da hesaplarını istedikleri zaman silebilir."
+msgstr "Nutzer können ihre Konten ebenfalls jederzeit löschen."
+
+msgid "Kullanım Şartları"
+msgstr "Nutzungsbedingungen"
+
+msgid "Kullanım şartlarına ilişkin sorularınız için:"
+msgstr "Bei Fragen zu den Nutzungsbedingungen:"
+
+msgid "Kötü amaçlı yazılım, virüs veya zararlı kod dağıtımı"
+msgstr "Verbreitung von Schadsoftware, Viren oder schädlichem Code"
+
+msgid "Platformu kullanırken aşağıdaki kurallara uymayı kabul edersiniz:"
+msgstr "Durch die Nutzung der Plattform verpflichten Sie sich, die folgenden Regeln einzuhalten:"
+
+msgid "Platformun güvenlik altyapısına yönelik saldırı veya test girişimleri"
+msgstr "Angriffe oder Testversuche gegen die Sicherheitsinfrastruktur der Plattform"
+
+msgid "Platformun güvenliğini tehdit eden davranışlar"
+msgstr "Verhalten, das die Sicherheit der Plattform gefährdet"
+
+msgid "Spam veya toplu istenmeyen mesaj iletimi"
+msgstr "Senden von Spam oder massenhaften unerwünschten Nachrichten"
+
+msgid "Terör, şiddet veya nefret söylemi içeren içerik paylaşımı"
+msgstr "Teilen von Inhalten mit Terrorismus, Gewalt oder Hassrede"
+
+msgid "Web:"
+msgstr "Web:"
+
+msgid "Yasadışı faaliyet şüphesi"
+msgstr "Verdacht auf illegale Aktivitäten"
+
+msgid "a) Yasalara uygunluk"
+msgstr "a) Einhaltung der Gesetze"
+
+msgid "a) İçerik sorumluluğu"
+msgstr "a) Verantwortung für Inhalte"
+
+msgid "b) Hizmet sürekliliği"
+msgstr "b) Dienstkontinuität"
+
+msgid "b) Yasaklı kullanımlar"
+msgstr "b) Verbotene Nutzungen"
+
+msgid "c) Hesap güvenliği"
+msgstr "c) Kontosicherheit"
+
+msgid "c) Veri kaybı"
+msgstr "c) Datenverlust"
+
+msgid "d) Üçüncü taraf bağlantıları"
+msgstr "d) Verlinkungen von Drittanbietern"
+
+msgid "e) Tor ağı"
+msgstr "e) Tor-Netzwerk"
+
+msgid "Cihaz bilgisi"
+msgstr "Geräteinformationen"
+
+msgid "Genel Bakış"
+msgstr "Überblick"
+
+msgid "Gizlilik Politikası"
+msgstr "Datenschutzerklärung"
+
+msgid "Hangi Veriler Topluyor Mu?"
+msgstr "Welche Daten erfassen wir?"
+
+msgid "Her oturum için benzersiz şifreleme anahtarları üretilir."
+msgstr "Für jede Sitzung werden einzigartige Verschlüsselungsschlüssel erzeugt."
+
+msgid "KVKK ve GDPR Kapsamındaki Haklarınız"
+msgstr "Ihre Rechte nach KVKK und GDPR"
+
+msgid "KeyCord, sıfır bilgi (zero-knowledge) mimarisi üzerine kurulmuştur:"
+msgstr "KeyCord basiert auf einer Zero-Knowledge-Architektur:"
+
+msgid "KeyCord, trafik analizine karşı ek koruma önlemleri uygular:"
+msgstr "KeyCord wendet zusätzliche Schutzmaßnahmen gegen Verkehrsanalyse an:"
+
+msgid "Kişisel verilerinizin işlenip işlenmediğini öğrenme hakkı"
+msgstr "Das Recht zu erfahren, ob Ihre personenbezogenen Daten verarbeitet werden"
+
+msgid "Konum bilgisi"
+msgstr "Standortinformationen"
+
+msgid "Kullanıcı adı, e-posta adresi veya telefon numarası"
+msgstr "Benutzername, E-Mail-Adresse oder Telefonnummer"
+
+msgid "Kullanım alışkanlıkları veya davranışsal veri"
+msgstr "Nutzungsgewohnheiten oder Verhaltensdaten"
+
+msgid "Politika Değişiklikleri"
+msgstr "Richtlinienänderungen"
+
+msgid "Son güncelleme: Mayıs 2026"
+msgstr "Zuletzt aktualisiert: Mai 2026"
+
+msgid "Talepler, KVKK Madde 13 uyarınca en geç 30 gün içinde yanıtlanır."
+msgstr "Anträge werden gemäß Artikel 13 KVKK innerhalb von höchstens 30 Tagen beantwortet."
+
+msgid "Tor Ağı Üzerinden Erişim"
+msgstr "Zugriff über das Tor-Netzwerk"
+
+msgid "Trafik Analizi Korunması"
+msgstr "Schutz vor Verkehrsanalyse"
+
+msgid "Veri Saklama Süreleri"
+msgstr "Aufbewahrungsfristen für Daten"
+
+msgid "Veri Sorumlusu"
+msgstr "Verantwortlicher für die Datenverarbeitung"
+
+msgid "Veri işlemeye itiraz etme hakkı"
+msgstr "Das Recht, der Datenverarbeitung zu widersprechen"
+
+msgid "Verilerin silinmesini veya anonim hale getirilmesini talep etme hakkı"
+msgstr "Das Recht, die Löschung oder Anonymisierung von Daten zu verlangen"
+
+msgid "Yetkili kuruma şikayette bulunma hakkı"
+msgstr "Das Recht, eine Beschwerde bei der zuständigen Behörde einzureichen"
+
+msgid "Çerez (cookie) veya izleme teknolojileri"
+msgstr "Cookies oder Tracking-Technologien"
+
+msgid "Çerezler"
+msgstr "Cookies"
+
+msgid "Üçüncü Taraf Veri Paylaşımı"
+msgstr "Datenweitergabe an Dritte"
+
+msgid "İşlenen verileriniz hakkında bilgi talep etme hakkı"
+msgstr "Das Recht, Informationen über Ihre verarbeiteten Daten zu verlangen"
+
+msgid "Şifreleme ve Sıfır Bilgi Mimarisi"
+msgstr "Verschlüsselung und Zero-Knowledge-Architektur"
+
+msgid "1. Genel Bakış"
+msgstr "1. Überblick"
+
+msgid "10. Tor Ağı Üzerinden Erişim"
+msgstr "10. Zugriff über das Tor-Netzwerk"
+
+msgid "11. Politika Değişiklikleri"
+msgstr "11. Richtlinienänderungen"
+
+msgid "12. İletişim"
+msgstr "12. Kontakt"
+
+msgid "2. Veri Sorumlusu"
+msgstr "2. Verantwortlicher für die Datenverarbeitung"
+
+msgid "3. Hangi Verileri Topluyoruz?"
+msgstr "3. Welche Daten erfassen wir?"
+
+msgid "4. Şifreleme ve Sıfır Bilgi Mimarisi"
+msgstr "4. Verschlüsselung und Zero-Knowledge-Architektur"
+
+msgid "5. Trafik Analizi Korunması"
+msgstr "5. Schutz vor Verkehrsanalyse"
+
+msgid "6. Üçüncü Taraf Veri Paylaşımı"
+msgstr "6. Datenweitergabe an Dritte"
+
+msgid "7. Veri Saklama Süreleri"
+msgstr "7. Aufbewahrungsfristen für Daten"
+
+msgid "8. KVKK ve GDPR Kapsamındaki Haklarınız"
+msgstr "8. Ihre Rechte nach KVKK und GDPR"
+
+msgid "9. Çerezler"
+msgstr "9. Cookies"
+
+msgid "<strong>Veri sorumlusu:</strong> KeyCord"
+msgstr "<strong>Verantwortlicher für die Datenverarbeitung:</strong> KeyCord"
+
+msgid "Gizlilikle ilgili tüm sorularınız için:"
+msgstr "Für alle Fragen zum Datenschutz:"
+
+msgid "KeyCord, sıfır bilgi (zero-knowledge) mimarisi kullanır:"
+msgstr "KeyCord verwendet eine Zero-Knowledge-Architektur:"
+
+msgid "Mesaj içeriği (uçtan uca şifreleme nedeniyle teknik erişim yoktur)"
+msgstr "Nachrichteninhalt (kein technischer Zugriff dank Ende-zu-Ende-Verschlüsselung)"
+
+msgid "Tor ağı üzerinden erişim desteklenebilir; bu, ağ anonimliğini güçlendirir."
+msgstr "Der Zugriff über das Tor-Netzwerk kann unterstützt werden; dies stärkt die Anonymität im Netzwerk."
+
+msgid "Sıkça Sorulan Sorular"
+msgstr "Häufig gestellte Fragen"
+
+msgid "Signal güvenliği + Tor anonimliği."
+msgstr "Signal-Sicherheit + Tor-Anonymität."
+
+msgid "Sıfır bilgi · Sansüre dayanıklı · Topluluk destekli"
+msgstr "Zero Knowledge · Zensurresistent · Community-basiert"
+
+msgid "● GENEL"
+msgstr "● ALLGEMEIN"
+
+msgid "● GÜVENLİK VE ŞİFRELEME"
+msgstr "● SICHERHEIT UND VERSCHLÜSSELUNG"
+
+msgid "● GİZLİLİK VE VERİ"
+msgstr "● DATENSCHUTZ UND DATEN"
+
+msgid "● HESAP VE KULLANIM"
+msgstr "● KONTO UND NUTZUNG"
+
+msgid "● TEKNİK ALTYAPI"
+msgstr "● TECHNISCHE INFRASTRUKTUR"
+
+msgid "● TOR VE ANONİMLİK"
+msgstr "● TOR UND ANONYMITÄT"
+
+msgid "● İLETİŞİM VE GERİ BİLDİRİM"
+msgstr "● KONTAKT UND FEEDBACK"
+
+msgid "KeyCord nedir?"
+msgstr "Was ist KeyCord?"
+
+msgid "KeyCord'u kim geliştiriyor?"
+msgstr "Wer entwickelt KeyCord?"
+
+msgid "KeyCord ücretsiz mi?"
+msgstr "Ist KeyCord kostenlos?"
+
+msgid "Evet, KeyCord şu an itibarıyla tamamen ücretsizdir."
+msgstr "Ja, KeyCord ist derzeit vollständig kostenlos."
+
+msgid "KeyCord hangi cihazlarda çalışır?"
+msgstr "Auf welchen Geräten funktioniert KeyCord?"
+
+msgid "KeyCord'u indirmem gerekiyor mu?"
+msgstr "Muss ich KeyCord herunterladen?"
+
+msgid "KeyCord beta sürümünde mi?"
+msgstr "Befindet sich KeyCord in der Beta?"
+
+msgid "KeyCord hangi altyapı üzerinde çalışıyor?"
+msgstr "Auf welcher Infrastruktur läuft KeyCord?"
+
+msgid "KeyCord açık kaynak mı?"
+msgstr "Ist KeyCord Open Source?"
+
+msgid "Mevcut özellikler ve yol haritası için keycord.org adresini takip edin."
+msgstr "Folgen Sie keycord.org für aktuelle Funktionen und die Roadmap."
+
+msgid "KeyCord'u nasıl destekleyebilirim?"
+msgstr "Wie kann ich KeyCord unterstützen?"
+
+msgid "Şifreleme nasıl çalışıyor?"
+msgstr "Wie funktioniert die Verschlüsselung?"
+
+msgid "Şifremi biliyor musunuz?"
+msgstr "Kennen Sie mein Passwort?"
+
+msgid "Mesajlarımı siz okuyabilir misiniz?"
+msgstr "Können Sie meine Nachrichten lesen?"
+
+msgid "Zero-knowledge mimarisi ne anlama geliyor?"
+msgstr "Was bedeutet die Zero-Knowledge-Architektur?"
+
+msgid "Oturum anahtarları ne kadar süre geçerli?"
+msgstr "Wie lange sind Sitzungsschlüssel gültig?"
+
+msgid "Man-in-the-middle saldırılarına karşı korumalı mı?"
+msgstr "Bin ich gegen Man-in-the-Middle-Angriffe geschützt?"
+
+msgid "Bir güvenlik açığı bulursam ne yapmalıyım?"
+msgstr "Was soll ich tun, wenn ich eine Sicherheitslücke finde?"
+
+msgid "Sunucunuz ele geçirilse ne olur?"
+msgstr "Was passiert, wenn Ihr Server kompromittiert wird?"
+
+msgid "KeyCord hangi verilerimi topluyor?"
+msgstr "Welche Daten erfasst KeyCord von mir?"
+
+msgid "IP adresim kaydediliyor mu?"
+msgstr "Wird meine IP-Adresse protokolliert?"
+
+msgid "Verilerimi üçüncü taraflarla paylaşıyor musunuz?"
+msgstr "Teilen Sie meine Daten mit Dritten?"
+
+msgid "Verilerimin silinmesini talep edebilir miyim?"
+msgstr "Kann ich die Löschung meiner Daten verlangen?"
+
+msgid "KVKK ve GDPR'a uyumlu musunuz?"
+msgstr "Sind Sie KVKK- und GDPR-konform?"
+
+msgid "Verilerim hangi ülkede saklanıyor?"
+msgstr "In welchem Land werden meine Daten gespeichert?"
+
+msgid "Çerez (cookie) kullanıyor musunuz?"
+msgstr "Verwenden Sie Cookies?"
+
+msgid "Cloudflare'in verilerime erişimi var mı?"
+msgstr "Hat Cloudflare Zugriff auf meine Daten?"
+
+msgid "Hesabımı nasıl silerim?"
+msgstr "Wie lösche ich mein Konto?"
+
+msgid "Hesap silmek için profil sayfanızdan işleminizi gerçekleştirebilirsiniz."
+msgstr "Sie können dies über Ihre Profilseite tun."
+
+msgid "Birden fazla hesap açabilir miyim?"
+msgstr "Kann ich mehrere Konten erstellen?"
+
+msgid "Kayıt olmak için e-posta gerekiyor mu?"
+msgstr "Ist für die Registrierung eine E-Mail erforderlich?"
+
+msgid "Tor kullanmak zorunda mıyım?"
+msgstr "Muss ich Tor verwenden?"
+
+msgid "Dosya veya medya gönderilebiliyor mu?"
+msgstr "Können Dateien oder Medien gesendet werden?"
+
+msgid "Grup mesajlaşması destekleniyor mu?"
+msgstr "Wird Gruppenmessaging unterstützt?"
+
+msgid "Sunucunun gerçek IP adresi gizli mi?"
+msgstr "Ist die echte IP-Adresse des Servers verborgen?"
+
+msgid "Tor üzerinden KeyCord'a erişebilir miyim?"
+msgstr "Kann ich über Tor auf KeyCord zugreifen?"
+
+msgid "Normal web ile Tor erişimi arasındaki fark nedir?"
+msgstr "Was ist der Unterschied zwischen normalem Web- und Tor-Zugriff?"
+
+msgid "Tor üzerinde performans nasıl?"
+msgstr "Wie ist die Leistung über Tor?"
+
+msgid "Trafik analizinden korunuyor muyum?"
+msgstr "Bin ich vor Verkehrsanalyse geschützt?"
+
+msgid "Önerim veya şikayetim varsa nasıl iletebilirim?"
+msgstr "Wie kann ich einen Vorschlag oder eine Beschwerde einreichen?"
+
+msgid "Hizmet kesintisi yaşanırsa ne olur?"
+msgstr "Was passiert bei einem Dienstausfall?"
+
+msgid "Hükümet talebi gelirse ne olur?"
+msgstr "Was passiert, wenn eine behördliche Anfrage eingeht?"
+
+msgid "6698 sayılı KVKK'nın 11. Maddesi ve GDPR'ın 15-22. Maddeleri uyarınca aşağıdaki haklara sahipsiniz:"
+msgstr "Gemäß Artikel 11 des KVKK (Gesetz Nr. 6698) und Artikel 15-22 der DSGVO haben Sie die folgenden Rechte:"
+
+msgid "6698 sayılı KVKK’nın 11. Maddesi ve GDPR’ın 15-22. Maddeleri kapsamında aşağıdaki haklara sahipsiniz:"
+msgstr "Gemäß Artikel 11 des KVKK (Gesetz Nr. 6698) und Artikel 15-22 der DSGVO haben Sie die folgenden Rechte:"
+
+msgid "<strong>Bu hakları kullanmak için:</strong> <a href=\"mailto:privacy@keycord.org\" class=\"contact-link\">privacy@keycord.org</a>"
+msgstr "<strong>Zur Ausübung dieser Rechte:</strong> <a href=\"mailto:privacy@keycord.org\" class=\"contact-link\">privacy@keycord.org</a>"
+
+msgid "<strong>Bu haklarınızı kullanmak için:</strong> <a href=\"mailto:privacy@keycord.org\" class=\"contact-link\">privacy@keycord.org</a>"
+msgstr "<strong>Zur Ausübung Ihrer Rechte:</strong> <a href=\"mailto:privacy@keycord.org\" class=\"contact-link\">privacy@keycord.org</a>"
+
+msgid "<strong>Güvenlik amaçlı ağ verileri:</strong> Tespit amacı ortadan kalktıktan sonra silinir; en fazla 30 gün."
+msgstr "<strong>Netzwerkdaten zu Sicherheitszwecken:</strong> Werden gelöscht, sobald der Erkennungszweck entfällt; höchstens 30 Tage."
+
+msgid "<strong>Güvenlik amaçlı ağ verileri:</strong> Tespit amacını yitirdikten sonra silinir; en fazla 30 gün."
+msgstr "<strong>Netzwerkdaten zu Sicherheitszwecken:</strong> Werden gelöscht, sobald sie keinen Erkennungszweck mehr erfüllen; höchstens 30 Tage."
+
+msgid "<strong>Hesap Bilgileri:</strong> Kullanıcı adı ve profil detaylarınız\n                    (metadata) sistemden tamamen kaldırılır."
+msgstr "<strong>Kontoinformationen:</strong> Ihr Benutzername und Ihre Profildaten\n                    (Metadaten) werden vollständig aus dem System entfernt."
+
+msgid "<strong>Hesap bilgileri:</strong> Şifreli ve anonim biçimde, kullanıcı hesabı silinene kadar saklanabilir."
+msgstr "<strong>Kontoinformationen:</strong> Können verschlüsselt und anonym gespeichert werden, bis der Benutzer sein Konto löscht."
+
+msgid "<strong>Hesap bilgileri:</strong> Şifreli ve anonim biçimde; kullanıcı hesabını silene kadar."
+msgstr "<strong>Kontoinformationen:</strong> Verschlüsselt und anonym; bis der Benutzer sein Konto löscht."
+
+msgid "<strong>Mesaj içerikleri:</strong> Sunucularımızda okunabilir biçimde saklanmaz."
+msgstr "<strong>Nachrichteninhalte:</strong> Werden nicht in lesbarer Form auf unseren Servern gespeichert."
+
+msgid "<strong>Tek işlenen veri:</strong> Ağ güvenliğimizi tehdit eden saldırıların tespiti ve engellenmesi amacıyla, kötü niyetli bağlantılara ait bağlantı verileri (örneğin anormal trafik desenleri) işlenebilir. Bu işlem, meşru kullanıcıları tanımlamaya yönelik değil; yalnızca saldırganların bağlantılarını tespit etmeye yöneliktir. Bu veriler herhangi bir kullanıcı profiliyle ilişkilendirilmez ve hizmetin güvenliği için zorunlu olduğu sürece tutulur, akabinde silinir."
+msgstr "<strong>Einzige verarbeitete Daten:</strong> Zur Erkennung und Blockierung von Angriffen, die unsere Netzwerksicherheit bedrohen, können Verbindungsdaten bösartiger Verbindungen (z. B. anomale Verkehrsmuster) verarbeitet werden. Dies dient nicht der Identifizierung legitimer Benutzer, sondern ausschließlich der Erkennung von Angreiferverbindungen. Diese Daten werden keinem Benutzerprofil zugeordnet und nur so lange aufbewahrt, wie es für die Sicherheit des Dienstes erforderlich ist, danach gelöscht."
+
+msgid "<strong>Tek işlenen veri:</strong> Ağ güvenliğini tehdit eden saldırıları tespit etmek ve engellemek amacıyla kötü niyetli bağlantı verileri işlenebilir. Bu veriler kullanıcı profiliyle ilişkilendirilmez ve yalnızca hizmet güvenliği için gerekli olduğu sürece tutulur, akabinde silinir."
+msgstr "<strong>Einzige verarbeitete Daten:</strong> Zur Erkennung und Blockierung von Angriffen auf die Netzwerksicherheit können Daten bösartiger Verbindungen verarbeitet werden. Diese Daten werden keinem Benutzerprofil zugeordnet und nur so lange aufbewahrt, wie es für die Sicherheit des Dienstes erforderlich ist, danach gelöscht."
+
+msgid "<strong>Veri sorumlusu:</strong> KeyCord<br><strong>İletişim:</strong> <a href=\"mailto:privacy@keycord.org\" class=\"contact-link\">privacy@keycord.org</a>"
+msgstr "<strong>Verantwortlicher:</strong> KeyCord<br><strong>Kontakt:</strong> <a href=\"mailto:privacy@keycord.org\" class=\"contact-link\">privacy@keycord.org</a>"
+
+msgid "<strong>Yetkili Kurumlar:</strong> Türkiye: Kişisel Verileri Koruma Kurumu — kvkk.gov.tr; Avrupa Birliği: ilgili veri koruma otoritesi."
+msgstr "<strong>Aufsichtsbehörden:</strong> Türkei: Datenschutzbehörde — kvkk.gov.tr; Europäische Union: die zuständige Datenschutzbehörde."
+
+msgid "<strong>Yetkili Kurumlar:</strong><br>Türkiye: Kişisel Verileri Koruma Kurumu — kvkk.gov.tr<br>Avrupa Birliği: İlgili Veri Koruma Otoritesi"
+msgstr "<strong>Aufsichtsbehörden:</strong><br>Türkei: Datenschutzbehörde — kvkk.gov.tr<br>Europäische Union: Zuständige Datenschutzbehörde"
+
+msgid "<strong>İletişim:</strong> <a href=\"mailto:privacy@keycord.org\" class=\"contact-link\">privacy@keycord.org</a>"
+msgstr "<strong>Kontakt:</strong> <a href=\"mailto:privacy@keycord.org\" class=\"contact-link\">privacy@keycord.org</a>"
+
+msgid "Anahtarlar oturuma özeldir. Her yeni oturumda yeni anahtarlar üretilir; bu sayede forward secrecy sağlanır."
+msgstr "Schlüssel sind sitzungsspezifisch. Für jede neue Sitzung werden neue Schlüssel erzeugt, wodurch Forward Secrecy gewährleistet wird."
+
+msgid "Anahtarlar oturuma özeldir. Her yeni oturumda yeni anahtarlar üretilir; bu sayede geçmiş oturumlara ait veriler, anahtar ele geçirilse dahi korunmaya devam eder (forward secrecy)."
+msgstr "Schlüssel sind sitzungsspezifisch. Für jede neue Sitzung werden neue Schlüssel erzeugt, sodass Daten früherer Sitzungen selbst bei Kompromittierung eines Schlüssels geschützt bleiben (Forward Secrecy)."
+
+msgid "Aşağıdaki isimler, KeyCord'un güvenlik standartlarını geliştirmemize yardımcı olan değerli araştırmacılardır."
+msgstr "Die folgenden Namen sind wertvolle Forscher, die uns geholfen haben, die Sicherheitsstandards von KeyCord zu verbessern."
+
+msgid "Bağlantı zamanı, IP adresi veya mesaj içeriği hiçbir şekilde kayıt altına alınmaz."
+msgstr "Verbindungszeit, IP-Adresse oder Nachrichteninhalte werden in keiner Weise protokolliert."
+
+msgid "Bir güvenlik açığı mı buldunuz? Lütfen bizimle contact@keycord.org üzerinden iletişime geçin.\n                Doğrulanan açıklar için sizi bu listeye eklemekten ve (açığın önemine göre) ödüllendirmekten mutluluk\n                duyarız."
+msgstr "Haben Sie eine Sicherheitslücke gefunden? Bitte kontaktieren Sie uns über contact@keycord.org.\n                Für bestätigte Schwachstellen nehmen wir Sie gerne in diese Liste auf und belohnen Sie\n                (je nach Schweregrad der Schwachstelle)."
+
+msgid "Bu anahtarı paylaşabilirsiniz. Başkaları\n                        size şifreli mesaj göndermek için kullanır."
+msgstr "Sie können diesen Schlüssel teilen. Andere nutzen ihn,\n                        um Ihnen verschlüsselte Nachrichten zu senden."
+
+msgid "Bu belge her ay düzenli olarak güncellenir. Eğer bu belge 45 günden uzun süre güncellenmezse, yukarıdaki beyanlardan birinin artık geçerli olmadığı anlamına gelebilir."
+msgstr "Dieses Dokument wird monatlich regelmäßig aktualisiert. Wenn dieses Dokument länger als 45 Tage nicht aktualisiert wird, kann dies bedeuten, dass eine der obigen Aussagen nicht mehr gültig ist."
+
+msgid "Bu gizlilik politikası, KeyCord platformunun (\"KeyCord\", \"biz\", \"platform\") kişisel verilerinizi nasıl ele aldığını açıklamaktadır. KeyCord, 6698 sayılı Kişisel Verilerin Korunması Kanunu (KVKK) ve Avrupa Birliği Genel Veri Koruma Tüzüğü (GDPR) kapsamındaki yükümlülüklerine uygun şekilde hareket etmeyi taahhüt eder."
+msgstr "Diese Datenschutzrichtlinie erläutert, wie die KeyCord-Plattform („KeyCord\", „wir\", „Plattform\") Ihre personenbezogenen Daten verarbeitet. KeyCord verpflichtet sich, seine Verpflichtungen aus dem Gesetz Nr. 6698 zum Schutz personenbezogener Daten (KVKK) und der Datenschutz-Grundverordnung (DSGVO) der Europäischen Union einzuhalten."
+
+msgid "Bu gizlilik politikası, KeyCord platformunun (\"KeyCord\", \"biz\", \"platform\") kişisel verilerinizi nasıl işlediğini ve koruduğunu açıklar. KeyCord, 6698 sayılı Kişisel Verilerin Korunması Kanunu (KVKK) ve Avrupa Birliği Genel Veri Koruma Tüzüğü (GDPR) kapsamındaki yükümlülüklerine uymayı taahhüt eder."
+msgstr "Diese Datenschutzrichtlinie erläutert, wie die KeyCord-Plattform („KeyCord\", „wir\", „Plattform\") Ihre personenbezogenen Daten verarbeitet und schützt. KeyCord verpflichtet sich, seine Verpflichtungen aus dem Gesetz Nr. 6698 zum Schutz personenbezogener Daten (KVKK) und der Datenschutz-Grundverordnung (DSGVO) der Europäischen Union einzuhalten."
+
+msgid "Bu kullanım şartları Türk hukukuna tabidir. Uyuşmazlıklarda Türkiye mahkemeleri yetkilidir."
+msgstr "Diese Nutzungsbedingungen unterliegen türkischem Recht. Für Streitigkeiten sind die türkischen Gerichte zuständig."
+
+msgid "Bu politika değiştirildiğinde güncel versiyon bu sayfada yayınlanır ve güncelleme tarihi güncellenir. Önemli değişikliklerde kullanıcılar bilgilendirilir."
+msgstr "Wenn diese Richtlinie geändert wird, wird die aktuelle Version auf dieser Seite veröffentlicht und das Aktualisierungsdatum aktualisiert. Bei wesentlichen Änderungen werden die Benutzer informiert."
+
+msgid "Bu politika değiştirildiğinde, güncel versiyon bu sayfada yayımlanır ve güncelleme tarihi revize edilir. Önemli değişikliklerde kullanıcılar bilgilendirilir."
+msgstr "Wenn diese Richtlinie geändert wird, wird die aktuelle Version auf dieser Seite veröffentlicht und das Aktualisierungsdatum überarbeitet. Bei wesentlichen Änderungen werden die Benutzer informiert."
+
+msgid "Bu tarihe kadar hiçbir hükümet kurumu, yargı mercii veya üçüncü taraftan kullanıcı verisi teslim etmemizi zorunlu kılan bir talep, mahkeme kararı veya yasal zorunluluk almadık."
+msgstr "Bis heute haben wir von keiner Regierungsbehörde, Gerichtsinstanz oder Dritten eine Aufforderung, gerichtliche Anordnung oder gesetzliche Verpflichtung erhalten, die uns zur Herausgabe von Benutzerdaten zwingt."
+
+msgid "Bu yapı, GDPR Recital 26 ve KVKK Madde 12 kapsamında \"uygun teknik tedbirler\" olarak değerlendirilmektedir."
+msgstr "Diese Struktur gilt gemäß DSGVO-Erwägungsgrund 26 und Artikel 12 KVKK als „geeignete technische Maßnahmen\"."
+
+msgid "Bu yapı, GDPR Recital 26 ve KVKK Madde 12 kapsamında uygun teknik tedbirler olarak değerlendirilir."
+msgstr "Diese Struktur gilt gemäß DSGVO-Erwägungsgrund 26 und Artikel 12 KVKK als geeignete technische Maßnahmen."
+
+msgid "Bu, yasal olarak açıklama yapmamız engellendiğinde kullanıcılarımızı sessizce bilgilendirme yöntemimizdir."
+msgstr "Dies ist unsere Methode, unsere Benutzer stillschweigend zu informieren, wenn uns eine gesetzliche Offenlegung verwehrt ist."
+
+msgid "Cloudflare, ağ trafiğini görür; ancak mesaj içerikleri uçtan uca şifreli olduğundan Cloudflare de dahil hiçbir aracı tarafından okunamaz."
+msgstr "Cloudflare sieht den Netzwerkverkehr; da die Nachrichteninhalte jedoch Ende-zu-Ende verschlüsselt sind, können sie von keinem Mittler gelesen werden, auch nicht von Cloudflare."
+
+msgid "Daha yüksek gizlilik için Tor Browser ile .onion adresimizi kullanabilirsiniz."
+msgstr "Für mehr Privatsphäre können Sie unsere .onion-Adresse mit dem Tor Browser nutzen."
+
+msgid "En sıkı web güvenlik standartlarını aşarak alınan mükemmel puan. Kusursuz yapılandırma."
+msgstr "Perfekte Punktzahl durch Übertreffen der strengsten Websicherheitsstandards. Einwandfreie Konfiguration."
+
+msgid "Evet, KeyCord tamamen açık kaynaktır. Kaynak koduna GitHub üzerinden erişebilir, inceleyebilir ve katkı sağlayabilirsiniz."
+msgstr "Ja, KeyCord ist vollständig quelloffen. Sie können über GitHub auf den Quellcode zugreifen, ihn prüfen und dazu beitragen."
+
+msgid "Evet, platform hâlâ beta aşamasındadır. Güvenlik yamaları ve güncellemeler düzenli olarak uygulanmaktadır."
+msgstr "Ja, die Plattform befindet sich noch in der Beta-Phase. Sicherheitsupdates und Aktualisierungen werden regelmäßig angewendet."
+
+msgid "Evet. Cloudflare Tunnel kullanımı sayesinde sunucunun gerçek IP adresi dışarıya açık değildir."
+msgstr "Ja. Dank der Verwendung von Cloudflare Tunnel ist die echte IP-Adresse des Servers nicht sichtbar."
+
+msgid "Evet. Cloudflare Tunnel kullanımı sayesinde sunucunun gerçek IP adresi dışarıya açık değildir. Bu durum Shodan ve benzeri tarama araçlarıyla doğrulanmıştır."
+msgstr "Ja. Dank der Verwendung von Cloudflare Tunnel ist die echte IP-Adresse des Servers nicht sichtbar. Dies wurde mit Shodan und ähnlichen Scan-Tools verifiziert."
+
+msgid "Evet. KeyCord sabit boyutlu paketler kullanır ve mesaj iletiminde rastgele gecikmeler uygulayabilir."
+msgstr "Ja. KeyCord verwendet Pakete fester Größe und kann bei der Nachrichtenzustellung zufällige Verzögerungen anwenden."
+
+msgid "Evet. KeyCord sabit boyutlu paketler kullanır ve mesaj iletiminde rastgele gecikmeler uygulayabilir. Bu sayede dışarıdan iletişim örüntünüzü analiz etmek güçleşir."
+msgstr "Ja. KeyCord verwendet Pakete fester Größe und kann bei der Nachrichtenzustellung zufällige Verzögerungen anwenden. Dadurch wird es von außen schwerer, Ihre Kommunikationsmuster zu analysieren."
+
+msgid "Evet. KeyCord, .onion adresi üzerinden Tor ağıyla erişimi destekler. Bu yöntem tam ağ anonimliği sağlar."
+msgstr "Ja. KeyCord unterstützt den Zugriff über das Tor-Netzwerk über seine .onion-Adresse. Diese Methode bietet vollständige Netzwerkanonymität."
+
+msgid "Evet. KeyCord, 6698 sayılı KVKK ve AB GDPR kapsamındaki yükümlülüklere uygun şekilde tasarlanmıştır."
+msgstr "Ja. KeyCord ist so konzipiert, dass es die Verpflichtungen aus dem KVKK-Gesetz Nr. 6698 und der EU-DSGVO erfüllt."
+
+msgid "Evet. KeyCord, 6698 sayılı KVKK ve AB GDPR kapsamındaki yükümlülüklere uygun şekilde tasarlanmıştır. Detaylı bilgi için Gizlilik Politikamızı inceleyebilirsiniz."
+msgstr "Ja. KeyCord ist so konzipiert, dass es die Verpflichtungen aus dem KVKK-Gesetz Nr. 6698 und der EU-DSGVO erfüllt. Einzelheiten finden Sie in unserer Datenschutzrichtlinie."
+
+msgid "Evet. Profil sayfanızdan kendiniz hesabınızı silebilirsiniz. Bu silme işlemi kalıcıdır ve geri dönüşü yoktur."
+msgstr "Ja. Sie können Ihr Konto selbst über Ihre Profilseite löschen. Diese Löschung ist dauerhaft und unumkehrbar."
+
+msgid "Evet. Profil sayfanızdan kendiniz hesabınızı silebilirsiniz. Bu silme işlemi kalıcıdır ve geri dönüşü yoktur. privacy@keycord.org adresine başvurabilirsiniz."
+msgstr "Ja. Sie können Ihr Konto selbst über Ihre Profilseite löschen. Diese Löschung ist dauerhaft und unumkehrbar. Sie können sich auch an privacy@keycord.org wenden."
+
+msgid "Evet. Uçtan uca şifreleme, araya girme saldırılarına karşı temel koruma sağlar. Bağlantılar TLS ile de güvence altına alınmaktadır."
+msgstr "Ja. Ende-zu-Ende-Verschlüsselung bietet grundlegenden Schutz vor Man-in-the-Middle-Angriffen. Verbindungen werden zusätzlich durch TLS gesichert."
+
+msgid "Eğer sen de internetin daha güvenli ve özgür bir yer olması gerektiğine inanıyorsan, GitHub üzerinden projemize destek olabilir, yeni özellikler ekleyebilir veya hataları düzeltebilirsin."
+msgstr "Wenn auch Sie glauben, dass das Internet ein sichererer und freierer Ort sein sollte, können Sie unser Projekt auf GitHub unterstützen, neue Funktionen hinzufügen oder Fehler beheben."
+
+msgid "Giriş yaptığınızda şifreleme anahtarlarınız yalnızca bu oturumda, yalnızca sizin\n      cihazınızda çözülür."
+msgstr "Wenn Sie sich anmelden, werden Ihre Verschlüsselungsschlüssel nur in dieser Sitzung und nur auf Ihrem\n      Gerät entschlüsselt."
+
+msgid "Gizlilik politikası ve veri koruma soruları için bu e-posta adresini kullanın."
+msgstr "Nutzen Sie diese E-Mail-Adresse für Fragen zur Datenschutzrichtlinie und zum Datenschutz."
+
+msgid "Gizliliğinizi koruduğumuzu sadece iddia etmiyoruz. Bunu bağımsız güvenlik testleri ve tamamen açık kaynak kodumuzla kanıtlıyoruz."
+msgstr "Wir behaupten nicht nur, Ihre Privatsphäre zu schützen. Wir beweisen es durch unabhängige Sicherheitstests und unseren vollständig quelloffenen Code."
+
+msgid "Güvenlik açıklarını bulup düzelterek projenin \"Zero-Knowledge\" yapısını güçlendirebilirsin."
+msgstr "Sie können die „Zero-Knowledge\"-Architektur des Projekts stärken, indem Sie Sicherheitslücken finden und beheben."
+
+msgid "Güvenlik, gizlilik veya kritik hata bildirimi için bu e-posta adresini kullanın."
+msgstr "Nutzen Sie diese E-Mail-Adresse für Sicherheits-, Datenschutz- oder kritische Fehlermeldungen."
+
+msgid "Hayır. Cloudflare Tunnel altyapısı sayesinde gerçek sunucu IP'miz gizlidir; aynı zamanda kullanıcı IP adresleri de platformumuz tarafından loglanmaz."
+msgstr "Nein. Dank der Cloudflare-Tunnel-Infrastruktur ist unsere echte Server-IP verborgen; auch Benutzer-IP-Adressen werden von unserer Plattform nicht protokolliert."
+
+msgid "Hayır. KeyCord doğrudan tarayıcınız üzerinden kullanılır; herhangi bir uygulama indirmenize gerek yoktur."
+msgstr "Nein. KeyCord wird direkt über Ihren Browser genutzt; Sie müssen keine Anwendung herunterladen."
+
+msgid "Hayır. KeyCord, kimlik doğrulama için e-posta veya telefon numarası gibi kişisel veri talep etmez."
+msgstr "Nein. KeyCord verlangt zur Authentifizierung keine personenbezogenen Daten wie E-Mail-Adresse oder Telefonnummer."
+
+msgid "Hayır. Kullanıcı verisi hiçbir üçüncü tarafla satılmaz, kiralanmaz veya reklam amaçlı paylaşılmaz."
+msgstr "Nein. Benutzerdaten werden niemals verkauft, vermietet oder zu Werbezwecken an Dritte weitergegeben."
+
+msgid "Hayır. Normal tarayıcı ile de erişebilirsiniz. Ancak maksimum anonimlik istiyorsanız Tor önerilir."
+msgstr "Nein. Sie können auch mit einem normalen Browser darauf zugreifen. Tor wird jedoch empfohlen, wenn Sie maximale Anonymität wünschen."
+
+msgid "Hayır. Uçtan uca şifreleme ve zero-knowledge mimarisi nedeniyle mesaj içeriklerine teknik olarak erişimimiz yoktur."
+msgstr "Nein. Aufgrund der Ende-zu-Ende-Verschlüsselung und der Zero-Knowledge-Architektur haben wir technisch keinen Zugriff auf Nachrichteninhalte."
+
+msgid "Hayır. Şifreler sunucularımıza hiçbir zaman açık metin olarak iletilmez veya saklanmaz. Şifrenizi kaybetmeniz durumunda sıfırlama imkânı bulunmayabilir."
+msgstr "Nein. Passwörter werden niemals im Klartext an unsere Server übertragen oder dort gespeichert. Wenn Sie Ihr Passwort verlieren, gibt es möglicherweise keine Möglichkeit, es zurückzusetzen."
+
+msgid "Henüz davet kodu üretmediniz. Üstteki butona tıklayarak ilk kodu oluşturabilirsiniz."
+msgstr "Sie haben noch keinen Einladungscode erstellt. Klicken Sie auf die Schaltfläche oben, um Ihren ersten Code zu erstellen."
+
+#: app/templates/faq.html:473
+#: app/templates/faq.html:822
+msgid "Her oturum için benzersiz şifreleme anahtarları üretilir. Anahtar değişimi X25519 ve ML-KEM-768 kuantum sonrası (post-quantum) algoritmalarıyla yapılır. Mesajlar yalnızca konuşmaya dahil olan tarafların cihazlarında çözülebilir; sunucu bu anahtarlara sahip değildir."
+msgstr "Für jede Sitzung werden einzigartige Verschlüsselungsschlüssel erzeugt. Der Schlüsselaustausch erfolgt mit den Post-Quantum-Algorithmen X25519 und ML-KEM-768. Nachrichten können nur auf den Geräten der an der Konversation beteiligten Parteien entschlüsselt werden; der Server besitzt diese Schlüssel nicht."
+
+msgid "Her türlü soru, öneri veya teknik destek için bu e-posta adresini kullanabilirsiniz."
+msgstr "Sie können diese E-Mail-Adresse für Fragen, Anregungen oder technischen Support nutzen."
+
+#: app/templates/register.html:402
+msgid "Hesabınız oluşturulurken X25519 ve ML-KEM-768 kuantum sonrası şifreleme anahtarları yalnızca sizin cihazınızda üretilir. Sunucumuz hiçbir zaman özel anahtarınızı görmez."
+msgstr "Bei der Kontoerstellung werden Post-Quantum-Verschlüsselungsschlüssel (X25519 und ML-KEM-768) nur auf Ihrem Gerät erzeugt. Unser Server sieht Ihren privaten Schlüssel niemals."
+
+msgid "Hesabınızı sildiğinizde tüm arkadaşlıklarınız, mesajlarınız ve profil bilgileriniz kalıcı\n                        olarak silinir. Şifreleme anahtarlarınız dahil hiçbir veri kurtarılamaz. Bu işlem geri\n                        alınamaz."
+msgstr "Wenn Sie Ihr Konto löschen, werden alle Ihre Freundschaften, Nachrichten und Profilinformationen dauerhaft\n                        gelöscht. Keine Daten, einschließlich Ihrer Verschlüsselungsschlüssel, können wiederhergestellt werden. Dieser Vorgang kann nicht\n                        rückgängig gemacht werden."
+
+msgid "Hesap bilgilerinizin ve şifrenizin gizliliğinin korunması tamamen kullanıcının\n                    sorumluluğundadır. Sıfır bilgi mimarisi nedeniyle şifre kurtarma her zaman mümkün olmayabilir."
+msgstr "Der Schutz der Vertraulichkeit Ihrer Kontoinformationen und Ihres Passworts liegt vollständig in der Verantwortung des Benutzers.\n                    Aufgrund der Zero-Knowledge-Architektur ist eine Passwortwiederherstellung möglicherweise nicht immer möglich."
+
+msgid "Hesap silmek için profil sayfanızdan işleminizi gerçekleştirebilirsiniz. privacy@keycord.org adresine başvurabilirsiniz."
+msgstr "Zum Löschen Ihres Kontos können Sie dies über Ihre Profilseite tun. Sie können sich auch an privacy@keycord.org wenden."
+
+msgid "Hizmet ve genel bilgi talepleriniz için bu e-posta adresini kullanabilirsiniz."
+msgstr "Sie können diese E-Mail-Adresse für Service- und allgemeine Informationsanfragen nutzen."
+
+msgid "IP adresi (Cloudflare altyapısı gerçek sunucu IP’sini kullanıcıdan gizler; IP platformumuzda loglanmaz)"
+msgstr "IP-Adresse (Die Cloudflare-Infrastruktur verbirgt die echte Server-IP vor dem Benutzer; die IP wird auf unserer Plattform nicht protokolliert)"
+
+msgid "IP adresi (Cloudflare altyapısı, gerçek sunucu IP'sini kullanıcılardan gizler; kullanıcı IP'si platformumuz tarafından loglanmaz)"
+msgstr "IP-Adresse (Die Cloudflare-Infrastruktur verbirgt die echte Server-IP vor den Benutzern; die Benutzer-IP wird von unserer Plattform nicht protokolliert)"
+
+msgid "Kayıt sırasında şifreleme anahtarlarınız yalnızca bu cihazda oluşturulur. Bu işlem birkaç saniye sürebilir."
+msgstr "Bei der Registrierung werden Ihre Verschlüsselungsschlüssel nur auf diesem Gerät erzeugt. Dies kann einige Sekunden dauern."
+
+msgid "KeyCord ayrıca Tor ağı üzerinden bir .onion adresiyle de erişilebilir; bu sayede ağ seviyesinde kimin kiminle konuştuğu bilgisi bile gizlenir. Reklam yok, üçüncü taraf analitik yok, takip kodu yok — sadece özgürce konuşabileceğiniz, iz bırakmayan bir alan."
+msgstr "KeyCord ist auch über eine .onion-Adresse im Tor-Netzwerk erreichbar, sodass sogar die Information, wer mit wem spricht, auf Netzwerkebene verborgen bleibt. Keine Werbung, keine Drittanbieter-Analytik, kein Tracking-Code — nur ein Raum, in dem Sie frei sprechen können, ohne Spuren zu hinterlassen."
+
+msgid "KeyCord bir \"Zero-Knowledge\" (Sıfır Bilgi) sistemidir. Bu şu demek: Senin şifren, senin\n                anahtarlarının tek kilididir. Biz bu şifreyi asla sunucularımızda saklamayız, görmeyiz ve dolayısıyla\n                \"Şifremi Unuttum\" e-postası gönderemeyiz."
+msgstr "KeyCord ist ein „Zero-Knowledge\"-System. Das bedeutet: Ihr Passwort ist der einzige Schlüssel zu Ihren\n                Schlüsseln. Wir speichern dieses Passwort nie auf unseren Servern, sehen es nie und können daher\n                keine „Passwort vergessen\"-E-Mail senden."
+
+msgid "KeyCord bu kullanım şartlarını önceden bildirim yaparak veya yapmaksızın güncelleyebilir. Güncel\n                versiyon her zaman keycord.org adresinde yayımlanır. Platformu kullanmaya devam etmek, güncel şartları\n                kabul etmek anlamına gelir."
+msgstr "KeyCord kann diese Nutzungsbedingungen mit oder ohne vorherige Ankündigung aktualisieren. Die aktuelle\n                Version wird immer unter keycord.org veröffentlicht. Die weitere Nutzung der Plattform bedeutet, die aktuellen Bedingungen\n                zu akzeptieren."
+
+msgid "KeyCord olarak, kullanıcılarımızın güvenliğini ve gizliliğini her şeyin üzerinde tutuyoruz. Bu kapsamda aşağıdaki durumların gerçekleşmediğini beyan ederiz:"
+msgstr "Als KeyCord stellen wir die Sicherheit und Privatsphäre unserer Benutzer über alles. In diesem Zusammenhang erklären wir, dass die folgenden Punkte nicht eingetreten sind:"
+
+msgid "KeyCord platformunu (\"KeyCord\", \"platform\") kullanarak bu kullanım şartlarını okuduğunuzu,\n                anladığınızı ve kabul ettiğinizi beyan etmiş olursunuz. Bu şartları kabul etmiyorsanız platformu\n                kullanmayınız."
+msgstr "Durch die Nutzung der KeyCord-Plattform („KeyCord\", „Plattform\") erklären Sie, dass Sie diese Nutzungsbedingungen gelesen,\n                verstanden und akzeptiert haben. Wenn Sie diese Bedingungen nicht akzeptieren, nutzen Sie die Plattform\n                nicht."
+
+msgid "KeyCord platformunun adı, logosu, tasarımı ve yazılım altyapısı KeyCord'a aittir. Kullanıcılar bu\n                unsurları izinsiz kopyalayamaz, çoğaltamaz veya ticari amaçla kullanamaz."
+msgstr "Der Name, das Logo, das Design und die Software-Infrastruktur der KeyCord-Plattform gehören KeyCord. Benutzer dürfen diese\n                Elemente nicht ohne Erlaubnis kopieren, vervielfältigen oder kommerziell nutzen."
+
+msgid "KeyCord web tabanlıdır; modern bir tarayıcısı olan her cihazda çalışır. Ayrıca Tor Browser üzerinden de erişilebilir."
+msgstr "KeyCord ist webbasiert; es funktioniert auf jedem Gerät mit einem modernen Browser. Es ist auch über den Tor Browser zugänglich."
+
+msgid "KeyCord'a .onion adresi üzerinden erişim sağlandığında, ağ anonimliği tamamen Tor ağı tarafından güvence altına alınır. Bu durumda platformun herhangi bir bağlantı verisine erişimi yoktur."
+msgstr "Beim Zugriff auf KeyCord über die .onion-Adresse wird die Netzwerkanonymität vollständig vom Tor-Netzwerk gewährleistet. In diesem Fall hat die Plattform keinen Zugriff auf Verbindungsdaten."
+
+msgid "KeyCord'un aldığı hükümet talepleri, arka kapı durumu ve zero-knowledge mimarisinin güncel durumuna dair aylık şeffaflık beyanı."
+msgstr "Monatliche Transparenzerklärung zu von KeyCord erhaltenen Regierungsanfragen, Backdoor-Status und aktuellem Stand der Zero-Knowledge-Architektur."
+
+msgid "KeyCord'un aylık güncellenen canary warrant belgesi: hükümet talebi, arka kapı ve zero-knowledge mimarisi durumuna dair güncel şeffaflık beyanı."
+msgstr "KeyCords monatlich aktualisiertes Canary-Warrant-Dokument: eine aktuelle Transparenzerklärung zu Regierungsanfragen, Backdoors und der Zero-Knowledge-Architektur."
+
+msgid "KeyCord'un temel tasarım ilkesi: Sizi tanımamak. Platform, tasarımı gereği kullanıcı verisi toplamayacak şekilde inşa edilmiştir."
+msgstr "KeyCords zentrales Designprinzip: Sie nicht zu kennen. Die Plattform ist konstruktionsbedingt so aufgebaut, dass keine Benutzerdaten gesammelt werden."
+
+msgid "KeyCord'un zero-knowledge mimarisi bu tarih itibarıyla değiştirilmemiştir. Teknik olarak mesaj içeriklerine erişimimiz bulunmamaktadır."
+msgstr "Die Zero-Knowledge-Architektur von KeyCord wurde bis zu diesem Datum nicht verändert. Wir haben technisch keinen Zugriff auf Nachrichteninhalte."
+
+msgid "KeyCord, Cloudflare Tunnel ile korunan ve gerçek IP'si gizli bir sunucu üzerinde çalışmaktadır."
+msgstr "KeyCord läuft auf einem durch Cloudflare Tunnel geschützten Server mit verborgener echter IP-Adresse."
+
+#: app/templates/faq.html:6
+msgid "KeyCord, Türkiye merkezli açık kaynak kodlu, kuantum bilgisayarlara dayanıklı (X25519 + ML-KEM-768) uçtan uca şifreli mesajlaşma platformu. Tor ağı üzerinden .onion erişimi ve sıfır bilgi mimarisiyle gizliliğinizi korur."
+msgstr "KeyCord ist eine quelloffene, Ende-zu-Ende-verschlüsselte Messaging-Plattform mit Sitz in der Türkei, die gegen Quantencomputer resistent ist (X25519 + ML-KEM-768). Sie schützt Ihre Privatsphäre durch .onion-Zugriff über das Tor-Netzwerk und eine Zero-Knowledge-Architektur."
+
+msgid "KeyCord, Türkiye merkezli, açık kaynak kodlu ve gizlilik odaklı bir mesajlaşma platformudur. Klasik mesajlaşma uygulamalarının aksine telefon numarası, e-posta ya da kimlik bilgisi istemez; kayıt olurken sizden yalnızca bir kullanıcı adı ve şifre alır."
+msgstr "KeyCord ist eine quelloffene, datenschutzorientierte Messaging-Plattform mit Sitz in der Türkei. Anders als klassische Messaging-Apps verlangt sie keine Telefonnummer, E-Mail oder Identitätsnachweise; bei der Registrierung fragt sie lediglich nach einem Benutzernamen und einem Passwort."
+
+#: app/templates/welcome.html:1110
+msgid "KeyCord, Türkiye merkezli, açık kaynaklı, Tor ağı destekli kuantum bilgisayarlara dayanıklı uçtan uca şifreli mesajlaşma platformudur. Sıfır bilgi mimarisi ile mesaj içeriklerine erişim sağlamaz."
+msgstr "KeyCord ist eine quelloffene, Tor-Netzwerk-gestützte, Ende-zu-Ende-verschlüsselte Messaging-Plattform mit Sitz in der Türkei, die gegen Quantencomputer resistent ist. Durch die Zero-Knowledge-Architektur besteht kein Zugriff auf Nachrichteninhalte."
+
+msgid "KeyCord, aşağıdaki durumlarda kullanıcının hesabını askıya alma veya sonlandırma hakkını saklı\n                tutar:"
+msgstr "KeyCord behält sich das Recht vor, das Konto eines Benutzers in den folgenden Fällen zu sperren oder zu\n                beenden:"
+
+msgid "KeyCord, bağımsız bir geliştirici tarafından inşa edilen ve aktif olarak geliştirilen açık kaynaklı bir projedir."
+msgstr "KeyCord ist ein quelloffenes Projekt, das von einem unabhängigen Entwickler aufgebaut und aktiv weiterentwickelt wird."
+
+msgid "KeyCord, gizlilik odaklı, uçtan uca şifreli bir mesajlaşma platformudur. Sıfır bilgi (zero-knowledge) mimarisiyle tasarlanmıştır; mesajlarınıza bizim de erişimimiz yoktur."
+msgstr "KeyCord ist eine datenschutzorientierte, Ende-zu-Ende-verschlüsselte Messaging-Plattform. Sie ist mit einer Zero-Knowledge-Architektur konzipiert; selbst wir haben keinen Zugriff auf Ihre Nachrichten."
+
+msgid "KeyCord, hizmetin kesintisiz veya hatasız çalışacağını garanti etmez. Platform beta aşamasında\n                sunulmakta olup teknik aksaklıklar yaşanabilir."
+msgstr "KeyCord garantiert nicht, dass der Dienst ununterbrochen oder fehlerfrei funktioniert. Die Plattform\n                wird in der Beta-Phase bereitgestellt und technische Störungen können auftreten."
+
+msgid "KeyCord, izleme veya analiz amaçlı çerez kullanmaz. Yalnızca oturum yönetimi için teknik olarak zorunlu olduğu durumlarda geçici oturum verileri kullanılabilir; bu veriler tarayıcı kapatıldığında silinir."
+msgstr "KeyCord verwendet keine Cookies für Tracking oder Analysezwecke. Temporäre Sitzungsdaten dürfen nur dann verwendet werden, wenn sie für die Sitzungsverwaltung technisch erforderlich sind; diese Daten werden beim Schließen des Browsers gelöscht."
+
+msgid "KeyCord, izleme veya analiz amaçlı çerez kullanmaz. Yalnızca oturum yönetimi için teknik olarak zorunlu olduğunda geçici oturum verileri kullanılabilir; bu veriler tarayıcı kapatıldığında silinir."
+msgstr "KeyCord verwendet keine Cookies für Tracking oder Analysezwecke. Temporäre Sitzungsdaten dürfen nur verwendet werden, wenn sie für die Sitzungsverwaltung technisch erforderlich sind; diese Daten werden beim Schließen des Browsers gelöscht."
+
+msgid "KeyCord, kullanıcı verilerini en az düzeyde tutmayı amaçlayan gizlilik odaklı bir mesajlaşma platformudur."
+msgstr "KeyCord ist eine datenschutzorientierte Messaging-Plattform, die darauf abzielt, Benutzerdaten auf ein Minimum zu beschränken."
+
+msgid "KeyCord, normal kullanım sırasında kullanıcılardan hiçbir kişisel veri toplamaz. Özellikle şunlar kaydedilmez veya saklanmaz:"
+msgstr "KeyCord erhebt bei normaler Nutzung keinerlei personenbezogene Daten von Benutzern. Insbesondere werden die folgenden Daten nicht protokolliert oder gespeichert:"
+
+msgid "KeyCord, normal kullanım sırasında kullanıcılardan kişisel veri toplamaz. Aşağıdaki veriler kaydedilmez veya saklanmaz:"
+msgstr "KeyCord erhebt bei normaler Nutzung keine personenbezogenen Daten von Benutzern. Die folgenden Daten werden nicht protokolliert oder gespeichert:"
+
+msgid "KeyCord, tamamen şeffaflık ve topluluk odaklı bir projedir. Şu anda aktif bir işe alım sürecimiz bulunmamakla birlikte, projenin kodları tüm dünyaya açıktır."
+msgstr "KeyCord ist ein Projekt, das vollständig auf Transparenz und Gemeinschaft ausgerichtet ist. Obwohl wir derzeit keinen aktiven Einstellungsprozess haben, ist der Code des Projekts der ganzen Welt zugänglich."
+
+msgid "KeyCord, uçtan uca şifreleme ve sıfır bilgi mimarisi nedeniyle kullanıcılar arasında iletilen mesaj\n                içeriklerine teknik olarak erişememektedir. Bu nedenle KeyCord, kullanıcılar tarafından iletilen\n                içeriklerden hukuki olarak sorumlu tutulamaz."
+msgstr "Aufgrund der Ende-zu-Ende-Verschlüsselung und der Zero-Knowledge-Architektur kann KeyCord technisch nicht auf die Inhalte von Nachrichten zugreifen, die zwischen Benutzern ausgetauscht werden. Daher kann KeyCord nicht rechtlich für Inhalte haftbar gemacht werden, die von Benutzern übertragen werden."
+
+#: app/templates/terms_of_service.html:198
+msgid "KeyCord, kuantum bilgisayarlara dayanıklı (post-quantum) uçtan uca şifreli, gizlilik odaklı bir mesajlaşma platformudur. Platform, sıfır bilgi\n                (zero-knowledge) mimarisiyle çalışmaktadır; bu nedenle KeyCord'un mesaj içeriklerine teknik olarak\n                erişimi bulunmamaktadır."
+msgstr "KeyCord ist eine Ende-zu-Ende-verschlüsselte, datenschutzorientierte Messaging-Plattform, die gegen Quantencomputer resistent ist (Post-Quantum). Die Plattform arbeitet mit einer Zero-Knowledge-Architektur; daher hat KeyCord technisch keinen Zugriff auf Nachrichteninhalte."
+
+msgid "KeyCord’a .onion adresi üzerinden erişildiğinde, ağ anonimliği Tor ağı tarafından güvence altına alınır. Bu durumda platformun bağlantı verilerine erişimi yoktur."
+msgstr "Beim Zugriff auf KeyCord über die .onion-Adresse wird die Netzwerkanonymität vom Tor-Netzwerk gewährleistet. In diesem Fall hat die Plattform keinen Zugriff auf Verbindungsdaten."
+
+msgid "KeyCord’un temel tasarım ilkesi: Sizi tanımamak. Platform, kullanıcı verisi toplamayı minimuma indirecek şekilde tasarlanmıştır."
+msgstr "KeyCords zentrales Designprinzip: Sie nicht zu kennen. Die Plattform ist so gestaltet, dass die Erhebung von Benutzerdaten auf ein Minimum reduziert wird."
+
+msgid "Kullanıcı adı, e-posta adresi veya telefon numarası gibi herhangi bir kişisel veri"
+msgstr "Personenbezogene Daten wie Benutzername, E-Mail-Adresse oder Telefonnummer"
+
+msgid "Kullanıcı verileri hiçbir üçüncü tarafla satılmaz, kiralanmaz veya reklam amaçlı paylaşılmaz."
+msgstr "Benutzerdaten werden niemals verkauft, vermietet oder zu Werbezwecken an Dritte weitergegeben."
+
+msgid "Kullanıcıların gizliliğini tehlikeye atacak herhangi bir gizli emir veya kısıtlama (gag order) altına girmedik."
+msgstr "Wir wurden keiner Geheimhaltungsanordnung (Gag Order) oder Einschränkung unterworfen, die die Privatsphäre der Benutzer gefährden würde."
+
+msgid "Lütfen bulguyu sorumlu ifşa (responsible disclosure) ilkesiyle privacy@keycord.org adresine bildirin. Güvenlik raporları öncelikli olarak değerlendirilir."
+msgstr "Bitte melden Sie den Fund unter dem Grundsatz der verantwortungsvollen Offenlegung (Responsible Disclosure) an privacy@keycord.org. Sicherheitsberichte werden priorisiert behandelt."
+
+msgid "Lütfen bulguyu sorumlu ifşa ilkesiyle privacy@keycord.org adresine bildirin. Güvenlik raporları öncelikli olarak değerlendirilir."
+msgstr "Bitte melden Sie den Fund nach dem Grundsatz der verantwortungsvollen Offenlegung an privacy@keycord.org. Sicherheitsberichte werden priorisiert behandelt."
+
+msgid "Mesaj iletiminde rastgele gecikmeler uygulanabilir; bu zamanlama korelasyon saldırılarını engeller."
+msgstr "Bei der Nachrichtenzustellung können zufällige Verzögerungen angewendet werden; dies verhindert Timing-Korrelationsangriffe."
+
+msgid "Mesaj iletiminde rastgele gecikmeler uygulanabilir; bu, zamanlama korelasyon saldırılarını azaltır."
+msgstr "Bei der Nachrichtenzustellung können zufällige Verzögerungen angewendet werden; dies reduziert Timing-Korrelationsangriffe."
+
+msgid "Mesaj içeriklerine teknik olarak erişimimiz yoktur; bu nedenle içerik sunmamız mümkün değildir."
+msgstr "Wir haben technisch keinen Zugriff auf Nachrichteninhalte; daher ist es uns nicht möglich, Inhalte bereitzustellen."
+
+msgid "Mesaj içeriklerine teknik olarak erişimimiz yoktur; dolayısıyla herhangi bir talep üzerine dahi içerik sunmamız mümkün değildir."
+msgstr "Wir haben technisch keinen Zugriff auf Nachrichteninhalte; daher ist es uns nicht möglich, Inhalte bereitzustellen, selbst auf Anfrage."
+
+msgid "Mesaj içeriği (uçtan uca şifreleme nedeniyle platformun mesaj içeriğine teknik erişimi yoktur)"
+msgstr "Nachrichteninhalt (aufgrund der Ende-zu-Ende-Verschlüsselung hat die Plattform keinen technischen Zugriff auf den Nachrichteninhalt)"
+
+#: app/templates/profile.html:691
+msgid "Mesajlarınız X25519 ve ML-KEM-768 kuantum sonrası hibrit şifrelemeyle korunur; yalnızca alıcının cihazında çözülebilir. Sunucu hiçbir zaman düz metin\n                            görmez."
+msgstr "Ihre Nachrichten sind durch hybride Post-Quantum-Verschlüsselung (X25519 und ML-KEM-768) geschützt und können nur auf dem Gerät des Empfängers entschlüsselt werden. Der Server sieht niemals Klartext."
+
+msgid "Mevcut geliştirme sürecinde bu özellik hakkında güncel bilgi için keycord.org adresini takip edin."
+msgstr "Verfolgen Sie während des laufenden Entwicklungsprozesses keycord.org für aktuelle Informationen zu dieser Funktion."
+
+msgid "Normal kullanımda hiçbir kişisel veri toplanmaz. IP adresiniz, mesaj içerikleriniz, cihaz bilginiz veya kullanım alışkanlıklarınız kaydedilmez."
+msgstr "Bei normaler Nutzung werden keine personenbezogenen Daten erhoben. Ihre IP-Adresse, Nachrichteninhalte, Geräteinformationen oder Nutzungsgewohnheiten werden nicht protokolliert."
+
+msgid "Normal web erişiminde Cloudflare bağlantı verilerini görebilir (kullanıcı IP'si platformumuza ulaşmaz). Tor üzerinden erişimde ise ağ katmanında tam anonimlik sağlanır; platformun herhangi bir bağlantı verisine erişimi olmaz."
+msgstr "Beim normalen Webzugriff kann Cloudflare Verbindungsdaten sehen (die IP des Benutzers erreicht unsere Plattform nicht). Beim Zugriff über Tor wird dagegen vollständige Anonymität auf Netzwerkebene gewährleistet; die Plattform hat keinen Zugriff auf Verbindungsdaten."
+
+msgid "Normal web erişiminde Cloudflare bağlantı verilerini görebilir. Tor üzerinden erişimde ise ağ katmanında tam anonimlik sağlanır."
+msgstr "Beim normalen Webzugriff kann Cloudflare Verbindungsdaten sehen. Beim Zugriff über Tor wird dagegen vollständige Anonymität auf Netzwerkebene gewährleistet."
+
+msgid "Not: Bu bir hata değil, güvenlik özelliğidir. Şifrelerini güvenli bir kağıda yazmayı dene."
+msgstr "Hinweis: Dies ist kein Fehler, sondern eine Sicherheitsfunktion. Versuchen Sie, Ihre Passwörter auf ein sicheres Blatt Papier zu schreiben."
+
+msgid "Paketler sabit boyuta getirilir ve iletişim örüntüleri dışarıdan analiz edilmez."
+msgstr "Pakete werden auf eine feste Größe aufgefüllt und Kommunikationsmuster werden von außen nicht analysiert."
+
+msgid "Paketler sabit boyuta getirilir; bu sayede iletişim örüntüleri dışarıdan analiz edilemez."
+msgstr "Pakete werden auf eine feste Größe aufgefüllt; dadurch können Kommunikationsmuster von außen nicht analysiert werden."
+
+msgid "Platform altyapısına yetkisiz erişim sağlandığına veya herhangi bir \"arka kapı\" (backdoor) yerleştirildiğine dair doğrulanmış bir bilgimiz bulunmamaktadır."
+msgstr "Wir haben keine bestätigten Informationen darüber, dass unbefugter Zugriff auf die Plattform-Infrastruktur erlangt oder ein „Backdoor\" platziert wurde."
+
+msgid "Platform beta aşamasında olduğundan zaman zaman bakım ve yama süreçleri nedeniyle kısa süreli kesintiler yaşanabilir. Güncel durum için keycord.org adresini takip edebilirsiniz."
+msgstr "Da sich die Plattform in der Beta-Phase befindet, kann es gelegentlich zu kurzen Unterbrechungen durch Wartungs- und Patch-Prozesse kommen. Den aktuellen Status finden Sie unter keycord.org."
+
+msgid "Platform beta aşamasında sunulmaktadır. Hizmet kesintileri, güncellemeler veya özellik\n                değişiklikleri önceden bildirim yapılmaksızın gerçekleşebilir."
+msgstr "Die Plattform wird in der Beta-Phase bereitgestellt. Dienstunterbrechungen, Aktualisierungen oder Funktions-\n                änderungen können ohne vorherige Ankündigung erfolgen."
+
+msgid "Platform bunu teknik olarak engellemez; ancak her hesabın güvenliğinin ayrı ayrı sağlanması kullanıcının sorumluluğundadır."
+msgstr "Die Plattform verhindert dies technisch nicht; die Sicherheit jedes Kontos einzeln zu gewährleisten, liegt jedoch in der Verantwortung des Benutzers."
+
+msgid "Platform yalnızca yasal amaçlarla kullanılabilir. Yürürlükteki Türk hukuku ve uluslararası hukuka\n                aykırı hiçbir amaçla platform kullanılamaz."
+msgstr "Die Plattform darf nur zu rechtmäßigen Zwecken genutzt werden. Die Plattform darf nicht für Zwecke genutzt werden,\n                die gegen geltendes türkisches und internationales Recht verstoßen."
+
+msgid "Platform üzerinden paylaşılan üçüncü taraf bağlantı veya içeriklerden KeyCord sorumlu değildir."
+msgstr "KeyCord ist nicht verantwortlich für Links oder Inhalte Dritter, die auf der Plattform geteilt werden."
+
+msgid "Platform, Cloudflare altyapısını ağ koruması amacıyla kullanmaktadır. Cloudflare'in kendi gizlilik politikası geçerlidir; Cloudflare'e yalnızca ağ trafik verileri iletilmekte olup bu veriler kullanıcı kimliğiyle ilişkilendirilmemektedir."
+msgstr "Die Plattform nutzt die Cloudflare-Infrastruktur zum Schutz des Netzwerks. Es gilt die eigene Datenschutzrichtlinie von Cloudflare; an Cloudflare werden nur Netzwerkverkehrsdaten übermittelt, die nicht mit der Benutzeridentität verknüpft werden."
+
+msgid "Platform, ağ koruması için Cloudflare altyapısı kullanır. Cloudflare’in kendi gizlilik politikası geçerlidir; Cloudflare’e yalnızca ağ trafik verileri iletilir ve bu veriler kullanıcı kimliğiyle ilişkilendirilmez."
+msgstr "Die Plattform nutzt die Cloudflare-Infrastruktur zum Schutz des Netzwerks. Es gilt die eigene Datenschutzrichtlinie von Cloudflare; an Cloudflare werden nur Netzwerkverkehrsdaten übermittelt, die nicht mit der Benutzeridentität verknüpft werden."
+
+msgid "Platformu çevrenizle paylaşarak, hata bildirerek veya güvenlik testine katkıda bulunarak destek olabilirsiniz. Detaylar için keycord.org adresini ziyaret edin."
+msgstr "Sie können die Plattform unterstützen, indem Sie sie mit Ihrem Umfeld teilen, Fehler melden oder zu Sicherheitstests beitragen. Einzelheiten finden Sie unter keycord.org."
+
+msgid "Soruların veya önerilerin için her zaman contact@keycord.org adresinden bize yazabilirsin."
+msgstr "Für Fragen oder Anregungen können Sie uns jederzeit unter contact@keycord.org schreiben."
+
+msgid "Sunucu fiziksel olarak Türkiye'de bulunmaktadır. Veriler herhangi bir şahsa, kuruma ve kuruluşa aktarılmamaktadır."
+msgstr "Der Server befindet sich physisch in der Türkei. Daten werden an keine Person, Institution oder Organisation übertragen."
+
+msgid "Sunucuda yalnızca şifreli, okunamaz veri bulunur. Anahtarlar sunucuda tutulmadığından, ele geçirme durumunda mesaj içeriklerine ulaşmak teknik olarak mümkün değildir."
+msgstr "Auf dem Server befinden sich nur verschlüsselte, unlesbare Daten. Da Schlüssel nicht auf dem Server gespeichert werden, ist es im Falle einer Kompromittierung technisch unmöglich, auf Nachrichteninhalte zuzugreifen."
+
+msgid "Sıfır bilgi mimarisi nedeniyle şifre sıfırlama geleneksel yöntemlerle mümkün olmayabilir."
+msgstr "Aufgrund der Zero-Knowledge-Architektur ist ein Zurücksetzen des Passworts auf herkömmliche Weise möglicherweise nicht möglich."
+
+msgid "Sıfır bilgi mimarisi nedeniyle şifre sıfırlama geleneksel yöntemlerle mümkün olmayabilir. Şifrenizi güvenli bir yerde saklamanızı öneririz."
+msgstr "Aufgrund der Zero-Knowledge-Architektur ist ein Zurücksetzen des Passworts auf herkömmliche Weise möglicherweise nicht möglich. Wir empfehlen, Ihr Passwort an einem sicheren Ort aufzubewahren."
+
+msgid "Sıfır bilgi mimarisi, platformun kullanıcı şifrelerine ve mesaj içeriklerine hiçbir şekilde erişemeyeceği anlamına gelir."
+msgstr "Die Zero-Knowledge-Architektur bedeutet, dass die Plattform niemals auf Benutzerpasswörter oder Nachrichteninhalte zugreifen kann."
+
+msgid "Sıfır bilgi mimarisi, platformun kullanıcı şifrelerine ve mesaj içeriklerine hiçbir şekilde erişemeyeceği anlamına gelir. Teknik olarak \"bilmiyoruz\" çünkü bilmek için gereken anahtarlar bizde yok."
+msgstr "Die Zero-Knowledge-Architektur bedeutet, dass die Plattform niemals auf Benutzerpasswörter oder Nachrichteninhalte zugreifen kann. Technisch „wissen wir es nicht\", weil wir nicht über die Schlüssel verfügen, die zum Wissen nötig wären."
+
+msgid "Tekrar\nhoş geldiniz."
+msgstr "Willkommen\nzurück."
+
+msgid "Tor Browser ile .onion adresimiz üzerinden bağlanarak IP adresinizi tamamen\n                            gizleyebilirsiniz."
+msgstr "Durch die Verbindung über unsere .onion-Adresse mit dem Tor Browser können Sie Ihre IP-Adresse\n                            vollständig verbergen."
+
+msgid "Tor ağı üzerinden erişim desteklenmektedir; bu yöntem tam ağ anonimliği sağlar."
+msgstr "Der Zugriff über das Tor-Netzwerk wird unterstützt; diese Methode bietet vollständige Netzwerkanonymität."
+
+msgid "Tor ağı üzerinden erişimde yaşanan bağlantı sorunları, gecikme veya kesintilerden KeyCord sorumlu\n                değildir. Tor ağının işleyişi tamamen bağımsız bir altyapıya dayanmaktadır."
+msgstr "KeyCord ist nicht verantwortlich für Verbindungsprobleme, Verzögerungen oder Unterbrechungen beim Zugriff über das Tor-Netzwerk. Der Betrieb des Tor-Netzwerks beruht auf einer völlig unabhängigen Infrastruktur."
+
+msgid "Tor'un yapısı gereği bağlantı hızı normal web'e kıyasla daha yavaş olabilir. Bu KeyCord'a özgü bir durum değil; Tor ağının genel bir özelliğidir."
+msgstr "Aufgrund der Natur von Tor kann die Verbindungsgeschwindigkeit im Vergleich zum normalen Web langsamer sein. Dies ist nicht KeyCord-spezifisch, sondern eine allgemeine Eigenschaft des Tor-Netzwerks."
+
+msgid "Tor'un yapısı gereği bağlantı hızı normal web'e kıyasla daha yavaş olabilir. Bu Tor ağının genel bir özelliğidir."
+msgstr "Aufgrund der Natur von Tor kann die Verbindungsgeschwindigkeit im Vergleich zum normalen Web langsamer sein. Dies ist eine allgemeine Eigenschaft des Tor-Netzwerks."
+
+msgid "Tor, mesajınızı birden fazla katmanla şifreleyip farklı sunuculardan geçirir; böylece hangi IP adresinin hangi IP adresiyle konuştuğu bilgisi bile gizlenir. Bu, mesaj içeriğinin ötesinde, kiminle ne zaman iletişim kurduğunuza dair metadata düzeyinde bir koruma sağlar."
+msgstr "Tor verschlüsselt Ihre Nachricht mit mehreren Schichten und leitet sie über verschiedene Server, sodass sogar die Information verborgen bleibt, welche IP-Adresse mit welcher IP-Adresse spricht. Über den Nachrichteninhalt hinaus bietet dies Schutz auf Metadatenebene darüber, mit wem und wann Sie kommunizieren."
+
+msgid "Tüm HTTP güvenlik başlıklarında tam koruma. Veri sızıntısına karşı maksimum direnç."
+msgstr "Voller Schutz aller HTTP-Sicherheitsheader. Maximale Widerstandsfähigkeit gegen Datenlecks."
+
+#: app/templates/welcome.html:1045
+msgid "Tüm mesajlar, cihazınızda oluşturulan X25519 ve ML-KEM-768 kuantum sonrası algoritmalarıyla üretilen hibrit uçtan uca şifreleme anahtarlarıyla korunur. Sunucumuz mesaj içeriğini hiçbir zaman okuyamaz; çünkü şifre çözme anahtarı yalnızca sizin cihazınızda saklanır. Buna sıfır bilgi mimarisi diyoruz: sistemimiz size dair en temel bilgiler dışında hiçbir şey bilmez, bilmediği için de sızdıramaz."
+msgstr "Alle Nachrichten werden durch hybride Ende-zu-Ende-Verschlüsselungsschlüssel geschützt, die auf Ihrem Gerät mit den Post-Quantum-Algorithmen X25519 und ML-KEM-768 erzeugt werden. Unser Server kann Nachrichteninhalte niemals lesen, da der Entschlüsselungsschlüssel nur auf Ihrem Gerät gespeichert wird. Wir nennen dies die Zero-Knowledge-Architektur: Unser System weiß nichts außer den grundlegendsten Informationen über Sie, und weil es nichts weiß, kann es auch nichts preisgeben."
+
+msgid "Uygulamamızın her satırı denetlenebilir. Kapalı kapılar ardında sır yok, sadece kod var."
+msgstr "Jede Zeile unserer Anwendung ist prüfbar. Hinter verschlossenen Türen gibt es keine Geheimnisse, nur Code."
+
+msgid "Yani \"Destek ekibine yazayım da şifremi sıfırlasınlar\" diyorsan... Onlar da hiçbir şey\n                        yapamaz. Gerçekten. Seni sözleşme ve şartlar sayfasında uyarmıştık..."
+msgstr "Wenn Sie also denken: „Ich schreibe dem Support-Team, damit sie mein Passwort zurücksetzen\"... Auch sie\n                        können nichts tun. Wirklich. Wir haben Sie auf der Seite mit den Bedingungen gewarnt..."
+
+msgid "Yasal yükümlülüklerimiz çerçevesinde taleplere yanıt verme zorunluluğumuz olabilir; ancak zero-knowledge mimarisi nedeniyle sunabileceğimiz okunabilir içerik verisi teknik olarak mevcut değildir."
+msgstr "Wir können verpflichtet sein, Anfragen im Rahmen unserer gesetzlichen Pflichten zu beantworten; jedoch sind aufgrund der Zero-Knowledge-Architektur lesbare Inhaltsdaten, die wir bereitstellen könnten, technisch nicht vorhanden."
+
+msgid "Yeni kullanıcıların kayıt olabilmesi için paylaşabileceğiniz tek kullanımlık davet kodları."
+msgstr "Einmalige Einladungscodes, die Sie teilen können, damit sich neue Benutzer registrieren können."
+
+msgid "Yeni üyeler yalnızca mevcut kullanıcı tarafından verilen tek kullanımlık davet kodu ile kaydolabilir."
+msgstr "Neue Mitglieder können sich nur mit einem einmaligen Einladungscode registrieren, der von einem bestehenden Benutzer ausgestellt wurde."
+
+msgid "Yetkili makamların yasal taleplerine yanıt verme yükümlülüğümüz mevcuttur; ancak zero-knowledge mimarisi nedeniyle sunabileceğimiz içerik verisi teknik olarak mevcut değildir."
+msgstr "Wir sind verpflichtet, auf rechtmäßige Anfragen von Behörden zu antworten; jedoch sind aufgrund der Zero-Knowledge-Architektur Inhaltsdaten, die wir bereitstellen könnten, technisch nicht vorhanden."
+
+msgid "Yetkili makamların yasal taleplerine yanıt verme yükümlülüğümüz vardır; ancak sıfır bilgi mimarisi nedeniyle sağlanabilecek içerik verisi teknik olarak mevcut değildir."
+msgstr "Wir sind verpflichtet, auf rechtmäßige Anfragen von Behörden zu antworten; jedoch sind aufgrund der Zero-Knowledge-Architektur Inhaltsdaten, die bereitgestellt werden könnten, technisch nicht vorhanden."
+
+msgid "privacy@keycord.org adresine yazabilirsiniz. Her geri bildirim dikkate alınır."
+msgstr "Sie können an privacy@keycord.org schreiben. Jedes Feedback wird berücksichtigt."
+
+msgid "Çocuk istismarı veya çocukların korunmasına yönelik yasal düzenlemeleri ihlal eden içerik\n                    iletimi"
+msgstr "Übermittlung von Inhalten, die gegen gesetzliche Bestimmungen zu Kindesmissbrauch oder zum Schutz von\n                    Kindern verstoßen"
+
+msgid "Özel anahtarınız cihazınızda şifreli saklanır ve yalnızca parolanızla açılır. Sunucuya\n                            hiç iletilmez."
+msgstr "Ihr privater Schlüssel wird verschlüsselt auf Ihrem Gerät gespeichert und kann nur mit Ihrem Passwort entsperrt werden. Er wird\n                            nie an den Server übertragen."
+
+#: app/templates/register.html:427
+msgid "X25519 ve ML-KEM-768 hibrit algoritmalarıyla özel anahtarınız cihazınızda şifreli saklanır. Parolanız olmadan kimse mesajlarınıza erişemez."
+msgstr "Ihr privater Schlüssel wird mit den hybriden Algorithmen X25519 und ML-KEM-768 verschlüsselt auf Ihrem Gerät gespeichert. Ohne Ihr Passwort kann niemand auf Ihre Nachrichten zugreifen."
+
+msgid "Özel anahtarınız yalnızca sekme açıkken bellekte tutulur, kapandığında silinir."
+msgstr "Ihr privater Schlüssel wird nur im Speicher gehalten, solange der Tab geöffnet ist; beim Schließen des Tabs wird er gelöscht."
+
+msgid "İzleme veya analiz amaçlı çerez kullanılmaz. Yalnızca oturumunuzu açık tutmak için zorunlu geçici veriler kullanılır; bunlar tarayıcı kapatıldığında silinir."
+msgstr "Es werden keine Cookies für Tracking oder Analysezwecke verwendet. Nur temporäre Daten, die zum Offenhalten Ihrer Sitzung erforderlich sind, werden verwendet; sie werden beim Schließen des Browsers gelöscht."
+
+msgid "Şifre kaybı durumunda hesap içeriklerine erişim mümkün olmayabilir. KeyCord bu durumdan doğan\n                kayıplardan sorumlu değildir."
+msgstr "Im Falle eines Passwortverlusts ist der Zugriff auf Kontoinhalte möglicherweise nicht möglich. KeyCord ist für\n                Verluste, die aus dieser Situation entstehen, nicht verantwortlich."
+
+msgid "Şifreler dahil hiçbir kimlik bilgisi sunucularımızda açık metin olarak saklanmaz."
+msgstr "Keine Anmeldeinformationen, einschließlich Passwörter, werden im Klartext auf unseren Servern gespeichert."
+
+msgid "Şifreli veriler yetkisiz taraflarca ele geçirilse bile okunamaz durumdadır."
+msgstr "Selbst wenn verschlüsselte Daten von Unbefugten abgefangen werden, bleiben sie unlesbar."
+
+msgid "Şifreli verilerin yetkisiz taraflarca elde edilmesi halinde dahi içerik okunamaz biçimindedir."
+msgstr "Selbst wenn verschlüsselte Daten von Unbefugten erlangt werden, bleiben die Inhalte unlesbar."
+
+msgid "Eğer şifreni hatırlama ihtimalin %%0 ise, tek seçenek eski hesabını unutup (zaten erişemeyeceksin)\n                yeni bir sayfa açmaktır."
+msgstr "Wenn die Wahrscheinlichkeit, dass Sie sich an Ihr Passwort erinnern, %%0 beträgt, bleibt nur die Option, das alte Konto zu vergessen (Sie können ohnehin nicht darauf zugreifen)\n                und eine neue Seite zu öffnen."
+
+msgid "İnsan Doğrulaması Nedir?"
+msgstr "Was ist die Menschliche Verifizierung?"
+
+msgid "Hesap & Profil"
+msgstr "Konto & Profil"
+
+msgid "\n        <h3>Güvenlik Önceliğimizdir</h3>\n        <p>KeyCord, bot trafiğini engellemek ve platform kalitesini korumak için klasik CAPTCHA sistemleri yerine özgün bir <strong>Human Verification</strong> (İnsan Doğrulaması) sistemi kullanır.</p>\n        <p>Kayıt olduktan sonra karşınıza çıkan butona 10 saniye boyunca basılı tutmanız gerekir. Bu işlem:</p>\n        <ul>\n            <li>Otomatik yazılımların (botların) kayıt olmasını zorlaştırır.</li>\n            <li>E-posta doğrulama kodlarının sunucu maliyetini ve gizlilik riskini ortadan kaldırır.</li>\n            <li>Sizin gerçek bir kullanıcı olduğunuzu kanıtlar.</li>\n        </ul>\n        <p>Doğrulama tamamlandığında doğrudan giriş sayfasına yönlendirilirsiniz.</p>\n        "
+msgstr "\n        <h3>Sicherheit ist unsere Priorität</h3>\n        <p>Um Bot-Traffic zu blockieren und die Qualität der Plattform zu erhalten, verwendet KeyCord anstelle klassischer CAPTCHA-Systeme ein einzigartiges <strong>Human-Verification</strong>-System (Menschliche Verifizierung).</p>\n        <p>Nach der Registrierung müssen Sie den angezeigten Button 10 Sekunden lang gedrückt halten. Dieser Vorgang:</p>\n        <ul>\n            <li>Erschwert automatisierter Software (Bots) die Registrierung.</li>\n            <li>Beseitigt die Serverkosten und das Datenschutzrisiko von E-Mail-Verifizierungscodes.</li>\n            <li>Beweist, dass Sie ein echter Benutzer sind.</li>\n        </ul>\n        <p>Sobald die Verifizierung abgeschlossen ist, werden Sie direkt zur Anmeldeseite weitergeleitet.</p>\n        "
+
+msgid "Profil Özelleştirme"
+msgstr "Profil-Anpassung"
+
+msgid "\n        <h3>Kendinizi İfade Edin</h3>\n        <p>KeyCord profilinizi diğer kullanıcıların sizi daha iyi tanıması için özelleştirebilirsiniz:</p>\n        <ul>\n            <li><strong>Hakkında:</strong> Profilinizde görünecek kısa bir biyografi ekleyin.</li>\n            <li><strong>Oyunlar:</strong> Oynadığınız oyunları listeleyerek diğer oyuncularla eşleşin.</li>\n            <li><strong>Profil Çerçevesi:</strong> Profil fotoğrafınızın etrafına şık çerçeveler ekleyerek görünümünüzü değiştirebilirsiniz.</li>\n            <li><strong>Avatar:</strong> Sistem tarafından otomatik oluşturulan veya kendi yüklediğiniz görselleri kullanabilirsiniz.</li>\n        </ul>\n        "
+msgstr "\n        <h3>Drücken Sie sich aus</h3>\n        <p>Sie können Ihr KeyCord-Profil anpassen, damit andere Benutzer Sie besser kennenlernen:</p>\n        <ul>\n            <li><strong>Über mich:</strong> Fügen Sie eine kurze Biografie hinzu, die auf Ihrem Profil erscheint.</li>\n            <li><strong>Spiele:</strong> Listen Sie Ihre Spiele auf, um mit anderen Spielern in Kontakt zu kommen.</li>\n            <li><strong>Profilrahmen:</strong> Ändern Sie Ihr Aussehen, indem Sie stilvolle Rahmen um Ihr Profilbild hinzufügen.</li>\n            <li><strong>Avatar:</strong> Verwenden Sie automatisch erstellte oder selbst hochgeladene Bilder.</li>\n        </ul>\n        "
+
+msgid "Hesap Silme (Full Wipe)"
+msgstr "Kontolöschung (Full Wipe)"
+
+msgid "\n        <h3>Dijital Silinme Hakkı</h3>\n        <p>KeyCord'da verileriniz size aittir. Hesabınızı sildiğinizde sistemimizde size dair hiçbir iz kalmaz:</p>\n        <ol>\n            <li>Tüm mesajlarınız kalıcı olarak silinir.</li>\n            <li>Sahip olduğunuz topluluklar ve gruplar dağıtılır.</li>\n            <li>Şifreleme anahtarlarınız cihazınızdan tamamen kaldırılır.</li>\n        </ol>\n        <p><strong>Uyarı:</strong> Bu işlem geri alınamaz. E2EE anahtarlarınız silindiği için eski mesajlarınıza asla tekrar erişemezsiniz.</p>\n        "
+msgstr "\n        <h3>Recht auf digitale Löschung</h3>\n        <p>Auf KeyCord gehören Ihre Daten Ihnen. Wenn Sie Ihr Konto löschen, bleibt keine Spur von Ihnen in unserem System zurück:</p>\n        <ol>\n            <li>Alle Ihre Nachrichten werden dauerhaft gelöscht.</li>\n            <li>Die Communities und Gruppen, die Sie besitzen, werden aufgelöst.</li>\n            <li>Ihre Verschlüsselungsschlüssel werden vollständig von Ihrem Gerät entfernt.</li>\n        </ol>\n        <p><strong>Warnung:</strong> Dieser Vorgang ist unumkehrbar. Da Ihre E2EE-Schlüssel gelöscht werden, können Sie nie wieder auf Ihre alten Nachrichten zugreifen.</p>\n        "
+
+msgid "Uçtan Uca Şifreleme (E2EE)"
+msgstr "Ende-zu-Ende-Verschlüsselung (E2EE)"
+
+msgid "Gizlilik & Güvenlik"
+msgstr "Datenschutz & Sicherheit"
+
+#: app/help_data.py:104
+msgid "\n        <h3>Sadece Siz ve Alıcı</h3>\n        <p>Uçtan Uca Şifreleme (End-to-End Encryption), mesajın sizin cihazınızda şifrelenip sadece alıcının cihazında çözülmesi demektir.</p>\n        <p>KeyCord, kuantum bilgisayarlara dayanıklı (post-quantum) X25519 ve ML-KEM-768 hibrit anahtar değişimi ile AES-256-GCM şifrelemesi kullanır. Mesajlar sunucuya ulaştığında zaten şifrelenmiştir. KeyCord yöneticileri dahil hiç kimse mesajlarınızın içeriğini düz metin olarak okuyamaz.</p>\n        "
+msgstr "\n        <h3>Nur Sie und der Empfänger</h3>\n        <p>Ende-zu-Ende-Verschlüsselung bedeutet, dass die Nachricht auf Ihrem Gerät verschlüsselt und nur auf dem Gerät des Empfängers entschlüsselt werden kann.</p>\n        <p>KeyCord verwendet den Post-Quantum-Hybrid-Schlüsselaustausch (X25519 und ML-KEM-768, resistent gegen Quantencomputer) mit AES-256-GCM-Verschlüsselung. Nachrichten sind bereits verschlüsselt, bevor sie den Server erreichen. Niemand, auch nicht KeyCord-Administratoren, kann Ihre Nachrichteninhalte als Klartext lesen.</p>\n        "
+
+msgid "Sıfır-Bilgi (Zero-Knowledge) Mimarisi"
+msgstr "Zero-Knowledge-Architektur (Null-Wissen)"
+
+msgid "\n        <h3>Gizliliğin Ötesinde</h3>\n        <p>KeyCord, <strong>Zero-Knowledge</strong> prensibiyle çalışır. Bu, sunucularımızın sizin hakkınızda minimum bilgiye sahip olduğu anlamına gelir:</p>\n        <ul>\n            <li><strong>Şifreler:</strong> Şifreniz asla sunucuya ham olarak gönderilmez, güçlü algoritmalarla hashlenir.</li>\n            <li><strong>Metadata:</strong> Kiminle, ne zaman konuştuğunuz gibi bilgiler şifreli veya anonimleştirilmiş olarak tutulur.</li>\n            <li><strong>Anahtarlar:</strong> Özel şifreleme anahtarınız sadece sizin şifrenizle çözülebilir; biz bu anahtara erişemeyiz.</li>\n        </ul>\n        "
+msgstr "\n        <h3>Über Datenschutz hinaus</h3>\n        <p>KeyCord arbeitet nach dem <strong>Zero-Knowledge</strong>-Prinzip. Das bedeutet, dass unsere Server nur minimale Informationen über Sie haben:</p>\n        <ul>\n            <li><strong>Passwörter:</strong> Ihr Passwort wird nie im Rohformat an den Server gesendet; es wird mit starken Algorithmen gehasht.</li>\n            <li><strong>Metadaten:</strong> Informationen darüber, mit wem und wann Sie sprechen, werden verschlüsselt oder anonymisiert aufbewahrt.</li>\n            <li><strong>Schlüssel:</strong> Ihr privater Verschlüsselungsschlüssel kann nur mit Ihrem Passwort entsperrt werden; wir haben keinen Zugriff auf diesen Schlüssel.</li>\n        </ul>\n        "
+
+msgid "Şifre Değiştirme Hakkında"
+msgstr "Über das Ändern Ihres Passworts"
+
+msgid "\n        <h3>Neden Şifre Değiştirmek Zordur?</h3>\n        <p>KeyCord'da şifreniz sadece giriş yapmanızı sağlamaz, aynı zamanda <strong>Özel Şifreleme Anahtarınızı (Private Key)</strong> korur.</p>\n        <p>Şifrenizi değiştirdiğinizde, eski şifrenizle şifrelenmiş olan anahtarınıza erişiminiz kesilebilir. Bu da geçmişteki tüm şifreli mesajlarınızın okunamaz hale gelmesine neden olur.</p>\n        <p>Güvenliğiniz ve veri bütünlüğünüz için KeyCord, klasik \"şifre yenileme\" yerine, anahtar güvenliğini ön planda tutan bir mimari kullanır.</p>\n        "
+msgstr "\n        <h3>Warum ist das Ändern des Passworts schwierig?</h3>\n        <p>Auf KeyCord ermöglicht Ihnen Ihr Passwort nicht nur die Anmeldung, es schützt auch Ihren <strong>privaten Verschlüsselungsschlüssel (Private Key)</strong>.</p>\n        <p>Wenn Sie Ihr Passwort ändern, kann Ihr Zugriff auf den mit Ihrem alten Passwort verschlüsselten Schlüssel verloren gehen. Dadurch werden alle Ihre vergangenen verschlüsselten Nachrichten unlesbar.</p>\n        <p>Für Ihre Sicherheit und Datenintegrität verwendet KeyCord eine Architektur, die anstelle des klassischen \"Passwort-Reset\" die Schlüsselsicherheit priorisiert.</p>\n        "
+
+msgid "Arkadaşlık Sistemi"
+msgstr "Freundschaftssystem"
+
+msgid "Mesajlaşma & Sosyal"
+msgstr "Nachrichten & Soziales"
+
+msgid "\n        <p>KeyCord'da biriyle doğrudan mesajlaşmak (DM) için arkadaş olmanız gerekir. Arkadaşlık sistemi gizliliği korumak için çift taraflı onay gerektirir:</p>\n        <ul>\n            <li>Kullanıcı adını kullanarak istek gönderin.</li>\n            <li>Karşı taraf kabul ettiğinde güvenli bir şifreli tünel oluşturulur.</li>\n            <li>İstediğiniz zaman birini engelleyebilir veya arkadaşlıktan çıkarabilirsiniz.</li>\n        </ul>\n        "
+msgstr "\n        <p>Um auf KeyCord jemanden direkt anzuschreiben (DM), müssen Sie befreundet sein. Das Freundschaftssystem erfordert gegenseitige Zustimmung, um die Privatsphäre zu schützen:</p>\n        <ul>\n            <li>Senden Sie eine Anfrage über den Benutzernamen.</li>\n            <li>Sobald die andere Partei zustimmt, wird ein sicherer verschlüsselter Tunnel erstellt.</li>\n            <li>Sie können jederzeit jemanden blockieren oder die Freundschaft beenden.</li>\n        </ul>\n        "
+
+msgid "Gruplar ve Topluluklar"
+msgstr "Gruppen und Communities"
+
+msgid "\n        <h3>İki Farklı Alan</h3>\n        <p><strong>Gruplar:</strong> Arkadaşlarınızla kurduğunuz, dışarıya kapalı ve her mesajın E2EE ile korunduğu özel alanlardır.</p>\n        <p><strong>Topluluklar:</strong> Daha geniş kitlelere hitap eden, moderasyon araçlarına sahip ve büyük projeler için tasarlanmış alanlardır. Topluluklarda sadece yöneticilerin mesaj atabileceği duyuru modları bulunabilir.</p>\n        "
+msgstr "\n        <h3>Zwei verschiedene Bereiche</h3>\n        <p><strong>Gruppen:</strong> Private Bereiche, die Sie mit Ihren Freunden erstellen, nach außen geschlossen und in denen jede Nachricht durch E2EE geschützt ist.</p>\n        <p><strong>Communities:</strong> Bereiche für ein größeres Publikum mit Moderationswerkzeugen, die für große Projekte entwickelt wurden. Communities können Ankündigungsmodi haben, in denen nur Administratoren Nachrichten posten können.</p>\n        "
+
+msgid "Takıldığın bir yer mi var? Hemen çözelim."
+msgstr "Hängen Sie irgendwo fest? Lassen Sie es uns sofort beheben."
+
+msgid "Nasıl yardımcı olabiliriz?"
+msgstr "Wie können wir helfen?"
+
+msgid "Hızlı İşlemler"
+msgstr "Schnellaktionen"
+
+msgid "Şifremi Unuttum"
+msgstr "Ich habe mein Passwort vergessen"
+
+msgid "Verilerimi İndir"
+msgstr "Meine Daten herunterladen"
+
+msgid "İhlal Bildir"
+msgstr "Verstoß melden"
+
+msgid "Hala çözüm bulamadın mı?"
+msgstr "Immer noch keine Lösung gefunden?"
+
+msgid "Ekibimiz bir tık uzağında. Bize ulaşmaktan çekinme."
+msgstr "Unser Team ist nur einen Klick entfernt. Zögern Sie nicht, uns zu kontaktieren."
+
+msgid "E-posta Gönder"
+msgstr "E-Mail senden"
+
+msgid "Canlı Destek"
+msgstr "Live-Support"
+
+msgid "Sonuç bulunamadı :("
+msgstr "Keine Ergebnisse gefunden :("
+
+msgid "Başlıksız"
+msgstr "Ohne Titel"
+
+msgid "Aramada bir hata oluştu:"
+msgstr "Während der Suche ist ein Fehler aufgetreten:"
+
+msgid "Arama sırasında hata oluştu."
+msgstr "Bei der Suche ist ein Fehler aufgetreten."
+
+msgid "Bu makale yardımcı oldu mu?"
+msgstr "War dieser Artikel hilfreich?"
+
+msgid "Geri bildiriminiz için teşekkürler! (Demo)"
+msgstr "Vielen Dank für Ihr Feedback! (Demo)"
+
+msgid "Evet"
+msgstr "Ja"
+
+msgid "Hayır"
+msgstr "Nein"
+
+msgid "Hesap ayarları, profil düzenleme ve doğrulama."
+msgstr "Kontoeinstellungen, Profilbearbeitung und Verifizierung."
+
+msgid "Hesap Silme (Wipe)"
+msgstr "Kontolöschung (Wipe)"
+
+msgid "Uçtan uca şifreleme ve Sıfır-Bilgi (Zero-Knowledge) mimarisi."
+msgstr "Ende-zu-Ende-Verschlüsselung und Zero-Knowledge-Architektur."
+
+msgid "Sıfır-Bilgi Mimarisi"
+msgstr "Zero-Knowledge-Architektur"
+
+msgid "Sohbetler, gruplar ve arkadaşlık sistemi."
+msgstr "Chats, Gruppen und das Freundschaftssystem."
+
+#: app/templates/explicit_consent.html
+msgid "Açık Rıza Beyanı"
+msgstr "Einwilligungserklärung"
+
+#: app/templates/explicit_consent.html
+msgid "KeyCord Uçtan Uca Şifreleme ve Veri İmhası Hakkında"
+msgstr "Über die Ende-zu-Ende-Verschlüsselung und Datenlöschung von KeyCord"
+
+#: app/templates/explicit_consent.html:114
+msgid "KeyCord platformu, kullanıcı mahremiyetini en üst düzeyde tutmak amacıyla <strong>Kuantum Sonrası\n                (Post-Quantum) Uçtan Uca Şifreleme\n                (E2EE - End-to-End Encryption)</strong> ve <strong>Sıfır Bilgi (Zero-Knowledge)</strong> mimarisi\n            üzerine inşa edilmiştir. Bu mimari, verilerinizin güvenliğini sağlarken aynı zamanda verilerin imhası ve\n            erişilebilirliği konusunda belirli teknik kısıtları da beraberinde getirmektedir."
+msgstr "Die KeyCord-Plattform ist auf <strong>Post-Quantum-Ende-zu-Ende-Verschlüsselung (E2EE)</strong> und <strong>Zero-Knowledge</strong>-Architektur aufgebaut, um die Privatsphäre der Nutzer auf höchstem Niveau zu wahren. Diese Architektur sichert Ihre Daten, bringt aber auch bestimmte technische Einschränkungen hinsichtlich Vernichtung und Zugänglichkeit der Daten mit sich."
+
+#: app/templates/explicit_consent.html
+msgid "1. Şifreleme Mimarisi ve Veri Erişimi"
+msgstr "1. Verschlüsselungsarchitektur und Datenzugriff"
+
+#: app/templates/explicit_consent.html:127
+msgid "KeyCord platformunda yapılan mesajlaşmalar ve paylaşılan içerikler, gönderici ve alıcının\n                cihazlarında oluşturulan benzersiz X25519 ve ML-KEM-768 kuantum sonrası hibrit şifreleme anahtarları\n                ile korunmaktadır."
+msgstr "Nachrichten und geteilte Inhalte auf der KeyCord-Plattform werden durch einzigartige Post-Quantum-Hybrid-Verschlüsselungsschlüssel (X25519 und ML-KEM-768) geschützt, die auf den Geräten von Absender und Empfänger erzeugt werden."
+
+#: app/templates/explicit_consent.html
+msgid "<strong>Sıfır Bilgi:</strong> KeyCord sunucuları, şifrelenmiş mesaj içeriklerini (ciphertext)\n                    saklasa dahi, bu mesajları çözecek özel anahtarlara (Private Key) erişimi yoktur. Özel anahtarınız,\n                    yalnızca sizin belirlediğiniz şifre ile şifrelenmiş olarak saklanır ve şifreniz sunucularımıza düz\n                    metin olarak asla gönderilmez."
+msgstr "<strong>Zero Knowledge (Null Wissen):</strong> Auch wenn die KeyCord-Server verschlüsselte Nachrichteninhalte (Ciphertext) speichern, haben sie keinen Zugriff auf die privaten Schlüssel (Private Key), die zum Entschlüsseln dieser Nachrichten erforderlich sind. Ihr privater Schlüssel wird nur mit einem von Ihnen gewählten Passwort verschlüsselt gespeichert, und Ihr Passwort wird niemals als Klartext an unsere Server gesendet."
+
+#: app/templates/explicit_consent.html
+msgid "<strong>Yerel Çözümleme:</strong> Mesajlar yalnızca ilgili tarafların (gönderici ve alıcı)\n                    cihazlarında, yerel olarak çözümlenebilir."
+msgstr "<strong>Lokale Entschlüsselung:</strong> Nachrichten können nur lokal auf den Geräten der beteiligten Parteien (Sender und Empfänger) entschlüsselt werden."
+
+#: app/templates/explicit_consent.html
+msgid "2. Hesap Silme ve Veri İmhası"
+msgstr "2. Kontolöschung und Datenlöschung"
+
+#: app/templates/explicit_consent.html
+msgid "Hesabınızı kalıcı olarak silmeniz durumunda aşağıdaki işlemler geri döndürülemez şekilde\n                uygulanır:"
+msgstr "Wenn Sie Ihr Konto dauerhaft löschen, werden die folgenden Vorgänge unumkehrbar durchgeführt:"
+
+#: app/templates/explicit_consent.html
+msgid "<strong>Şifreleme Anahtarları:</strong> Hesabınıza ait <code>Public Key</code> ve şifrelenmiş\n                    <code>Private Key</code> veritabanından kalıcı olarak silinir. Anahtarların silinmesi, hesabınızla\n                    ilişkilendirilmiş tüm geçmiş şifreli verilerin matematiksel olarak çözülemez hale gelmesini\n                    sağlar."
+msgstr "<strong>Verschlüsselungsschlüssel:</strong> Der <code>Public Key</code> und der verschlüsselte <code>Private Key</code> Ihres Kontos werden dauerhaft aus der Datenbank gelöscht. Durch das Löschen der Schlüssel werden alle historischen verschlüsselten Daten, die mit Ihrem Konto verbunden sind, mathematisch unentschlüsselbar."
+
+#: app/templates/explicit_consent.html
+msgid "<strong>Hesap Bilgileri:</strong> Kullanıcı adı ve profil detaylarınız\n                    (metadata) sistemden tamamen kaldırılır."
+msgstr "<strong>Kontoinformationen:</strong> Ihr Benutzername und Ihre Profildetails\n                    (Metadaten) werden vollständig aus dem System entfernt."
+
+#: app/templates/explicit_consent.html
+msgid "<strong>Sunucu Verileri:</strong> Sunucularımızda saklanan ve size ait olan teslim edilmemiş\n                    geçici mesaj paketleri silinir."
+msgstr "<strong>Serverdaten:</strong> Nicht zugestellte temporäre Nachrichtenpakete, die auf unseren Servern gespeichert sind und Ihnen gehören, werden gelöscht."
+
+#: app/templates/explicit_consent.html
+msgid "3. Teknik Sınırlar ve Kullanıcı Beyanı"
+msgstr "3. Technische Grenzen und Benutzererklärung"
+
+#: app/templates/explicit_consent.html
+msgid "<strong>Önemli Uyarı:</strong> Uçtan uca şifreleme ve dağıtık yapı gereği, gönderdiğiniz\n                    mesajlar alıcının cihazına ulaştıktan sonra KeyCord'un teknik kontrol alanından çıkmaktadır."
+msgstr "<strong>Wichtiger Hinweis:</strong> Aufgrund der Ende-zu-Ende-Verschlüsselung und der verteilten Architektur verlassen die von Ihnen gesendeten Nachrichten den technischen Kontrollbereich von KeyCord, sobald sie das Gerät des Empfängers erreichen."
+
+#: app/templates/explicit_consent.html
+msgid "Bu kapsamda, KeyCord platformuna üye olarak ve hizmetlerini kullanarak;"
+msgstr "In diesem Zusammenhang erkläre ich als Mitglied der KeyCord-Plattform und durch die Nutzung ihrer Dienste:"
+
+#: app/templates/explicit_consent.html
+msgid "Hesabımı silmem veya verilerimin imhasını talep etmem halinde; sunucu tarafındaki tüm\n                    verilerimin ve şifreleme anahtarlarımın geri alınamaz şekilde silineceğini,"
+msgstr "Wenn ich mein Konto lösche oder die Löschung meiner Daten beantrage; werden alle meine Daten und Verschlüsselungsschlüssel auf der Serverseite unumkehrbar und dauerhaft gelöscht,"
+
+#: app/templates/explicit_consent.html
+msgid "Bu işlem sonucunda, <strong>diğer kullanıcıların cihazlarına (bilgisayar, telefon vb.) daha\n                        önce iletilmiş olan mesaj kopyalarının, önbellek verilerinin veya ekran görüntülerinin</strong>\n                    KeyCord’un teknik kontrolü dışında olduğunu,"
+msgstr "Als Ergebnis dieses Vorgangs liegen <strong>Kopien von Nachrichten, die zuvor an die Geräte anderer Benutzer (Computer, Telefone usw.) übermittelt wurden, Cache-Daten oder Screenshots</strong> außerhalb der technischen Kontrolle von KeyCord,"
+
+#: app/templates/explicit_consent.html
+msgid "KeyCord'un diğer kullanıcıların cihazlarına fiziksel veya uzaktan müdahale yetkisi\n                    bulunmadığından, bu yerel kopyalar üzerinde tek taraflı silme işlemi uygulayamayabileceğini,"
+msgstr "Da KeyCord keine Befugnis hat, physisch oder aus der Ferne auf die Geräte anderer Benutzer einzugreifen, kann es möglicherweise keine einseitige Löschung dieser lokalen Kopien durchführen,"
+
+#: app/templates/explicit_consent.html
+msgid "Hesap silme işleminin, şifreleme anahtarlarının yok edilmesi nedeniyle <strong>kesinlikle geri\n                        alınamayacağını</strong> ve verilerin kurtarılamayacağını"
+msgstr "Die Kontolöschung ist aufgrund der Vernichtung der Verschlüsselungsschlüssel <strong>absolut unumkehrbar</strong> und die Daten können nicht wiederhergestellt werden,"
+
+#: app/templates/explicit_consent.html
+msgid "bildiğimi, anladığımı ve hür irademle kabul ettiğimi beyan ederim."
+msgstr "erkläre ich, dass ich dies weiß, verstehe und aus freiem Willen akzeptiere."
+
+#: app/templates/explicit_consent.html
+msgid "KeyCord Güvenlik Protokolü - Revizyon 1.0"
+msgstr "KeyCord-Sicherheitsprotokoll - Revision 1.0"
+
+#: app/templates/canary.html
+msgid "Son güncelleme: Ağustos 2026"
+msgstr "Zuletzt aktualisiert: August 2026"
+
+#: app/templates/profile.html:718
+msgid "Kuantum Sonrası (Post-Quantum)"
+msgstr "Post-Quantum"
+
+#: app/templates/profile.html:719
+msgid "Anahtar değişimi X25519 ve ML-KEM-768 hibrit algoritmalarıyla yapılır; gelecekteki\n                            kuantum bilgisayar saldırılarına karşı dayanıklıdır."
+msgstr "Der Schlüsselaustausch erfolgt mit den hybriden Algorithmen X25519 und ML-KEM-768; er ist gegen künftige Angriffe von Quantencomputern resistent."
+
+#: app/templates/gdpr.html:281
+#: app/templates/privacy_policy.html:212
+msgid "Anahtar değişimi, kuantum bilgisayar saldırılarına karşı dayanıklı X25519 ve ML-KEM-768 kuantum sonrası (post-quantum) algoritmalarıyla yapılır."
+msgstr "Der Schlüsselaustausch erfolgt mit den Post-Quantum-Algorithmen X25519 und ML-KEM-768, die gegen Angriffe von Quantencomputern resistent sind."
+
+#: app/templates/register.html
+msgid "Açık Davet Kodu"
+msgstr "Offener Einladungscode"
+
+#: app/templates/register.html
+msgid "Kopyala"
+msgstr "Kopieren"
+
+#: app/templates/register.html
+msgid "Bu kod her ay yenilenir. Bu ay kalan kayıt hakkı: %(n)s"
+msgstr "Dieser Code wird jeden Monat erneuert. Verbleibende Registrierungen diesen Monat: %(n)s"
+
+#: app/templates/register.html
+msgid "Bu ayın açık kayıt kontenjanı doldu. Lütfen davet kodu olan birinden kod isteyin."
+msgstr "Das offene Registrierungskontingent dieses Monats ist erschöpft. Bitte bitten Sie jemanden mit einem Einladungscode um einen Code."
+
+#: app/templates/register.html
+msgid "Yukarıdaki açık kodu kopyalayabilirsiniz veya bir arkadaşınızdan davet kodu isteyebilirsiniz."
+msgstr "Sie können den offenen Code oben kopieren oder einen Freund um einen Einladungscode bitten."
+
+#: app/templates/register.html
+msgid "Kodu kopyalayın:"
+msgstr "Code kopieren:"

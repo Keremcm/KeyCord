@@ -1,5 +1,6 @@
 import json
 import os
+import logging
 from flask import current_app
 
 class HelpService:
@@ -16,7 +17,7 @@ class HelpService:
             except FileNotFoundError:
                 cls._data = {"categories": [], "articles": []}
             except Exception as e:
-                print(f"Error loading help content: {e}")
+                logging.error(f"HELP_CONTENT_LOAD_FAILED err={e}")
                 cls._data = {"categories": [], "articles": []}
         return cls._data
 

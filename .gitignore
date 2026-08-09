@@ -1,55 +1,16 @@
-# Python
+venv/
+instance/
 __pycache__/
 *.pyc
-*.pyo
-*.pyd
-.Python
-env/
-venv/
-.venv
-bin/
-lib/
-include/
-share/
-geodetect/
-
-# Flask/Database
-instance/
-.webassets-cache
-*.db
-*.sqlite
-
-# Logs
-*.log
-security.log
-app/logs/
-
-# Sensitive data
-.env
 honeytoken_creds.json
 fim_hashes.json
-admin_backup_secrets.txt
-
-# OS
-.DS_Store
-Thumbs.db
-
-# Large Binaries / Build Artifacts (Force Exclusion)
-app/static/downloads/**
-applications/**/dist/
-applications/**/build/
-applications/**/dist/**
-applications/**/build/**
-*.exe
-*.pkg
-*.apk
-*.pkg
-*.msi
-*.dmg
-*.zip
-*.tar.gz
-*.7z
-dist/
-build/
-bin/
-obj/
+banned_ips.txt
+.last_ip_count
+file_stats.ini
+security.log
+security.log.*
+fail2ban.log
+fail2ban.log.*
+.env
+app/logs/
+landing_page/logs/

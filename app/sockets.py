@@ -12,28 +12,10 @@ from .security import (
 )
 import time
 import logging
-from logging.handlers import RotatingFileHandler
 import os
 import json
 import random
-
-# Log dosyası ayarları (routes.py ile aynı klasöre yazılır)
-LOG_DIR = os.path.join(os.path.dirname(__file__), "logs")
-os.makedirs(LOG_DIR, exist_ok=True)
-LOG_FILE = os.path.join(LOG_DIR, "actions.log")
-
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s | %(levelname)s | %(message)s",
-    handlers=[
-        RotatingFileHandler(LOG_FILE, maxBytes=10*1024*1024, backupCount=5, encoding="utf-8"),
-        logging.StreamHandler()
-    ]
-)
-
-def log_action(event, user=None, ip=None, target=None, extra=None):
-    msg = f"{event} | user={user} | ip={ip} | target={target} | {extra or ''}"
-    logging.info(msg)
+from .log_config import log_action
 
 # --- SOCKET RATE LIMITING ---
 SOCKET_RATE_LIMIT_WINDOW = 60
@@ -56,7 +38,7 @@ def handle_join(data):
     join_room(room)
     emit("joined", {"room": room})
     log_security_event('SOCKET_JOIN', f'User: {user_id}, Room: {room}')
-    print(f"Kullanıcı {user_id} odaya katıldı: {room}")
+    logging.info(f"SOCKET_USER_JOINED user={user_id} room={room}")
 
 
 @socketio.on("send_message")
@@ -205,8 +187,8 @@ def handle_join_group(data):
         emit("joined_group", {"room": room}, namespace='/')
         log_security_event('SOCKET_JOIN_GROUP', f'Group: {group_id}', user_id=user_id)
     except Exception as e:
-        print(f"DEBUG: join_room failed: {e}")
-        emit("error", {"message": f"Grup odasına katılamadı: {str(e)}"}, namespace='/')
+        logging.debug(f"JOIN_ROOM_FAILED err={e}")
+        emit("error", {"message": "Grup odasına katılamadı."}, namespace='/')
 
 @socketio.on("send_group_message")
 @socket_auth_required
@@ -223,8 +205,8 @@ def handle_send_group_message(data):
     if not group_id or not content or not sender_id:
         return emit("error", {"message": "Eksik bilgi."})
     
-    # Güvenlik kontrolleri
-    if len(content) > 5000:
+    # Güvenlik kontrolleri (4096B sabit paket + tag → base64 ≈ 5484)
+    if len(content) > 6000:
          return emit("error", {"message": "Mesaj çok uzun."})
          
     # Grup Erişim Kontrolü (DB check + IDOR fix)
@@ -283,7 +265,9 @@ def handle_send_group_message(data):
                 delay = random.uniform(1, 4)
                 socketio.sleep(delay)
                 
-                for member_id in member_ids:
+                # Üye listesini gecikme sonrası tazele
+                current_members = get_group_members(group_id)
+                for member_id in current_members:
                     if member_id != sender_id:
                         socketio.emit("receive_group_message", payload, room=f"user_{member_id}")
                         save_group_notification(group_id, sender_id, member_id, msg_id)
@@ -300,6 +284,6 @@ def handle_send_group_message(data):
         db.session.commit()
         
     except Exception as e:
-        print(f"Grup bildirim hatası: {e}")
+        logging.error(f"GROUP_NOTIFICATION_FAILED err={e}")
 
 

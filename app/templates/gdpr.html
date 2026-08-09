@@ -39,6 +39,7 @@
     .policy-header h1 {
         font-family: 'Caveat', cursive;
         font-size: clamp(2.5rem, 8vw, 4rem);
+        font-optical-sizing: auto;
         color: var(--chalk);
         margin: 0 0 0.5rem;
     }
@@ -144,15 +145,8 @@
         color: #fff;
         text-decoration: none;
         font-family: 'Caveat', cursive;
-        font-size: 1.05rem;
-        transition: all 0.3s;
-        z-index: 100;
-        background: #000;
-        color: #fff;
-        text-decoration: none;
-        font-family: 'Caveat', cursive;
         font-size: 1rem;
-        transition: all 0.3s;
+        transition: color 0.3s ease, border-color 0.3s ease;
     }
 
     .back-link:hover {
@@ -217,7 +211,7 @@
     </div>
 
     <!-- 1. GENEL BAKIŞ -->
-    <div class="policy-section">
+    <div class="policy-section" data-reveal>
         <h2 class="section-title">
             <span class="section-number">1</span> {{ _('Genel Bakış') }}
         </h2>
@@ -232,7 +226,7 @@
     </div>
 
     <!-- 2. VERİ SORUMLUSU -->
-    <div class="policy-section">
+    <div class="policy-section" data-reveal>
         <h2 class="section-title">
             <span class="section-number">2</span> {{ _('Veri Sorumlusu') }}
         </h2>
@@ -244,7 +238,7 @@
     </div>
 
     <!-- 3. HANGİ VERİLERİ TOPLUYORUZ? -->
-    <div class="policy-section">
+    <div class="policy-section" data-reveal>
         <h2 class="section-title">
             <span class="section-number">3</span> {{ _('Hangi Veriler Topluyor Mu?') }}
         </h2>
@@ -268,7 +262,7 @@
     </div>
 
     <!-- 4. ŞİFRELEME VE SIFIR BİLGİ MİMARİSİ -->
-    <div class="policy-section">
+    <div class="policy-section" data-reveal>
         <h2 class="section-title">
             <span class="section-number">4</span> {{ _('Şifreleme ve Sıfır Bilgi Mimarisi') }}
         </h2>
@@ -278,6 +272,7 @@
             </p>
             <ul class="legal-list-bullet">
                 <li>{{ _('Her oturum için benzersiz şifreleme anahtarları üretilir.') }}</li>
+                <li>{{ _('Anahtar değişimi, kuantum bilgisayar saldırılarına karşı dayanıklı X25519 ve ML-KEM-768 kuantum sonrası (post-quantum) algoritmalarıyla yapılır.') }}</li>
                 <li>{{ _('Şifreler dahil hiçbir kimlik bilgisi sunucularımızda açık metin olarak saklanmaz.') }}</li>
                 <li>{{ _('Mesaj içeriklerine teknik olarak erişimimiz yoktur; dolayısıyla herhangi bir talep üzerine dahi içerik sunmamız mümkün değildir.') }}</li>
                 <li>{{ _('Şifreli verilerin yetkisiz taraflarca elde edilmesi halinde dahi içerik okunamaz biçimindedir.') }}</li>
@@ -289,7 +284,7 @@
     </div>
 
     <!-- 5. TRAFİK ANALİZİ KORUNMASI -->
-    <div class="policy-section">
+    <div class="policy-section" data-reveal>
         <h2 class="section-title">
             <span class="section-number">5</span> {{ _('Trafik Analizi Korunması') }}
         </h2>
@@ -306,7 +301,7 @@
     </div>
 
     <!-- 6. ÜÇÜNCÜ TARAF VERİ PAYLAŞIMI -->
-    <div class="policy-section">
+    <div class="policy-section" data-reveal>
         <h2 class="section-title">
             <span class="section-number">6</span> {{ _('Üçüncü Taraf Veri Paylaşımı') }}
         </h2>
@@ -324,7 +319,7 @@
     </div>
 
     <!-- 7. VERİ SAKLAMA SÜRELERİ -->
-    <div class="policy-section">
+    <div class="policy-section" data-reveal>
         <h2 class="section-title">
             <span class="section-number">7</span> {{ _('Veri Saklama Süreleri') }}
         </h2>
@@ -338,7 +333,7 @@
     </div>
 
     <!-- 8. KVKK VE GDPR KAPSAMINDAKİ HAKLARINIZ -->
-    <div class="policy-section">
+    <div class="policy-section" data-reveal>
         <h2 class="section-title">
             <span class="section-number">8</span> {{ _('KVKK ve GDPR Kapsamındaki Haklarınız') }}
         </h2>
@@ -368,7 +363,7 @@
     </div>
 
     <!-- 9. ÇEREZLER -->
-    <div class="policy-section">
+    <div class="policy-section" data-reveal>
         <h2 class="section-title">
             <span class="section-number">9</span> {{ _('Çerezler') }}
         </h2>
@@ -380,7 +375,7 @@
     </div>
 
     <!-- 10. TOR AĞI ÜZERİNDEN ERİŞİM -->
-    <div class="policy-section">
+    <div class="policy-section" data-reveal>
         <h2 class="section-title">
             <span class="section-number">10</span> {{ _('Tor Ağı Üzerinden Erişim') }}
         </h2>
@@ -392,7 +387,7 @@
     </div>
 
     <!-- 11. POLİTİKA DEĞİŞİKLİKLERİ -->
-    <div class="policy-section">
+    <div class="policy-section" data-reveal>
         <h2 class="section-title">
             <span class="section-number">11</span> {{ _('Politika Değişiklikleri') }}
         </h2>
@@ -404,7 +399,7 @@
     </div>
 
     <!-- 12. İLETİŞİM -->
-    <div class="policy-section">
+    <div class="policy-section" data-reveal>
         <h2 class="section-title">
             <span class="section-number">12</span> {{ _('İletişim') }}
         </h2>
@@ -421,7 +416,7 @@
     </div>
 
     <div class="footer-note">
-        <p>{{ _('KeyCord © 2026 - Gizlilik Odaklı Şifreli Mesajlaşma Platformu') }}</p>
+        <p>{{ _('KeyCord © 2026 - Gizlilik Odaklı Kuantum Sonrası Şifreli Mesajlaşma Platformu') }}</p>
     </div>
 
 </div>

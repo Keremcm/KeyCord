@@ -1,4 +1,5 @@
 import jwt, datetime
+import logging
 from flask import current_app
 from werkzeug.security import generate_password_hash, check_password_hash
 from Crypto.Cipher import AES
@@ -18,13 +19,13 @@ def generate_token(user_id):
         "user_id": user_id,
         "exp": datetime.datetime.utcnow() + datetime.timedelta(hours=6)
     }
-    secret = current_app.config["SECRET_KEY"]
-    return jwt.encode(payload, secret, algorithm="HS256")
+    from .jwt_keys import load_private_key
+    return jwt.encode(payload, load_private_key(), algorithm="EdDSA")
 
 def verify_token(token):
     try:
-        secret = current_app.config["SECRET_KEY"]
-        payload = jwt.decode(token, secret, algorithms=["HS256"])
+        from .jwt_keys import load_public_key
+        payload = jwt.decode(token, load_public_key(), algorithms=["EdDSA"])
         return payload["user_id"]
     except jwt.ExpiredSignatureError:
         return None
@@ -173,7 +174,7 @@ def save_group_message(group_id, sender_id, content, encrypted_keys_json=None, i
         return msg
     except Exception as e:
         db.session.rollback()
-        print(f"Error saving group message: {e}")
+        logging.error(f"GROUP_MSG_SAVE_FAILED err={e}")
         return None
 
 def get_group_messages(group_id):

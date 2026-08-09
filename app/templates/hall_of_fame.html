@@ -37,6 +37,7 @@
     .hof-header h1 {
         font-family: 'Caveat', sans-serif;
         font-size: clamp(2.75rem, 8vw, 4rem);
+        font-optical-sizing: auto;
         margin: 0 0 0.75rem;
         color: var(--chalk);
     }
@@ -84,7 +85,9 @@
         background: rgba(255, 255, 255, 0.05);
         border-radius: 15px;
         border: 1.5px dashed rgba(255, 255, 255, 0.1);
-        transition: all 0.3s;
+        transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+            border-color 0.3s ease,
+            background 0.3s ease;
     }
 
     .hof-item:hover {
@@ -126,7 +129,7 @@
         <p>{{ _('KeyCord\'u daha güvenli kılan tüm araştırmacılara teşekkür ederiz.') }}</p>
     </div>
 
-    <div class="hof-section">
+    <div class="hof-section" data-reveal>
         <h2 class="section-title">{{ _('Güvenlik Kahramanları') }}</h2>
         <div class="hof-content">
             <p>{{ _('Aşağıdaki isimler, KeyCord\'un güvenlik standartlarını geliştirmemize yardımcı olan değerli araştırmacılardır.') }}</p>
@@ -143,7 +146,7 @@
         </div>
     </div>
 
-    <div class="hof-section" style="text-align: center;">
+    <div class="hof-section" data-reveal style="text-align: center;">
         <h2 class="section-title">{{ _('Siz de Katkıda Bulunun') }}</h2>
         <div class="hof-content">
             <p>{{ _('Bir güvenlik açığı mı buldunuz? Lütfen bizimle contact@keycord.org üzerinden iletişime geçin.

@@ -30,35 +30,35 @@
 
     @media (max-width: 768px) {
         .comm-header {
-            padding: 1rem !important;
-            gap: 1rem !important;
+            padding: 1rem;
+            gap: 1rem;
         }
 
         .comm-header img {
-            width: 50px !important;
-            height: 50px !important;
+            width: 50px;
+            height: 50px;
         }
 
         .comm-header h1 {
-            font-size: 1.8rem !important;
+            font-size: 1.8rem;
         }
 
         .messages-area-wrapper {
-            padding: 1rem !important;
+            padding: 1rem;
         }
 
         .message-bubble {
-            max-width: 95% !important;
-            padding: 0.8rem !important;
+            max-width: 95%;
+            padding: 0.8rem;
         }
 
         .input-area-wrapper {
-            padding: 1rem !important;
+            padding: 1rem;
         }
 
         #messageInput {
-            font-size: 1.1rem !important;
-            padding: 0.8rem !important;
+            font-size: 1.1rem;
+            padding: 0.8rem;
         }
     }
 </style>
@@ -119,7 +119,7 @@
 
     <!-- Messages Area -->
     <div class="messages-area-wrapper"
-        style="flex: 1; overflow-y: auto; padding: 2rem; display: flex; flex-direction: column;" id="messagesArea">
+        style="flex: 1; min-height: 0; overflow-y: auto; padding: 2rem; display: flex; flex-direction: column;" id="messagesArea">
         {% if messages %}
         {% for msg in messages %}
         {% set sender = users_dict[msg.user_id] %}

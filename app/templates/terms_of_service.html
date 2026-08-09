@@ -37,6 +37,7 @@
     .terms-header h1 {
         font-family: 'Caveat', sans-serif;
         font-size: clamp(2.75rem, 8vw, 4rem);
+        font-optical-sizing: auto;
         margin: 0 0 0.75rem;
         color: var(--chalk);
     }
@@ -124,7 +125,7 @@
         text-decoration: none;
         font-family: 'Inter', sans-serif;
         font-size: 1rem;
-        transition: all 0.25s ease;
+        transition: color 0.25s ease, border-color 0.25s ease;
     }
 
     .back-link:hover {
@@ -183,7 +184,7 @@
         <p style="margin-top: 0.5rem; font-size: 0.9rem; opacity: 0.7;">{{ _('Son güncelleme: Mayıs 2026') }}</p>
     </div>
 
-    <div class="terms-section">
+    <div class="terms-section" data-reveal>
         <h2 class="section-title">{{ _('1. KABUL') }}</h2>
         <div class="terms-content">
             <p>{{ _("KeyCord platformunu (\"KeyCord\", \"platform\") kullanarak bu kullanım şartlarını okuduğunuzu,
@@ -192,10 +193,10 @@
         </div>
     </div>
 
-    <div class="terms-section">
+    <div class="terms-section" data-reveal>
         <h2 class="section-title">{{ _('2. HİZMETİN TANIMI') }}</h2>
         <div class="terms-content">
-            <p>{{ _("KeyCord, uçtan uca şifreli, gizlilik odaklı bir mesajlaşma platformudur. Platform, sıfır bilgi
+            <p>{{ _("KeyCord, kuantum bilgisayarlara dayanıklı (post-quantum) uçtan uca şifreli, gizlilik odaklı bir mesajlaşma platformudur. Platform, sıfır bilgi
                 (zero-knowledge) mimarisiyle çalışmaktadır; bu nedenle KeyCord'un mesaj içeriklerine teknik olarak
                 erişimi bulunmamaktadır.") }}</p>
             <p>{{ _("Platform beta aşamasında sunulmaktadır. Hizmet kesintileri, güncellemeler veya özellik
@@ -203,7 +204,7 @@
         </div>
     </div>
 
-    <div class="terms-section">
+    <div class="terms-section" data-reveal>
         <h2 class="section-title">{{ _('3. KULLANICI YÜKÜMLÜLÜKLERİ') }}</h2>
         <div class="terms-content">
             <p>{{ _("Platformu kullanırken aşağıdaki kurallara uymayı kabul edersiniz:") }}</p>
@@ -235,7 +236,7 @@
         </div>
     </div>
 
-    <div class="terms-section">
+    <div class="terms-section" data-reveal>
         <h2 class="section-title">{{ _('4. SORUMLULUK REDDİ') }}</h2>
         <div class="terms-content">
             <p><strong>{{ _("a) İçerik sorumluluğu") }}</strong></p>
@@ -261,7 +262,7 @@
         </div>
     </div>
 
-    <div class="terms-section">
+    <div class="terms-section" data-reveal>
         <h2 class="section-title">{{ _('5. FİKRİ MÜLKİYET') }}</h2>
         <div class="terms-content">
             <p>{{ _("KeyCord platformunun adı, logosu, tasarımı ve yazılım altyapısı KeyCord'a aittir. Kullanıcılar bu
@@ -269,7 +270,7 @@
         </div>
     </div>
 
-    <div class="terms-section">
+    <div class="terms-section" data-reveal>
         <h2 class="section-title">{{ _('6. HİZMETİN SONLANDIRILMASI') }}</h2>
         <div class="terms-content">
             <p>{{ _("KeyCord, aşağıdaki durumlarda kullanıcının hesabını askıya alma veya sonlandırma hakkını saklı
@@ -283,7 +284,7 @@
         </div>
     </div>
 
-    <div class="terms-section">
+    <div class="terms-section" data-reveal>
         <h2 class="section-title">{{ _('7. DEĞİŞİKLİKLER') }}</h2>
         <div class="terms-content">
             <p>{{ _("KeyCord bu kullanım şartlarını önceden bildirim yaparak veya yapmaksızın güncelleyebilir. Güncel
@@ -292,7 +293,7 @@
         </div>
     </div>
 
-    <div class="terms-section">
+    <div class="terms-section" data-reveal>
         <h2 class="section-title">{{ _('8. UYGULANACAK HUKUK') }}</h2>
         <div class="terms-content">
             <p>{{ _("Bu kullanım şartları Türk hukukuna tabidir. Uyuşmazlıklarda Türkiye mahkemeleri yetkilidir.") }}
@@ -300,7 +301,7 @@
         </div>
     </div>
 
-    <div class="terms-section">
+    <div class="terms-section" data-reveal>
         <h2 class="section-title">{{ _('9. İLETİŞİM') }}</h2>
         <div class="terms-content">
             <p>{{ _("Kullanım şartlarına ilişkin sorularınız için:") }} <a href="mailto:privacy@keycord.org"
@@ -310,7 +311,7 @@
     </div>
 
     <div class="footer-note">
-        <p>{{ _('KeyCord © 2026 - Gizlilik Odaklı Şifreli Mesajlaşma Platformu') }}</p>
+        <p>{{ _('KeyCord © 2026 - Gizlilik Odaklı Kuantum Sonrası Şifreli Mesajlaşma Platformu') }}</p>
     </div>
 </div>
 {% endblock %}

@@ -92,6 +92,7 @@
 
         .page-title {
             font-size: clamp(2.2rem, 8vw, 3.5rem);
+            font-optical-sizing: auto;
             font-weight: 700;
             margin-bottom: 15px;
             color: var(--chalk);
@@ -125,7 +126,7 @@
             background: transparent;
             border: 3px solid rgba(255, 255, 255, 0.16);
             border-radius: 12px;
-            transition: all 0.15s ease;
+            transition: transform 0.15s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.15s ease;
             font-size: 1.3rem;
             transform: rotate(-2deg);
         }
@@ -147,7 +148,7 @@
             border: 3px dashed rgba(255, 255, 255, 0.12);
             border-radius: 14px;
             padding: 30px;
-            transition: all 0.15s ease;
+            transition: transform 0.15s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.15s ease;
             transform: rotate(-1deg);
         }
 
@@ -216,7 +217,7 @@
             background: transparent;
             border: 2px solid rgba(255, 255, 255, 0.16);
             border-radius: 10px;
-            transition: all 0.15s ease;
+            transition: transform 0.15s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.15s ease;
             font-size: 1.1rem;
         }
 
@@ -225,12 +226,19 @@
             transform: translateY(-2px);
         }
 
+        .license-grid [data-reveal]:nth-child(2) { transition-delay: 0.08s; }
+        .license-grid [data-reveal]:nth-child(3) { transition-delay: 0.16s; }
+        .stats-grid [data-reveal]:nth-child(2) { transition-delay: 0.08s; }
+        .stats-grid [data-reveal]:nth-child(3) { transition-delay: 0.16s; }
+        .stats-grid [data-reveal]:nth-child(4) { transition-delay: 0.24s; }
+
         .section {
             margin-bottom: 50px;
         }
 
         .section-title {
             font-size: clamp(1.8rem, 6vw, 2.5rem);
+            font-optical-sizing: auto;
             color: var(--chalk);
             margin-bottom: 15px;
             display: flex;
@@ -372,19 +380,19 @@
                         Projemizde kullandığımız her kütüphanenin ve aracın geliştiricilerine minnettarız.</p>
 
                     <div class="stats-grid">
-                        <div class="stat-card">
+                        <div class="stat-card" data-reveal>
                             <div class="stat-number">47</div>
                             <div class="stat-label">Açık Kaynak Bağımlılık</div>
                         </div>
-                        <div class="stat-card">
+                        <div class="stat-card" data-reveal>
                             <div class="stat-number">12</div>
                             <div class="stat-label">Farklı Lisans Türü</div>
                         </div>
-                        <div class="stat-card">
+                        <div class="stat-card" data-reveal>
                             <div class="stat-number">100%</div>
                             <div class="stat-label">Lisans Uyumluluğu</div>
                         </div>
-                        <div class="stat-card">
+                        <div class="stat-card" data-reveal>
                             <div class="stat-number">0</div>
                             <div class="stat-label">Telif Hakkı İhlali</div>
                         </div>
@@ -398,7 +406,7 @@
                     Ana Framework ve Kütüphaneler
                 </h2>
                 <div class="license-grid">
-                    <div class="license-card">
+                    <div class="license-card" data-reveal>
                         <div class="license-header">
                             <div class="license-name">Flask</div>
                             <div class="license-version">v2.3.3</div>
@@ -422,7 +430,7 @@
                         </a>
                     </div>
 
-                    <div class="license-card">
+                    <div class="license-card" data-reveal>
                         <div class="license-header">
                             <div class="license-name">Socket.IO</div>
                             <div class="license-version">v4.8.0</div>
@@ -446,7 +454,7 @@
                         </a>
                     </div>
 
-                    <div class="license-card">
+                    <div class="license-card" data-reveal>
                         <div class="license-header">
                             <div class="license-name">Anime.js</div>
                             <div class="license-version">v3.2.1</div>
@@ -470,7 +478,7 @@
                         </a>
                     </div>
 
-                    <div class="license-card">
+                    <div class="license-card" data-reveal>
                         <div class="license-header">
                             <div class="license-name">SQLAlchemy</div>
                             <div class="license-version">v2.0.23</div>
@@ -494,7 +502,7 @@
                         </a>
                     </div>
 
-                    <div class="license-card">
+                    <div class="license-card" data-reveal>
                         <div class="license-header">
                             <div class="license-name">Cryptography</div>
                             <div class="license-version">v41.0.7</div>
@@ -518,7 +526,7 @@
                         </a>
                     </div>
 
-                    <div class="license-card">
+                    <div class="license-card" data-reveal>
                         <div class="license-header">
                             <div class="license-name">Werkzeug</div>
                             <div class="license-version">v2.3.7</div>
@@ -550,7 +558,7 @@
                     Güvenlik ve Kriptografi
                 </h2>
                 <div class="license-grid">
-                    <div class="license-card">
+                    <div class="license-card" data-reveal>
                         <div class="license-header">
                             <div class="license-name">PyNaCl</div>
                             <div class="license-version">v1.5.0</div>
@@ -570,7 +578,7 @@
                         </a>
                     </div>
 
-                    <div class="license-card">
+                    <div class="license-card" data-reveal>
                         <div class="license-header">
                             <div class="license-name">bcrypt</div>
                             <div class="license-version">v4.1.2</div>
@@ -590,7 +598,7 @@
                         </a>
                     </div>
 
-                    <div class="license-card">
+                    <div class="license-card" data-reveal>
                         <div class="license-header">
                             <div class="license-name">PyJWT</div>
                             <div class="license-version">v2.8.0</div>
@@ -618,7 +626,7 @@
                     UI ve Frontend
                 </h2>
                 <div class="license-grid">
-                    <div class="license-card">
+                    <div class="license-card" data-reveal>
                         <div class="license-header">
                             <div class="license-name">Font Awesome</div>
                             <div class="license-version">v6.5.0</div>
@@ -638,7 +646,7 @@
                         </a>
                     </div>
 
-                    <div class="license-card">
+                    <div class="license-card" data-reveal>
                         <div class="license-header">
                             <div class="license-name">Inter Font</div>
                             <div class="license-version">v4.0</div>
@@ -660,11 +668,11 @@
                 </div>
             </div>
 
-            <div class="section">
-                <h2 class="section-title">
-                    <i class="icon icon-balance-scale"></i>
-                    Lisans Türleri ve Anlamları
-                </h2>
+                <div class="section" data-reveal>
+                    <h2 class="section-title">
+                        <i class="icon icon-balance-scale"></i>
+                        Lisans Türleri ve Anlamları
+                    </h2>
                 <div class="section-content">
                     <p><span class="success">MIT License:</span></p>
                     <ul>
@@ -696,7 +704,7 @@
                 </div>
                 </section>
 
-                <div class="section">
+                <div class="section" data-reveal>
                     <h2 class="section-title">
                         <i class="icon icon-users"></i>
                         Topluluk Katkısı
@@ -723,7 +731,7 @@
                     </div>
                 </div>
 
-                <div class="section">
+                <div class="section" data-reveal>
                     <h2 class="section-title">
                         <i class="icon icon-download"></i>
                         Tam Lisans Listesi
@@ -748,7 +756,7 @@
                     </div>
                 </div>
 
-                <div class="section">
+                <div class="section" data-reveal>
                     <h2 class="section-title">
                         <i class="icon icon-calendar"></i>
                         Güncelleme Politikası

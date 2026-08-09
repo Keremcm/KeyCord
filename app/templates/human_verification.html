@@ -4,155 +4,242 @@
 
 {% block extra_css %}
 <style nonce="{{ csp_nonce }}">
-    .verification-container {
-        min-height: 80vh;
+    *,
+    *::before,
+    *::after {
+        box-sizing: border-box;
+    }
+
+    [hidden] {
+        display: none !important;
+    }
+
+    .hv-shell {
+        min-height: 100vh;
+        min-height: 100svh;
         display: flex;
-        flex-direction: column;
         align-items: center;
         justify-content: center;
-        text-align: center;
-        padding: 2rem;
+        padding: 2rem 1.25rem;
     }
 
-    .verification-card {
-        background: rgba(20, 20, 20, 0.4);
-        padding: 3rem;
-        border-radius: 20px;
-        max-width: 500px;
+    .hv-card {
         width: 100%;
+        max-width: 480px;
+        text-align: center;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 20px;
+        background: rgba(255, 255, 255, 0.015);
+        box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
+        padding: 3rem 2rem 2.5rem;
         position: relative;
     }
 
-    .hold-button-container {
-        position: relative;
-        width: 200px;
-        height: 200px;
-        margin: 2rem auto;
+    .hv-eyebrow {
+        display: inline-block;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.68rem;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--muted-chalk);
+        border-bottom: 2px solid rgba(255, 255, 255, 0.18);
+        padding-bottom: 0.5rem;
+        margin-bottom: 1.6rem;
     }
 
-    .hold-button {
-        width: 160px;
-        height: 160px;
+    .hv-title {
+        font-family: 'Reenie Beanie', cursive;
+        font-size: 3.6rem;
+        font-weight: 400;
+        line-height: 1;
+        color: var(--chalk);
+        margin: 0 0 0.8rem;
+        transform: rotate(-1deg);
+    }
+
+    .hv-sub {
+        font-family: 'Caveat', cursive;
+        font-size: 1.4rem;
+        line-height: 1.45;
+        color: var(--muted-chalk);
+        margin: 0 0 0.5rem;
+    }
+
+    .hv-sub strong {
+        color: var(--chalk);
+        font-weight: 700;
+    }
+
+    /* ── SİMON NOKTA IZGARASI ── */
+    .simon-wrap {
+        position: relative;
+        margin: 2rem auto 1.2rem;
+    }
+
+    .simon-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1.1rem;
+        width: min(100%, 300px);
+        margin: 0 auto;
+    }
+
+    .simon-dot {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 1;
         border-radius: 50%;
         background: transparent;
-        border: 4px dashed rgba(255, 255, 255, 0.2);
-        color: white;
-        font-family: 'Caveat', cursive;
-        font-size: 1.5rem;
+        border: 2.5px solid rgba(255, 255, 255, 0.32);
         cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: absolute;
-        top: 20px;
-        left: 20px;
-        z-index: 2;
         user-select: none;
-        transition: transform 0.2s ease, border-color 0.2s ease;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+        transition: background 0.15s ease, border-color 0.15s ease,
+            transform 0.15s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.15s ease;
     }
 
-    .hold-button:active {
-        transform: scale(0.95);
-        border-color: var(--brand-blue);
+    .simon-dot:hover {
+        border-color: rgba(255, 255, 255, 0.55);
     }
 
-    .hold-button.completed {
-        background: var(--brand-blue);
-        border-style: solid;
+    .simon-dot.active {
+        background: var(--chalk);
+        border-color: var(--chalk);
+        box-shadow: 0 0 30px rgba(255, 255, 255, 0.28);
         transform: scale(1.05);
     }
 
-    .progress-ring {
+    .simon-dot.flash-ok {
+        background: var(--chalk);
+        border-color: var(--chalk);
+    }
+
+    .simon-dot.locked {
+        pointer-events: none;
+    }
+
+    .simon-dot .dot-num {
         position: absolute;
-        top: 0;
-        left: 0;
-        transform: rotate(-90deg);
-        z-index: 1;
+        top: -0.55rem;
+        right: -0.2rem;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.62rem;
+        color: var(--muted-chalk);
+        opacity: 0.55;
     }
 
-    .progress-ring__circle {
-        stroke-dasharray: 565.48;
-        /* 2 * PI * 90 */
-        stroke-dashoffset: 565.48;
-        transition: stroke-dashoffset 0.1s linear;
-        stroke: var(--brand-blue);
-        stroke-width: 8;
-        fill: transparent;
-        stroke-linecap: round;
-        filter: drop-shadow(0 0 5px var(--brand-blue));
-    }
-
-    .verification-status {
-        margin-top: 1.5rem;
+    /* ── DURUM ── */
+    .hv-status {
         font-family: 'Reenie Beanie', cursive;
         font-size: 1.8rem;
+        color: var(--chalk);
+        min-height: 2.6rem;
+        margin-top: 1.2rem;
+    }
+
+    .hv-status.error {
+        font-family: 'Caveat', cursive;
+        font-size: 1.25rem;
+        color: var(--chalk);
+        border: 1.5px dashed rgba(255, 255, 255, 0.35);
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.04);
+        padding: 0.55rem 1rem;
+    }
+
+    .pow-line {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.68rem;
+        letter-spacing: 0.12em;
         color: var(--muted-chalk);
-        min-height: 2.5rem;
+        opacity: 0.8;
+        min-height: 1.2rem;
+        margin-top: 0.4rem;
     }
 
-    .sketch-arrow {
-        position: absolute;
-        bottom: -40px;
-        right: -20px;
-        transform: rotate(15deg);
-        opacity: 0.6;
+    .pow-line.done {
+        color: var(--chalk);
+        opacity: 1;
     }
 
-    @keyframes pulse-glow {
-        0% {
-            filter: drop-shadow(0 0 5px rgba(0, 195, 255, 0.3));
-        }
-
-        50% {
-            filter: drop-shadow(0 0 15px rgba(0, 195, 255, 0.6));
-        }
-
-        100% {
-            filter: drop-shadow(0 0 5px rgba(0, 195, 255, 0.3));
-        }
+    .pow-line .dot {
+        animation: hv-blink 1s steps(1) infinite;
     }
 
-    .holding .progress-ring__circle {
+    .pow-line.done .dot {
         animation: none;
     }
 
+    @keyframes hv-blink {
+        0%,
+        100% {
+            opacity: 1;
+        }
+        50% {
+            opacity: 0.15;
+        }
+    }
 
+    .hv-user {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.7rem;
+        letter-spacing: 0.05em;
+        color: var(--muted-chalk);
+        opacity: 0.75;
+        margin-top: 1.8rem;
+        padding-top: 1.1rem;
+        border-top: 1px dashed rgba(255, 255, 255, 0.14);
+    }
+
+    @media (max-width: 420px) {
+        .hv-card {
+            padding: 2.4rem 1.4rem 2rem;
+        }
+
+        .hv-title {
+            font-size: 3.1rem;
+        }
+
+        .simon-grid {
+            width: 100%;
+        }
+    }
+</style>
 {% endblock %}
 
 {% block content %}
-<div class="verification-container">
-    <div class="verification-card scribble-border">
-        <h1 style="font-family: 'Caveat', cursive; font-size: 2.5rem; margin-bottom: 0.5rem;">{{ _('İnsan Mısın?') }}
-        </h1>
-        <p style="color: var(--muted-chalk); font-size: 1.1rem; margin-bottom: 2rem;">
-            {{ _('KeyCord topluluğuna katılmak için kısa bir ritüel.') }} <br>
-            <strong>{{ _('Butona 10 saniye boyunca basılı tutun.') }}</strong>
+<div class="hv-shell">
+    <div class="hv-card">
+        <span class="hv-eyebrow">{{ _('Sıfır Bilgi · İnsan Doğrulaması') }}</span>
+
+        <h1 class="hv-title">{{ _('İnsan Mısın?') }}</h1>
+
+        <p class="hv-sub">
+            {{ _('KeyCord topluluğuna katılmak için kısa bir ritüel.') }}<br>
+            <strong>{{ _('Noktaların yanıp sönme sırasını ezberle, aynı sırayla tıkla.') }}</strong>
         </p>
 
-        <div class="hold-button-container" id="interactionArea">
-            <svg class="progress-ring" width="200" height="200">
-                <circle class="progress-ring__circle" stroke="rgba(255,255,255,0.05)" stroke-width="8"
-                    fill="transparent" r="90" cx="100" cy="100" />
-                <circle id="progressCircle" class="progress-ring__circle" r="90" cx="100" cy="100" />
-            </svg>
-            <div id="holdBtn" class="hold-button">
-                {{ _('BASILI TUT') }}
-            </div>
-            <div class="sketch-arrow">
-                <svg width="60" height="60" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M20 20 C 40 10, 70 30, 80 80 M 80 80 L 70 70 M 80 80 L 90 70" />
-                </svg>
+        <div class="simon-wrap" id="interactionArea">
+            <div class="simon-grid" id="simonGrid">
+                {% for i in range(hv_dot_count) %}
+                <button type="button" class="simon-dot" id="dot-{{ i }}" aria-label="{{ _('Nokta') }} {{ i + 1 }}" data-index="{{ i }}">
+                    <span class="dot-num">{{ i + 1 }}</span>
+                </button>
+                {% endfor %}
             </div>
         </div>
 
-
-
-        <div class="verification-status" id="statusText">
-            {{ _('Hazır mısın?') }}
+        <div class="hv-status" id="statusText">
+            {{ _('İzle...') }}
         </div>
 
-        <div style="margin-top: 2rem; font-size: 0.9rem; opacity: 0.7;">
-            {{ user.username }} olarak kayıt işlemini tamamlıyorsun.
+        <div class="pow-line" id="powStatus">
+            <span class="dot">●</span> {{ _('güvenlik kanıtı hesaplanıyor') }}
+        </div>
+
+        <div class="hv-user">
+            {{ _('Kayıt:') }} {{ user.username }}
         </div>
     </div>
 </div>
@@ -160,115 +247,196 @@
 
 {% block scripts %}
 <script nonce="{{ csp_nonce }}">
-    const holdBtn = document.getElementById('holdBtn');
-    const circle = document.getElementById('progressCircle');
-    const statusText = document.getElementById('statusText');
-    const radius = circle.r.baseVal.value;
-    const circumference = radius * 2 * Math.PI;
+    (function () {
+        const dots = Array.from(document.querySelectorAll('.simon-dot'));
+        const statusText = document.getElementById('statusText');
+        const powStatus = document.getElementById('powStatus');
 
-    circle.style.strokeDasharray = `${circumference} ${circumference}`;
-    circle.style.strokeDashoffset = circumference;
+        const CHALLENGE = "{{ hv_challenge }}";
+        const CHALLENGE_ID = "{{ hv_challenge_id }}";
+        const DIFFICULTY = {{ hv_bits | int }};
+        const SEQ = {{ hv_seq | tojson }};
+        const RATE_LIMITED = {{ 'true' if rate_limited else 'false' }};
 
-    let holdTimer = null;
-    let progress = 0;
-    const holdDuration = 10000; // 10 seconds
-    const updateInterval = 50; // Update every 50ms
-    const step = (updateInterval / holdDuration) * circumference;
+        const showMs = 520;
+        const gapMs = 380;
+        let powDone = false;
+        let powNonce = null;
+        let completed = false;
+        let playing = false;
+        let pendingSubmit = false;
+        let userSeq = [];
+        let clickTimes = [];
 
-    function setProgress(percent) {
-        const offset = circumference - (percent / 100) * circumference;
-        circle.style.strokeDashoffset = offset;
-    }
+        function setStatus(text, isError) {
+            statusText.innerText = text;
+            statusText.classList.toggle('error', !!isError);
+        }
 
-    function startHolding(e) {
-        e.preventDefault();
-        if (holdBtn.classList.contains('completed')) return;
+        function setDotActive(idx, on) {
+            if (idx >= 0 && idx < dots.length) {
+                dots[idx].classList.toggle('active', !!on);
+            }
+        }
 
-        holdBtn.classList.add('holding');
-        statusText.innerText = "{{ _('Bırakma...') }}";
-        statusText.style.color = "var(--brand-blue)";
+        function lockDots() {
+            dots.forEach(d => d.classList.add('locked'));
+        }
 
-        holdTimer = setInterval(() => {
-            progress += (updateInterval / holdDuration) * 100;
-            if (progress >= 100) {
-                progress = 100;
+        function unlockDots() {
+            dots.forEach(d => d.classList.remove('locked'));
+        }
+
+        const delay = ms => new Promise(res => setTimeout(res, ms));
+
+        async function playSequence() {
+            playing = true;
+            lockDots();
+            userSeq = [];
+            clickTimes = [];
+            setStatus("{{ _('İzle...') }}", false);
+            for (const idx of SEQ) {
+                setDotActive(idx, true);
+                await delay(showMs);
+                setDotActive(idx, false);
+                await delay(gapMs);
+            }
+            playing = false;
+            unlockDots();
+            setStatus("{{ _('Sıra sende') }}", false);
+        }
+
+        async function onDotClick(idx) {
+            if (playing || completed) return;
+
+            setDotActive(idx, true);
+            await delay(180);
+            setDotActive(idx, false);
+
+            clickTimes.push(performance.now());
+            userSeq.push(idx);
+            if (userSeq[userSeq.length - 1] !== SEQ[userSeq.length - 1]) {
+                setStatus("{{ _('Yanlış sıra! Tekrar izliyorsun...') }}", true);
+                lockDots();
+                await delay(1300);
+                await playSequence();
+                return;
+            }
+
+            if (userSeq.length === SEQ.length) {
                 completeVerification();
             }
-            setProgress(progress);
-        }, updateInterval);
-    }
-
-    function stopHolding() {
-        if (holdBtn.classList.contains('completed')) return;
-
-        clearInterval(holdTimer);
-        holdBtn.classList.remove('holding');
-
-        if (progress < 100) {
-            progress = 0;
-            setProgress(0);
-            statusText.innerText = "{{ _('Çok erken bıraktın!') }}";
-            statusText.style.color = "#ff4b2b";
-
-            setTimeout(() => {
-                if (!holdBtn.classList.contains('holding')) {
-                    statusText.innerText = "{{ _('Tekrar Dene') }}";
-                    statusText.style.color = "var(--muted-chalk)";
-                }
-            }, 2000);
         }
-    }
 
-    function completeVerification() {
-        clearInterval(holdTimer);
-        holdBtn.classList.add('completed');
-        holdBtn.innerText = "{{ _('DOĞRULANDI') }}";
-        statusText.innerText = "{{ _('Harika! Yönlendiriliyorsun...') }}";
-        statusText.style.color = "#4bb543";
-
-        // Form data olarak gönderelim (JSON'daki 400 hatalarını bypass etmek için daha güvenli)
-        const formData = new URLSearchParams();
-        formData.append('csrf_token', "{{ csrf_token if csrf_token else '' }}");
-        formData.append('verified', 'true');
-        
-
-
-        fetch("{{ url_for('auth.verify_human_api') }}", {
-            method: 'POST',
-            body: formData
-        })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    setTimeout(() => {
-                        window.location.href = data.redirect;
-                    }, 1500);
-                } else {
-                    alert("Hata: " + (data.error || "Bilinmeyen bir hata oluştu."));
-                    resetButton();
+        function leadingZeroBits(bytes) {
+            let zeros = 0;
+            for (let i = 0; i < bytes.length; i++) {
+                const b = bytes[i];
+                if (b === 0) {
+                    zeros += 8;
+                    continue;
                 }
+                for (let mask = 0x80; mask; mask >>= 1) {
+                    if (b & mask) return zeros;
+                    zeros++;
+                }
+            }
+            return zeros;
+        }
+
+        async function solvePow() {
+            if (!window.crypto || !crypto.subtle) {
+                powStatus.classList.add('done');
+                powStatus.innerHTML = "{{ _('tarayıcı güvenli bağlam gerektiriyor') }}";
+                return;
+            }
+            const enc = new TextEncoder();
+            const prefix = enc.encode(CHALLENGE);
+            const buf = new Uint8Array(prefix.length + 4);
+            buf.set(prefix);
+            const view = new DataView(buf.buffer);
+            let nonce = 0;
+            while (nonce <= 0xFFFFFFFF) {
+                view.setUint32(prefix.length, nonce, false);
+                const digest = new Uint8Array(await crypto.subtle.digest('SHA-256', buf));
+                if (leadingZeroBits(digest) >= DIFFICULTY) {
+                    powDone = true;
+                    powNonce = nonce;
+                    powStatus.classList.add('done');
+                    powStatus.innerHTML = "<span class=\"dot\">✓</span> " + "{{ _('güvenlik kanıtı tamam') }}";
+                    if (pendingSubmit) completeVerification();
+                    return;
+                }
+                nonce++;
+            }
+        }
+
+        function completeVerification() {
+            if (completed) return;
+            if (!powDone) {
+                pendingSubmit = true;
+                setStatus("{{ _('Kanıt hesaplanıyor...') }}", false);
+                return;
+            }
+            completed = true;
+            lockDots();
+            dots.forEach(d => d.classList.add('flash-ok'));
+            setStatus("{{ _('Doğrulandı! Yönlendiriliyorsun...') }}", false);
+
+            const formData = new URLSearchParams();
+            formData.append('csrf_token', "{{ csrf_token if csrf_token else '' }}");
+            formData.append('challenge_id', CHALLENGE_ID);
+            formData.append('nonce', String(powNonce));
+            formData.append('seq', SEQ.join(','));
+            formData.append('click_times', clickTimes.join(','));
+            formData.append('verified', 'true');
+
+            fetch("{{ url_for('auth.verify_human_api') }}", {
+                method: 'POST',
+                body: formData
             })
-            .catch(err => {
-                console.error(err);
-                alert("Sunucuyla bağlantı kurulamadı.");
-                resetButton();
-            });
-    }
+                .then(resp => resp.json().catch(() => ({ error: "{{ _('Sunucudan geçersiz yanıt alındı.') }}" })))
+                .then(data => {
+                    if (data.expired) {
+                        setStatus(data.error || "{{ _('Doğrulama süresi doldu, sayfa yenileniyor...') }}", true);
+                        setTimeout(() => { window.location.reload(); }, 1500);
+                        return;
+                    }
+                    if (data.success) {
+                        setTimeout(() => {
+                            window.location.href = data.redirect;
+                        }, 1500);
+                    } else {
+                        setStatus(data.error || "{{ _('Bilinmeyen bir hata oluştu.') }}", true);
+                        setTimeout(() => {
+                            dots.forEach(d => d.classList.remove('flash-ok'));
+                            completed = false;
+                            pendingSubmit = false;
+                            playSequence();
+                        }, 1600);
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    setStatus("{{ _('Sunucuyla bağlantı kurulamadı.') }}", true);
+                    dots.forEach(d => d.classList.remove('flash-ok'));
+                    completed = false;
+                    pendingSubmit = false;
+                });
+        }
 
-    function resetButton() {
-        holdBtn.classList.remove('completed');
-        holdBtn.innerText = "{{ _('BASILI TUT') }}";
-        progress = 0;
-        setProgress(0);
-    }
+        dots.forEach(dot => {
+            dot.addEventListener('click', () => onDotClick(parseInt(dot.dataset.index, 10)));
+        });
 
-    // Event Listeners
-    holdBtn.addEventListener('mousedown', startHolding);
-    holdBtn.addEventListener('touchstart', startHolding, { passive: false });
-
-    window.addEventListener('mouseup', stopHolding);
-    window.addEventListener('touchend', stopHolding);
-    holdBtn.addEventListener('mouseleave', stopHolding);
-
+        if (RATE_LIMITED) {
+            lockDots();
+            powStatus.innerHTML = "<span class=\"dot\">✕</span> " + "{{ _('çok fazla yenileme — lütfen biraz bekleyin') }}";
+            setStatus("{{ _('Çok fazla yenileme yaptınız. Lütfen biraz bekleyin.') }}", true);
+        } else {
+            solvePow();
+            setTimeout(playSequence, 700);
+        }
+    })();
 </script>
 {% endblock %}

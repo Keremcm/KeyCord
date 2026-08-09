@@ -1,8 +1,13 @@
 {% extends "base.html" %}
 
-{% block title %}KeyCord — {{ _('Gizli Kanal, Gerçek Güvenlik') }}{% endblock %}
+{% block title %}KeyCord — Tor Destekli Kuantum Sonrası Güvenli Mesajlaşma Platformu{% endblock %}
 
-{% block meta_description %}KeyCord; Tor ağı ve uçtan uca şifreleme ile çalışan, log tutmayan, kimlik gerektirmeyen gizlilik odaklı bir mesajlaşma platformudur.{% endblock %}
+{% block meta_description %}KeyCord, Türkiye merkezli, açık kaynak kodlu, gizlilik odaklı ve Tor destekli bir mesajlaşma platformudur. Kuantum bilgisayarlara dayanıklı (X25519 + ML-KEM-768) uçtan uca şifreleme ile sıfır bilgi mimarisi.{% endblock %}
+
+{% block og_title %}KeyCord — Tor Destekli Kuantum Sonrası Güvenli Mesajlaşma Platformu{% endblock %}
+{% block og_description %}KeyCord, Türkiye merkezli, açık kaynak kodlu, gizlilik odaklı ve Tor destekli bir mesajlaşma platformudur. Kuantum bilgisayarlara dayanıklı (X25519 + ML-KEM-768) uçtan uca şifreleme ile sıfır bilgi mimarisi.{% endblock %}
+{% block twitter_title %}KeyCord — Tor Destekli Kuantum Sonrası Güvenli Mesajlaşma Platformu{% endblock %}
+{% block twitter_description %}KeyCord, Türkiye merkezli, açık kaynak kodlu, gizlilik odaklı ve Tor destekli bir mesajlaşma platformudur. Kuantum bilgisayarlara dayanıklı (X25519 + ML-KEM-768) uçtan uca şifreleme ile sıfır bilgi mimarisi.{% endblock %}
 
 {% block extra_css %}
 <style nonce="{{ csp_nonce }}">
@@ -31,66 +36,40 @@
 
     .label-tag {
         display: inline-block;
-        font-size: 0.9rem;
-        letter-spacing: 0.15em;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.72rem;
+        letter-spacing: 0.2em;
         text-transform: uppercase;
         color: var(--muted-chalk);
-        border-bottom: 2px solid rgba(255, 255, 255, 0.15);
+        border-bottom: 2px solid rgba(255, 255, 255, 0.18);
         padding-bottom: 0.5rem;
         margin-bottom: 1.5rem;
-        font-weight: 600;
     }
 
     .section-h {
-        font-size: clamp(2.5rem, 6vw, 4.5rem);
-        font-weight: 800;
-        line-height: 1.1;
-        letter-spacing: -0.02em;
+        font-family: 'Reenie Beanie', cursive;
+        font-weight: 400;
+        font-size: clamp(3rem, 7vw, 5.4rem);
+        line-height: 1.05;
         color: var(--chalk);
         max-width: 900px;
         margin-bottom: 1.5rem;
+        transform: rotate(-0.8deg);
     }
 
     .section-sub {
-        font-size: 1.4rem;
+        font-family: 'Caveat', cursive;
+        font-size: 1.45rem;
         color: var(--muted-chalk);
         max-width: 700px;
         line-height: 1.5;
         margin-bottom: 2.5rem;
     }
 
-    /* ── TOPBAR ── */
-    .topbar {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        z-index: 100;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 1rem 2.5rem;
-        background: rgba(0, 0, 0, 0.55);
-        backdrop-filter: blur(10px);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-    }
-
-    .topbar-logo {
-        font-size: 1.1rem;
-        font-weight: 700;
-        letter-spacing: 0.08em;
-        color: var(--chalk);
-        text-decoration: none;
-    }
-
-    .topbar-links {
-        display: flex;
-        gap: 0.75rem;
-    }
-
     /* ── HERO ── */
     .hero {
         min-height: 100vh;
+        min-height: 100svh;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -104,7 +83,7 @@
         content: '';
         position: absolute;
         inset: 0;
-        background: radial-gradient(ellipse 80% 60% at 50% 40%, rgba(255, 255, 255, 0.025) 0%, transparent 70%);
+        background: radial-gradient(ellipse 80% 60% at 50% 40%, rgba(255, 255, 255, 0.03) 0%, transparent 70%);
         pointer-events: none;
     }
 
@@ -112,41 +91,46 @@
         display: inline-flex;
         align-items: center;
         gap: 0.5rem;
-        font-size: 0.78rem;
-        letter-spacing: 0.18em;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.7rem;
+        letter-spacing: 0.2em;
         text-transform: uppercase;
         color: var(--muted-chalk);
-        border: 1px dashed rgba(255, 255, 255, 0.18);
+        border: 2px dashed rgba(255, 255, 255, 0.28);
         border-radius: 99px;
-        padding: 0.35rem 1rem;
+        padding: 0.4rem 1.2rem;
         margin-bottom: 2rem;
+        transform: rotate(-1deg);
     }
 
     .hero-eyebrow-dot {
         width: 6px;
         height: 6px;
         border-radius: 50%;
-        background: #7fff7f;
-        box-shadow: 0 0 6px #7fff7f;
+        background: var(--chalk);
+        box-shadow: 0 0 8px rgba(255, 255, 255, 0.7);
+        animation: pulse-dot 2.4s infinite;
         flex-shrink: 0;
     }
 
     .hero-title {
-        font-size: clamp(3.8rem, 12vw, 8.5rem);
-        font-weight: 900;
-        line-height: 0.95;
-        letter-spacing: -0.04em;
+        font-family: 'Reenie Beanie', cursive;
+        font-weight: 400;
+        font-size: clamp(4.2rem, 13vw, 9rem);
+        line-height: 0.92;
         color: var(--chalk);
-        max-width: 1000px;
-        margin-bottom: 2.5rem;
+        max-width: 1100px;
+        margin-bottom: 2.2rem;
+        transform: rotate(-1.5deg);
     }
 
     .hero-desc {
-        font-size: 1.8rem;
+        font-family: 'Caveat', cursive;
+        font-size: 1.7rem;
         color: var(--muted-chalk);
-        max-width: 700px;
+        max-width: 720px;
         line-height: 1.5;
-        margin: 0 auto 3.5rem auto;
+        margin: 0 auto 3rem auto;
     }
 
     .hero-cta {
@@ -158,37 +142,101 @@
     }
 
     .btn-primary {
-        display: inline-block;
-        padding: 0.75rem 1.8rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.9rem 2.2rem;
         background: var(--chalk);
         color: var(--paper-black);
+        font-family: 'Caveat', cursive;
         font-weight: 700;
-        font-size: 0.95rem;
-        border-radius: 8px;
+        font-size: 1.4rem;
+        border: 2px solid var(--chalk);
+        border-radius: 12px;
         text-decoration: none;
-        transition: opacity 0.15s;
+        transform: rotate(-0.4deg);
+        transition: transform 0.15s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.15s ease, opacity 0.15s;
     }
 
     .btn-primary:hover {
-        opacity: 0.88;
+        transform: rotate(0deg) translateY(-2px);
+        box-shadow: 0 6px 18px rgba(255, 255, 255, 0.12);
+        opacity: 0.92;
+    }
+
+    .btn-primary:active {
+        transform: scale(0.96);
+        transition: transform 90ms ease-out;
     }
 
     .btn-ghost {
-        display: inline-block;
-        padding: 0.75rem 1.8rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.9rem 2.2rem;
         background: transparent;
         color: var(--chalk);
-        font-weight: 600;
-        font-size: 0.95rem;
-        border: 1.5px dashed rgba(255, 255, 255, 0.3);
-        border-radius: 8px;
+        font-family: 'Caveat', cursive;
+        font-weight: 700;
+        font-size: 1.4rem;
+        border: 2px solid rgba(255, 255, 255, 0.28);
+        border-radius: 12px;
         text-decoration: none;
-        transition: border-color 0.15s;
+        transform: rotate(0.4deg);
+        transition: transform 0.15s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.15s ease, background 0.15s ease;
     }
 
     .btn-ghost:hover {
-        border-color: rgba(255, 255, 255, 0.6);
+        border-color: var(--chalk);
+        background: rgba(255, 255, 255, 0.04);
+        transform: rotate(0deg) translateY(-2px);
     }
+
+    .btn-ghost:active {
+        transform: scale(0.96);
+        transition: transform 90ms ease-out;
+    }
+
+    .hero-eyebrow,
+    .hero-title,
+    .hero-desc,
+    .hero-cta,
+    .trustbar {
+        animation: hero-enter 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    .hero-eyebrow { animation-delay: 0.05s; }
+    .hero-title { animation-delay: 0.12s; }
+    .hero-desc { animation-delay: 0.22s; }
+    .hero-cta { animation-delay: 0.32s; }
+    .trustbar { animation-delay: 0.45s; }
+
+    @keyframes hero-enter {
+        from { opacity: 0; transform: translateY(16px); }
+        to { opacity: 1; transform: none; }
+    }
+
+    @keyframes pulse-dot {
+        0%, 100% { opacity: 1; transform: scale(1); }
+        50% { opacity: 0.4; transform: scale(1.3); }
+    }
+
+    /* ── GÖRÜNÜR ALAN GİRİŞ ANİMASYONU ── */
+    [data-reveal] {
+        opacity: 0;
+        transform: translateY(24px);
+        transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+                    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    [data-reveal].visible {
+        opacity: 1;
+        transform: none;
+    }
+
+    .proof-grid [data-reveal]:nth-child(2) { transition-delay: 0.08s; }
+    .proof-grid [data-reveal]:nth-child(3) { transition-delay: 0.16s; }
+    .features [data-reveal]:nth-child(2) { transition-delay: 0.1s; }
 
     /* ── TRUST BAR ── */
     .trustbar {
@@ -198,7 +246,7 @@
         gap: 0.6rem;
         margin-top: 4rem;
         padding-top: 2.5rem;
-        border-top: 3px solid rgba(255, 255, 255, 0.07);
+        border-top: 2px solid rgba(255, 255, 255, 0.08);
         width: 100%;
         max-width: 820px;
     }
@@ -206,12 +254,13 @@
     .trust-item {
         display: inline-flex;
         align-items: center;
-        gap: 0.45rem;
-        font-size: 1rem;
+        gap: 0.5rem;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.78rem;
+        letter-spacing: 0.03em;
         color: var(--muted-chalk);
-        letter-spacing: 0.02em;
         background: rgba(255, 255, 255, 0.04);
-        border: 1px solid rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.1);
         border-radius: 99px;
         padding: 0.4rem 1rem;
         white-space: nowrap;
@@ -221,8 +270,8 @@
         width: 14px;
         height: 14px;
         border-radius: 50%;
-        background: rgba(127, 255, 127, 0.12);
-        border: 1px solid rgba(127, 255, 127, 0.35);
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.4);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -234,8 +283,8 @@
         display: block;
         width: 5px;
         height: 3px;
-        border-left: 1.5px solid #7fff7f;
-        border-bottom: 1.5px solid #7fff7f;
+        border-left: 1.5px solid var(--chalk);
+        border-bottom: 1.5px solid var(--chalk);
         transform: rotate(-45deg) translateY(-1px);
     }
 
@@ -248,7 +297,7 @@
 
     .threat-panel {
         background: rgba(255, 255, 255, 0.02);
-        border: 1px solid rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.1);
         border-radius: 20px;
         padding: 2rem 2.5rem;
         backdrop-filter: blur(10px);
@@ -260,7 +309,7 @@
     }
 
     .threat-panel:hover {
-        border-color: rgba(255, 255, 255, 0.12);
+        border-color: rgba(255, 255, 255, 0.2);
     }
 
     .threat-info {
@@ -279,20 +328,15 @@
         width: 8px;
         height: 8px;
         border-radius: 50%;
-        background: #ffffff;
+        background: var(--chalk);
         box-shadow: 0 0 8px rgba(255, 255, 255, 0.7);
         animation: pulse-dot 2s infinite;
     }
 
-    @keyframes pulse-dot {
-        0%, 100% { opacity: 1; transform: scale(1); }
-        50% { opacity: 0.4; transform: scale(1.3); }
-    }
-
     .threat-label {
         font-family: 'JetBrains Mono', monospace;
-        font-size: 0.75rem;
-        letter-spacing: 0.15em;
+        font-size: 0.72rem;
+        letter-spacing: 0.18em;
         text-transform: uppercase;
         color: var(--muted-chalk);
     }
@@ -300,16 +344,17 @@
     .threat-count {
         display: flex;
         align-items: baseline;
-        gap: 0.3rem;
+        gap: 0.5rem;
     }
 
     .threat-number {
-        font-family: 'Syne', sans-serif;
-        font-size: 4rem;
-        font-weight: 800;
+        font-family: 'Reenie Beanie', cursive;
+        font-size: 4.5rem;
+        font-weight: 400;
         color: var(--chalk);
         line-height: 1;
-        letter-spacing: -0.03em;
+        transform: rotate(-1.5deg);
+        display: inline-block;
     }
 
     .threat-unit {
@@ -337,8 +382,8 @@
         flex: 1;
         border-radius: 4px 4px 0 0;
         background: rgba(255, 255, 255, 0.8);
-        transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-        animation: grow-bar 0.8s ease-out forwards;
+        transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.6s ease;
+        animation: grow-bar 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
         transform-origin: bottom;
         transform: scaleY(0);
     }
@@ -365,20 +410,21 @@
     }
 
     .proof-title {
-        font-family: 'Syne', sans-serif;
-        font-size: clamp(3.5rem, 8vw, 5.5rem);
-        font-weight: 900;
+        font-family: 'Reenie Beanie', cursive;
+        font-size: clamp(4rem, 9vw, 6.5rem);
+        font-weight: 400;
         color: var(--chalk);
         margin-bottom: 1rem;
-        line-height: 0.95;
-        letter-spacing: -0.04em;
+        line-height: 1;
+        letter-spacing: 0.01em;
+        transform: rotate(-1.2deg);
     }
 
     .proof-desc {
         font-family: 'JetBrains Mono', monospace;
         font-size: 1.1rem;
         color: rgba(255, 255, 255, 0.6);
-        max-width: 600px;
+        max-width: 620px;
         margin: 0 auto 1.5rem auto;
         line-height: 1.6;
     }
@@ -393,14 +439,17 @@
     }
 
     .proof-card {
-        background: rgba(255, 255, 255, 0.01);
-        border: 1px solid rgba(255, 255, 255, 0.03);
-        border-radius: 24px;
+        background: rgba(255, 255, 255, 0.015);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 20px;
         padding: 3rem 2.5rem;
         text-decoration: none;
         display: flex;
         flex-direction: column;
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+                    border-color 0.3s ease,
+                    background 0.3s ease,
+                    box-shadow 0.4s ease;
         position: relative;
         overflow: hidden;
         backdrop-filter: blur(4px);
@@ -420,8 +469,8 @@
 
     .proof-card:hover {
         transform: translateY(-8px);
-        border-color: rgba(255, 255, 255, 0.1);
-        background: rgba(255, 255, 255, 0.02);
+        border-color: rgba(255, 255, 255, 0.22);
+        background: rgba(255, 255, 255, 0.03);
         box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
     }
 
@@ -438,8 +487,8 @@
         align-items: center;
         justify-content: center;
         margin-bottom: 2rem;
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        transition: transform 0.4s;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
     .proof-icon-box svg {
@@ -456,9 +505,9 @@
     }
 
     .proof-score {
-        font-family: 'Syne', sans-serif;
-        font-size: 3.5rem;
-        font-weight: 800;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 3rem;
+        font-weight: 700;
         line-height: 1;
         margin-bottom: 1rem;
         letter-spacing: -0.03em;
@@ -472,7 +521,7 @@
 
     .proof-name {
         font-family: 'JetBrains Mono', monospace;
-        font-size: 1.1rem;
+        font-size: 1.05rem;
         color: var(--chalk);
         margin-bottom: 0.8rem;
         letter-spacing: 0.02em;
@@ -496,7 +545,7 @@
         display: flex;
         align-items: center;
         gap: 0.5rem;
-        transition: color 0.3s, transform 0.3s;
+        transition: color 0.25s ease, transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
     .proof-card:hover .proof-link {
@@ -504,82 +553,11 @@
         transform: translateX(5px);
     }
 
-    /* ── 3D WORKFLOW KARTLARI ── */
-    .workflow-3d {
-        perspective: 1200px;
-        margin-top: 4rem;
-        display: flex;
-        flex-direction: column;
-        gap: 3rem;
-    }
-
-    .step-card {
-        background: rgba(255, 255, 255, 0.03);
-        border: 2px dashed rgba(255, 255, 255, 0.15);
-        border-radius: 24px;
-        padding: 3rem;
-        display: grid;
-        grid-template-columns: 100px 1fr;
-        gap: 2.5rem;
-        transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        transform-style: preserve-3d;
-        transform: rotateX(25deg) rotateY(-15deg) translateZ(-60px);
-        opacity: 0.25;
-        backdrop-filter: blur(8px);
-        box-shadow: 0 20px 40px -20px rgba(0, 0, 0, 0.4);
-    }
-
-    .step-card.active {
-        transform: rotateX(0deg) rotateY(0deg) translateZ(0);
-        opacity: 1;
-        border-style: solid;
-        border-color: rgba(255, 255, 255, 0.25);
-        background: rgba(255, 255, 255, 0.05);
-        box-shadow: 0 30px 50px -20px rgba(0, 0, 0, 0.6);
-    }
-
-    .step-card:nth-child(even) {
-        transform: rotateX(25deg) rotateY(15deg) translateZ(-60px);
-    }
-
-    .step-card:nth-child(even).active {
-        transform: rotateX(0deg) rotateY(0deg) translateZ(0);
-    }
-
-    .step-icon {
-        width: 100px;
-        height: 100px;
-        border: 2px solid var(--chalk);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 2.8rem;
-        border-radius: 20px;
-        transform: rotate(-3deg);
-        background: rgba(255, 255, 255, 0.03);
-    }
-
-    .step-title {
-        font-size: 2.5rem;
-        font-weight: 700;
-        margin-bottom: 1rem;
-        color: var(--chalk);
-        font-family: 'Reenie Beanie', cursive;
-        letter-spacing: 0.05em;
-    }
-
-    .step-desc {
-        font-size: 1.4rem;
-        color: var(--muted-chalk);
-        line-height: 1.5;
-        max-width: 700px;
-    }
-
     /* ── TOR SECTION ── */
     .tor-section {
         padding: 5rem 1.5rem;
-        border-top: 1px solid rgba(255, 255, 255, 0.06);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     }
 
     .tor-inner {
@@ -588,18 +566,36 @@
         text-align: center;
     }
 
+    .tor-sub {
+        font-family: 'Caveat', cursive;
+        font-size: 1.6rem;
+        color: var(--chalk);
+        margin: 0 auto 1.2rem auto;
+        max-width: 600px;
+        line-height: 1.4;
+    }
+
+    .tor-desc {
+        font-family: 'Caveat', cursive;
+        font-size: 1.35rem;
+        color: var(--muted-chalk);
+        margin: 0 auto 2.5rem auto;
+        max-width: 700px;
+        line-height: 1.6;
+    }
+
     .onion-chip {
         display: inline-flex;
         align-items: center;
-        font-family: 'Courier New', monospace;
-        font-size: 1rem;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.9rem;
         color: var(--chalk);
         background: rgba(255, 255, 255, 0.04);
-        border: 1px dashed rgba(255, 255, 255, 0.2);
+        border: 2px dashed rgba(255, 255, 255, 0.24);
         border-radius: 12px;
         padding: 1rem 1.8rem;
         cursor: pointer;
-        transition: all 0.2s;
+        transition: transform 0.1s ease-out, background 0.2s, border-color 0.2s, box-shadow 0.2s;
         word-break: break-all;
         text-align: left;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
@@ -607,20 +603,25 @@
 
     .onion-chip:hover {
         background: rgba(255, 255, 255, 0.08);
-        border-color: rgba(255, 255, 255, 0.4);
+        border-color: rgba(255, 255, 255, 0.5);
+    }
+
+    .onion-chip:active {
+        transform: scale(0.97);
     }
 
     .onion-copy-hint {
         margin-top: 0.8rem;
         font-size: 0.85rem;
         color: var(--muted-chalk);
+        font-family: 'JetBrains Mono', monospace;
     }
 
     .copy-flash {
         display: inline-block;
         opacity: 0;
         font-size: 0.85rem;
-        color: #7fff7f;
+        color: var(--chalk);
         margin-left: 0.6rem;
         transition: opacity 0.3s;
     }
@@ -643,18 +644,18 @@
         align-items: center;
         gap: 1.2rem;
         padding: 1.5rem 2.5rem;
-        border: 1px solid rgba(255, 255, 255, 0.15);
+        border: 1px solid rgba(255, 255, 255, 0.16);
         border-radius: 16px;
         background: rgba(255, 255, 255, 0.02);
         text-decoration: none;
         color: var(--chalk);
-        transition: all 0.2s;
+        transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.2s, background 0.2s;
         min-width: 220px;
         backdrop-filter: blur(5px);
     }
 
     .dl-card:hover {
-        border-color: rgba(255, 255, 255, 0.4);
+        border-color: rgba(255, 255, 255, 0.45);
         background: rgba(255, 255, 255, 0.06);
         transform: translateY(-3px);
     }
@@ -678,33 +679,208 @@
         font-size: 0.9rem;
         color: var(--muted-chalk);
         letter-spacing: 0.05em;
+        font-family: 'JetBrains Mono', monospace;
     }
 
     .dl-card-name {
         font-size: 1.2rem;
         font-weight: 700;
         margin-top: 4px;
+        font-family: 'Caveat', cursive;
     }
 
-    /* ── FOOTER ── */
-    .footer {
-        text-align: center;
-        padding: 3rem 1rem;
-        font-size: 0.85rem;
+    /* ── MANIFESTO (EL YAZISI) ── */
+    .manifesto {
+        margin-bottom: 2.5rem;
+        position: relative;
+    }
+
+    .manifesto-scribble {
+        position: relative;
+        padding: 2.5rem;
+        border: 2px solid rgba(255, 255, 255, 0.14);
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.015);
+    }
+
+    .manifesto-scribble::after {
+        content: '';
+        position: absolute;
+        inset: -6px;
+        border-radius: 22px;
+        border: 2px dashed rgba(255, 255, 255, 0.1);
+        transform: rotate(-1.6deg);
+        opacity: 0.8;
+        pointer-events: none;
+    }
+
+    .manifesto-text {
+        font-family: 'Caveat', 'Shadows Into Light', 'Reenie Beanie', cursive, sans-serif;
+        font-size: 2rem;
+        line-height: 1.35;
+        color: var(--chalk);
+        margin: 0 0 1.5rem 0;
+        letter-spacing: 0.02em;
+    }
+
+    .manifesto-strip {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+        padding-top: 1.2rem;
+        border-top: 2px solid rgba(255, 255, 255, 0.1);
+        font-family: 'Caveat', cursive, sans-serif;
+        font-size: 1.2rem;
         color: var(--muted-chalk);
-        border-top: 1px solid rgba(255, 255, 255, 0.05);
+        letter-spacing: 0.04em;
+    }
+
+    .manifesto-strip span {
+        opacity: 0.6;
+    }
+
+    .manifesto-strip span:last-child {
+        opacity: 1;
+    }
+
+    /* ── FEATURE LINES ── */
+    .features {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .feature-item {
+        display: flex;
+        gap: 0.75rem;
+        align-items: flex-start;
+    }
+
+    .feature-marker {
+        flex-shrink: 0;
+        width: 3px;
+        height: auto;
+        min-height: 60px;
+        align-self: stretch;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 3px;
+        margin-top: 0.4rem;
+    }
+
+    .feature-head {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        color: var(--muted-chalk);
+        margin: 0 0 0.6rem 0;
+        font-weight: 600;
+    }
+
+    .feature-item--reverse {
+        flex-direction: row-reverse;
+        gap: 0.5rem;
+    }
+
+    .feature-item--reverse .feature-marker {
+        margin-top: 0.4rem;
+    }
+
+    .feature-text {
+        font-family: 'Caveat', cursive;
+        font-size: 1.5rem;
+        line-height: 1.5;
+        color: var(--muted-chalk);
+        margin: 0;
+        max-width: 700px;
+    }
+
+    .feature-text--right {
+        text-align: right;
+        margin-left: auto;
+    }
+
+    .feature-head--right {
+        text-align: right;
+    }
+
+    /* ── ERİŞİLEBİLİRLİK ── */
+    @media (prefers-reduced-motion: reduce) {
+        html {
+            scroll-behavior: auto;
+        }
+
+        [data-reveal] {
+            opacity: 1;
+            transform: none;
+            transition: none;
+        }
+
+        .hero-eyebrow,
+        .hero-title,
+        .hero-desc,
+        .hero-cta,
+        .trustbar {
+            animation: none;
+        }
+
+        .hero-title,
+        .section-h,
+        .proof-title,
+        .threat-number,
+        .btn-primary,
+        .btn-ghost,
+        .hero-eyebrow {
+            transform: none !important;
+        }
+
+        .threat-dot {
+            animation: none;
+        }
+
+        .threat-bar {
+            animation: none;
+            transform: scaleY(1);
+        }
+
+        .proof-card:hover,
+        .dl-card:hover {
+            transform: none;
+        }
+
+        .proof-card:hover .proof-icon-box,
+        .proof-card:hover .proof-link {
+            transform: none;
+        }
+    }
+
+    @media (prefers-reduced-transparency: reduce) {
+        .threat-panel,
+        .proof-card,
+        .dl-card,
+        .onion-chip {
+            backdrop-filter: none;
+            background: rgba(255, 255, 255, 0.03);
+        }
+    }
+
+    @media (prefers-contrast: more) {
+        .hero-eyebrow,
+        .btn-ghost {
+            border-color: rgba(255, 255, 255, 0.55);
+        }
+
+        .threat-panel,
+        .proof-card,
+        .dl-card,
+        .onion-chip {
+            border-color: rgba(255, 255, 255, 0.3);
+        }
     }
 
     /* ── RESPONSIVE ── */
     @media(max-width: 900px) {
-        .step-card {
-            grid-template-columns: 1fr;
-            text-align: center;
-            padding: 2rem;
-        }
-        .step-icon {
-            margin: 0 auto;
-        }
         .threat-panel {
             grid-template-columns: 1fr;
             gap: 1.5rem;
@@ -721,14 +897,11 @@
             justify-content: center;
         }
         .threat-number {
-            font-size: 3rem;
+            font-size: 3.5rem;
         }
     }
 
     @media(max-width: 768px) {
-        .topbar {
-            padding: 0.9rem 1.2rem;
-        }
         .section {
             padding: 3rem 1.5rem;
         }
@@ -737,25 +910,25 @@
             gap: 2rem;
         }
         .hero-title {
-            font-size: clamp(2.8rem, 10vw, 5rem);
+            font-size: clamp(3rem, 11vw, 5rem);
         }
         .hero-desc {
-            font-size: 1.3rem;
+            font-size: 1.35rem;
         }
-        .step-title {
-            font-size: 2rem;
+        .manifesto-text {
+            font-size: 1.5rem;
         }
-        .step-desc {
-            font-size: 1.2rem;
+        .manifesto-scribble {
+            padding: 1.5rem;
         }
     }
 
     @media(max-width: 480px) {
         .hero-title {
-            font-size: 2.4rem;
+            font-size: 2.8rem;
         }
         .trust-item {
-            font-size: 0.8rem;
+            font-size: 0.68rem;
         }
     }
 </style>
@@ -770,15 +943,16 @@
     </div>
 
     <h1 class="hero-title">
-        {{ _('Özgürce Konuş.') }}
+        {{ _('Özgürce Konuş, İz Bırakma.') }}
     </h1>
 
     <p class="hero-desc">
-        {{ _('KeyCord; Hiçbir bilgi istemeyen bir özgürlük alanıdır.') }}
+        {{ _('KeyCord; Türkiye merkezli, Tor ağı ve kuantum bilgisayarlara dayanıklı (post-quantum) uçtan uca şifrelemeyle çalışan, hiçbir iz bırakmadan konuşabileceğiniz özgür bir mesajlaşma alanıdır. Kayıt olmak için telefon numarası ya da e-posta istemeyiz.') }}
     </p>
 
     <div class="hero-cta">
-        <a href="{{ url_for('auth.register') }}" class="btn-primary" style="padding: 1rem 3rem; font-size: 1.2rem;">{{ _("KeyCord\'a Katıl") }}</a>
+        <a href="{{ url_for('auth.register') }}" class="btn-primary">{{ _("KeyCord'a Katıl") }}</a>
+        <a href="{{ url_for('auth.login_page') }}" class="btn-ghost">{{ _('Giriş Yap') }}</a>
     </div>
 
     <div class="trustbar">
@@ -827,7 +1001,7 @@
 
     <div class="proof-grid">
         <!-- Mozilla -->
-        <a href="https://developer.mozilla.org/en-US/observatory/analyze?host=keycord.org" target="_blank" rel="noopener noreferrer" class="proof-card">
+        <a href="https://developer.mozilla.org/en-US/observatory/analyze?host=keycord.org" target="_blank" rel="noopener noreferrer" class="proof-card" data-reveal>
             <div class="proof-icon-box" style="color: rgba(255,255,255,0.7);">
                 <svg viewBox="0 0 24 24" stroke="currentColor"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
             </div>
@@ -838,7 +1012,7 @@
         </a>
 
         <!-- SecurityHeaders -->
-        <a href="https://securityheaders.com/?q=keycord.org&followRedirects=on" target="_blank" rel="noopener noreferrer" class="proof-card">
+        <a href="https://securityheaders.com/?q=keycord.org&followRedirects=on" target="_blank" rel="noopener noreferrer" class="proof-card" data-reveal>
             <div class="proof-icon-box" style="color: rgba(255,255,255,0.7);">
                 <svg viewBox="0 0 24 24" stroke="currentColor"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
             </div>
@@ -849,7 +1023,7 @@
         </a>
 
         <!-- GitHub -->
-        <a href="https://github.com/Keremcm/KeyCord" target="_blank" rel="noopener noreferrer" class="proof-card">
+        <a href="https://github.com/Keremcm/KeyCord" target="_blank" rel="noopener noreferrer" class="proof-card" data-reveal>
             <div class="proof-icon-box" style="color: rgba(255,255,255,0.7);">
                 <svg viewBox="0 0 24 24" stroke="currentColor"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
             </div>
@@ -861,12 +1035,54 @@
     </div>
 </section>
 
+<!-- KEYCORD NEDİR -->
+<section class="section">
+    <span class="label-tag">{{ _('KeyCord Nedir?') }}</span>
+    <h2 class="section-h">{{ _('Konuşmalarınız Yalnızca Size Ait Kalır.') }}</h2>
+
+    <div class="manifesto" data-reveal>
+        <div class="manifesto-scribble">
+            <p class="manifesto-text">
+                {{ _('KeyCord, Türkiye merkezli, açık kaynak kodlu ve gizlilik odaklı bir mesajlaşma platformudur. Klasik mesajlaşma uygulamalarının aksine telefon numarası, e-posta ya da kimlik bilgisi istemez; kayıt olurken sizden yalnızca bir kullanıcı adı ve şifre alır.') }}
+            </p>
+            <div class="manifesto-strip">
+                <span>✕ {{ _('e-posta') }}</span>
+                <span>✕ {{ _('telefon') }}</span>
+                <span>✕ {{ _('takip') }}</span>
+                <span>✓ 100% {{ _('açık kaynak') }}</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="features">
+        <div class="feature-item feature-item--reverse" data-reveal>
+            <div class="feature-marker"></div>
+            <div style="flex:1">
+                <h3 class="feature-head feature-head--right">{{ _('Sıfır Bilgi Mimarisi') }}</h3>
+                <p class="feature-text feature-text--right">
+                    {{ _('Tüm mesajlar, cihazınızda oluşturulan X25519 ve ML-KEM-768 kuantum sonrası algoritmalarıyla üretilen hibrit uçtan uca şifreleme anahtarlarıyla korunur. Sunucumuz mesaj içeriğini hiçbir zaman okuyamaz; çünkü şifre çözme anahtarı yalnızca sizin cihazınızda saklanır. Buna sıfır bilgi mimarisi diyoruz: sistemimiz size dair en temel bilgiler dışında hiçbir şey bilmez, bilmediği için de sızdıramaz.') }}
+                </p>
+            </div>
+        </div>
+        <div class="feature-item" data-reveal>
+            <div class="feature-marker"></div>
+            <div style="flex:1">
+                <h3 class="feature-head">{{ _('Tor & İz Bırakmama') }}</h3>
+                <p class="feature-text">
+                    {{ _('KeyCord ayrıca Tor ağı üzerinden bir .onion adresiyle de erişilebilir; bu sayede ağ seviyesinde kimin kiminle konuştuğu bilgisi bile gizlenir. Reklam yok, üçüncü taraf analitik yok, takip kodu yok — sadece özgürce konuşabileceğiniz, iz bırakmayan bir alan.') }}
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
 <!-- TOR ACCESS -->
 <div class="tor-section">
     <div class="tor-inner">
         <span class="label-tag">{{ _('Tor Erişimi') }}</span>
         <h2 class="section-h" style="margin: 0 auto 0.8rem; text-align: center; max-width: 100%;">{{ _('Tor Browser ile bağlanın') }}</h2>
-        <p class="section-sub" style="margin: 0 auto 1.8rem; text-align: center; max-width: 100%;">{{ _('Ağ düzeyinde gizlilik için .onion adresimizi kullanın.') }}</p>
+        <p class="tor-sub">{{ _('Ağ düzeyinde gizlilik için .onion adresimizi kullanın.') }}</p>
+        <p class="tor-desc">{{ _('Tor, mesajınızı birden fazla katmanla şifreleyip farklı sunuculardan geçirir; böylece hangi IP adresinin hangi IP adresiyle konuştuğu bilgisi bile gizlenir. Bu, mesaj içeriğinin ötesinde, kiminle ne zaman iletişim kurduğunuza dair metadata düzeyinde bir koruma sağlar.') }}</p>
 
         <div class="onion-chip" id="tor-copy-box" title="{{ _('Kopyalamak için tıkla') }}">
             vwu5wjocds3kpxwjpc7gy772zkwam7rtqhysumjx5t7rgizbr4mravqd.onion
@@ -881,26 +1097,73 @@
 <script nonce="{{ csp_nonce }}" type="application/ld+json">
 {
     "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "KeyCord",
-    "applicationCategory": "CommunicationApplication",
-    "contactPoint": {
-        "@type": "ContactPoint",
-        "contactType": "customer support",
-        "email": "contact@keycord.org"
-    },
-    "operatingSystem": "Web",
-    "inLanguage": "{{ get_locale() }}",
-    "description": "{{ _('KeyCord, gizlilik odaklı, Tor ağı desteği sunan uçtan uca şifreli bir mesajlaşma platformudur.') }}",
-    "url": "https://keycord.org",
-    "publisher": {
-        "@type": "Organization",
-        "name": "KeyCord",
-        "address": { "@type": "PostalAddress", "addressCountry": "TR" }
-    },
-    "keywords": ["KeyCord","Güvenli Mesajlaşma","Anonim Sohbet","Tor Ağı Mesajlaşma","Uçtan Uca Şifreleme","Gizlilik Odaklı Sohbet","Log Tutmayan Mesajlaşma","Kriptolu Chat","Onion Mesajlaşma"]
+    "@graph": [
+        {
+            "@type": "WebSite",
+            "name": "KeyCord",
+            "url": "https://keycord.org",
+            "description": "KeyCord, Türkiye merkezli, açık kaynak kodlu, gizlilik odaklı ve Tor destekli bir mesajlaşma platformudur. Kuantum bilgisayarlara dayanıklı (X25519 + ML-KEM-768) uçtan uca şifreleme ile sıfır bilgi mimarisi.",
+            "publisher": {
+                "@type": "Organization",
+                "name": "KeyCord",
+                "url": "https://keycord.org",
+                "logo": "https://keycord.org{{ url_for('static', filename='logo.png') }}",
+                "address": { "@type": "PostalAddress", "addressCountry": "TR" },
+                "contactPoint": {
+                    "@type": "ContactPoint",
+                    "contactType": "customer support",
+                    "email": "contact@keycord.org",
+                    "availableLanguage": ["Turkish", "English", "German"]
+                }
+            },
+            "inLanguage": ["tr", "en", "de"]
+        },
+        {
+            "@type": "SoftwareApplication",
+            "name": "KeyCord",
+            "alternateName": "KeyCord Mesajlaşma",
+            "applicationCategory": "CommunicationApplication",
+            "operatingSystem": "Web, Tor",
+            "inLanguage": "{{ get_locale() }}",
+            "description": "{{ _('KeyCord, Türkiye merkezli, açık kaynaklı, Tor ağı destekli kuantum bilgisayarlara dayanıklı uçtan uca şifreli mesajlaşma platformudur. Sıfır bilgi mimarisi ile mesaj içeriklerine erişim sağlamaz.') }}",
+            "url": "https://keycord.org",
+            "sameAs": [
+                "https://github.com/Keremcm/KeyCord"
+            ],
+            "offers": {
+                "@type": "Offer",
+                "price": "0",
+                "priceCurrency": "USD"
+            },
+            "featureList": [
+                "Kuantum sonrası uçtan uca şifreleme (X25519 + ML-KEM-768)",
+                "Tor ağı desteği (.onion)",
+                "Sıfır bilgi mimarisi",
+                "Açık kaynak kod",
+                "Log tutmayan altyapı"
+            ]
+        },
+        {
+            "@type": "Organization",
+            "name": "KeyCord",
+            "url": "https://keycord.org",
+            "logo": "https://keycord.org{{ url_for('static', filename='logo.png') }}",
+            "address": { "@type": "PostalAddress", "addressCountry": "TR" },
+            "contactPoint": {
+                "@type": "ContactPoint",
+                "contactType": "customer support",
+                "email": "contact@keycord.org",
+                "availableLanguage": ["Turkish", "English", "German"]
+            },
+            "sameAs": [
+                "https://github.com/Keremcm/KeyCord",
+                "https://www.instagram.com/keycord_official/"
+            ]
+        }
+    ]
 }
 </script>
+
 {% endblock %}
 
 {% block scripts %}
@@ -918,19 +1181,30 @@
         });
     }
 
-    const cardObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('active');
-            }
-        });
-    }, {
-        threshold: 0.3,
-        rootMargin: '0px 0px -10% 0px'
-    });
+    const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const canObserve = 'IntersectionObserver' in window;
 
-    document.querySelectorAll('.step-card').forEach(card => {
-        cardObserver.observe(card);
-    });
+    if (!reduceMotion && canObserve) {
+        const revealTargets = document.querySelectorAll(
+            '.proof-header, .threat-stats, .proof-card, .section-h, .label-tag, ' +
+            '.manifesto, .feature-item, .tor-sub, .tor-desc, .onion-chip, .onion-copy-hint'
+        );
+
+        revealTargets.forEach(el => el.setAttribute('data-reveal', ''));
+
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.15,
+            rootMargin: '0px 0px -8% 0px'
+        });
+
+        revealTargets.forEach(el => revealObserver.observe(el));
+    }
 </script>
 {% endblock %}

@@ -10,6 +10,31 @@ socketio = SocketIO()
 migrate = Migrate()
 babel = Babel()
 
+
+# SQLite WAL modu: eşzamanlı okuma + tek yazıcı; tpool/eventlet altında
+# yazma çakışmalarını ("database is locked") ve okuma blokajını azaltır.
+_sqlite_pragma_configured = False
+
+def _set_sqlite_pragma(dbapi_connection, connection_record):
+    try:
+        cursor = dbapi_connection.cursor()
+        cursor.execute("PRAGMA journal_mode=WAL")
+        cursor.execute("PRAGMA synchronous=NORMAL")
+        cursor.execute("PRAGMA busy_timeout=30000")
+        cursor.execute("PRAGMA foreign_keys=ON")
+        cursor.close()
+    except Exception:
+        pass
+
+def _configure_sqlite_pragma():
+    global _sqlite_pragma_configured
+    if _sqlite_pragma_configured:
+        return
+    from sqlalchemy import event as _sqlalchemy_event
+    from sqlalchemy.engine import Engine as _SQLEngine
+    _sqlalchemy_event.listen(_SQLEngine, "connect", _set_sqlite_pragma)
+    _sqlite_pragma_configured = True
+
 def get_locale():
     # 1. Check if user has an explicit language preference in session or cookie (future feature)
     # 2. Check Accept-Language header manually to support fuzzy matching (en-US -> en)
@@ -88,8 +113,13 @@ def create_app():
     from .session_interface import RotateKeysSessionInterface
     app.session_interface = RotateKeysSessionInterface()
 
+    # Ed25519 JWT imzalama anahtarlarını başlat (yoksa üret)
+    from .jwt_keys import ensure_keys_exist
+    ensure_keys_exist()
+
     db.init_app(app)
     migrate.init_app(app, db)
+    _configure_sqlite_pragma()
     babel.init_app(app, locale_selector=get_locale)
     socketio.init_app(app)
 
@@ -120,7 +150,8 @@ def create_app():
         return dict(
             get_locale=get_locale, 
             csrf_token=generate_csrf_token(),
-            csp_nonce=getattr(g, 'csp_nonce', '')
+            csp_nonce=getattr(g, 'csp_nonce', ''),
+            load_state=getattr(g, 'load_state', 'ok')
         )
 
 
